@@ -188,6 +188,10 @@ public:
         EmitIType(imm, rs, 0b010, rd, 0b0000011);
     }
 
+    void ORI(GPR rd, GPR rs, uint32_t imm) noexcept {
+        EmitIType(imm, rs, 0b110, rd, 0b0010011);
+    }
+
     void RET() noexcept {
         JALR(x0, 0, x1);
     }

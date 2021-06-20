@@ -290,6 +290,24 @@ TEST_CASE("LW", "[rv32i]") {
     REQUIRE(value == 0xFFFFA783);
 }
 
+TEST_CASE("ORI", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ORI(biscuit::x15, biscuit::x31, 1024);
+    REQUIRE(value == 0x400FE793);
+
+    as.RewindBuffer();
+
+    as.ORI(biscuit::x15, biscuit::x31, 2048);
+    REQUIRE(value == 0x800FE793);
+
+    as.RewindBuffer();
+
+    as.ORI(biscuit::x15, biscuit::x31, 4095);
+    REQUIRE(value == 0xFFFFE793);
+}
+
 TEST_CASE("SB", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
