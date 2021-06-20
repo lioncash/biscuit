@@ -220,6 +220,10 @@ public:
         EmitIType(shift & 0x1F, rs, 0b001, rd, 0b0010011);
     }
 
+    void SLT(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0000000, rhs, lhs, 0b010, rd, 0b0110011);
+    }
+
     void SLTI(GPR rd, GPR rs, uint32_t imm) noexcept {
         EmitIType(imm, rs, 0b010, rd, 0b0010011);
     }
