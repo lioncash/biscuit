@@ -20,6 +20,24 @@ TEST_CASE("ADDI", "[rv32i]") {
     REQUIRE(value == 0xFFFF8793);
 }
 
+TEST_CASE("ANDI", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ANDI(biscuit::x15, biscuit::x31, 1024);
+    REQUIRE(value == 0x400FF793);
+
+    as.RewindBuffer();
+
+    as.ANDI(biscuit::x15, biscuit::x31, 2048);
+    REQUIRE(value == 0x800FF793);
+
+    as.RewindBuffer();
+
+    as.ANDI(biscuit::x15, biscuit::x31, 4095);
+    REQUIRE(value == 0xFFFFF793);
+}
+
 TEST_CASE("AUIPC", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
