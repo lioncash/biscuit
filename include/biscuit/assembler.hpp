@@ -236,6 +236,10 @@ public:
         EmitRType(0b0000000, rhs, lhs, 0b011, rd, 0b0110011);
     }
 
+    void SRA(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0100000, rhs, lhs, 0b101, rd, 0b0110011);
+    }
+
     void SRAI(GPR rd, GPR rs, uint32_t shift) noexcept {
         EmitIType((0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0010011);
     }
