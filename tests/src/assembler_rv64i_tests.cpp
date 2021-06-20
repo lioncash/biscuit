@@ -19,3 +19,21 @@ TEST_CASE("LWU", "[rv64i]") {
     as.LWU(biscuit::x15, biscuit::x31, 4095);
     REQUIRE(value == 0xFFFFE783);
 }
+
+TEST_CASE("LD", "[rv64i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.LD(biscuit::x15, 1024, biscuit::x31);
+    REQUIRE(value == 0x400FB783);
+
+    as.RewindBuffer();
+
+    as.LD(biscuit::x15, 2048, biscuit::x31);
+    REQUIRE(value == 0x800FB783);
+
+    as.RewindBuffer();
+
+    as.LD(biscuit::x15, 4095, biscuit::x31);
+    REQUIRE(value == 0xFFFFB783);
+}
