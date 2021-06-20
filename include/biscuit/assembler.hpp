@@ -68,6 +68,10 @@ public:
 
     // RV32I Instructions
 
+    void ADD(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0000000, rhs, lhs, 0b000, rd, 0b0110011);
+    }
+
     void ADDI(GPR rd, GPR rs, uint32_t imm) noexcept {
         EmitIType(imm, rs, 0b000, rd, 0b0010011);
     }
@@ -273,6 +277,12 @@ private:
         // clang-format on
 
         m_buffer.Emit32(new_imm | rd.Index() << 7 | (opcode & 0x7F));
+    }
+
+    // Emits a R type RISC instruction. These consist of:
+    // funct7 | rs2 | rs1 | funct3 | rd | opcode
+    void EmitRType(uint32_t funct7, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
+        m_buffer.Emit32(((funct7 & 0xFF) << 25) | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
     }
 
     // Emits a S type RISC-V instruction. These consist of:
