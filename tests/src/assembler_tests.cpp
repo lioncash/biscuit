@@ -506,6 +506,24 @@ TEST_CASE("SRAI", "[rv32i]") {
     REQUIRE(value == 0x41F7DF93);
 }
 
+TEST_CASE("SRL", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SRL(biscuit::x7, biscuit::x15, biscuit::x31);
+    REQUIRE(value == 0x01F7D3B3);
+
+    as.RewindBuffer();
+
+    as.SRL(biscuit::x31, biscuit::x31, biscuit::x31);
+    REQUIRE(value == 0x01FFDFB3);
+
+    as.RewindBuffer();
+
+    as.SRL(biscuit::x0, biscuit::x0, biscuit::x0);
+    REQUIRE(value == 0x00005033);
+}
+
 TEST_CASE("SRLI", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
