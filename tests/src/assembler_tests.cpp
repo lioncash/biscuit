@@ -13,4 +13,9 @@ TEST_CASE("LUI", "[rv32i]") {
 
     as.LUI(0x7FFFF000, biscuit::x10);
     REQUIRE(value == 0x7FFFF537);
+
+    as.RewindBuffer();
+
+    as.LUI(0xFFFFFFFF, biscuit::x31);
+    REQUIRE(value == 0xFFFFFFB7);
 }
