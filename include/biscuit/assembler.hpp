@@ -251,6 +251,10 @@ public:
         EmitIType(imm, rs, 0b110, rd, 0b0010011);
     }
 
+    void PAUSE() noexcept {
+        m_buffer.Emit32(0x0100000F);
+    }
+
     void RET() noexcept {
         JALR(x0, 0, x1);
     }

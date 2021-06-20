@@ -395,6 +395,14 @@ TEST_CASE("ORI", "[rv32i]") {
     REQUIRE(value == 0xFFFFE793);
 }
 
+TEST_CASE("PAUSE", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.PAUSE();
+    REQUIRE(value == 0x0100000F);
+}
+
 TEST_CASE("SB", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
