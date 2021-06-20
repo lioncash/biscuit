@@ -38,6 +38,24 @@ TEST_CASE("ADDI", "[rv32i]") {
     REQUIRE(value == 0xFFFF8793);
 }
 
+TEST_CASE("AND", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.AND(biscuit::x7, biscuit::x15, biscuit::x31);
+    REQUIRE(value == 0x01F7F3B3);
+
+    as.RewindBuffer();
+
+    as.AND(biscuit::x31, biscuit::x31, biscuit::x31);
+    REQUIRE(value == 0x01FFFFB3);
+
+    as.RewindBuffer();
+
+    as.AND(biscuit::x0, biscuit::x0, biscuit::x0);
+    REQUIRE(value == 0x00007033);
+}
+
 TEST_CASE("ANDI", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
