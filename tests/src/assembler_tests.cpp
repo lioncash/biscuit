@@ -560,6 +560,24 @@ TEST_CASE("SW", "[rv32i]") {
     REQUIRE(value == 0xFFF7AFA3);
 }
 
+TEST_CASE("XOR", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.XOR(biscuit::x7, biscuit::x15, biscuit::x31);
+    REQUIRE(value == 0x01F7C3B3);
+
+    as.RewindBuffer();
+
+    as.XOR(biscuit::x31, biscuit::x31, biscuit::x31);
+    REQUIRE(value == 0x01FFCFB3);
+
+    as.RewindBuffer();
+
+    as.XOR(biscuit::x0, biscuit::x0, biscuit::x0);
+    REQUIRE(value == 0x00004033);
+}
+
 TEST_CASE("XORI", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

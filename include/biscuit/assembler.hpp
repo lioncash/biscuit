@@ -252,6 +252,10 @@ public:
         EmitSType(imm, rs2, rs1, 0b010, 0b0100011);
     }
 
+    void XOR(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0000000, rhs, lhs, 0b100, rd, 0b0110011);
+    }
+
     void XORI(GPR rd, GPR rs, uint32_t imm) noexcept {
         EmitIType(imm, rs, 0b100, rd, 0b0010011);
     }
