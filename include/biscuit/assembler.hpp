@@ -76,16 +76,48 @@ public:
         EmitBType(imm, rs2, rs1, 0b000, 0b1100011);
     }
 
-    void BEQZ(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-        EmitBType(imm, rs2, rs1, 0b000, 0b1100011);
+    void BEQZ(GPR rs, uint32_t imm) noexcept {
+        BEQ(rs, x0, imm);
     }
 
     void BGE(GPR rs1, GPR rs2, uint32_t imm) noexcept {
         EmitBType(imm, rs2, rs1, 0b101, 0b1100011);
     }
 
+    void BGEZ(GPR rs, uint32_t imm) noexcept {
+        BGE(rs, x0, imm);
+    }
+
     void BGEU(GPR rs1, GPR rs2, uint32_t imm) noexcept {
         EmitBType(imm, rs2, rs1, 0b111, 0b1100011);
+    }
+
+    void BGEZ(GPR rs, uint32_t imm) noexcept {
+        BGE(rs, x0, imm);
+    }
+
+    void BGT(GPR rs, GPR rt, uint32_t imm) noexcept {
+        BLT(rt, rs, imm);
+    }
+
+    void BGTU(GPR rs, GPR rt, uint32_t imm) noexcept {
+        BLTU(rt, rs, imm);
+    }
+
+    void BGTZ(GPR rs, uint32_t imm) noexcept {
+        BLT(x0, rs, imm);
+    }
+
+    void BLE(GPR rs, GPR rt, uint32_t imm) noexcept {
+        BGE(rt, rs, imm);
+    }
+
+    void BLEU(GPR rs, GPR rt, uint32_t imm) noexcept {
+        BGEU(rt, rs, imm);
+    }
+
+    void BLEZ(GPR rs, uint32_t imm) noexcept {
+        BGE(x0, rs, imm);
     }
 
     void BLT(GPR rs1, GPR rs2, uint32_t imm) noexcept {
@@ -96,24 +128,48 @@ public:
         EmitBType(imm, rs2, rs1, 0b110, 0b1100011);
     }
 
+    void BLTZ(GPR rs, uint32_t imm) noexcept {
+        BLT(rs, x0, imm);
+    }
+
     void BNE(GPR rs1, GPR rs2, uint32_t imm) noexcept {
         EmitBType(imm, rs2, rs1, 0b001, 0b1100011);
+    }
+
+    void BNEZ(GPR rs, uint32_t imm) noexcept {
+        BNE(x0, rs, imm);
     }
 
     void J(uint32_t imm) noexcept {
         JAL(x0, imm);
     }
 
+    void JAL(uint32_t imm) noexcept {
+        EmitJType(imm, x1, 0b1101111);
+    }
+
     void JAL(GPR rd, uint32_t imm) noexcept {
         EmitJType(imm, rd, 0b1101111);
+    }
+
+    void JALR(GPR rs) noexcept {
+        JALR(x1, 0, rs);
     }
 
     void JALR(GPR rd, uint32_t imm, GPR rs1) noexcept {
         EmitIType(imm, rs1, 0b000, rd, 0b1100111);
     }
 
+    void JR(GPR rs) noexcept {
+        JALR(x0, 0, rs);
+    }
+
     void LUI(GPR rd, uint32_t imm) noexcept {
         EmitUType(imm, rd, 0b0110111);
+    }
+
+    void RET() noexcept {
+        JALR(x0, 0, x1);
     }
 
 private:
