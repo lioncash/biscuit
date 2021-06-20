@@ -200,6 +200,10 @@ public:
         EmitSType(imm, rs2, rs1, 0b001, 0b0100011);
     }
 
+    void SLTI(GPR rd, GPR rs, uint32_t imm) noexcept {
+        EmitIType(imm, rs, 0b010, rd, 0b0010011);
+    }
+
     void SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
         EmitSType(imm, rs2, rs1, 0b010, 0b0100011);
     }
