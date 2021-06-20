@@ -37,3 +37,21 @@ TEST_CASE("LD", "[rv64i]") {
     as.LD(biscuit::x15, 4095, biscuit::x31);
     REQUIRE(value == 0xFFFFB783);
 }
+
+TEST_CASE("SD", "[rv64i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SD(biscuit::x15, 1024, biscuit::x31);
+    REQUIRE(value == 0x40FFB023);
+
+    as.RewindBuffer();
+
+    as.SD(biscuit::x15, 2048, biscuit::x31);
+    REQUIRE(value == 0x80FFB023);
+
+    as.RewindBuffer();
+
+    as.SD(biscuit::x15, 4095, biscuit::x31);
+    REQUIRE(value == 0xFEFFBFA3);
+}

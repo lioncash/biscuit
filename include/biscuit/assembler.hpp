@@ -361,6 +361,10 @@ public:
         EmitIType(imm, rs, 0b110, rd, 0b0000011);
     }
 
+    void SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
+        EmitSType(imm, rs2, rs1, 0b011, 0b0100011);
+    }
+
 private:
     // Emits a B type RISC-V instruction. These consist of:
     // imm[12|10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
