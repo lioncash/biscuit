@@ -200,6 +200,14 @@ TEST_CASE("BLTU", "[rv32i]") {
     REQUIRE(value == 0xFFF7EFE3);
 }
 
+TEST_CASE("EBREAK", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.EBREAK();
+    REQUIRE(value == 0x00100073);
+}
+
 TEST_CASE("ECALL", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

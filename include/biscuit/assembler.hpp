@@ -171,6 +171,10 @@ public:
         BNE(x0, rs, imm);
     }
 
+    void EBREAK() noexcept {
+        m_buffer.Emit32(0x00100073);
+    }
+
     void ECALL() noexcept {
         m_buffer.Emit32(0x00000073);
     }
