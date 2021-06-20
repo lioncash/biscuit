@@ -380,6 +380,24 @@ TEST_CASE("SH", "[rv32i]") {
     REQUIRE(value == 0xFFF79FA3);
 }
 
+TEST_CASE("SLL", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SLL(biscuit::x7, biscuit::x15, biscuit::x31);
+    REQUIRE(value == 0x01F793B3);
+
+    as.RewindBuffer();
+
+    as.SLL(biscuit::x31, biscuit::x31, biscuit::x31);
+    REQUIRE(value == 0x01FF9FB3);
+
+    as.RewindBuffer();
+
+    as.SLL(biscuit::x0, biscuit::x0, biscuit::x0);
+    REQUIRE(value == 0x00001033);
+}
+
 TEST_CASE("SLLI", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

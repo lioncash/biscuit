@@ -212,6 +212,10 @@ public:
         EmitSType(imm, rs2, rs1, 0b001, 0b0100011);
     }
 
+    void SLL(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0000000, rhs, lhs, 0b001, rd, 0b0110011);
+    }
+
     void SLLI(GPR rd, GPR rs, uint32_t shift) noexcept {
         EmitIType(shift & 0x1F, rs, 0b001, rd, 0b0010011);
     }
