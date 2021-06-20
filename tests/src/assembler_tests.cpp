@@ -2,6 +2,24 @@
 
 #include <biscuit/assembler.hpp>
 
+TEST_CASE("ADDI", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ADDI(biscuit::x15, biscuit::x31, 1024);
+    REQUIRE(value == 0x400F8793);
+
+    as.RewindBuffer();
+
+    as.ADDI(biscuit::x15, biscuit::x31, 2048);
+    REQUIRE(value == 0x800F8793);
+
+    as.RewindBuffer();
+
+    as.ADDI(biscuit::x15, biscuit::x31, 4095);
+    REQUIRE(value == 0xFFFF8793);
+}
+
 TEST_CASE("AUIPC", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

@@ -68,6 +68,10 @@ public:
 
     // RV32I Instructions
 
+    void ADDI(GPR rd, GPR rs, uint32_t imm) noexcept {
+        EmitIType(imm, rs, 0b000, rd, 0b0010011);
+    }
+
     void AUIPC(GPR rd, uint32_t imm) noexcept {
         EmitUType(imm, rd, 0b0010111);
     }
