@@ -196,6 +196,10 @@ public:
         EmitIType(imm, rs, 0b010, rd, 0b0000011);
     }
 
+    void OR(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0000000, rhs, lhs, 0b110, rd, 0b0110011);
+    }
+
     void ORI(GPR rd, GPR rs, uint32_t imm) noexcept {
         EmitIType(imm, rs, 0b110, rd, 0b0010011);
     }
