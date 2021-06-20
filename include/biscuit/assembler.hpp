@@ -68,23 +68,60 @@ public:
 
     // RV32I Instructions
 
-    void AUIPC(uint32_t imm, GPR rd) noexcept {
+    void AUIPC(GPR rd, uint32_t imm) noexcept {
         EmitUType(imm, rd, 0b0010111);
     }
 
-    void J(uint32_t imm) noexcept {
-        JAL(imm, x0);
+    void BEQ(GPR rs1, GPR rs2, uint32_t imm) noexcept {
+        EmitBType(imm, rs2, rs1, 0b000, 0b1100011);
     }
 
-    void JAL(uint32_t imm, GPR rd) noexcept {
+    void BGE(GPR rs1, GPR rs2, uint32_t imm) noexcept {
+        EmitBType(imm, rs2, rs1, 0b101, 0b1100011);
+    }
+
+    void BGEU(GPR rs1, GPR rs2, uint32_t imm) noexcept {
+        EmitBType(imm, rs2, rs1, 0b111, 0b1100011);
+    }
+
+    void BLT(GPR rs1, GPR rs2, uint32_t imm) noexcept {
+        EmitBType(imm, rs2, rs1, 0b100, 0b1100011);
+    }
+
+    void BLTU(GPR rs1, GPR rs2, uint32_t imm) noexcept {
+        EmitBType(imm, rs2, rs1, 0b110, 0b1100011);
+    }
+
+    void BNE(GPR rs1, GPR rs2, uint32_t imm) noexcept {
+        EmitBType(imm, rs2, rs1, 0b001, 0b1100011);
+    }
+
+    void J(uint32_t imm) noexcept {
+        JAL(x0, imm);
+    }
+
+    void JAL(GPR rd, uint32_t imm) noexcept {
         EmitJType(imm, rd, 0b1101111);
     }
 
-    void LUI(uint32_t imm, GPR rd) noexcept {
+    void LUI(GPR rd, uint32_t imm) noexcept {
         EmitUType(imm, rd, 0b0110111);
     }
 
 private:
+    // Emits a B type RISC-V instruction. These consist of:
+    // imm[12|10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
+    void EmitBType(uint32_t imm, GPR rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
+        imm &= 0x1FFE;
+
+        const auto new_imm = ((imm & 0x07E0) << 20) |
+                             ((imm & 0x1000) << 19) |
+                             ((imm & 0x001E) << 7) |
+                             ((imm & 0x0800) >> 4);
+
+        m_buffer.Emit32(new_imm | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
+    }
+
     // Emits a J type RISC-V instruction. These consist of:
     // imm[20|10:1|11|19:12] | rd | opcode
     void EmitJType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
