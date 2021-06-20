@@ -188,16 +188,30 @@ public:
         JALR(x0, 0, x1);
     }
 
+    void SB(GPR rs2, uint32_t imm, GPR rs1) noexcept {
+        EmitSType(imm, rs2, rs1, 0b000, 0b0100011);
+    }
+
+    void SH(GPR rs2, uint32_t imm, GPR rs1) noexcept {
+        EmitSType(imm, rs2, rs1, 0b001, 0b0100011);
+    }
+
+    void SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
+        EmitSType(imm, rs2, rs1, 0b010, 0b0100011);
+    }
+
 private:
     // Emits a B type RISC-V instruction. These consist of:
     // imm[12|10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
     void EmitBType(uint32_t imm, GPR rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
         imm &= 0x1FFE;
 
+        // clang-format off
         const auto new_imm = ((imm & 0x07E0) << 20) |
                              ((imm & 0x1000) << 19) |
                              ((imm & 0x001E) << 7) |
                              ((imm & 0x0800) >> 4);
+        // clang-format on
 
         m_buffer.Emit32(new_imm | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
     }
@@ -215,13 +229,27 @@ private:
     void EmitJType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
         imm &= 0x1FFFFE;
 
-        // Literally what the heck is this immediate format.
+        // clang-format off
         const auto new_imm = ((imm & 0x0FF000) >> 0) |
                              ((imm & 0x000800) << 9) |
                              ((imm & 0x0007FE) << 20) |
                              ((imm & 0x100000) << 11);
+        // clang-format on
 
         m_buffer.Emit32(new_imm | rd.Index() << 7 | (opcode & 0x7F));
+    }
+
+    // Emits a S type RISC-V instruction. These consist of:
+    // imm[11:5] | rs2 | rs1 | funct3 | imm[4:0] | opcode
+    void EmitSType(uint32_t imm, GPR rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
+        imm &= 0xFFF;
+
+        // clang-format off
+        const auto new_imm = ((imm & 0x01F) << 7) |
+                             ((imm & 0xFE0) << 20);
+        // clang-format on
+
+        m_buffer.Emit32(new_imm | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
     }
 
     // Emits a U type RISC-V instruction. These consist of:
