@@ -84,10 +84,6 @@ public:
         EmitBType(imm, rs2, rs1, 0b101, 0b1100011);
     }
 
-    void BGEZ(GPR rs, uint32_t imm) noexcept {
-        BGE(rs, x0, imm);
-    }
-
     void BGEU(GPR rs1, GPR rs2, uint32_t imm) noexcept {
         EmitBType(imm, rs2, rs1, 0b111, 0b1100011);
     }
@@ -164,8 +160,28 @@ public:
         JALR(x0, 0, rs);
     }
 
+    void LB(GPR rd, uint32_t imm, GPR rs) noexcept {
+        EmitIType(imm, rs, 0b000, rd, 0b0000011);
+    }
+
+    void LBU(GPR rd, uint32_t imm, GPR rs) noexcept {
+        EmitIType(imm, rs, 0b100, rd, 0b0000011);
+    }
+
+    void LH(GPR rd, uint32_t imm, GPR rs) noexcept {
+        EmitIType(imm, rs, 0b001, rd, 0b0000011);
+    }
+
+    void LHU(GPR rd, uint32_t imm, GPR rs) noexcept {
+        EmitIType(imm, rs, 0b101, rd, 0b0000011);
+    }
+
     void LUI(GPR rd, uint32_t imm) noexcept {
         EmitUType(imm, rd, 0b0110111);
+    }
+
+    void LW(GPR rd, uint32_t imm, GPR rs) noexcept {
+        EmitIType(imm, rs, 0b010, rd, 0b0000011);
     }
 
     void RET() noexcept {
