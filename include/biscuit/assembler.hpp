@@ -183,6 +183,10 @@ public:
         EmitFENCE(0b0000, pred, succ, x0, 0b000, x0, 0b0001111);
     }
 
+    void FENCEI(GPR rd = x0, GPR rs = x0, uint32_t imm = 0) noexcept {
+        m_buffer.Emit32(((imm & 0xFFF) << 20) | (rs.Index() << 15) | 0x1000U | (rd.Index() << 7) | 0b0001111);
+    }
+
     void FENCETSO() noexcept {
         EmitFENCE(0b1000, FenceOrder::RW, FenceOrder::RW, x0, 0b000, x0, 0b0001111);
     }

@@ -229,6 +229,11 @@ TEST_CASE("FENCE", "[rv32i]") {
 
     as.FENCETSO();
     REQUIRE(value == 0x8330000F);
+
+    as.RewindBuffer();
+
+    as.FENCEI();
+    REQUIRE(value == 0x0000100F);
 }
 
 TEST_CASE("JAL", "[rv32i]") {
