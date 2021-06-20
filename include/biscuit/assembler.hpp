@@ -68,7 +68,7 @@ public:
     Assembler& operator=(Assembler&&) = default;
 
     // Destructor
-    ~Assembler() = default;
+    virtual ~Assembler() = default;
 
     /**
      * Allows rewinding of the code buffer cursor.
