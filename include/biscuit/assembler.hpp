@@ -13,6 +13,25 @@ namespace biscuit {
  */
 class Assembler {
 public:
+    enum class FenceOrder {
+        W = 1, // Write
+        R = 2, // Read
+        O = 4, // Device Output
+        I = 8, // Device Input
+
+        RW = R | W,
+
+        IR = I | R,
+        IW = I | W,
+        IRW = I | R | W,
+
+        OI = O | I,
+        OW = O | W,
+        ORW = O | R | W,
+
+        IORW = I | O | R | W,
+    };
+
     /**
      * Constructor
      *
@@ -150,6 +169,14 @@ public:
 
     void BNEZ(GPR rs, uint32_t imm) noexcept {
         BNE(x0, rs, imm);
+    }
+
+    void FENCE(FenceOrder pred, FenceOrder succ) noexcept {
+        EmitFENCE(0b0000, pred, succ, x0, 0b000, x0, 0b0001111);
+    }
+
+    void FENCETSO() noexcept {
+        EmitFENCE(0b1000, FenceOrder::RW, FenceOrder::RW, x0, 0b000, x0, 0b0001111);
     }
 
     void J(uint32_t imm) noexcept {
@@ -371,6 +398,19 @@ private:
     // imm[31:12] | rd | opcode
     void EmitUType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
         m_buffer.Emit32((imm & 0xFFFFF000) | rd.Index() << 7 | (opcode & 0x7F));
+    }
+
+    // Emits a fence instruction
+    void EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
+        // clang-format off
+        m_buffer.Emit32(((fm & 0b1111) << 28) |
+                        (static_cast<uint32_t>(pred) << 24) |
+                        (static_cast<uint32_t>(succ) << 20) |
+                        (rs.Index() << 15) |
+                        ((funct3 & 0b111) << 12) |
+                        (rd.Index() << 7) |
+                        (opcode & 0x7F));
+        // clang-format on
     }
 
     CodeBuffer m_buffer;

@@ -200,6 +200,21 @@ TEST_CASE("BLTU", "[rv32i]") {
     REQUIRE(value == 0xFFF7EFE3);
 }
 
+TEST_CASE("FENCE", "[rv32i]") {
+    using namespace biscuit;
+
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FENCE(Assembler::FenceOrder::IORW, Assembler::FenceOrder::IORW);
+    REQUIRE(value == 0x0FF0000F);
+
+    as.RewindBuffer();
+
+    as.FENCETSO();
+    REQUIRE(value == 0x8330000F);
+}
+
 TEST_CASE("JAL", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
