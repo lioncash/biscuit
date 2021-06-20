@@ -200,6 +200,14 @@ TEST_CASE("BLTU", "[rv32i]") {
     REQUIRE(value == 0xFFF7EFE3);
 }
 
+TEST_CASE("ECALL", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ECALL();
+    REQUIRE(value == 0x00000073);
+}
+
 TEST_CASE("FENCE", "[rv32i]") {
     using namespace biscuit;
 
