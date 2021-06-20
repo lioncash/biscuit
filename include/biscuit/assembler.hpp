@@ -68,14 +68,18 @@ public:
 
     // RV32I Instructions
 
-    void LUI(uint32_t imm, GPR rd) {
+    void AUIPC(uint32_t imm, GPR rd) noexcept {
+        EmitUType(imm, rd, 0b0010111);
+    }
+
+    void LUI(uint32_t imm, GPR rd) noexcept {
         EmitUType(imm, rd, 0b0110111);
     }
 
 private:
     // Emits a U type RISC-V instruction. These consist of:
     // imm[31:12] | rd | opcode
-    void EmitUType(uint32_t imm, GPR rd, uint32_t opcode) {
+    void EmitUType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
         m_buffer.Emit32((imm & 0xFFFFF000) | rd.Index() << 7 | (opcode & 0x7F));
     }
 
