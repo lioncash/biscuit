@@ -69,6 +69,8 @@ public:
     constexpr explicit FPR(uint32_t index) : Register{index, Type::FPR} {}
 };
 
+// General-purpose Registers
+
 constexpr GPR x0{0};
 constexpr GPR x1{1};
 constexpr GPR x2{2};
@@ -102,6 +104,46 @@ constexpr GPR x29{29};
 constexpr GPR x30{30};
 constexpr GPR x31{31};
 
+// Symbolic General-purpose Register Names
+
+constexpr GPR ra{x1};
+constexpr GPR sp{x2};
+constexpr GPR gp{x3};
+constexpr GPR tp{x4};
+constexpr GPR fp{x8};
+
+constexpr GPR a0{x10};
+constexpr GPR a1{x11};
+constexpr GPR a2{x12};
+constexpr GPR a3{x13};
+constexpr GPR a4{x14};
+constexpr GPR a5{x15};
+constexpr GPR a6{x16};
+constexpr GPR a7{x17};
+
+constexpr GPR s0{x8};
+constexpr GPR s1{x9};
+constexpr GPR s2{x18};
+constexpr GPR s3{x19};
+constexpr GPR s4{x20};
+constexpr GPR s5{x21};
+constexpr GPR s6{x22};
+constexpr GPR s7{x23};
+constexpr GPR s8{x24};
+constexpr GPR s9{x25};
+constexpr GPR s10{x26};
+constexpr GPR s11{x27};
+
+constexpr GPR t0{x5};
+constexpr GPR t1{x6};
+constexpr GPR t2{x7};
+constexpr GPR t3{x28};
+constexpr GPR t4{x29};
+constexpr GPR t5{x30};
+constexpr GPR t6{x31};
+
+// Floating-point registers
+
 constexpr FPR f0{0};
 constexpr FPR f1{1};
 constexpr FPR f2{2};
@@ -134,5 +176,42 @@ constexpr FPR f28{28};
 constexpr FPR f29{29};
 constexpr FPR f30{30};
 constexpr FPR f31{31};
+
+// Symbolic Floating-point Register Names
+
+constexpr FPR fa0{f10};
+constexpr FPR fa1{f11};
+constexpr FPR fa2{f12};
+constexpr FPR fa3{f13};
+constexpr FPR fa4{f14};
+constexpr FPR fa5{f15};
+constexpr FPR fa6{f16};
+constexpr FPR fa7{f17};
+
+constexpr FPR ft0{f0};
+constexpr FPR ft1{f1};
+constexpr FPR ft2{f2};
+constexpr FPR ft3{f3};
+constexpr FPR ft4{f4};
+constexpr FPR ft5{f5};
+constexpr FPR ft6{f6};
+constexpr FPR ft7{f7};
+constexpr FPR ft8{f28};
+constexpr FPR ft9{f29};
+constexpr FPR ft10{f30};
+constexpr FPR ft11{f31};
+
+constexpr FPR fs0{f8};
+constexpr FPR fs1{f9};
+constexpr FPR fs2{f18};
+constexpr FPR fs3{f19};
+constexpr FPR fs4{f20};
+constexpr FPR fs5{f21};
+constexpr FPR fs6{f22};
+constexpr FPR fs7{f23};
+constexpr FPR fs8{f24};
+constexpr FPR fs9{f25};
+constexpr FPR fs10{f26};
+constexpr FPR fs11{f27};
 
 } // namespace biscuit
