@@ -76,6 +76,10 @@ public:
         EmitBType(imm, rs2, rs1, 0b000, 0b1100011);
     }
 
+    void BEQZ(GPR rs1, GPR rs2, uint32_t imm) noexcept {
+        EmitBType(imm, rs2, rs1, 0b000, 0b1100011);
+    }
+
     void BGE(GPR rs1, GPR rs2, uint32_t imm) noexcept {
         EmitBType(imm, rs2, rs1, 0b101, 0b1100011);
     }
@@ -104,6 +108,10 @@ public:
         EmitJType(imm, rd, 0b1101111);
     }
 
+    void JALR(GPR rd, uint32_t imm, GPR rs1) noexcept {
+        EmitIType(imm, rs1, 0b000, rd, 0b1100111);
+    }
+
     void LUI(GPR rd, uint32_t imm) noexcept {
         EmitUType(imm, rd, 0b0110111);
     }
@@ -120,6 +128,14 @@ private:
                              ((imm & 0x0800) >> 4);
 
         m_buffer.Emit32(new_imm | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
+    }
+
+    // Emits a I type RISC-V instruction. These consist of:
+    // imm[11:0] | rs1 | funct3 | rd | opcode
+    void EmitIType(uint32_t imm, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
+        imm &= 0xFFF;
+
+        m_buffer.Emit32((imm << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
     }
 
     // Emits a J type RISC-V instruction. These consist of:

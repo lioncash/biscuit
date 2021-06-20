@@ -146,6 +146,24 @@ TEST_CASE("JAL", "[rv32i]") {
     REQUIRE(value == 0x6A018FEF);
 }
 
+TEST_CASE("JALR", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.JALR(biscuit::x15, 1024, biscuit::x31);
+    REQUIRE(value == 0x400F87E7);
+
+    as.RewindBuffer();
+
+    as.JALR(biscuit::x15, 2048, biscuit::x31);
+    REQUIRE(value == 0x800F87E7);
+
+    as.RewindBuffer();
+
+    as.JALR(biscuit::x15, 4095, biscuit::x31);
+    REQUIRE(value == 0xFFFF87E7);
+}
+
 TEST_CASE("LUI", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
