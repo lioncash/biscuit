@@ -416,6 +416,24 @@ TEST_CASE("SLTIU", "[rv32i]") {
     REQUIRE(value == 0xFFFFB793);
 }
 
+TEST_CASE("SRAI", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SRAI(biscuit::x31, biscuit::x15, 10);
+    REQUIRE(value == 0x40A7DF93);
+
+    as.RewindBuffer();
+
+    as.SRAI(biscuit::x31, biscuit::x15, 20);
+    REQUIRE(value == 0x4147DF93);
+
+    as.RewindBuffer();
+
+    as.SRAI(biscuit::x31, biscuit::x15, 31);
+    REQUIRE(value == 0x41F7DF93);
+}
+
 TEST_CASE("SRLI", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
