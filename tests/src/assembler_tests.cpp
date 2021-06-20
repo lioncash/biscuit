@@ -17,7 +17,7 @@ TEST_CASE("ADD", "[rv32i]") {
     as.RewindBuffer();
 
     as.ADD(biscuit::x0, biscuit::x0, biscuit::x0);
-    REQUIRE(value == 0x00000051);
+    REQUIRE(value == 0x00000033);
 }
 
 TEST_CASE("ADDI", "[rv32i]") {
@@ -468,6 +468,24 @@ TEST_CASE("SRLI", "[rv32i]") {
 
     as.SRLI(biscuit::x31, biscuit::x15, 31);
     REQUIRE(value == 0x01F7DF93);
+}
+
+TEST_CASE("SUB", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SUB(biscuit::x7, biscuit::x15, biscuit::x31);
+    REQUIRE(value == 0x41F783B3);
+
+    as.RewindBuffer();
+
+    as.SUB(biscuit::x31, biscuit::x31, biscuit::x31);
+    REQUIRE(value == 0x41FF8FB3);
+
+    as.RewindBuffer();
+
+    as.SUB(biscuit::x0, biscuit::x0, biscuit::x0);
+    REQUIRE(value == 0x40000033);
 }
 
 TEST_CASE("SW", "[rv32i]") {

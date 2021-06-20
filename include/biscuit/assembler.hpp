@@ -232,6 +232,10 @@ public:
         EmitIType(shift & 0x1F, rs, 0b101, rd, 0b0010011);
     }
 
+    void SUB(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0100000, rhs, lhs, 0b000, rd, 0b0110011);
+    }
+
     void SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
         EmitSType(imm, rs2, rs1, 0b010, 0b0100011);
     }
