@@ -212,6 +212,10 @@ public:
         EmitSType(imm, rs2, rs1, 0b010, 0b0100011);
     }
 
+    void XORI(GPR rd, GPR rs, uint32_t imm) noexcept {
+        EmitIType(imm, rs, 0b100, rd, 0b0010011);
+    }
+
 private:
     // Emits a B type RISC-V instruction. These consist of:
     // imm[12|10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
