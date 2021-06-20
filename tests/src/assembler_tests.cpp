@@ -20,6 +20,24 @@ TEST_CASE("AUIPC", "[rv32i]") {
     REQUIRE(value == 0x00FF0F97);
 }
 
+TEST_CASE("JAL", "[rv32i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.JAL(0xFFFFFFFF, biscuit::x31);
+    REQUIRE(value == 0xFFFFFFEF);
+
+    as.RewindBuffer();
+
+    as.JAL(2000, biscuit::x31);
+    REQUIRE(value == 0x7D000FEF);
+
+    as.RewindBuffer();
+
+    as.JAL(100000, biscuit::x31);
+    REQUIRE(value == 0x6A018FEF);
+}
+
 TEST_CASE("LUI", "[rv32i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

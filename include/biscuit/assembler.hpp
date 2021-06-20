@@ -72,11 +72,33 @@ public:
         EmitUType(imm, rd, 0b0010111);
     }
 
+    void J(uint32_t imm) noexcept {
+        JAL(imm, x0);
+    }
+
+    void JAL(uint32_t imm, GPR rd) noexcept {
+        EmitJType(imm, rd, 0b1101111);
+    }
+
     void LUI(uint32_t imm, GPR rd) noexcept {
         EmitUType(imm, rd, 0b0110111);
     }
 
 private:
+    // Emits a J type RISC-V instruction. These consist of:
+    // imm[20|10:1|11|19:12] | rd | opcode
+    void EmitJType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
+        imm &= 0x1FFFFE;
+
+        // Literally what the heck is this immediate format.
+        const auto new_imm = ((imm & 0x0FF000) >> 0) |
+                             ((imm & 0x000800) << 9) |
+                             ((imm & 0x0007FE) << 20) |
+                             ((imm & 0x100000) << 11);
+
+        m_buffer.Emit32(new_imm | rd.Index() << 7 | (opcode & 0x7F));
+    }
+
     // Emits a U type RISC-V instruction. These consist of:
     // imm[31:12] | rd | opcode
     void EmitUType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
