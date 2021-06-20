@@ -200,6 +200,22 @@ public:
         EmitIType(imm, rs, 0b010, rd, 0b0000011);
     }
 
+    void MV(GPR rd, GPR rs) noexcept {
+        ADDI(rd, rs, 0);
+    }
+
+    void NEG(GPR rd, GPR rs) noexcept {
+        SUB(rd, x0, rs);
+    }
+
+    void NOP() noexcept {
+        ADDI(x0, x0, 0);
+    }
+
+    void NOT(GPR rd, GPR rs) noexcept {
+        XORI(rd, rs, UINT32_MAX);
+    }
+
     void OR(GPR rd, GPR lhs, GPR rhs) noexcept {
         EmitRType(0b0000000, rhs, lhs, 0b110, rd, 0b0110011);
     }
@@ -214,6 +230,14 @@ public:
 
     void SB(GPR rs2, uint32_t imm, GPR rs1) noexcept {
         EmitSType(imm, rs2, rs1, 0b000, 0b0100011);
+    }
+
+    void SEQZ(GPR rd, GPR rs) noexcept {
+        SLTIU(rd, rs, 1);
+    }
+
+    void SGTZ(GPR rd, GPR rs) noexcept {
+        SLT(rd, x0, rs);
     }
 
     void SH(GPR rs2, uint32_t imm, GPR rs1) noexcept {
@@ -242,6 +266,14 @@ public:
 
     void SLTU(GPR rd, GPR lhs, GPR rhs) noexcept {
         EmitRType(0b0000000, rhs, lhs, 0b011, rd, 0b0110011);
+    }
+
+    void SLTZ(GPR rd, GPR rs) noexcept {
+        SLT(rd, rs, x0);
+    }
+
+    void SNEZ(GPR rd, GPR rs) noexcept {
+        SLTU(rd, x0, rs);
     }
 
     void SRA(GPR rd, GPR lhs, GPR rhs) noexcept {
