@@ -566,6 +566,9 @@ public:
 
     // RV64M Extension Instructions
 
+    void DIVW(GPR rd, GPR rs1, GPR rs2) noexcept {
+        EmitRType(0b0000001, rs2, rs1, 0b100, rd, 0b0111011);
+    }
     void MULW(GPR rd, GPR rs1, GPR rs2) noexcept {
         EmitRType(0b0000001, rs2, rs1, 0b000, rd, 0b0111011);
     }

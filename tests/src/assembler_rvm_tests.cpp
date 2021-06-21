@@ -20,6 +20,24 @@ TEST_CASE("DIV", "[rv32m]") {
     REQUIRE(value == 0x02FFCA33);
 }
 
+TEST_CASE("DIVW", "[rv64m]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.DIVW(biscuit::x31, biscuit::x15, biscuit::x20);
+    REQUIRE(value == 0x0347CFBB);
+
+    as.RewindBuffer();
+
+    as.DIVW(biscuit::x31, biscuit::x20, biscuit::x15);
+    REQUIRE(value == 0x02FA4FBB);
+
+    as.RewindBuffer();
+
+    as.DIVW(biscuit::x20, biscuit::x31, biscuit::x15);
+    REQUIRE(value == 0x02FFCA3B);
+}
+
 TEST_CASE("DIVU", "[rv32m]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
