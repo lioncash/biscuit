@@ -537,6 +537,12 @@ public:
         CSRRS(rd, CSR::TimeH, x0);
     }
 
+    // RV32M Extension Instructions
+
+    void MUL(GPR rd, GPR rs1, GPR rs2) noexcept {
+        EmitRType(0b0000001, rs2, rs1, 0b000, rd, 0b0110011);
+    }
+
 private:
     // Emits a B type RISC-V instruction. These consist of:
     // imm[12|10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
