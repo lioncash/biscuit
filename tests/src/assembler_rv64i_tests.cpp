@@ -97,6 +97,24 @@ TEST_CASE("SLLI64", "[rv64i]") {
     REQUIRE(value == 0x03F79F93);
 }
 
+TEST_CASE("SLLIW", "[rv64i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SLLIW(biscuit::x31, biscuit::x15, 10);
+    REQUIRE(value == 0x00A79F9B);
+
+    as.RewindBuffer();
+
+    as.SLLIW(biscuit::x31, biscuit::x15, 20);
+    REQUIRE(value == 0x01479F9B);
+
+    as.RewindBuffer();
+
+    as.SLLIW(biscuit::x31, biscuit::x15, 31);
+    REQUIRE(value == 0x01F79F9B);
+}
+
 TEST_CASE("SRAI64", "[rv64i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
@@ -120,6 +138,24 @@ TEST_CASE("SRAI64", "[rv64i]") {
     REQUIRE(value == 0x43F7DF93);
 }
 
+TEST_CASE("SRAIW", "[rv64i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SRAIW(biscuit::x31, biscuit::x15, 10);
+    REQUIRE(value == 0x40A7DF9B);
+
+    as.RewindBuffer();
+
+    as.SRAIW(biscuit::x31, biscuit::x15, 20);
+    REQUIRE(value == 0x4147DF9B);
+
+    as.RewindBuffer();
+
+    as.SRAIW(biscuit::x31, biscuit::x15, 31);
+    REQUIRE(value == 0x41F7DF9B);
+}
+
 TEST_CASE("SRLI64", "[rv64i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
@@ -141,4 +177,22 @@ TEST_CASE("SRLI64", "[rv64i]") {
 
     as.SRLI64(biscuit::x31, biscuit::x15, 63);
     REQUIRE(value == 0x03F7DF93);
+}
+
+TEST_CASE("SRLIW", "[rv64i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SRLIW(biscuit::x31, biscuit::x15, 10);
+    REQUIRE(value == 0x00A7DF9B);
+
+    as.RewindBuffer();
+
+    as.SRLIW(biscuit::x31, biscuit::x15, 20);
+    REQUIRE(value == 0x0147DF9B);
+
+    as.RewindBuffer();
+
+    as.SRLIW(biscuit::x31, biscuit::x15, 31);
+    REQUIRE(value == 0x01F7DF9B);
 }
