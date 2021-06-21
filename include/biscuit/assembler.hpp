@@ -357,6 +357,10 @@ public:
         EmitIType(imm, rs, 0b000, rd, 0b0011011);
     }
 
+    void ADDW(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0000000, rhs, lhs, 0b000, rd, 0b0111011);
+    }
+
     void LD(GPR rd, uint32_t imm, GPR rs) noexcept {
         EmitIType(imm, rs, 0b011, rd, 0b0000011);
     }
@@ -390,6 +394,20 @@ public:
     }
     void SRLIW(GPR rd, GPR rs, uint32_t shift) noexcept {
         EmitIType(shift & 0x1F, rs, 0b101, rd, 0b0011011);
+    }
+
+    void SLLW(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0000000, rhs, lhs, 0b001, rd, 0b0111011);
+    }
+    void SRAW(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0100000, rhs, lhs, 0b101, rd, 0b0111011);
+    }
+    void SRLW(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0000000, rhs, lhs, 0b101, rd, 0b0111011);
+    }
+
+    void SUBW(GPR rd, GPR lhs, GPR rhs) noexcept {
+        EmitRType(0b0100000, rhs, lhs, 0b000, rd, 0b0111011);
     }
 
 private:
