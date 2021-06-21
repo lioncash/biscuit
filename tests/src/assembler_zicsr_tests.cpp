@@ -27,6 +27,26 @@ TEST_CASE("CSRRC", "[Zicsr]") {
     REQUIRE(value == 0x0037BFF3);
 }
 
+TEST_CASE("CSRRCI", "[Zicsr]") {
+    using namespace biscuit;
+
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.CSRRCI(x31, Assembler::CSR::Cycle, 0);
+    REQUIRE(value == 0xC0007FF3);
+
+    as.RewindBuffer();
+
+    as.CSRRCI(x31, Assembler::CSR::FFlags, 0x1F);
+    REQUIRE(value == 0x001FFFF3);
+
+    as.RewindBuffer();
+
+    as.CSRRCI(x31, Assembler::CSR::FRM, 0x7);
+    REQUIRE(value == 0x0023FFF3);
+}
+
 TEST_CASE("CSRRS", "[Zicsr]") {
     using namespace biscuit;
 
@@ -52,6 +72,26 @@ TEST_CASE("CSRRS", "[Zicsr]") {
     REQUIRE(value == 0x0037AFF3);
 }
 
+TEST_CASE("CSRRSI", "[Zicsr]") {
+    using namespace biscuit;
+
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.CSRRSI(x31, Assembler::CSR::Cycle, 0);
+    REQUIRE(value == 0xC0006FF3);
+
+    as.RewindBuffer();
+
+    as.CSRRSI(x31, Assembler::CSR::FFlags, 0x1F);
+    REQUIRE(value == 0x001FEFF3);
+
+    as.RewindBuffer();
+
+    as.CSRRSI(x31, Assembler::CSR::FRM, 0x7);
+    REQUIRE(value == 0x0023EFF3);
+}
+
 TEST_CASE("CSRRW", "[Zicsr]") {
     using namespace biscuit;
 
@@ -75,4 +115,24 @@ TEST_CASE("CSRRW", "[Zicsr]") {
 
     as.CSRRW(x31, Assembler::CSR::FCSR, x15);
     REQUIRE(value == 0x00379FF3);
+}
+
+TEST_CASE("CSRRWI", "[Zicsr]") {
+    using namespace biscuit;
+
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.CSRRWI(x31, Assembler::CSR::Cycle, 0);
+    REQUIRE(value == 0xC0005FF3);
+
+    as.RewindBuffer();
+
+    as.CSRRWI(x31, Assembler::CSR::FFlags, 0x1F);
+    REQUIRE(value == 0x001FDFF3);
+
+    as.RewindBuffer();
+
+    as.CSRRWI(x31, Assembler::CSR::FRM, 0x7);
+    REQUIRE(value == 0x0023DFF3);
 }

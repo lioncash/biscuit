@@ -428,11 +428,20 @@ public:
     void CSRRC(GPR rd, CSR csr, GPR rs) noexcept {
         EmitIType(static_cast<uint32_t>(csr), rs, 0b011, rd, 0b1110011);
     }
+    void CSRRCI(GPR rd, CSR csr, uint32_t imm) noexcept {
+        EmitIType(static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b111, rd, 0b1110011);
+    }
     void CSRRS(GPR rd, CSR csr, GPR rs) noexcept {
         EmitIType(static_cast<uint32_t>(csr), rs, 0b010, rd, 0b1110011);
     }
+    void CSRRSI(GPR rd, CSR csr, uint32_t imm) noexcept {
+        EmitIType(static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b110, rd, 0b1110011);
+    }
     void CSRRW(GPR rd, CSR csr, GPR rs) noexcept {
         EmitIType(static_cast<uint32_t>(csr), rs, 0b001, rd, 0b1110011);
+    }
+    void CSRRWI(GPR rd, CSR csr, uint32_t imm) noexcept {
+        EmitIType(static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b101, rd, 0b1110011);
     }
 
 private:
