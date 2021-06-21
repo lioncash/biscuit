@@ -353,6 +353,10 @@ public:
 
     // RV64I Base Instruction Set
 
+    void ADDIW(GPR rd, GPR rs, uint32_t imm) noexcept {
+        EmitIType(imm, rs, 0b000, rd, 0b0011011);
+    }
+
     void LD(GPR rd, uint32_t imm, GPR rs) noexcept {
         EmitIType(imm, rs, 0b011, rd, 0b0000011);
     }

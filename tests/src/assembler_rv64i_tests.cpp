@@ -2,6 +2,24 @@
 
 #include <biscuit/assembler.hpp>
 
+TEST_CASE("ADDIW", "[rv64i]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ADDIW(biscuit::x31, biscuit::x15, 1024);
+    REQUIRE(value == 0x40078F9B);
+
+    as.RewindBuffer();
+
+    as.ADDIW(biscuit::x31, biscuit::x15, 2048);
+    REQUIRE(value == 0x80078F9B);
+
+    as.RewindBuffer();
+
+    as.ADDIW(biscuit::x31, biscuit::x15, 4095);
+    REQUIRE(value == 0xFFF78F9B);
+}
+
 TEST_CASE("LWU", "[rv64i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
