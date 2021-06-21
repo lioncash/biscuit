@@ -13,7 +13,20 @@ namespace biscuit {
  */
 class Assembler {
 public:
-    enum class FenceOrder {
+    enum class CSR : uint32_t {
+        FFlags = 0x001,   // Floating-point Accrued Exceptions
+        FRM = 0x002,      // Floating-point Dynamic Rounding Mode
+        FCSR = 0x003,     // Floating-point Control and Status Register (frm + fflags)
+
+        Cycle = 0xC00,    // Cycle counter for RDCYCLE instruction.
+        Time = 0xC01,     // Timer for RDTIME instruction.
+        InstRet = 0xC02,  // Instructions retired counter for RDINSTRET instruction.
+        CycleH = 0xC80,   // Upper 32 bits of cycle, RV32I only.
+        TimeH = 0xC81,    // Upper 32 bits of time, RV32I only.
+        InstRetH = 0xC82, // Upper 32 bits of instret, RV32I only.
+    };
+
+    enum class FenceOrder : uint32_t {
         W = 1, // Write
         R = 2, // Read
         O = 4, // Device Output
@@ -408,6 +421,18 @@ public:
 
     void SUBW(GPR rd, GPR lhs, GPR rhs) noexcept {
         EmitRType(0b0100000, rhs, lhs, 0b000, rd, 0b0111011);
+    }
+
+    // Zicsr Extension Instructions
+
+    void CSRRC(GPR rd, CSR csr, GPR rs) noexcept {
+        EmitIType(static_cast<uint32_t>(csr), rs, 0b011, rd, 0b1110011);
+    }
+    void CSRRS(GPR rd, CSR csr, GPR rs) noexcept {
+        EmitIType(static_cast<uint32_t>(csr), rs, 0b010, rd, 0b1110011);
+    }
+    void CSRRW(GPR rd, CSR csr, GPR rs) noexcept {
+        EmitIType(static_cast<uint32_t>(csr), rs, 0b001, rd, 0b1110011);
     }
 
 private:
