@@ -182,6 +182,24 @@ TEST_CASE("REM", "[rv32m]") {
     REQUIRE(value == 0x02FFEA33);
 }
 
+TEST_CASE("REMW", "[rv64m]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.REMW(biscuit::x31, biscuit::x15, biscuit::x20);
+    REQUIRE(value == 0x0347EFBB);
+
+    as.RewindBuffer();
+
+    as.REMW(biscuit::x31, biscuit::x20, biscuit::x15);
+    REQUIRE(value == 0x02FA6FBB);
+
+    as.RewindBuffer();
+
+    as.REMW(biscuit::x20, biscuit::x31, biscuit::x15);
+    REQUIRE(value == 0x02FFEA3B);
+}
+
 TEST_CASE("REMU", "[rv32m]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
