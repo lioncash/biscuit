@@ -444,6 +444,95 @@ public:
         EmitIType(static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b101, rd, 0b1110011);
     }
 
+    void CSRR(GPR rd, CSR csr) noexcept {
+        CSRRS(rd, csr, x0);
+    }
+    void CSWR(CSR csr, GPR rs) noexcept {
+        CSRRW(x0, csr, rs);
+    }
+
+    void CSRS(CSR csr, GPR rs) noexcept {
+        CSRRS(x0, csr, rs);
+    }
+    void CSRC(CSR csr, GPR rs) noexcept {
+        CSRRC(x0, csr, rs);
+    }
+
+    void CSRCI(CSR csr, uint32_t imm) noexcept {
+        CSRRCI(x0, csr, imm);
+    }
+    void CSRSI(CSR csr, uint32_t imm) noexcept {
+        CSRRSI(x0, csr, imm);
+    }
+    void CSRWI(CSR csr, uint32_t imm) noexcept {
+        CSRRWI(x0, csr, imm);
+    }
+
+    void FRCSR(GPR rd) noexcept {
+        CSRRS(rd, CSR::FCSR, x0);
+    }
+    void FSCSR(GPR rd, GPR rs) noexcept {
+        CSRRW(rd, CSR::FCSR, rs);
+    }
+    void FSCSR(GPR rs) noexcept {
+        CSRRW(x0, CSR::FCSR, rs);
+    }
+
+    void FRRM(GPR rd) noexcept {
+        CSRRS(rd, CSR::FRM, x0);
+    }
+    void FSRM(GPR rd, GPR rs) noexcept {
+        CSRRW(rd, CSR::FRM, rs);
+    }
+    void FSRM(GPR rs) noexcept {
+        CSRRW(x0, CSR::FRM, rs);
+    }
+
+    void FSRMI(GPR rd, uint32_t imm) noexcept {
+        CSRRWI(rd, CSR::FRM, imm);
+    }
+    void FSRMI(uint32_t imm) noexcept {
+        CSRRWI(x0, CSR::FRM, imm);
+    }
+
+    void FRFLAGS(GPR rd) noexcept {
+        CSRRS(rd, CSR::FFlags, x0);
+    }
+    void FSFLAGS(GPR rd, GPR rs) noexcept {
+        CSRRW(rd, CSR::FFlags, rs);
+    }
+    void FSFLAGS(GPR rs) noexcept {
+        CSRRW(x0, CSR::FFlags, rs);
+    }
+
+    void FSFLAGSI(GPR rd, uint32_t imm) noexcept {
+        CSRRWI(rd, CSR::FFlags, imm);
+    }
+    void FSFLAGSI(uint32_t imm) noexcept {
+        CSRRWI(x0, CSR::FFlags, imm);
+    }
+
+    void RDCYCLE(GPR rd) noexcept {
+        CSRRS(rd, CSR::Cycle, x0);
+    }
+    void RDCYCLEH(GPR rd) noexcept {
+        CSRRS(rd, CSR::CycleH, x0);
+    }
+
+    void RDINSTRET(GPR rd) noexcept {
+        CSRRS(rd, CSR::InstRet, x0);
+    }
+    void RDINSTRETH(GPR rd) noexcept {
+        CSRRS(rd, CSR::InstRetH, x0);
+    }
+
+    void RDTIME(GPR rd) noexcept {
+        CSRRS(rd, CSR::Time, x0);
+    }
+    void RDTIMEH(GPR rd) noexcept {
+        CSRRS(rd, CSR::TimeH, x0);
+    }
+
 private:
     // Emits a B type RISC-V instruction. These consist of:
     // imm[12|10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
