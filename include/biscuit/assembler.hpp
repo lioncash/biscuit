@@ -538,7 +538,9 @@ public:
     }
 
     // RV32M Extension Instructions
-
+    void DIV(GPR rd, GPR rs1, GPR rs2) noexcept {
+        EmitRType(0b0000001, rs2, rs1, 0b100, rd, 0b0110011);
+    }
     void MUL(GPR rd, GPR rs1, GPR rs2) noexcept {
         EmitRType(0b0000001, rs2, rs1, 0b000, rd, 0b0110011);
     }

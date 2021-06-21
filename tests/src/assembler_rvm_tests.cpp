@@ -2,6 +2,24 @@
 
 #include <biscuit/assembler.hpp>
 
+TEST_CASE("DIV", "[rv32m]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.DIV(biscuit::x31, biscuit::x15, biscuit::x20);
+    REQUIRE(value == 0x0347CFB3);
+
+    as.RewindBuffer();
+
+    as.DIV(biscuit::x31, biscuit::x20, biscuit::x15);
+    REQUIRE(value == 0x02FA4FB3);
+
+    as.RewindBuffer();
+
+    as.DIV(biscuit::x20, biscuit::x31, biscuit::x15);
+    REQUIRE(value == 0x02FFCA33);
+}
+
 TEST_CASE("MUL", "[rv32m]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
