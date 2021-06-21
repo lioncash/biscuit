@@ -545,6 +545,9 @@ public:
     void MULH(GPR rd, GPR rs1, GPR rs2) noexcept {
         EmitRType(0b0000001, rs2, rs1, 0b001, rd, 0b0110011);
     }
+    void MULHSU(GPR rd, GPR rs1, GPR rs2) noexcept {
+        EmitRType(0b0000001, rs2, rs1, 0b010, rd, 0b0110011);
+    }
 
 private:
     // Emits a B type RISC-V instruction. These consist of:
