@@ -217,3 +217,21 @@ TEST_CASE("REMU", "[rv32m]") {
     as.REMU(biscuit::x20, biscuit::x31, biscuit::x15);
     REQUIRE(value == 0x02FFFA33);
 }
+
+TEST_CASE("REMUW", "[rv64m]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.REMUW(biscuit::x31, biscuit::x15, biscuit::x20);
+    REQUIRE(value == 0x0347FFBB);
+
+    as.RewindBuffer();
+
+    as.REMUW(biscuit::x31, biscuit::x20, biscuit::x15);
+    REQUIRE(value == 0x02FA7FBB);
+
+    as.RewindBuffer();
+
+    as.REMUW(biscuit::x20, biscuit::x31, biscuit::x15);
+    REQUIRE(value == 0x02FFFA3B);
+}
