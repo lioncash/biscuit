@@ -74,6 +74,24 @@ TEST_CASE("MULH", "[rv32m]") {
     REQUIRE(value == 0x02FF9A33);
 }
 
+TEST_CASE("MULW", "[rv64m]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.MULW(biscuit::x31, biscuit::x15, biscuit::x20);
+    REQUIRE(value == 0x03478FBB);
+
+    as.RewindBuffer();
+
+    as.MULW(biscuit::x31, biscuit::x20, biscuit::x15);
+    REQUIRE(value == 0x02FA0FBB);
+
+    as.RewindBuffer();
+
+    as.MULW(biscuit::x20, biscuit::x31, biscuit::x15);
+    REQUIRE(value == 0x02FF8A3B);
+}
+
 TEST_CASE("MULHSU", "[rv32m]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

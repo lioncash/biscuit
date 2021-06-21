@@ -538,6 +538,7 @@ public:
     }
 
     // RV32M Extension Instructions
+
     void DIV(GPR rd, GPR rs1, GPR rs2) noexcept {
         EmitRType(0b0000001, rs2, rs1, 0b100, rd, 0b0110011);
     }
@@ -561,6 +562,12 @@ public:
     }
     void REMU(GPR rd, GPR rs1, GPR rs2) noexcept {
         EmitRType(0b0000001, rs2, rs1, 0b111, rd, 0b0110011);
+    }
+
+    // RV64M Extension Instructions
+
+    void MULW(GPR rd, GPR rs1, GPR rs2) noexcept {
+        EmitRType(0b0000001, rs2, rs1, 0b000, rd, 0b0111011);
     }
 
 private:
