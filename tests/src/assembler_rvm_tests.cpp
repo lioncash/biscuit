@@ -55,3 +55,21 @@ TEST_CASE("MULHSU", "[rv32m]") {
     as.MULHSU(biscuit::x20, biscuit::x31, biscuit::x15);
     REQUIRE(value == 0x02FFAA33);
 }
+
+TEST_CASE("MULHU", "[rv32m]") {
+    uint32_t value = 0;
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.MULHU(biscuit::x31, biscuit::x15, biscuit::x20);
+    REQUIRE(value == 0x0347BFB3);
+
+    as.RewindBuffer();
+
+    as.MULHU(biscuit::x31, biscuit::x20, biscuit::x15);
+    REQUIRE(value == 0x02FA3FB3);
+
+    as.RewindBuffer();
+
+    as.MULHU(biscuit::x20, biscuit::x31, biscuit::x15);
+    REQUIRE(value == 0x02FFBA33);
+}
