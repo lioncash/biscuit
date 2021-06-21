@@ -13,6 +13,13 @@ namespace biscuit {
  */
 class Assembler {
 public:
+    enum class AtomicOrdering : uint32_t {
+        None = 0,       // None
+        RL = 1,         // Release
+        AQ = 2,         // Acquire
+        AQRL = AQ | RL, // Acquire-Release
+    };
+
     enum class CSR : uint32_t {
         FFlags = 0x001,   // Floating-point Accrued Exceptions
         FRM = 0x002,      // Floating-point Dynamic Rounding Mode
@@ -582,7 +589,18 @@ public:
         EmitRType(0b0000001, rs2, rs1, 0b111, rd, 0b0111011);
     }
 
+    // RV64A Extension Instructions
+
+    void LR_W(AtomicOrdering ordering, GPR rd, GPR rs) noexcept {
+        EmitAtomic(0b00010, ordering, x0, rs, 0b010, rd, 0b0101111);
+    }
+
 private:
+    void EmitAtomic(uint32_t funct5, AtomicOrdering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
+        const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
+        EmitRType(funct7, rs2, rs1, funct3, rd, opcode);
+    }
+
     // Emits a B type RISC-V instruction. These consist of:
     // imm[12|10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
     void EmitBType(uint32_t imm, GPR rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
