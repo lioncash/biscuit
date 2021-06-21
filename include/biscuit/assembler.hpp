@@ -192,6 +192,10 @@ public:
         m_buffer.Emit32(0x00000073);
     }
 
+    void FENCE() noexcept {
+        FENCE(FenceOrder::IORW, FenceOrder::IORW);
+    }
+
     void FENCE(FenceOrder pred, FenceOrder succ) noexcept {
         EmitFENCE(0b0000, pred, succ, x0, 0b000, x0, 0b0001111);
     }
