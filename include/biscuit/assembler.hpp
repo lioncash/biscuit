@@ -699,6 +699,9 @@ public:
     void FNMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1001011);
     }
+    void FSQRT_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0101100, f0, rs1, rmode, rd, 0b1010011);
+    }
     void FSUB_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
         EmitRType(0b0000100, rs2, rs1, rmode, rd, 0b1010011);
     }

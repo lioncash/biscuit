@@ -148,6 +148,24 @@ TEST_CASE("FNMSUB.S", "[rv32f]") {
     REQUIRE(value == 0xD07FF7CB);
 }
 
+TEST_CASE("FSQRT.S", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FSQRT_S(f31, f7, Assembler::RMode::RNE);
+    REQUIRE(value == 0x58038FD3);
+
+    as.RewindBuffer();
+
+    as.FSQRT_S(f31, f7, Assembler::RMode::RMM);
+    REQUIRE(value == 0x5803CFD3);
+
+    as.RewindBuffer();
+
+    as.FSQRT_S(f31, f7, Assembler::RMode::DYN);
+    REQUIRE(value == 0x5803FFD3);
+}
+
 TEST_CASE("FSUB.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
