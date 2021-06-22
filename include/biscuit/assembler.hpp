@@ -690,6 +690,9 @@ public:
     void FEQ_S(GPR rd, FPR rs1, FPR rs2) noexcept {
         EmitRType(0b1010000, rs2, rs1, 0b010, rd, 0b1010011);
     }
+    void FLE_S(GPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b1010000, rs2, rs1, 0b000, rd, 0b1010011);
+    }
     void FLT_S(GPR rd, FPR rs1, FPR rs2) noexcept {
         EmitRType(0b1010000, rs2, rs1, 0b001, rd, 0b1010011);
     }
