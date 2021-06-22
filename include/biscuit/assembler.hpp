@@ -699,6 +699,9 @@ public:
     void FNMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1001011);
     }
+    void FSGNJ_S(FPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b0010000, rs2, rs1, 0b000, rd, 0b1010011);
+    }
     void FSQRT_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
         EmitRType(0b0101100, f0, rs1, rmode, rd, 0b1010011);
     }
@@ -755,7 +758,7 @@ private:
 
     // Emits a R type RISC instruction. These consist of:
     // funct7 | rs2 | rs1 | funct3 | rd | opcode
-    void EmitRType(uint32_t funct7, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
+    void EmitRType(uint32_t funct7, Register rs2, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept {
         m_buffer.Emit32(((funct7 & 0xFF) << 25) | (rs2.Index() << 20) | (rs1.Index() << 15) |
                              ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
     }
