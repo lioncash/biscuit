@@ -22,6 +22,19 @@ TEST_CASE("FADD.S", "[rv32f]") {
     REQUIRE(value == 0x01A3FFD3);
 }
 
+TEST_CASE("FCLASS.S", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FCLASS_S(x31, f7);
+    REQUIRE(value == 0xE0039FD3);
+
+    as.RewindBuffer();
+
+    as.FCLASS_S(x7, f31);
+    REQUIRE(value == 0xE00F93D3);
+}
+
 TEST_CASE("FCVT.W.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
