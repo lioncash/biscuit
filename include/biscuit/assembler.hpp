@@ -663,6 +663,15 @@ public:
         EmitAtomic(0b00011, ordering, rs2, rs1, 0b011, rd, 0b0101111);
     }
 
+    // RV32F Extension Instructions
+
+    void FLW(FPR rd, uint32_t offset, GPR rs) noexcept {
+        EmitIType(offset, rs, 0b010, rd, 0b0000111);
+    }
+    void FSW(FPR rs2, uint32_t offset, GPR rs1) noexcept {
+        EmitSType(offset, rs2, rs1, 0b010, 0b0100111);
+    }
+
 private:
     void EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
         const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
@@ -686,7 +695,7 @@ private:
 
     // Emits a I type RISC-V instruction. These consist of:
     // imm[11:0] | rs1 | funct3 | rd | opcode
-    void EmitIType(uint32_t imm, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
+    void EmitIType(uint32_t imm, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept {
         imm &= 0xFFF;
 
         m_buffer.Emit32((imm << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
@@ -716,7 +725,7 @@ private:
 
     // Emits a S type RISC-V instruction. These consist of:
     // imm[11:5] | rs2 | rs1 | funct3 | imm[4:0] | opcode
-    void EmitSType(uint32_t imm, GPR rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
+    void EmitSType(uint32_t imm, Register rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
         imm &= 0xFFF;
 
         // clang-format off
