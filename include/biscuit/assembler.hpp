@@ -687,6 +687,9 @@ public:
     void FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
     }
+    void FMAX_S(FPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b0010100, rs2, rs1, 0b001, rd, 0b1010011);
+    }
     void FMIN_S(FPR rd, FPR rs1, FPR rs2) noexcept {
         EmitRType(0b0010100, rs2, rs1, 0b000, rd, 0b1010011);
     }
