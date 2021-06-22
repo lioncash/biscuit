@@ -591,13 +591,22 @@ public:
         EmitRType(0b0000001, rs2, rs1, 0b111, rd, 0b0111011);
     }
 
-    // RV64A Extension Instructions
+    // RV32A Extension Instructions
 
     void LR_W(Ordering ordering, GPR rd, GPR rs) noexcept {
         EmitAtomic(0b00010, ordering, x0, rs, 0b010, rd, 0b0101111);
     }
     void SC_W(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept {
         EmitAtomic(0b00011, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    }
+
+    // RV64A Extension Instructions
+
+    void LR_D(Ordering ordering, GPR rd, GPR rs) noexcept {
+        EmitAtomic(0b00010, ordering, x0, rs, 0b011, rd, 0b0101111);
+    }
+    void SC_D(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept {
+        EmitAtomic(0b00011, ordering, rs2, rs1, 0b011, rd, 0b0101111);
     }
 
 private:
