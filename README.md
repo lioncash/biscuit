@@ -5,6 +5,25 @@
 An experimental runtime code generator for RISC-V. Emphasis on the experimental part.
 
 
+## Implemented Extension Instructions
+
+Includes both 32-bit and 64-bit instructions in the following:
+
+- RVA
+- RVD
+- RVF
+- RVI
+- RVM
+- RVQ
+- Zicsr
+- Zifencei
+
+Note that only extensions considered ratified will be implemented
+as non-ratified documents are considerably more likely to have
+large changes made to them, which makes maintaining instruction
+APIs a little annoying.
+
+
 ## Dependencies
 
 Biscuit requires no external dependencies for its library other than the C++ standard library. 
