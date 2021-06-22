@@ -678,6 +678,9 @@ public:
     void FADD_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
         EmitRType(0b0000000, rs2, rs1, rmode, rd, 0b1010011);
     }
+    void FSUB_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0000100, rs2, rs1, rmode, rd, 0b1010011);
+    }
     void FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
     }

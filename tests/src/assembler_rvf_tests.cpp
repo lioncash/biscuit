@@ -22,6 +22,24 @@ TEST_CASE("FADD.S", "[rv32f]") {
     REQUIRE(value == 0x01A3FFD3);
 }
 
+TEST_CASE("FSUB.S", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FSUB_S(f31, f7, f26, Assembler::RMode::RNE);
+    REQUIRE(value == 0x09A38FD3);
+
+    as.RewindBuffer();
+
+    as.FSUB_S(f31, f7, f26, Assembler::RMode::RMM);
+    REQUIRE(value == 0x09A3CFD3);
+
+    as.RewindBuffer();
+
+    as.FSUB_S(f31, f7, f26, Assembler::RMode::DYN);
+    REQUIRE(value == 0x09A3FFD3);
+}
+
 TEST_CASE("FMADD.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
