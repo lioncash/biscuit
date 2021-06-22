@@ -678,8 +678,8 @@ public:
     void FADD_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
         EmitRType(0b0000000, rs2, rs1, rmode, rd, 0b1010011);
     }
-    void FSUB_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0000100, rs2, rs1, rmode, rd, 0b1010011);
+    void FLW(FPR rd, uint32_t offset, GPR rs) noexcept {
+        EmitIType(offset, rs, 0b010, rd, 0b0000111);
     }
     void FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
@@ -687,14 +687,17 @@ public:
     void FMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000111);
     }
+    void FMUL_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0001000, rs2, rs1, rmode, rd, 0b1010011);
+    }
     void FNMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1001111);
     }
     void FNMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1001011);
     }
-    void FLW(FPR rd, uint32_t offset, GPR rs) noexcept {
-        EmitIType(offset, rs, 0b010, rd, 0b0000111);
+    void FSUB_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0000100, rs2, rs1, rmode, rd, 0b1010011);
     }
     void FSW(FPR rs2, uint32_t offset, GPR rs1) noexcept {
         EmitSType(offset, rs2, rs1, 0b010, 0b0100111);
