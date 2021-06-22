@@ -684,6 +684,9 @@ public:
     void FCVT_S_W(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
         EmitRType(0b1101000, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
     }
+    void FCVT_S_WU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b1101000, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
     void FCVT_W_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
         EmitRType(0b1100000, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
     }
