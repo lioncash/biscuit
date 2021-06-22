@@ -596,6 +596,9 @@ public:
     void LR_W(Ordering ordering, GPR rd, GPR rs) noexcept {
         EmitAtomic(0b00010, ordering, x0, rs, 0b010, rd, 0b0101111);
     }
+    void SC_W(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept {
+        EmitAtomic(0b00011, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    }
 
 private:
     void EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
