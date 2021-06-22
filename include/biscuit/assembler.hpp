@@ -599,6 +599,9 @@ public:
     void AMOAND_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
         EmitAtomic(0b01100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
     }
+    void AMOMAX_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
+        EmitAtomic(0b10100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    }
     void AMOMIN_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
         EmitAtomic(0b10000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
     }
@@ -625,6 +628,9 @@ public:
     }
     void AMOAND_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
         EmitAtomic(0b01100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    }
+    void AMOMAX_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
+        EmitAtomic(0b10100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
     }
     void AMOMIN_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
         EmitAtomic(0b10000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
