@@ -142,6 +142,52 @@ TEST_CASE("AMOMAX.W", "[rv32a]") {
     REQUIRE(value == 0xA677AFAF);
 }
 
+TEST_CASE("AMOMAXU.D", "[rv64a]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.AMOMAXU_D(Assembler::Ordering::None, x31, x7, x15);
+    REQUIRE(value == 0xE077BFAF);
+
+    as.RewindBuffer();
+
+    as.AMOMAXU_D(Assembler::Ordering::AQ, x31, x7, x15);
+    REQUIRE(value == 0xE477BFAF);
+
+    as.RewindBuffer();
+
+    as.AMOMAXU_D(Assembler::Ordering::RL, x31, x7, x15);
+    REQUIRE(value == 0xE277BFAF);
+
+    as.RewindBuffer();
+
+    as.AMOMAXU_D(Assembler::Ordering::AQRL, x31, x7, x15);
+    REQUIRE(value == 0xE677BFAF);
+}
+
+TEST_CASE("AMOMAXU.W", "[rv32a]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.AMOMAXU_W(Assembler::Ordering::None, x31, x7, x15);
+    REQUIRE(value == 0xE077AFAF);
+
+    as.RewindBuffer();
+
+    as.AMOMAXU_W(Assembler::Ordering::AQ, x31, x7, x15);
+    REQUIRE(value == 0xE477AFAF);
+
+    as.RewindBuffer();
+
+    as.AMOMAXU_W(Assembler::Ordering::RL, x31, x7, x15);
+    REQUIRE(value == 0xE277AFAF);
+
+    as.RewindBuffer();
+
+    as.AMOMAXU_W(Assembler::Ordering::AQRL, x31, x7, x15);
+    REQUIRE(value == 0xE677AFAF);
+}
+
 TEST_CASE("AMOMIN.D", "[rv64a]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
