@@ -174,6 +174,19 @@ TEST_CASE("FMUL.S", "[rv32f]") {
     REQUIRE(value == 0x11A3FFD3);
 }
 
+TEST_CASE("FMV.X.W", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FMV_X_W(x31, f7);
+    REQUIRE(value == 0xE0038FD3);
+
+    as.RewindBuffer();
+
+    as.FMV_X_W(x7, f31);
+    REQUIRE(value == 0xE00F83D3);
+}
+
 TEST_CASE("FNMADD.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

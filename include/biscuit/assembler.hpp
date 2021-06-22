@@ -705,6 +705,9 @@ public:
     void FMUL_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
         EmitRType(0b0001000, rs2, rs1, rmode, rd, 0b1010011);
     }
+    void FMV_X_W(GPR rd, FPR rs1) noexcept {
+        EmitRType(0b1110000, f0, rs1, 0b000, rd, 0b1010011);
+    }
     void FNMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1001111);
     }
