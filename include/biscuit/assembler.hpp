@@ -754,6 +754,16 @@ public:
         EmitSType(offset, rs2, rs1, 0b010, 0b0100111);
     }
 
+    void FABS_S(FPR rd, FPR rs) noexcept {
+        FSGNJX_S(rd, rs, rs);
+    }
+    void FMV_S(FPR rd, FPR rs) noexcept {
+        FSGNJ_S(rd, rs, rs);
+    }
+    void FNEG_S(FPR rd, FPR rs) noexcept {
+        FSGNJN_S(rd, rs, rs);
+    }
+
     // RV64F Extension Instructions
 
     void FCVT_L_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
