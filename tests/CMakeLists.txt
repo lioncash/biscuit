@@ -4,6 +4,7 @@ add_executable(${PROJECT_NAME}
     src/assembler_rv32i_tests.cpp
     src/assembler_rv64i_tests.cpp
     src/assembler_rva_tests.cpp
+    src/assembler_rvd_tests.cpp
     src/assembler_rvf_tests.cpp
     src/assembler_rvm_tests.cpp
     src/assembler_zicsr_tests.cpp
