@@ -4,6 +4,52 @@
 
 using namespace biscuit;
 
+TEST_CASE("AMOADD.D", "[rv64a]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.AMOADD_D(Assembler::Ordering::None, x31, x7, x15);
+    REQUIRE(value == 0x0077BFAF);
+
+    as.RewindBuffer();
+
+    as.AMOADD_D(Assembler::Ordering::AQ, x31, x7, x15);
+    REQUIRE(value == 0x0477BFAF);
+
+    as.RewindBuffer();
+
+    as.AMOADD_D(Assembler::Ordering::RL, x31, x7, x15);
+    REQUIRE(value == 0x0277BFAF);
+
+    as.RewindBuffer();
+
+    as.AMOADD_D(Assembler::Ordering::AQRL, x31, x7, x15);
+    REQUIRE(value == 0x0677BFAF);
+}
+
+TEST_CASE("AMOADD.W", "[rv32a]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.AMOADD_W(Assembler::Ordering::None, x31, x7, x15);
+    REQUIRE(value == 0x0077AFAF);
+
+    as.RewindBuffer();
+
+    as.AMOADD_W(Assembler::Ordering::AQ, x31, x7, x15);
+    REQUIRE(value == 0x0477AFAF);
+
+    as.RewindBuffer();
+
+    as.AMOADD_W(Assembler::Ordering::RL, x31, x7, x15);
+    REQUIRE(value == 0x0277AFAF);
+
+    as.RewindBuffer();
+
+    as.AMOADD_W(Assembler::Ordering::AQRL, x31, x7, x15);
+    REQUIRE(value == 0x0677AFAF);
+}
+
 TEST_CASE("AMOSWAP.D", "[rv64a]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

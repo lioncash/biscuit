@@ -593,6 +593,9 @@ public:
 
     // RV32A Extension Instructions
 
+    void AMOADD_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
+        EmitAtomic(0b00000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    }
     void AMOSWAP_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
         EmitAtomic(0b00001, ordering, rs2, rs1, 0b010, rd, 0b0101111);
     }
@@ -605,6 +608,9 @@ public:
 
     // RV64A Extension Instructions
 
+    void AMOADD_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
+        EmitAtomic(0b00000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    }
     void AMOSWAP_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
         EmitAtomic(0b00001, ordering, rs2, rs1, 0b011, rd, 0b0101111);
     }
