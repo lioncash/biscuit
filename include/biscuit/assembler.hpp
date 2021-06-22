@@ -13,14 +13,6 @@ namespace biscuit {
  */
 class Assembler {
 public:
-    // Atomic ordering
-    enum class Ordering : uint32_t {
-        None = 0,       // None
-        RL = 1,         // Release
-        AQ = 2,         // Acquire
-        AQRL = AQ | RL, // Acquire-Release
-    };
-
     // Control and Status Register
     enum class CSR : uint32_t {
         FFlags = 0x001,   // Floating-point Accrued Exceptions
@@ -52,6 +44,24 @@ public:
         ORW = O | R | W,
 
         IORW = I | O | R | W,
+    };
+
+    // Atomic ordering
+    enum class Ordering : uint32_t {
+        None = 0,       // None
+        RL = 1,         // Release
+        AQ = 2,         // Acquire
+        AQRL = AQ | RL, // Acquire-Release
+    };
+
+    // Floating-point Rounding Mode
+    enum class RMode : uint32_t {
+        RNE = 0b000, // Round to Nearest, ties to Even
+        RTZ = 0b001, // Round towards Zero
+        RDN = 0b010, // Round Down (towards negative infinity)
+        RUP = 0b011, // Round Up (towards positive infinity)
+        RMM = 0b100, // Round to Nearest, ties to Max Magnitude
+        DYN = 0b111, // Dynamic Rounding Mode
     };
 
     /**
@@ -665,6 +675,9 @@ public:
 
     // RV32F Extension Instructions
 
+    void FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
+        EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
+    }
     void FLW(FPR rd, uint32_t offset, GPR rs) noexcept {
         EmitIType(offset, rs, 0b010, rd, 0b0000111);
     }
@@ -721,6 +734,14 @@ private:
     void EmitRType(uint32_t funct7, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
         m_buffer.Emit32(((funct7 & 0xFF) << 25) | (rs2.Index() << 20) | (rs1.Index() << 15) |
                              ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
+    }
+
+    // Emits a R4 type RISC instruction. These consist of:
+    // rs3 | funct2 | rs2 | rs1 | funct3 | rd | opcode
+    void EmitR4Type(FPR rs3, uint32_t funct2, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept {
+        const auto reg_bits = (rs3.Index() << 27) | (rs2.Index() << 20) | (rs1.Index() << 15) | (rd.Index() << 7);
+        const auto funct_bits = ((funct2 & 0b11) << 25) | (static_cast<uint32_t>(funct3) << 12);
+        m_buffer.Emit32(reg_bits | funct_bits | (opcode & 0x7F));
     }
 
     // Emits a S type RISC-V instruction. These consist of:
