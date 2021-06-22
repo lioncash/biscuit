@@ -678,6 +678,9 @@ public:
     void FADD_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
         EmitRType(0b0000000, rs2, rs1, rmode, rd, 0b1010011);
     }
+    void FDIV_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0001100, rs2, rs1, rmode, rd, 0b1010011);
+    }
     void FLW(FPR rd, uint32_t offset, GPR rs) noexcept {
         EmitIType(offset, rs, 0b010, rd, 0b0000111);
     }
