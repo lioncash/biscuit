@@ -891,6 +891,118 @@ public:
         EmitRType(0b1110001, f0, rs1, 0b000, rd, 0b1010011);
     }
 
+    // RV32Q Extension Instructions
+
+    void FADD_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0000011, rs2, rs1, rmode, rd, 0b1010011);
+    }
+    void FCLASS_Q(GPR rd, FPR rs1) noexcept {
+        EmitRType(0b1110011, f0, rs1, 0b0001, rd, 0b1010011);
+    }
+    void FCVT_Q_W(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b1101011, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FCVT_Q_WU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b1101011, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FCVT_W_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b1100011, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FCVT_WU_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b1100011, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FCVT_Q_D(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0100011, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FCVT_D_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0100001, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FCVT_Q_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0100011, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FCVT_S_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0100000, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FDIV_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0001111, rs2, rs1, rmode, rd, 0b1010011);
+    }
+    void FEQ_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b1010011, rs2, rs1, 0b010, rd, 0b1010011);
+    }
+    void FLE_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b1010011, rs2, rs1, 0b000, rd, 0b1010011);
+    }
+    void FLT_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b1010011, rs2, rs1, 0b001, rd, 0b1010011);
+    }
+    void FLQ(FPR rd, uint32_t offset, GPR rs) noexcept {
+        EmitIType(offset, rs, 0b100, rd, 0b0000111);
+    }
+    void FMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
+        EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1000011);
+    }
+    void FMAX_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b0010111, rs2, rs1, 0b001, rd, 0b1010011);
+    }
+    void FMIN_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b0010111, rs2, rs1, 0b000, rd, 0b1010011);
+    }
+    void FMSUB_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
+        EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1000111);
+    }
+    void FMUL_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0001011, rs2, rs1, rmode, rd, 0b1010011);
+    }
+    void FNMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
+        EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1001111);
+    }
+    void FNMSUB_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
+        EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1001011);
+    }
+    void FSGNJ_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b0010011, rs2, rs1, 0b000, rd, 0b1010011);
+    }
+    void FSGNJN_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b0010011, rs2, rs1, 0b001, rd, 0b1010011);
+    }
+    void FSGNJX_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b0010011, rs2, rs1, 0b010, rd, 0b1010011);
+    }
+    void FSQRT_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0101111, f0, rs1, rmode, rd, 0b1010011);
+    }
+    void FSUB_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0000111, rs2, rs1, rmode, rd, 0b1010011);
+    }
+    void FSQ(FPR rs2, uint32_t offset, GPR rs1) noexcept {
+        EmitSType(offset, rs2, rs1, 0b100, 0b0100111);
+    }
+
+    void FABS_Q(FPR rd, FPR rs) noexcept {
+        FSGNJX_Q(rd, rs, rs);
+    }
+    void FMV_Q(FPR rd, FPR rs) noexcept {
+        FSGNJ_Q(rd, rs, rs);
+    }
+    void FNEG_Q(FPR rd, FPR rs) noexcept {
+        FSGNJN_Q(rd, rs, rs);
+    }
+
+    // RV64Q Extension Instructions
+
+    void FCVT_L_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b1100011, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FCVT_LU_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b1100011, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FCVT_Q_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b1101011, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+    void FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b1101011, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
+
 private:
     void EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
         const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
