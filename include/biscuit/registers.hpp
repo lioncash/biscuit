@@ -7,7 +7,7 @@ namespace biscuit {
 
 /**
  * Generic abstraction around a register.
- * 
+ *
  * This is less bug-prone than using raw primitive sizes
  * in opcode emitter functions, since it provides stronger typing.
  */
