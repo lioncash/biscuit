@@ -40,6 +40,24 @@ TEST_CASE("FCVT.W.S", "[rv32f]") {
     REQUIRE(value == 0xC003FFD3);
 }
 
+TEST_CASE("FCVT.WU.S", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FCVT_WU_S(x31, f7, Assembler::RMode::RNE);
+    REQUIRE(value == 0xC0138FD3);
+
+    as.RewindBuffer();
+
+    as.FCVT_WU_S(x31, f7, Assembler::RMode::RMM);
+    REQUIRE(value == 0xC013CFD3);
+
+    as.RewindBuffer();
+
+    as.FCVT_WU_S(x31, f7, Assembler::RMode::DYN);
+    REQUIRE(value == 0xC013FFD3);
+}
+
 TEST_CASE("FDIV.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
