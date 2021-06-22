@@ -161,6 +161,19 @@ TEST_CASE("FSGNJ.S", "[rv32f]") {
     REQUIRE(value == 0x21FF8FD3);
 }
 
+TEST_CASE("FSGNJN.S", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FSGNJN_S(f31, f7, f26);
+    REQUIRE(value == 0x21A39FD3);
+
+    as.RewindBuffer();
+
+    as.FSGNJN_S(f31, f31, f31);
+    REQUIRE(value == 0x21FF9FD3);
+}
+
 TEST_CASE("FSQRT.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

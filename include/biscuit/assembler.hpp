@@ -702,6 +702,9 @@ public:
     void FSGNJ_S(FPR rd, FPR rs1, FPR rs2) noexcept {
         EmitRType(0b0010000, rs2, rs1, 0b000, rd, 0b1010011);
     }
+    void FSGNJN_S(FPR rd, FPR rs1, FPR rs2) noexcept {
+        EmitRType(0b0010000, rs2, rs1, 0b001, rd, 0b1010011);
+    }
     void FSQRT_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
         EmitRType(0b0101100, f0, rs1, rmode, rd, 0b1010011);
     }
