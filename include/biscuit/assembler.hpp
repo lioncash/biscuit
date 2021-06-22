@@ -675,6 +675,9 @@ public:
 
     // RV32F Extension Instructions
 
+    void FADD_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b0000000, rs2, rs1, rmode, rd, 0b1010011);
+    }
     void FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
     }
@@ -743,6 +746,13 @@ private:
     void EmitRType(uint32_t funct7, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
         m_buffer.Emit32(((funct7 & 0xFF) << 25) | (rs2.Index() << 20) | (rs1.Index() << 15) |
                              ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
+    }
+
+    // Emits a R type RISC instruction. These consist of:
+    // funct7 | rs2 | rs1 | funct3 | rd | opcode
+    void EmitRType(uint32_t funct7, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept {
+        m_buffer.Emit32(((funct7 & 0xFF) << 25) | (rs2.Index() << 20) | (rs1.Index() << 15) |
+                        (static_cast<uint32_t>(funct3) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
     }
 
     // Emits a R4 type RISC instruction. These consist of:
