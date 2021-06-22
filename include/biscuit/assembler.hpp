@@ -678,6 +678,9 @@ public:
     void FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
         EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
     }
+    void FMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
+        EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000111);
+    }
     void FLW(FPR rd, uint32_t offset, GPR rs) noexcept {
         EmitIType(offset, rs, 0b010, rd, 0b0000111);
     }
