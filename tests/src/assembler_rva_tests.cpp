@@ -96,6 +96,52 @@ TEST_CASE("AMOSWAP.W", "[rv32a]") {
     REQUIRE(value == 0x0E77AFAF);
 }
 
+TEST_CASE("AMOXOR.D", "[rv64a]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.AMOXOR_D(Assembler::Ordering::None, x31, x7, x15);
+    REQUIRE(value == 0x2077BFAF);
+
+    as.RewindBuffer();
+
+    as.AMOXOR_D(Assembler::Ordering::AQ, x31, x7, x15);
+    REQUIRE(value == 0x2477BFAF);
+
+    as.RewindBuffer();
+
+    as.AMOXOR_D(Assembler::Ordering::RL, x31, x7, x15);
+    REQUIRE(value == 0x2277BFAF);
+
+    as.RewindBuffer();
+
+    as.AMOXOR_D(Assembler::Ordering::AQRL, x31, x7, x15);
+    REQUIRE(value == 0x2677BFAF);
+}
+
+TEST_CASE("AMOXOR.W", "[rv32a]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.AMOXOR_W(Assembler::Ordering::None, x31, x7, x15);
+    REQUIRE(value == 0x2077AFAF);
+
+    as.RewindBuffer();
+
+    as.AMOXOR_W(Assembler::Ordering::AQ, x31, x7, x15);
+    REQUIRE(value == 0x2477AFAF);
+
+    as.RewindBuffer();
+
+    as.AMOXOR_W(Assembler::Ordering::RL, x31, x7, x15);
+    REQUIRE(value == 0x2277AFAF);
+
+    as.RewindBuffer();
+
+    as.AMOXOR_W(Assembler::Ordering::AQRL, x31, x7, x15);
+    REQUIRE(value == 0x2677AFAF);
+}
+
 TEST_CASE("LR.D", "[rv64a]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
