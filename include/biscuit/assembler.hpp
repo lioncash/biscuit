@@ -759,6 +759,9 @@ public:
     void FCVT_L_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
         EmitRType(0b1100000, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
     }
+    void FCVT_LU_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
+        EmitRType(0b1100000, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+    }
 
 private:
     void EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
