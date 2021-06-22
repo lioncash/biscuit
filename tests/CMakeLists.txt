@@ -1,6 +1,7 @@
 project(biscuit_tests)
 
 add_executable(${PROJECT_NAME}
+    src/assembler_branch_tests.cpp
     src/assembler_rv32i_tests.cpp
     src/assembler_rv64i_tests.cpp
     src/assembler_rva_tests.cpp

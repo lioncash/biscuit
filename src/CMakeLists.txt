@@ -2,12 +2,14 @@
 
 add_library(biscuit
     # Source files
+    assembler.cpp
     code_buffer.cpp
 
     # Headers
     "${PROJECT_SOURCE_DIR}/include/biscuit/assembler.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/assert.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/code_buffer.hpp"
+    "${PROJECT_SOURCE_DIR}/include/biscuit/label.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/registers.hpp"
 )
 add_library(biscuit::biscuit ALIAS biscuit)

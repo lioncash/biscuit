@@ -1,6 +1,7 @@
 #pragma once
 
 #include <biscuit/code_buffer.hpp>
+#include <biscuit/label.hpp>
 #include <biscuit/registers.hpp>
 #include <cstddef>
 #include <cstdint>
@@ -117,6 +118,13 @@ public:
         m_buffer.RewindCursor(offset);
     }
 
+    /**
+     * Binds a label to the current offset within the code buffer
+     *
+     * @param label A non-null valid label to bind.
+     */
+    void Bind(Label* label);
+
     // RV32I Instructions
 
     void ADD(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -139,69 +147,39 @@ public:
         EmitUType(imm, rd, 0b0010111);
     }
 
-    void BEQ(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-        EmitBType(imm, rs2, rs1, 0b000, 0b1100011);
-    }
+    void BEQ(GPR rs1, GPR rs2, Label* label) noexcept;
+    void BEQZ(GPR rs, Label* label) noexcept;
+    void BGE(GPR rs1, GPR rs2, Label* label) noexcept;
+    void BGEU(GPR rs1, GPR rs2, Label* label) noexcept;
+    void BGEZ(GPR rs, Label* label) noexcept;
+    void BGT(GPR rs, GPR rt, Label* label) noexcept;
+    void BGTU(GPR rs, GPR rt, Label* label) noexcept;
+    void BGTZ(GPR rs, Label* label) noexcept;
+    void BLE(GPR rs, GPR rt, Label* label) noexcept;
+    void BLEU(GPR rs, GPR rt, Label* label) noexcept;
+    void BLEZ(GPR rs, Label* label) noexcept;
+    void BLT(GPR rs1, GPR rs2, Label* label) noexcept;
+    void BLTU(GPR rs1, GPR rs2, Label* label) noexcept;
+    void BLTZ(GPR rs, Label* label) noexcept;
+    void BNE(GPR rs1, GPR rs2, Label* label) noexcept;
+    void BNEZ(GPR rs, Label* label) noexcept;
 
-    void BEQZ(GPR rs, uint32_t imm) noexcept {
-        BEQ(rs, x0, imm);
-    }
-
-    void BGE(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-        EmitBType(imm, rs2, rs1, 0b101, 0b1100011);
-    }
-
-    void BGEU(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-        EmitBType(imm, rs2, rs1, 0b111, 0b1100011);
-    }
-
-    void BGEZ(GPR rs, uint32_t imm) noexcept {
-        BGE(rs, x0, imm);
-    }
-
-    void BGT(GPR rs, GPR rt, uint32_t imm) noexcept {
-        BLT(rt, rs, imm);
-    }
-
-    void BGTU(GPR rs, GPR rt, uint32_t imm) noexcept {
-        BLTU(rt, rs, imm);
-    }
-
-    void BGTZ(GPR rs, uint32_t imm) noexcept {
-        BLT(x0, rs, imm);
-    }
-
-    void BLE(GPR rs, GPR rt, uint32_t imm) noexcept {
-        BGE(rt, rs, imm);
-    }
-
-    void BLEU(GPR rs, GPR rt, uint32_t imm) noexcept {
-        BGEU(rt, rs, imm);
-    }
-
-    void BLEZ(GPR rs, uint32_t imm) noexcept {
-        BGE(x0, rs, imm);
-    }
-
-    void BLT(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-        EmitBType(imm, rs2, rs1, 0b100, 0b1100011);
-    }
-
-    void BLTU(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-        EmitBType(imm, rs2, rs1, 0b110, 0b1100011);
-    }
-
-    void BLTZ(GPR rs, uint32_t imm) noexcept {
-        BLT(rs, x0, imm);
-    }
-
-    void BNE(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-        EmitBType(imm, rs2, rs1, 0b001, 0b1100011);
-    }
-
-    void BNEZ(GPR rs, uint32_t imm) noexcept {
-        BNE(x0, rs, imm);
-    }
+    void BEQ(GPR rs1, GPR rs2, uint32_t imm) noexcept;
+    void BEQZ(GPR rs, uint32_t imm) noexcept;
+    void BGE(GPR rs1, GPR rs2, uint32_t imm) noexcept;
+    void BGEU(GPR rs1, GPR rs2, uint32_t imm) noexcept;
+    void BGEZ(GPR rs, uint32_t imm) noexcept;
+    void BGT(GPR rs, GPR rt, uint32_t imm) noexcept;
+    void BGTU(GPR rs, GPR rt, uint32_t imm) noexcept;
+    void BGTZ(GPR rs, uint32_t imm) noexcept;
+    void BLE(GPR rs, GPR rt, uint32_t imm) noexcept;
+    void BLEU(GPR rs, GPR rt, uint32_t imm) noexcept;
+    void BLEZ(GPR rs, uint32_t imm) noexcept;
+    void BLT(GPR rs1, GPR rs2, uint32_t imm) noexcept;
+    void BLTU(GPR rs1, GPR rs2, uint32_t imm) noexcept;
+    void BLTZ(GPR rs, uint32_t imm) noexcept;
+    void BNE(GPR rs1, GPR rs2, uint32_t imm) noexcept;
+    void BNEZ(GPR rs, uint32_t imm) noexcept;
 
     void EBREAK() noexcept {
         m_buffer.Emit32(0x00100073);
@@ -227,29 +205,16 @@ public:
         EmitFENCE(0b1000, FenceOrder::RW, FenceOrder::RW, x0, 0b000, x0, 0b0001111);
     }
 
-    void J(uint32_t imm) noexcept {
-        JAL(x0, imm);
-    }
+    void J(Label* label) noexcept;
+    void JAL(Label* label) noexcept;
+    void JAL(GPR rd, Label* label) noexcept;
 
-    void JAL(uint32_t imm) noexcept {
-        EmitJType(imm, x1, 0b1101111);
-    }
-
-    void JAL(GPR rd, uint32_t imm) noexcept {
-        EmitJType(imm, rd, 0b1101111);
-    }
-
-    void JALR(GPR rs) noexcept {
-        JALR(x1, 0, rs);
-    }
-
-    void JALR(GPR rd, uint32_t imm, GPR rs1) noexcept {
-        EmitIType(imm, rs1, 0b000, rd, 0b1100111);
-    }
-
-    void JR(GPR rs) noexcept {
-        JALR(x0, 0, rs);
-    }
+    void J(uint32_t imm) noexcept;
+    void JAL(uint32_t imm) noexcept;
+    void JAL(GPR rd, uint32_t imm) noexcept;
+    void JALR(GPR rs) noexcept;
+    void JALR(GPR rd, uint32_t imm, GPR rs1) noexcept;
+    void JR(GPR rs) noexcept;
 
     void LB(GPR rd, uint32_t imm, GPR rs) noexcept {
         EmitIType(imm, rs, 0b000, rd, 0b0000011);
@@ -1100,6 +1065,17 @@ private:
                         (opcode & 0x7F));
         // clang-format on
     }
+
+    // Binds a label to a given offset.
+    void BindToOffset(Label* label, Label::LocationOffset offset);
+
+    // Links the given label and returns the offset to it.
+    ptrdiff_t LinkAndGetOffset(Label* label);
+
+    // Resolves all label offsets and patches any necessary
+    // branch offsets into the branch instructions that
+    // requires them.
+    void ResolveLabelOffsets(Label* label);
 
     CodeBuffer m_buffer;
 };

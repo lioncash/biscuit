@@ -66,6 +66,17 @@ public:
         return m_cursor - m_buffer;
     }
 
+    /// Retrieves the current address of the cursor within the buffer.
+    [[nodiscard]] uintptr_t GetCursorAddress() const noexcept {
+        return GetOffsetAddress(GetCursorOffset());
+    }
+
+    /// Retrieves the address of an arbitrary offset within the buffer.
+    [[nodiscard]] uintptr_t GetOffsetAddress(ptrdiff_t offset) const noexcept {
+        BISCUIT_ASSERT(offset >= 0 && offset <= m_cursor - m_buffer);
+        return reinterpret_cast<uintptr_t>(m_buffer + offset);
+    }
+
     /**
      * Allows rewinding of the code buffer cursor.
      *
