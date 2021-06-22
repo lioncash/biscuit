@@ -89,6 +89,19 @@ TEST_CASE("FEQ.S", "[rv32f]") {
     REQUIRE(value == 0xA07D2FD3);
 }
 
+TEST_CASE("FLT.S", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FLT_S(x31, f7, f26);
+    REQUIRE(value == 0xA1A39FD3);
+
+    as.RewindBuffer();
+
+    as.FLT_S(x31, f26, f7);
+    REQUIRE(value == 0xA07D1FD3);
+}
+
 TEST_CASE("FLW", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
