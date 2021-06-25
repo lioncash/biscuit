@@ -127,25 +127,12 @@ public:
 
     // RV32I Instructions
 
-    void ADD(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b000, rd, 0b0110011);
-    }
+    void ADD(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void ADDI(GPR rd, GPR rs, uint32_t imm) noexcept;
+    void AND(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void ANDI(GPR rd, GPR rs, uint32_t imm) noexcept;
 
-    void ADDI(GPR rd, GPR rs, uint32_t imm) noexcept {
-        EmitIType(imm, rs, 0b000, rd, 0b0010011);
-    }
-
-    void AND(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b111, rd, 0b0110011);
-    }
-
-    void ANDI(GPR rd, GPR rs, uint32_t imm) noexcept {
-        EmitIType(imm, rs, 0b111, rd, 0b0010011);
-    }
-
-    void AUIPC(GPR rd, uint32_t imm) noexcept {
-        EmitUType(imm, rd, 0b0010111);
-    }
+    void AUIPC(GPR rd, uint32_t imm) noexcept;
 
     void BEQ(GPR rs1, GPR rs2, Label* label) noexcept;
     void BEQZ(GPR rs, Label* label) noexcept;
@@ -181,29 +168,13 @@ public:
     void BNE(GPR rs1, GPR rs2, uint32_t imm) noexcept;
     void BNEZ(GPR rs, uint32_t imm) noexcept;
 
-    void EBREAK() noexcept {
-        m_buffer.Emit32(0x00100073);
-    }
+    void EBREAK() noexcept;
+    void ECALL() noexcept;
 
-    void ECALL() noexcept {
-        m_buffer.Emit32(0x00000073);
-    }
-
-    void FENCE() noexcept {
-        FENCE(FenceOrder::IORW, FenceOrder::IORW);
-    }
-
-    void FENCE(FenceOrder pred, FenceOrder succ) noexcept {
-        EmitFENCE(0b0000, pred, succ, x0, 0b000, x0, 0b0001111);
-    }
-
-    void FENCEI(GPR rd = x0, GPR rs = x0, uint32_t imm = 0) noexcept {
-        m_buffer.Emit32(((imm & 0xFFF) << 20) | (rs.Index() << 15) | 0x1000U | (rd.Index() << 7) | 0b0001111);
-    }
-
-    void FENCETSO() noexcept {
-        EmitFENCE(0b1000, FenceOrder::RW, FenceOrder::RW, x0, 0b000, x0, 0b0001111);
-    }
+    void FENCE() noexcept;
+    void FENCE(FenceOrder pred, FenceOrder succ) noexcept;
+    void FENCEI(GPR rd = x0, GPR rs = x0, uint32_t imm = 0) noexcept;
+    void FENCETSO() noexcept;
 
     void J(Label* label) noexcept;
     void JAL(Label* label) noexcept;
@@ -216,855 +187,333 @@ public:
     void JALR(GPR rd, uint32_t imm, GPR rs1) noexcept;
     void JR(GPR rs) noexcept;
 
-    void LB(GPR rd, uint32_t imm, GPR rs) noexcept {
-        EmitIType(imm, rs, 0b000, rd, 0b0000011);
-    }
+    void LB(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void LBU(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void LH(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void LHU(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void LUI(GPR rd, uint32_t imm) noexcept;
+    void LW(GPR rd, uint32_t imm, GPR rs) noexcept;
 
-    void LBU(GPR rd, uint32_t imm, GPR rs) noexcept {
-        EmitIType(imm, rs, 0b100, rd, 0b0000011);
-    }
+    void MV(GPR rd, GPR rs) noexcept;
+    void NEG(GPR rd, GPR rs) noexcept;
 
-    void LH(GPR rd, uint32_t imm, GPR rs) noexcept {
-        EmitIType(imm, rs, 0b001, rd, 0b0000011);
-    }
+    void NOP() noexcept;
 
-    void LHU(GPR rd, uint32_t imm, GPR rs) noexcept {
-        EmitIType(imm, rs, 0b101, rd, 0b0000011);
-    }
+    void NOT(GPR rd, GPR rs) noexcept;
+    void OR(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void ORI(GPR rd, GPR rs, uint32_t imm) noexcept;
 
-    void LUI(GPR rd, uint32_t imm) noexcept {
-        EmitUType(imm, rd, 0b0110111);
-    }
+    void PAUSE() noexcept;
+    void RET() noexcept;
 
-    void LW(GPR rd, uint32_t imm, GPR rs) noexcept {
-        EmitIType(imm, rs, 0b010, rd, 0b0000011);
-    }
+    void SB(GPR rs2, uint32_t imm, GPR rs1) noexcept;
+    void SH(GPR rs2, uint32_t imm, GPR rs1) noexcept;
+    void SW(GPR rs2, uint32_t imm, GPR rs1) noexcept;
 
-    void MV(GPR rd, GPR rs) noexcept {
-        ADDI(rd, rs, 0);
-    }
+    void SEQZ(GPR rd, GPR rs) noexcept;
+    void SGTZ(GPR rd, GPR rs) noexcept;
 
-    void NEG(GPR rd, GPR rs) noexcept {
-        SUB(rd, x0, rs);
-    }
+    void SLL(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void SLLI(GPR rd, GPR rs, uint32_t shift) noexcept;
 
-    void NOP() noexcept {
-        ADDI(x0, x0, 0);
-    }
+    void SLT(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void SLTI(GPR rd, GPR rs, uint32_t imm) noexcept;
+    void SLTIU(GPR rd, GPR rs, uint32_t imm) noexcept;
+    void SLTU(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void SLTZ(GPR rd, GPR rs) noexcept;
 
-    void NOT(GPR rd, GPR rs) noexcept {
-        XORI(rd, rs, UINT32_MAX);
-    }
+    void SNEZ(GPR rd, GPR rs) noexcept;
 
-    void OR(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b110, rd, 0b0110011);
-    }
+    void SRA(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void SRAI(GPR rd, GPR rs, uint32_t shift) noexcept;
 
-    void ORI(GPR rd, GPR rs, uint32_t imm) noexcept {
-        EmitIType(imm, rs, 0b110, rd, 0b0010011);
-    }
+    void SRL(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void SRLI(GPR rd, GPR rs, uint32_t shift) noexcept;
 
-    void PAUSE() noexcept {
-        m_buffer.Emit32(0x0100000F);
-    }
+    void SUB(GPR rd, GPR lhs, GPR rhs) noexcept;
 
-    void RET() noexcept {
-        JALR(x0, 0, x1);
-    }
-
-    void SB(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-        EmitSType(imm, rs2, rs1, 0b000, 0b0100011);
-    }
-
-    void SEQZ(GPR rd, GPR rs) noexcept {
-        SLTIU(rd, rs, 1);
-    }
-
-    void SGTZ(GPR rd, GPR rs) noexcept {
-        SLT(rd, x0, rs);
-    }
-
-    void SH(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-        EmitSType(imm, rs2, rs1, 0b001, 0b0100011);
-    }
-
-    void SLL(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b001, rd, 0b0110011);
-    }
-
-    void SLLI(GPR rd, GPR rs, uint32_t shift) noexcept {
-        EmitIType(shift & 0x1F, rs, 0b001, rd, 0b0010011);
-    }
-
-    void SLT(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b010, rd, 0b0110011);
-    }
-
-    void SLTI(GPR rd, GPR rs, uint32_t imm) noexcept {
-        EmitIType(imm, rs, 0b010, rd, 0b0010011);
-    }
-
-    void SLTIU(GPR rd, GPR rs, uint32_t imm) noexcept {
-        EmitIType(imm, rs, 0b011, rd, 0b0010011);
-    }
-
-    void SLTU(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b011, rd, 0b0110011);
-    }
-
-    void SLTZ(GPR rd, GPR rs) noexcept {
-        SLT(rd, rs, x0);
-    }
-
-    void SNEZ(GPR rd, GPR rs) noexcept {
-        SLTU(rd, x0, rs);
-    }
-
-    void SRA(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0100000, rhs, lhs, 0b101, rd, 0b0110011);
-    }
-
-    void SRAI(GPR rd, GPR rs, uint32_t shift) noexcept {
-        EmitIType((0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0010011);
-    }
-
-    void SRL(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b101, rd, 0b0110011);
-    }
-
-    void SRLI(GPR rd, GPR rs, uint32_t shift) noexcept {
-        EmitIType(shift & 0x1F, rs, 0b101, rd, 0b0010011);
-    }
-
-    void SUB(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0100000, rhs, lhs, 0b000, rd, 0b0110011);
-    }
-
-    void SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-        EmitSType(imm, rs2, rs1, 0b010, 0b0100011);
-    }
-
-    void XOR(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b100, rd, 0b0110011);
-    }
-
-    void XORI(GPR rd, GPR rs, uint32_t imm) noexcept {
-        EmitIType(imm, rs, 0b100, rd, 0b0010011);
-    }
+    void XOR(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void XORI(GPR rd, GPR rs, uint32_t imm) noexcept;
 
     // RV64I Base Instruction Set
 
-    void ADDIW(GPR rd, GPR rs, uint32_t imm) noexcept {
-        EmitIType(imm, rs, 0b000, rd, 0b0011011);
-    }
-
-    void ADDW(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b000, rd, 0b0111011);
-    }
-
-    void LD(GPR rd, uint32_t imm, GPR rs) noexcept {
-        EmitIType(imm, rs, 0b011, rd, 0b0000011);
-    }
-
-    void LWU(GPR rd, GPR rs, uint32_t imm) noexcept {
-        EmitIType(imm, rs, 0b110, rd, 0b0000011);
-    }
-
-    void SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-        EmitSType(imm, rs2, rs1, 0b011, 0b0100011);
-    }
+    void ADDIW(GPR rd, GPR rs, uint32_t imm) noexcept;
+    void ADDW(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void LD(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void LWU(GPR rd, GPR rs, uint32_t imm) noexcept;
+    void SD(GPR rs2, uint32_t imm, GPR rs1) noexcept;
 
     // NOTE: Perhaps we should coalesce this into the 32-bit variant?
     //       Keeping them separated would allow asserts for catching
     //       out of range shifts in the future.
-    void SRAI64(GPR rd, GPR rs, uint32_t shift) noexcept {
-        EmitIType((0b0100000 << 5) | (shift & 0x3F), rs, 0b101, rd, 0b0010011);
-    }
-    void SLLI64(GPR rd, GPR rs, uint32_t shift) noexcept {
-        EmitIType(shift & 0x3F, rs, 0b001, rd, 0b0010011);
-    }
-    void SRLI64(GPR rd, GPR rs, uint32_t shift) noexcept {
-        EmitIType(shift & 0x3F, rs, 0b101, rd, 0b0010011);
-    }
+    void SRAI64(GPR rd, GPR rs, uint32_t shift) noexcept;
+    void SLLI64(GPR rd, GPR rs, uint32_t shift) noexcept;
+    void SRLI64(GPR rd, GPR rs, uint32_t shift) noexcept;
 
-    void SLLIW(GPR rd, GPR rs, uint32_t shift) noexcept {
-        EmitIType(shift & 0x1F, rs, 0b001, rd, 0b0011011);
-    }
-    void SRAIW(GPR rd, GPR rs, uint32_t shift) noexcept {
-        EmitIType((0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0011011);
-    }
-    void SRLIW(GPR rd, GPR rs, uint32_t shift) noexcept {
-        EmitIType(shift & 0x1F, rs, 0b101, rd, 0b0011011);
-    }
+    void SLLIW(GPR rd, GPR rs, uint32_t shift) noexcept;
+    void SRAIW(GPR rd, GPR rs, uint32_t shift) noexcept;
+    void SRLIW(GPR rd, GPR rs, uint32_t shift) noexcept;
 
-    void SLLW(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b001, rd, 0b0111011);
-    }
-    void SRAW(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0100000, rhs, lhs, 0b101, rd, 0b0111011);
-    }
-    void SRLW(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0000000, rhs, lhs, 0b101, rd, 0b0111011);
-    }
-
-    void SUBW(GPR rd, GPR lhs, GPR rhs) noexcept {
-        EmitRType(0b0100000, rhs, lhs, 0b000, rd, 0b0111011);
-    }
+    void SLLW(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void SRAW(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void SRLW(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void SUBW(GPR rd, GPR lhs, GPR rhs) noexcept;
 
     // Zicsr Extension Instructions
 
-    void CSRRC(GPR rd, CSR csr, GPR rs) noexcept {
-        EmitIType(static_cast<uint32_t>(csr), rs, 0b011, rd, 0b1110011);
-    }
-    void CSRRCI(GPR rd, CSR csr, uint32_t imm) noexcept {
-        EmitIType(static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b111, rd, 0b1110011);
-    }
-    void CSRRS(GPR rd, CSR csr, GPR rs) noexcept {
-        EmitIType(static_cast<uint32_t>(csr), rs, 0b010, rd, 0b1110011);
-    }
-    void CSRRSI(GPR rd, CSR csr, uint32_t imm) noexcept {
-        EmitIType(static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b110, rd, 0b1110011);
-    }
-    void CSRRW(GPR rd, CSR csr, GPR rs) noexcept {
-        EmitIType(static_cast<uint32_t>(csr), rs, 0b001, rd, 0b1110011);
-    }
-    void CSRRWI(GPR rd, CSR csr, uint32_t imm) noexcept {
-        EmitIType(static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b101, rd, 0b1110011);
-    }
+    void CSRRC(GPR rd, CSR csr, GPR rs) noexcept;
+    void CSRRCI(GPR rd, CSR csr, uint32_t imm) noexcept;
+    void CSRRS(GPR rd, CSR csr, GPR rs) noexcept;
+    void CSRRSI(GPR rd, CSR csr, uint32_t imm) noexcept;
+    void CSRRW(GPR rd, CSR csr, GPR rs) noexcept;
+    void CSRRWI(GPR rd, CSR csr, uint32_t imm) noexcept;
 
-    void CSRR(GPR rd, CSR csr) noexcept {
-        CSRRS(rd, csr, x0);
-    }
-    void CSWR(CSR csr, GPR rs) noexcept {
-        CSRRW(x0, csr, rs);
-    }
+    void CSRR(GPR rd, CSR csr) noexcept;
+    void CSWR(CSR csr, GPR rs) noexcept;
 
-    void CSRS(CSR csr, GPR rs) noexcept {
-        CSRRS(x0, csr, rs);
-    }
-    void CSRC(CSR csr, GPR rs) noexcept {
-        CSRRC(x0, csr, rs);
-    }
+    void CSRS(CSR csr, GPR rs) noexcept;
+    void CSRC(CSR csr, GPR rs) noexcept;
 
-    void CSRCI(CSR csr, uint32_t imm) noexcept {
-        CSRRCI(x0, csr, imm);
-    }
-    void CSRSI(CSR csr, uint32_t imm) noexcept {
-        CSRRSI(x0, csr, imm);
-    }
-    void CSRWI(CSR csr, uint32_t imm) noexcept {
-        CSRRWI(x0, csr, imm);
-    }
+    void CSRCI(CSR csr, uint32_t imm) noexcept;
+    void CSRSI(CSR csr, uint32_t imm) noexcept;
+    void CSRWI(CSR csr, uint32_t imm) noexcept;
 
-    void FRCSR(GPR rd) noexcept {
-        CSRRS(rd, CSR::FCSR, x0);
-    }
-    void FSCSR(GPR rd, GPR rs) noexcept {
-        CSRRW(rd, CSR::FCSR, rs);
-    }
-    void FSCSR(GPR rs) noexcept {
-        CSRRW(x0, CSR::FCSR, rs);
-    }
+    void FRCSR(GPR rd) noexcept;
+    void FSCSR(GPR rd, GPR rs) noexcept;
+    void FSCSR(GPR rs) noexcept;
 
-    void FRRM(GPR rd) noexcept {
-        CSRRS(rd, CSR::FRM, x0);
-    }
-    void FSRM(GPR rd, GPR rs) noexcept {
-        CSRRW(rd, CSR::FRM, rs);
-    }
-    void FSRM(GPR rs) noexcept {
-        CSRRW(x0, CSR::FRM, rs);
-    }
+    void FRRM(GPR rd) noexcept;
+    void FSRM(GPR rd, GPR rs) noexcept;
+    void FSRM(GPR rs) noexcept;
 
-    void FSRMI(GPR rd, uint32_t imm) noexcept {
-        CSRRWI(rd, CSR::FRM, imm);
-    }
-    void FSRMI(uint32_t imm) noexcept {
-        CSRRWI(x0, CSR::FRM, imm);
-    }
+    void FSRMI(GPR rd, uint32_t imm) noexcept;
+    void FSRMI(uint32_t imm) noexcept;
 
-    void FRFLAGS(GPR rd) noexcept {
-        CSRRS(rd, CSR::FFlags, x0);
-    }
-    void FSFLAGS(GPR rd, GPR rs) noexcept {
-        CSRRW(rd, CSR::FFlags, rs);
-    }
-    void FSFLAGS(GPR rs) noexcept {
-        CSRRW(x0, CSR::FFlags, rs);
-    }
+    void FRFLAGS(GPR rd) noexcept;
+    void FSFLAGS(GPR rd, GPR rs) noexcept;
+    void FSFLAGS(GPR rs) noexcept;
 
-    void FSFLAGSI(GPR rd, uint32_t imm) noexcept {
-        CSRRWI(rd, CSR::FFlags, imm);
-    }
-    void FSFLAGSI(uint32_t imm) noexcept {
-        CSRRWI(x0, CSR::FFlags, imm);
-    }
+    void FSFLAGSI(GPR rd, uint32_t imm) noexcept;
+    void FSFLAGSI(uint32_t imm) noexcept;
 
-    void RDCYCLE(GPR rd) noexcept {
-        CSRRS(rd, CSR::Cycle, x0);
-    }
-    void RDCYCLEH(GPR rd) noexcept {
-        CSRRS(rd, CSR::CycleH, x0);
-    }
+    void RDCYCLE(GPR rd) noexcept;
+    void RDCYCLEH(GPR rd) noexcept;
 
-    void RDINSTRET(GPR rd) noexcept {
-        CSRRS(rd, CSR::InstRet, x0);
-    }
-    void RDINSTRETH(GPR rd) noexcept {
-        CSRRS(rd, CSR::InstRetH, x0);
-    }
+    void RDINSTRET(GPR rd) noexcept;
+    void RDINSTRETH(GPR rd) noexcept;
 
-    void RDTIME(GPR rd) noexcept {
-        CSRRS(rd, CSR::Time, x0);
-    }
-    void RDTIMEH(GPR rd) noexcept {
-        CSRRS(rd, CSR::TimeH, x0);
-    }
+    void RDTIME(GPR rd) noexcept;
+    void RDTIMEH(GPR rd) noexcept;
 
     // RV32M Extension Instructions
 
-    void DIV(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b100, rd, 0b0110011);
-    }
-    void DIVU(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b101, rd, 0b0110011);
-    }
-    void MUL(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b000, rd, 0b0110011);
-    }
-    void MULH(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b001, rd, 0b0110011);
-    }
-    void MULHSU(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b010, rd, 0b0110011);
-    }
-    void MULHU(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b011, rd, 0b0110011);
-    }
-    void REM(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b110, rd, 0b0110011);
-    }
-    void REMU(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b111, rd, 0b0110011);
-    }
+    void DIV(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void DIVU(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void MUL(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void MULH(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void MULHSU(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void MULHU(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void REM(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void REMU(GPR rd, GPR rs1, GPR rs2) noexcept;
 
     // RV64M Extension Instructions
 
-    void DIVW(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b100, rd, 0b0111011);
-    }
-    void DIVUW(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b101, rd, 0b0111011);
-    }
-    void MULW(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b000, rd, 0b0111011);
-    }
-    void REMW(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b110, rd, 0b0111011);
-    }
-    void REMUW(GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitRType(0b0000001, rs2, rs1, 0b111, rd, 0b0111011);
-    }
+    void DIVW(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void DIVUW(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void MULW(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void REMW(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void REMUW(GPR rd, GPR rs1, GPR rs2) noexcept;
 
     // RV32A Extension Instructions
 
-    void AMOADD_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b00000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
-    }
-    void AMOAND_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b01100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
-    }
-    void AMOMAX_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b10100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
-    }
-    void AMOMAXU_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b11100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
-    }
-    void AMOMIN_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b10000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
-    }
-    void AMOMINU_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b11000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
-    }
-    void AMOOR_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b01000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
-    }
-    void AMOSWAP_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b00001, ordering, rs2, rs1, 0b010, rd, 0b0101111);
-    }
-    void AMOXOR_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b00100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
-    }
-    void LR_W(Ordering ordering, GPR rd, GPR rs) noexcept {
-        EmitAtomic(0b00010, ordering, x0, rs, 0b010, rd, 0b0101111);
-    }
-    void SC_W(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitAtomic(0b00011, ordering, rs2, rs1, 0b010, rd, 0b0101111);
-    }
+    void AMOADD_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOAND_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOMAX_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOMAXU_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOMIN_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOMINU_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOOR_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOSWAP_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOXOR_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void LR_W(Ordering ordering, GPR rd, GPR rs) noexcept;
+    void SC_W(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept;
 
     // RV64A Extension Instructions
 
-    void AMOADD_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b00000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
-    }
-    void AMOAND_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b01100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
-    }
-    void AMOMAX_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b10100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
-    }
-    void AMOMAXU_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b11100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
-    }
-    void AMOMIN_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b10000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
-    }
-    void AMOMINU_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b11000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
-    }
-    void AMOOR_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b01000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
-    }
-    void AMOSWAP_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b00001, ordering, rs2, rs1, 0b011, rd, 0b0101111);
-    }
-    void AMOXOR_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-        EmitAtomic(0b00100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
-    }
-    void LR_D(Ordering ordering, GPR rd, GPR rs) noexcept {
-        EmitAtomic(0b00010, ordering, x0, rs, 0b011, rd, 0b0101111);
-    }
-    void SC_D(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept {
-        EmitAtomic(0b00011, ordering, rs2, rs1, 0b011, rd, 0b0101111);
-    }
+    void AMOADD_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOAND_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOMAX_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOMAXU_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOMIN_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOMINU_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOOR_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOSWAP_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOXOR_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void LR_D(Ordering ordering, GPR rd, GPR rs) noexcept;
+    void SC_D(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept;
 
     // RV32F Extension Instructions
 
-    void FADD_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0000000, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FCLASS_S(GPR rd, FPR rs1) noexcept {
-        EmitRType(0b1110000, f0, rs1, 0b0001, rd, 0b1010011);
-    }
-    void FCVT_S_W(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101000, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_S_WU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101000, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_W_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100000, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_WU_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100000, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FDIV_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0001100, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FEQ_S(GPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b1010000, rs2, rs1, 0b010, rd, 0b1010011);
-    }
-    void FLE_S(GPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b1010000, rs2, rs1, 0b000, rd, 0b1010011);
-    }
-    void FLT_S(GPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b1010000, rs2, rs1, 0b001, rd, 0b1010011);
-    }
-    void FLW(FPR rd, uint32_t offset, GPR rs) noexcept {
-        EmitIType(offset, rs, 0b010, rd, 0b0000111);
-    }
-    void FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
-    }
-    void FMAX_S(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010100, rs2, rs1, 0b001, rd, 0b1010011);
-    }
-    void FMIN_S(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010100, rs2, rs1, 0b000, rd, 0b1010011);
-    }
-    void FMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000111);
-    }
-    void FMUL_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0001000, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FMV_W_X(FPR rd, GPR rs1) noexcept {
-        EmitRType(0b1111000, f0, rs1, 0b000, rd, 0b1010011);
-    }
-    void FMV_X_W(GPR rd, FPR rs1) noexcept {
-        EmitRType(0b1110000, f0, rs1, 0b000, rd, 0b1010011);
-    }
-    void FNMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1001111);
-    }
-    void FNMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1001011);
-    }
-    void FSGNJ_S(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010000, rs2, rs1, 0b000, rd, 0b1010011);
-    }
-    void FSGNJN_S(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010000, rs2, rs1, 0b001, rd, 0b1010011);
-    }
-    void FSGNJX_S(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010000, rs2, rs1, 0b010, rd, 0b1010011);
-    }
-    void FSQRT_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0101100, f0, rs1, rmode, rd, 0b1010011);
-    }
-    void FSUB_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0000100, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FSW(FPR rs2, uint32_t offset, GPR rs1) noexcept {
-        EmitSType(offset, rs2, rs1, 0b010, 0b0100111);
-    }
+    void FADD_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FCLASS_S(GPR rd, FPR rs1) noexcept;
+    void FCVT_S_W(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_S_WU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_W_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_WU_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FDIV_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FEQ_S(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLE_S(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLT_S(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLW(FPR rd, uint32_t offset, GPR rs) noexcept;
+    void FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FMAX_S(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FMIN_S(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FMUL_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FMV_W_X(FPR rd, GPR rs1) noexcept;
+    void FMV_X_W(GPR rd, FPR rs1) noexcept;
+    void FNMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FNMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FSGNJ_S(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FSGNJN_S(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FSGNJX_S(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FSQRT_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FSUB_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FSW(FPR rs2, uint32_t offset, GPR rs1) noexcept;
 
-    void FABS_S(FPR rd, FPR rs) noexcept {
-        FSGNJX_S(rd, rs, rs);
-    }
-    void FMV_S(FPR rd, FPR rs) noexcept {
-        FSGNJ_S(rd, rs, rs);
-    }
-    void FNEG_S(FPR rd, FPR rs) noexcept {
-        FSGNJN_S(rd, rs, rs);
-    }
+    void FABS_S(FPR rd, FPR rs) noexcept;
+    void FMV_S(FPR rd, FPR rs) noexcept;
+    void FNEG_S(FPR rd, FPR rs) noexcept;
 
     // RV64F Extension Instructions
 
-    void FCVT_L_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100000, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_LU_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100000, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_S_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101000, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_S_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101000, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
+    void FCVT_L_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_LU_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_S_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_S_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
 
     // RV32D Extension Instructions
 
-    void FADD_D(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0000001, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FCLASS_D(GPR rd, FPR rs1) noexcept {
-        EmitRType(0b1110001, f0, rs1, 0b0001, rd, 0b1010011);
-    }
-    void FCVT_D_W(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101001, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_D_WU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101001, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_W_D(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100001, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_WU_D(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100001, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_D_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0100001, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_S_D(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0100000, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FDIV_D(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0001101, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FEQ_D(GPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b1010001, rs2, rs1, 0b010, rd, 0b1010011);
-    }
-    void FLE_D(GPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b1010001, rs2, rs1, 0b000, rd, 0b1010011);
-    }
-    void FLT_D(GPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b1010001, rs2, rs1, 0b001, rd, 0b1010011);
-    }
-    void FLD(FPR rd, uint32_t offset, GPR rs) noexcept {
-        EmitIType(offset, rs, 0b011, rd, 0b0000111);
-    }
-    void FMADD_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b01, rs2, rs1, rmode, rd, 0b1000011);
-    }
-    void FMAX_D(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010101, rs2, rs1, 0b001, rd, 0b1010011);
-    }
-    void FMIN_D(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010101, rs2, rs1, 0b000, rd, 0b1010011);
-    }
-    void FMSUB_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b01, rs2, rs1, rmode, rd, 0b1000111);
-    }
-    void FMUL_D(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0001001, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FNMADD_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b01, rs2, rs1, rmode, rd, 0b1001111);
-    }
-    void FNMSUB_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b01, rs2, rs1, rmode, rd, 0b1001011);
-    }
-    void FSGNJ_D(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010001, rs2, rs1, 0b000, rd, 0b1010011);
-    }
-    void FSGNJN_D(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010001, rs2, rs1, 0b001, rd, 0b1010011);
-    }
-    void FSGNJX_D(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010001, rs2, rs1, 0b010, rd, 0b1010011);
-    }
-    void FSQRT_D(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0101101, f0, rs1, rmode, rd, 0b1010011);
-    }
-    void FSUB_D(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0000101, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FSD(FPR rs2, uint32_t offset, GPR rs1) noexcept {
-        EmitSType(offset, rs2, rs1, 0b011, 0b0100111);
-    }
+    void FADD_D(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FCLASS_D(GPR rd, FPR rs1) noexcept;
+    void FCVT_D_W(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_D_WU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_W_D(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_WU_D(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_D_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_S_D(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FDIV_D(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FEQ_D(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLE_D(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLT_D(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLD(FPR rd, uint32_t offset, GPR rs) noexcept;
+    void FMADD_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FMAX_D(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FMIN_D(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FMSUB_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FMUL_D(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FNMADD_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FNMSUB_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FSGNJ_D(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FSGNJN_D(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FSGNJX_D(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FSQRT_D(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FSUB_D(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FSD(FPR rs2, uint32_t offset, GPR rs1) noexcept;
 
-    void FABS_D(FPR rd, FPR rs) noexcept {
-        FSGNJX_D(rd, rs, rs);
-    }
-    void FMV_D(FPR rd, FPR rs) noexcept {
-        FSGNJ_D(rd, rs, rs);
-    }
-    void FNEG_D(FPR rd, FPR rs) noexcept {
-        FSGNJN_D(rd, rs, rs);
-    }
+    void FABS_D(FPR rd, FPR rs) noexcept;
+    void FMV_D(FPR rd, FPR rs) noexcept;
+    void FNEG_D(FPR rd, FPR rs) noexcept;
 
     // RV64D Extension Instructions
 
-    void FCVT_L_D(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100001, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_LU_D(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100001, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_D_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101001, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_D_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101001, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FMV_D_X(FPR rd, GPR rs1) noexcept {
-        EmitRType(0b1111001, f0, rs1, 0b000, rd, 0b1010011);
-    }
-    void FMV_X_D(GPR rd, FPR rs1) noexcept {
-        EmitRType(0b1110001, f0, rs1, 0b000, rd, 0b1010011);
-    }
+    void FCVT_L_D(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_LU_D(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_D_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_D_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FMV_D_X(FPR rd, GPR rs1) noexcept;
+    void FMV_X_D(GPR rd, FPR rs1) noexcept;
 
     // RV32Q Extension Instructions
 
-    void FADD_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0000011, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FCLASS_Q(GPR rd, FPR rs1) noexcept {
-        EmitRType(0b1110011, f0, rs1, 0b0001, rd, 0b1010011);
-    }
-    void FCVT_Q_W(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101011, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_Q_WU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101011, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_W_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100011, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_WU_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100011, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_Q_D(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0100011, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_D_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0100001, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_Q_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0100011, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_S_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0100000, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FDIV_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0001111, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FEQ_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b1010011, rs2, rs1, 0b010, rd, 0b1010011);
-    }
-    void FLE_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b1010011, rs2, rs1, 0b000, rd, 0b1010011);
-    }
-    void FLT_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b1010011, rs2, rs1, 0b001, rd, 0b1010011);
-    }
-    void FLQ(FPR rd, uint32_t offset, GPR rs) noexcept {
-        EmitIType(offset, rs, 0b100, rd, 0b0000111);
-    }
-    void FMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1000011);
-    }
-    void FMAX_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010111, rs2, rs1, 0b001, rd, 0b1010011);
-    }
-    void FMIN_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010111, rs2, rs1, 0b000, rd, 0b1010011);
-    }
-    void FMSUB_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1000111);
-    }
-    void FMUL_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0001011, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FNMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1001111);
-    }
-    void FNMSUB_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept {
-        EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1001011);
-    }
-    void FSGNJ_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010011, rs2, rs1, 0b000, rd, 0b1010011);
-    }
-    void FSGNJN_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010011, rs2, rs1, 0b001, rd, 0b1010011);
-    }
-    void FSGNJX_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
-        EmitRType(0b0010011, rs2, rs1, 0b010, rd, 0b1010011);
-    }
-    void FSQRT_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0101111, f0, rs1, rmode, rd, 0b1010011);
-    }
-    void FSUB_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b0000111, rs2, rs1, rmode, rd, 0b1010011);
-    }
-    void FSQ(FPR rs2, uint32_t offset, GPR rs1) noexcept {
-        EmitSType(offset, rs2, rs1, 0b100, 0b0100111);
-    }
+    void FADD_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FCLASS_Q(GPR rd, FPR rs1) noexcept;
+    void FCVT_Q_W(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_Q_WU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_W_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_WU_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_Q_D(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_D_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_Q_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_S_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FDIV_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FEQ_Q(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLE_Q(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLT_Q(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLQ(FPR rd, uint32_t offset, GPR rs) noexcept;
+    void FMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FMAX_Q(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FMIN_Q(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FMSUB_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FMUL_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FNMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FNMSUB_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FSGNJ_Q(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FSGNJN_Q(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FSGNJX_Q(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FSQRT_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FSUB_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FSQ(FPR rs2, uint32_t offset, GPR rs1) noexcept;
 
-    void FABS_Q(FPR rd, FPR rs) noexcept {
-        FSGNJX_Q(rd, rs, rs);
-    }
-    void FMV_Q(FPR rd, FPR rs) noexcept {
-        FSGNJ_Q(rd, rs, rs);
-    }
-    void FNEG_Q(FPR rd, FPR rs) noexcept {
-        FSGNJN_Q(rd, rs, rs);
-    }
+    void FABS_Q(FPR rd, FPR rs) noexcept;
+    void FMV_Q(FPR rd, FPR rs) noexcept;
+    void FNEG_Q(FPR rd, FPR rs) noexcept;
 
     // RV64Q Extension Instructions
 
-    void FCVT_L_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100011, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_LU_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1100011, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_Q_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101011, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
-    void FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept {
-        EmitRType(0b1101011, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
-    }
+    void FCVT_L_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_LU_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_Q_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
 
 private:
-    void EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
-        const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
-        EmitRType(funct7, rs2, rs1, funct3, rd, opcode);
-    }
+    // Emits an atomic instruction.
+    void EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept;
 
     // Emits a B type RISC-V instruction. These consist of:
     // imm[12|10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
-    void EmitBType(uint32_t imm, GPR rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
-        imm &= 0x1FFE;
-
-        // clang-format off
-        const auto new_imm = ((imm & 0x07E0) << 20) |
-                             ((imm & 0x1000) << 19) |
-                             ((imm & 0x001E) << 7) |
-                             ((imm & 0x0800) >> 4);
-        // clang-format on
-
-        m_buffer.Emit32(new_imm | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
-    }
+    void EmitBType(uint32_t imm, GPR rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept;
 
     // Emits a I type RISC-V instruction. These consist of:
     // imm[11:0] | rs1 | funct3 | rd | opcode
-    void EmitIType(uint32_t imm, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept {
-        imm &= 0xFFF;
-
-        m_buffer.Emit32((imm << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
-    }
+    void EmitIType(uint32_t imm, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept;
 
     // Emits a J type RISC-V instruction. These consist of:
     // imm[20|10:1|11|19:12] | rd | opcode
-    void EmitJType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
-        imm &= 0x1FFFFE;
-
-        // clang-format off
-        const auto new_imm = ((imm & 0x0FF000) >> 0) |
-                             ((imm & 0x000800) << 9) |
-                             ((imm & 0x0007FE) << 20) |
-                             ((imm & 0x100000) << 11);
-        // clang-format on
-
-        m_buffer.Emit32(new_imm | rd.Index() << 7 | (opcode & 0x7F));
-    }
+    void EmitJType(uint32_t imm, GPR rd, uint32_t opcode) noexcept;
 
     // Emits a R type RISC instruction. These consist of:
     // funct7 | rs2 | rs1 | funct3 | rd | opcode
-    void EmitRType(uint32_t funct7, Register rs2, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept {
-        m_buffer.Emit32(((funct7 & 0xFF) << 25) | (rs2.Index() << 20) | (rs1.Index() << 15) |
-                             ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
-    }
+    void EmitRType(uint32_t funct7, Register rs2, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept;
 
     // Emits a R type RISC instruction. These consist of:
     // funct7 | rs2 | rs1 | funct3 | rd | opcode
-    void EmitRType(uint32_t funct7, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept {
-        m_buffer.Emit32(((funct7 & 0xFF) << 25) | (rs2.Index() << 20) | (rs1.Index() << 15) |
-                        (static_cast<uint32_t>(funct3) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
-    }
+    void EmitRType(uint32_t funct7, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept;
 
     // Emits a R4 type RISC instruction. These consist of:
     // rs3 | funct2 | rs2 | rs1 | funct3 | rd | opcode
-    void EmitR4Type(FPR rs3, uint32_t funct2, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept {
-        const auto reg_bits = (rs3.Index() << 27) | (rs2.Index() << 20) | (rs1.Index() << 15) | (rd.Index() << 7);
-        const auto funct_bits = ((funct2 & 0b11) << 25) | (static_cast<uint32_t>(funct3) << 12);
-        m_buffer.Emit32(reg_bits | funct_bits | (opcode & 0x7F));
-    }
+    void EmitR4Type(FPR rs3, uint32_t funct2, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept;
 
     // Emits a S type RISC-V instruction. These consist of:
     // imm[11:5] | rs2 | rs1 | funct3 | imm[4:0] | opcode
-    void EmitSType(uint32_t imm, Register rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
-        imm &= 0xFFF;
-
-        // clang-format off
-        const auto new_imm = ((imm & 0x01F) << 7) |
-                             ((imm & 0xFE0) << 20);
-        // clang-format on
-
-        m_buffer.Emit32(new_imm | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
-    }
+    void EmitSType(uint32_t imm, Register rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept;
 
     // Emits a U type RISC-V instruction. These consist of:
     // imm[31:12] | rd | opcode
-    void EmitUType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
-        m_buffer.Emit32((imm & 0xFFFFF000) | rd.Index() << 7 | (opcode & 0x7F));
-    }
+    void EmitUType(uint32_t imm, GPR rd, uint32_t opcode) noexcept;
 
     // Emits a fence instruction
-    void EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
-        // clang-format off
-        m_buffer.Emit32(((fm & 0b1111) << 28) |
-                        (static_cast<uint32_t>(pred) << 24) |
-                        (static_cast<uint32_t>(succ) << 20) |
-                        (rs.Index() << 15) |
-                        ((funct3 & 0b111) << 12) |
-                        (rd.Index() << 7) |
-                        (opcode & 0x7F));
-        // clang-format on
-    }
+    void EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept;
 
     // Binds a label to a given offset.
     void BindToOffset(Label* label, Label::LocationOffset offset);
