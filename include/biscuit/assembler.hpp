@@ -36,11 +36,13 @@ public:
 
         RW = R | W,
 
+        IO = I | O,
         IR = I | R,
         IW = I | W,
         IRW = I | R | W,
 
         OI = O | I,
+        OR = O | R,
         OW = O | W,
         ORW = O | R | W,
 
