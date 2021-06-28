@@ -13,7 +13,14 @@ TEST_CASE("C.ADDI4SPN", "[rvc]") {
 
     as.RewindBuffer();
 
-    as.C_ADDI4SPN(x15, 0xFF);
+    as.C_ADDI4SPN(x8, 0xFF);
     REQUIRE(value == 0x1FE0);
 }
 
+TEST_CASE("C.UNDEF", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_UNDEF();
+    REQUIRE(value == 0);
+}

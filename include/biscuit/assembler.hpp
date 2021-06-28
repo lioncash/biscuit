@@ -479,7 +479,9 @@ public:
     void FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
 
     // RVC Extension Instructions
+
     void C_ADDI4SPN(GPR rd, uint32_t imm) noexcept;
+    void C_UNDEF() noexcept;
 
 private:
     // Emits an atomic instruction.

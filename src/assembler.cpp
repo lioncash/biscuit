@@ -1040,6 +1040,10 @@ void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
     EmitCompressedWideImmediate(0b000, imm, rd, 0b00);
 }
 
+void Assembler::C_UNDEF() noexcept {
+    m_buffer.Emit16(0);
+}
+
 void Assembler::EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
     const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
     EmitRType(funct7, rs2, rs1, funct3, rd, opcode);
