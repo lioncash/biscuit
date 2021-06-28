@@ -478,6 +478,9 @@ public:
     void FCVT_Q_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
 
+    // RVC Extension Instructions
+    void C_ADDI4SPN(GPR rd, uint32_t imm) noexcept;
+
 private:
     // Emits an atomic instruction.
     void EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept;
@@ -516,6 +519,10 @@ private:
 
     // Emits a fence instruction
     void EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept;
+
+    // Emits a compressed wide immediate instruction which has the form
+    // funct3 | imm | rd | opcode
+    void EmitCompressedWideImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept;
 
     // Binds a label to a given offset.
     void BindToOffset(Label* label, Label::LocationOffset offset);

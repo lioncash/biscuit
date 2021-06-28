@@ -1034,6 +1034,12 @@ void Assembler::FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode) noexcept {
     EmitRType(0b1101011, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 
+// RVC Extension Instructions
+
+void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
+    EmitCompressedWideImmediate(0b000, imm, rd, 0b00);
+}
+
 void Assembler::EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
     const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
     EmitRType(funct7, rs2, rs1, funct3, rd, opcode);
@@ -1098,6 +1104,14 @@ void Assembler::EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs,
                     (rd.Index() << 7) |
                     (opcode & 0x7F));
     // clang-format on
+}
+
+void Assembler::EmitCompressedWideImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
+    const auto rd_index = rd.Index();
+    BISCUIT_ASSERT(rd_index >= 8 && rd_index <= 15);
+
+    const auto rd_sanitized = rd_index - 8;
+    m_buffer.Emit16(((funct3 & 0b111) << 13) | ((imm & 0xFF) << 5) | (rd_sanitized << 2) | (op & 0b11));
 }
 
 void Assembler::BindToOffset(Label* label, Label::LocationOffset offset) {

@@ -148,6 +148,11 @@ public:
         m_cursor += sizeof(T);
     }
 
+    /// Emits a 16-bit value into the code buffer.
+    void Emit16(uint32_t value) noexcept {
+        Emit(static_cast<uint16_t>(value));
+    }
+
     /// Emits a 32-bit value into the code buffer.
     void Emit32(uint32_t value) noexcept {
         Emit(value);
