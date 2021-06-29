@@ -1071,8 +1071,14 @@ void Assembler::FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode) noexcept {
 // RVC Extension Instructions
 
 void Assembler::C_ADDI(GPR rd, int32_t imm) noexcept {
+    BISCUIT_ASSERT(imm != 0);
     BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
     EmitCompressedImmediate(0b000, imm, rd, 0b01);
+}
+
+void Assembler::C_ADDIW(GPR rd, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
+    EmitCompressedImmediate(0b001, imm, rd, 0b01);
 }
 
 void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {

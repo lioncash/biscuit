@@ -23,6 +23,24 @@ TEST_CASE("C.ADDI", "[rvc]") {
     REQUIRE(value == 0x07FD);
 }
 
+TEST_CASE("C.ADDIW", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_ADDIW(x15, -1);
+    REQUIRE(value == 0x37FD);
+
+    as.RewindBuffer();
+
+    as.C_ADDIW(x15, -32);
+    REQUIRE(value == 0x3781);
+
+    as.RewindBuffer();
+
+    as.C_ADDIW(x15, 31);
+    REQUIRE(value == 0x27FD);
+}
+
 TEST_CASE("C.ADDI4SPN", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
