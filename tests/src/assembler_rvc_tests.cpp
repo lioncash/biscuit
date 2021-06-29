@@ -30,6 +30,19 @@ TEST_CASE("C.FLD", "[rvc]") {
     REQUIRE(value == 0x2F9C);
 }
 
+TEST_CASE("C.LQ", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_LQ(f15, 16, x15);
+    REQUIRE(value == 0x2B9C);
+
+    as.RewindBuffer();
+
+    as.C_LQ(f15, 256, x15);
+    REQUIRE(value == 0x279C);
+}
+
 TEST_CASE("C.UNDEF", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
