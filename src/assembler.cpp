@@ -101,161 +101,151 @@ void Assembler::AUIPC(GPR rd, uint32_t imm) noexcept {
 
 void Assembler::BEQ(GPR rs1, GPR rs2, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BEQ(rs1, rs2, static_cast<uint32_t>(address));
+    BEQ(rs1, rs2, static_cast<int32_t>(address));
 }
 
 void Assembler::BEQZ(GPR rs, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BEQZ(rs, static_cast<uint32_t>(address));
+    BEQZ(rs, static_cast<int32_t>(address));
 }
 
 void Assembler::BGE(GPR rs1, GPR rs2, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BGE(rs1, rs2, static_cast<uint32_t>(address));
+    BGE(rs1, rs2, static_cast<int32_t>(address));
 }
 
 void Assembler::BGEU(GPR rs1, GPR rs2, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BGEU(rs1, rs2, static_cast<uint32_t>(address));
+    BGEU(rs1, rs2, static_cast<int32_t>(address));
 }
 
 void Assembler::BGEZ(GPR rs, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BGEZ(rs, static_cast<uint32_t>(address));
+    BGEZ(rs, static_cast<int32_t>(address));
 }
 
 void Assembler::BGT(GPR rs, GPR rt, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BGT(rs, rt, static_cast<uint32_t>(address));
+    BGT(rs, rt, static_cast<int32_t>(address));
 }
 
 void Assembler::BGTU(GPR rs, GPR rt, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BGTU(rs, rt, static_cast<uint32_t>(address));
+    BGTU(rs, rt, static_cast<int32_t>(address));
 }
 
 void Assembler::BGTZ(GPR rs, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BGTZ(rs, static_cast<uint32_t>(address));
+    BGTZ(rs, static_cast<int32_t>(address));
 }
 
 void Assembler::BLE(GPR rs, GPR rt, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BLE(rs, rt, static_cast<uint32_t>(address));
+    BLE(rs, rt, static_cast<int32_t>(address));
 }
 
 void Assembler::BLEU(GPR rs, GPR rt, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BLEU(rs, rt, static_cast<uint32_t>(address));
+    BLEU(rs, rt, static_cast<int32_t>(address));
 }
 
 void Assembler::BLEZ(GPR rs, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BLEZ(rs, static_cast<uint32_t>(address));
+    BLEZ(rs, static_cast<int32_t>(address));
 }
 
 void Assembler::BLT(GPR rs1, GPR rs2, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BLT(rs1, rs2, static_cast<uint32_t>(address));
+    BLT(rs1, rs2, static_cast<int32_t>(address));
 }
 
 void Assembler::BLTU(GPR rs1, GPR rs2, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BLTU(rs1, rs2, static_cast<uint32_t>(address));
+    BLTU(rs1, rs2, static_cast<int32_t>(address));
 }
 
 void Assembler::BLTZ(GPR rs, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BLTZ(rs, static_cast<uint32_t>(address));
+    BLTZ(rs, static_cast<int32_t>(address));
 }
 
 void Assembler::BNE(GPR rs1, GPR rs2, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BNE(rs1, rs2, static_cast<uint32_t>(address));
+    BNE(rs1, rs2, static_cast<int32_t>(address));
 }
 
 void Assembler::BNEZ(GPR rs, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidBTypeImm(address));
-    BNEZ(rs, static_cast<uint32_t>(address));
+    BNEZ(rs, static_cast<int32_t>(address));
 }
 
-void Assembler::BEQ(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-    EmitBType(imm, rs2, rs1, 0b000, 0b1100011);
+void Assembler::BEQ(GPR rs1, GPR rs2, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidBTypeImm(imm));
+    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b000, 0b1100011);
 }
 
-void Assembler::BEQZ(GPR rs, uint32_t imm) noexcept {
+void Assembler::BEQZ(GPR rs, int32_t imm) noexcept {
     BEQ(rs, x0, imm);
 }
 
-void Assembler::BGE(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-    EmitBType(imm, rs2, rs1, 0b101, 0b1100011);
+void Assembler::BGE(GPR rs1, GPR rs2, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidBTypeImm(imm));
+    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b101, 0b1100011);
 }
 
-void Assembler::BGEU(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-    EmitBType(imm, rs2, rs1, 0b111, 0b1100011);
+void Assembler::BGEU(GPR rs1, GPR rs2, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidBTypeImm(imm));
+    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b111, 0b1100011);
 }
 
-void Assembler::BGEZ(GPR rs, uint32_t imm) noexcept {
+void Assembler::BGEZ(GPR rs, int32_t imm) noexcept {
     BGE(rs, x0, imm);
 }
 
-void Assembler::BGT(GPR rs, GPR rt, uint32_t imm) noexcept {
+void Assembler::BGT(GPR rs, GPR rt, int32_t imm) noexcept {
     BLT(rt, rs, imm);
 }
 
-void Assembler::BGTU(GPR rs, GPR rt, uint32_t imm) noexcept {
+void Assembler::BGTU(GPR rs, GPR rt, int32_t imm) noexcept {
     BLTU(rt, rs, imm);
 }
 
-void Assembler::BGTZ(GPR rs, uint32_t imm) noexcept {
+void Assembler::BGTZ(GPR rs, int32_t imm) noexcept {
     BLT(x0, rs, imm);
 }
 
-void Assembler::BLE(GPR rs, GPR rt, uint32_t imm) noexcept {
+void Assembler::BLE(GPR rs, GPR rt, int32_t imm) noexcept {
     BGE(rt, rs, imm);
 }
 
-void Assembler::BLEU(GPR rs, GPR rt, uint32_t imm) noexcept {
+void Assembler::BLEU(GPR rs, GPR rt, int32_t imm) noexcept {
     BGEU(rt, rs, imm);
 }
 
-void Assembler::BLEZ(GPR rs, uint32_t imm) noexcept {
+void Assembler::BLEZ(GPR rs, int32_t imm) noexcept {
     BGE(x0, rs, imm);
 }
 
-void Assembler::BLT(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-    EmitBType(imm, rs2, rs1, 0b100, 0b1100011);
+void Assembler::BLT(GPR rs1, GPR rs2, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidBTypeImm(imm));
+    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b100, 0b1100011);
 }
 
-void Assembler::BLTU(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-    EmitBType(imm, rs2, rs1, 0b110, 0b1100011);
+void Assembler::BLTU(GPR rs1, GPR rs2, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidBTypeImm(imm));
+    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b110, 0b1100011);
 }
 
-void Assembler::BLTZ(GPR rs, uint32_t imm) noexcept {
+void Assembler::BLTZ(GPR rs, int32_t imm) noexcept {
     BLT(rs, x0, imm);
 }
 
-void Assembler::BNE(GPR rs1, GPR rs2, uint32_t imm) noexcept {
-    EmitBType(imm, rs2, rs1, 0b001, 0b1100011);
+void Assembler::BNE(GPR rs1, GPR rs2, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidBTypeImm(imm));
+    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b001, 0b1100011);
 }
 
-void Assembler::BNEZ(GPR rs, uint32_t imm) noexcept {
+void Assembler::BNEZ(GPR rs, int32_t imm) noexcept {
     BNE(x0, rs, imm);
 }
 

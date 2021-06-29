@@ -153,22 +153,22 @@ public:
     void BNE(GPR rs1, GPR rs2, Label* label) noexcept;
     void BNEZ(GPR rs, Label* label) noexcept;
 
-    void BEQ(GPR rs1, GPR rs2, uint32_t imm) noexcept;
-    void BEQZ(GPR rs, uint32_t imm) noexcept;
-    void BGE(GPR rs1, GPR rs2, uint32_t imm) noexcept;
-    void BGEU(GPR rs1, GPR rs2, uint32_t imm) noexcept;
-    void BGEZ(GPR rs, uint32_t imm) noexcept;
-    void BGT(GPR rs, GPR rt, uint32_t imm) noexcept;
-    void BGTU(GPR rs, GPR rt, uint32_t imm) noexcept;
-    void BGTZ(GPR rs, uint32_t imm) noexcept;
-    void BLE(GPR rs, GPR rt, uint32_t imm) noexcept;
-    void BLEU(GPR rs, GPR rt, uint32_t imm) noexcept;
-    void BLEZ(GPR rs, uint32_t imm) noexcept;
-    void BLT(GPR rs1, GPR rs2, uint32_t imm) noexcept;
-    void BLTU(GPR rs1, GPR rs2, uint32_t imm) noexcept;
-    void BLTZ(GPR rs, uint32_t imm) noexcept;
-    void BNE(GPR rs1, GPR rs2, uint32_t imm) noexcept;
-    void BNEZ(GPR rs, uint32_t imm) noexcept;
+    void BEQ(GPR rs1, GPR rs2, int32_t imm) noexcept;
+    void BEQZ(GPR rs, int32_t imm) noexcept;
+    void BGE(GPR rs1, GPR rs2, int32_t imm) noexcept;
+    void BGEU(GPR rs1, GPR rs2, int32_t imm) noexcept;
+    void BGEZ(GPR rs, int32_t imm) noexcept;
+    void BGT(GPR rs, GPR rt, int32_t imm) noexcept;
+    void BGTU(GPR rs, GPR rt, int32_t imm) noexcept;
+    void BGTZ(GPR rs, int32_t imm) noexcept;
+    void BLE(GPR rs, GPR rt, int32_t imm) noexcept;
+    void BLEU(GPR rs, GPR rt, int32_t imm) noexcept;
+    void BLEZ(GPR rs, int32_t imm) noexcept;
+    void BLT(GPR rs1, GPR rs2, int32_t imm) noexcept;
+    void BLTU(GPR rs1, GPR rs2, int32_t imm) noexcept;
+    void BLTZ(GPR rs, int32_t imm) noexcept;
+    void BNE(GPR rs1, GPR rs2, int32_t imm) noexcept;
+    void BNEZ(GPR rs, int32_t imm) noexcept;
 
     void EBREAK() noexcept;
     void ECALL() noexcept;

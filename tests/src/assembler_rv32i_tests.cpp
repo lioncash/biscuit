@@ -101,12 +101,7 @@ TEST_CASE("BEQ", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.BEQ(biscuit::x15, biscuit::x31, 4096);
-    REQUIRE(value == 0x81F78063);
-
-    as.RewindBuffer();
-
-    as.BEQ(biscuit::x15, biscuit::x31, 8191);
+    as.BEQ(biscuit::x15, biscuit::x31, -2);
     REQUIRE(value == 0xFFF78FE3);
 }
 
@@ -119,12 +114,7 @@ TEST_CASE("BGE", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.BGE(biscuit::x15, biscuit::x31, 4096);
-    REQUIRE(value == 0x81F7D063);
-
-    as.RewindBuffer();
-
-    as.BGE(biscuit::x15, biscuit::x31, 8191);
+    as.BGE(biscuit::x15, biscuit::x31, -2);
     REQUIRE(value == 0xFFF7DFE3);
 }
 
@@ -137,12 +127,7 @@ TEST_CASE("BGEU", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.BGEU(biscuit::x15, biscuit::x31, 4096);
-    REQUIRE(value == 0x81F7F063);
-
-    as.RewindBuffer();
-
-    as.BGEU(biscuit::x15, biscuit::x31, 8191);
+    as.BGEU(biscuit::x15, biscuit::x31, -2);
     REQUIRE(value == 0xFFF7FFE3);
 }
 
@@ -155,12 +140,7 @@ TEST_CASE("BNE", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.BNE(biscuit::x15, biscuit::x31, 4096);
-    REQUIRE(value == 0x81F79063);
-
-    as.RewindBuffer();
-
-    as.BNE(biscuit::x15, biscuit::x31, 8191);
+    as.BNE(biscuit::x15, biscuit::x31, -2);
     REQUIRE(value == 0xFFF79FE3);
 }
 
@@ -173,12 +153,7 @@ TEST_CASE("BLT", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.BLT(biscuit::x15, biscuit::x31, 4096);
-    REQUIRE(value == 0x81F7C063);
-
-    as.RewindBuffer();
-
-    as.BLT(biscuit::x15, biscuit::x31, 8191);
+    as.BLT(biscuit::x15, biscuit::x31, -2);
     REQUIRE(value == 0xFFF7CFE3);
 }
 
@@ -191,12 +166,7 @@ TEST_CASE("BLTU", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.BLTU(biscuit::x15, biscuit::x31, 4096);
-    REQUIRE(value == 0x81F7E063);
-
-    as.RewindBuffer();
-
-    as.BLTU(biscuit::x15, biscuit::x31, 8191);
+    as.BLTU(biscuit::x15, biscuit::x31, -2);
     REQUIRE(value == 0xFFF7EFE3);
 }
 
