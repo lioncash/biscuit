@@ -108,6 +108,14 @@ TEST_CASE("C.LW", "[rvc]") {
     REQUIRE(value == 0x4F9C);
 }
 
+TEST_CASE("C.NOP", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_NOP();
+    REQUIRE(value == 0x0001);
+}
+
 TEST_CASE("C.SD", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

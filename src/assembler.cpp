@@ -1076,6 +1076,10 @@ void Assembler::C_LW(GPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b010, new_imm, rs, rd, 0b00);
 }
 
+void Assembler::C_NOP() noexcept {
+    m_buffer.Emit16(1);
+}
+
 void Assembler::C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     EmitCompressedLoad(0b111, imm, rs1, rs2, 0b00);
 }
