@@ -301,24 +301,28 @@ void Assembler::JAL(GPR rd, Label* label) noexcept {
     JAL(rd, static_cast<uint32_t>(address));
 }
 
-void Assembler::J(uint32_t imm) noexcept {
+void Assembler::J(int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidJTypeImm(imm));
     JAL(x0, imm);
 }
 
-void Assembler::JAL(uint32_t imm) noexcept {
+void Assembler::JAL(int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidJTypeImm(imm));
     EmitJType(imm, x1, 0b1101111);
 }
 
-void Assembler::JAL(GPR rd, uint32_t imm) noexcept {
-    EmitJType(imm, rd, 0b1101111);
+void Assembler::JAL(GPR rd, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidJTypeImm(imm));
+    EmitJType(static_cast<uint32_t>(imm), rd, 0b1101111);
 }
 
 void Assembler::JALR(GPR rs) noexcept {
     JALR(x1, 0, rs);
 }
 
-void Assembler::JALR(GPR rd, uint32_t imm, GPR rs1) noexcept {
-    EmitIType(imm, rs1, 0b000, rd, 0b1100111);
+void Assembler::JALR(GPR rd, int32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsValidJTypeImm(imm));
+    EmitIType(static_cast<uint32_t>(imm), rs1, 0b000, rd, 0b1100111);
 }
 
 void Assembler::JR(GPR rs) noexcept {

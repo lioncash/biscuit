@@ -182,11 +182,11 @@ public:
     void JAL(Label* label) noexcept;
     void JAL(GPR rd, Label* label) noexcept;
 
-    void J(uint32_t imm) noexcept;
-    void JAL(uint32_t imm) noexcept;
-    void JAL(GPR rd, uint32_t imm) noexcept;
+    void J(int32_t imm) noexcept;
+    void JAL(int32_t imm) noexcept;
+    void JAL(GPR rd, int32_t imm) noexcept;
     void JALR(GPR rs) noexcept;
-    void JALR(GPR rd, uint32_t imm, GPR rs1) noexcept;
+    void JALR(GPR rd, int32_t imm, GPR rs1) noexcept;
     void JR(GPR rs) noexcept;
 
     void LB(GPR rd, uint32_t imm, GPR rs) noexcept;
