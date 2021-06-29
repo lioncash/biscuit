@@ -21,6 +21,16 @@ TEST_CASE("Branch to Self", "[branch]") {
 
     as.RewindBuffer();
 
+    // Simple branch to self with a compressed jump instruction.
+    {
+        Label label;
+        as.Bind(&label);
+        as.C_J(&label);
+        REQUIRE((data & 0xFFFF) == 0xA001);
+    }
+
+    as.RewindBuffer();
+
     // Simple branch to self with a conditional branch instruction.
     {
         Label label;
@@ -45,6 +55,7 @@ TEST_CASE("Branch with Instructions Between", "[branch]") {
     }
 
     as.RewindBuffer();
+    data.fill(0);
 
     // Simple branch forward
     {
@@ -54,5 +65,31 @@ TEST_CASE("Branch with Instructions Between", "[branch]") {
         as.SUB(x2, x4, x3);
         as.Bind(&label);
         REQUIRE(data[0] == 0x00C0006F);
+    }
+
+    as.RewindBuffer();
+    data.fill(0);
+
+    // Simple branch backward (compressed)
+    {
+        Label label;
+        as.Bind(&label);
+        as.ADD(x1, x2, x3);
+        as.SUB(x2, x4, x3);
+        as.C_J(&label);
+        REQUIRE((data[2] & 0xFFFF) == 0xBFC5);
+    }
+
+    as.RewindBuffer();
+    data.fill(0);
+
+    // Simple branch forward (compressed)
+    {
+        Label label;
+        as.C_J(&label);
+        as.ADD(x1, x2, x3);
+        as.SUB(x2, x4, x3);
+        as.Bind(&label);
+        REQUIRE((data[0] & 0xFFFF) == 0xA0A1);
     }
 }

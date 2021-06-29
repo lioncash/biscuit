@@ -5,18 +5,28 @@
 
 namespace biscuit {
 
-// B-type immediates only provide ~4KB branches.
-static bool IsValidBTypeImm(ptrdiff_t value) noexcept {
+// B-type immediates only provide ~4KiB range branches.
+[[nodiscard]] static bool IsValidBTypeImm(ptrdiff_t value) noexcept {
     return value >= -2048 && value <= 2047;
 }
 
-// J-type immediates only provide ~1MB length branches.
-static bool IsValidJTypeImm(ptrdiff_t value) noexcept {
+// J-type immediates only provide ~1MiB range branches.
+[[nodiscard]] static bool IsValidJTypeImm(ptrdiff_t value) noexcept {
     return value >= -0x80000 && value <= 0x7FFFF;
 }
 
+// CB-type immediates only provide ~256B range branches
+[[nodiscard]] static bool IsValidCBTypeImm(ptrdiff_t value) noexcept {
+    return value >= -256 && value <= 255;
+}
+
+// CJ-type immediates only provide ~2KiB range branches.
+[[nodiscard]] static bool IsValidCJTypeImm(ptrdiff_t value) noexcept {
+    return value >= -1024 && value <= 1023;
+}
+
 // Transforms a regular value into an immediate encoded in a B-type instruction.
-static uint32_t TransformToBTypeImm(uint32_t imm) noexcept {
+[[nodiscard]] static uint32_t TransformToBTypeImm(uint32_t imm) noexcept {
     // clang-format off
     return ((imm & 0x07E0) << 20) |
            ((imm & 0x1000) << 19) |
@@ -26,7 +36,7 @@ static uint32_t TransformToBTypeImm(uint32_t imm) noexcept {
 }
 
 // Transforms a regular value into an immediate encoded in a J-type instruction.
-static uint32_t TransformToJTypeImm(uint32_t imm) noexcept {
+[[nodiscard]] static uint32_t TransformToJTypeImm(uint32_t imm) noexcept {
     // clang-format off
     return ((imm & 0x0FF000) >> 0) |
            ((imm & 0x000800) << 9) |
@@ -35,8 +45,33 @@ static uint32_t TransformToJTypeImm(uint32_t imm) noexcept {
     // clang-format on
 }
 
+// Transforms a regular value into an immediate encoded in a CB-type instruction.
+[[nodiscard]] static uint32_t TransformToCBTypeImm(uint32_t imm) noexcept {
+    // clang-format off
+    return ((imm & 0x0C0) >> 1) |
+           ((imm & 0x006) << 2) |
+           ((imm & 0x020) >> 3) |
+           ((imm & 0x018) << 7) |
+           ((imm & 0x100) << 4);
+    // clang-format on
+}
+
+// Transforms a regular value into an immediate encoded in a CJ-type instruction.
+[[nodiscard]] static uint32_t TransformToCJTypeImm(uint32_t imm) noexcept {
+    // clang-format off
+    return ((imm & 0x800) << 1) |
+           ((imm & 0x010) << 7) |
+           ((imm & 0x300) << 1) |
+           ((imm & 0x400) >> 2) |
+           ((imm & 0x040) << 1) |
+           ((imm & 0x080) >> 1) |
+           ((imm & 0x00E) << 4) |
+           ((imm & 0x020) >> 3);
+    // clang-format on
+}
+
 // Determines if a value lies within the range of a 6-bit immediate.
-static bool IsValid6BitSignedImm(int32_t value) noexcept {
+[[nodiscard]] static bool IsValid6BitSignedImm(int32_t value) noexcept {
     return value >= -32 && value <= 31;
 }
 
@@ -1065,6 +1100,26 @@ void Assembler::C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept {
     EmitCompressedStore(0b101, imm, rs1, rs2, 0b00);
 }
 
+void Assembler::C_J(Label* label) noexcept {
+    const auto address = LinkAndGetOffset(label);
+    BISCUIT_ASSERT(IsValidCJTypeImm(address));
+    C_J(static_cast<int32_t>(address));
+}
+
+void Assembler::C_J(int32_t offset) noexcept {
+    EmitCompressedJump(0b101, offset, 0b01);
+}
+
+void Assembler::C_JAL(Label* label) noexcept {
+    const auto address = LinkAndGetOffset(label);
+    BISCUIT_ASSERT(IsValidCJTypeImm(address));
+    C_JAL(static_cast<int32_t>(address));
+}
+
+void Assembler::C_JAL(int32_t offset) noexcept {
+    EmitCompressedJump(0b001, offset, 0b01);
+}
+
 void Assembler::C_FSW(FPR rs2, uint32_t imm, GPR rs1) noexcept {
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
@@ -1177,13 +1232,18 @@ void Assembler::EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs,
     // clang-format on
 }
 
-static bool IsValid3BitCompressedReg(Register reg) noexcept {
+[[nodiscard]] static bool IsValid3BitCompressedReg(Register reg) noexcept {
     const auto index = reg.Index();
     return index >= 8 && index <= 15;
 }
 
-static uint32_t CompressedRegTo3BitEncoding(Register reg) noexcept {
+[[nodiscard]] static uint32_t CompressedRegTo3BitEncoding(Register reg) noexcept {
     return reg.Index() - 8;
+}
+
+void Assembler::EmitCompressedJump(uint32_t funct3, int32_t offset, uint32_t op) noexcept {
+    BISCUIT_ASSERT(IsValidCJTypeImm(offset));
+    m_buffer.Emit16(TransformToCJTypeImm(static_cast<uint32_t>(offset)) | ((funct3 & 0b111) << 13) | (op & 0b11));
 }
 
 void Assembler::EmitCompressedImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
@@ -1253,18 +1313,37 @@ void Assembler::ResolveLabelOffsets(Label* label) {
     const auto is_j_type = [](uint32_t instruction) {
         return (instruction & 0x7F) == 0b1101111;
     };
+    // C.BEQZ and C.BNEZ make use of this encoding type.
+    const auto is_cb_type = [](uint32_t instruction) {
+        const auto op = instruction & 0b11;
+        const auto funct3 = instruction & 0xE000;
+        return op == 0b01 && funct3 >= 0xC000;
+    };
+    // C.JAL and C.J make use of this encoding type.
+    const auto is_cj_type = [](uint32_t instruction) {
+        const auto op = instruction & 0b11;
+        const auto funct3 = instruction & 0xE000;
+        return op == 0b01 && (funct3 == 0x2000 || funct3 == 0xA000);
+    };
+    // If we know an instruction is a compressed branch, then it's a 16-bit instruction
+    // Otherwise it's a regular-sized 32-bit instruction.
+    const auto determine_inst_size = [&](uint32_t instruction) -> size_t {
+        if (is_cj_type(instruction) || is_cb_type(instruction)) {
+            return 2;
+        } else {
+            return 4;
+        }
+    };
 
     const auto label_location = *label->GetLocation();
 
     for (const auto offset : label->m_offsets) {
         const auto address = m_buffer.GetOffsetAddress(offset);
         auto* const ptr = reinterpret_cast<uint8_t*>(address);
+        const auto inst_size = determine_inst_size(uint32_t{*ptr} | (uint32_t{*(ptr + 1)} << 8));
 
-        // TODO: Note that this needs to be adjusted to compensate for
-        //       RISC-V compressed branch instructions, which are 16-bit,
-        //       not 32-bit.
         uint32_t instruction = 0;
-        std::memcpy(&instruction, ptr, sizeof(instruction));
+        std::memcpy(&instruction, ptr, inst_size);
 
         // Given all branch instructions we need to patch have 0 encoded as
         // their branch offset, we don't need to worry about any masking work.
@@ -1274,15 +1353,25 @@ void Assembler::ResolveLabelOffsets(Label* label) {
 
         const auto encoded_offset = label_location - offset;
 
-        if (is_b_type(instruction)) {
-            BISCUIT_ASSERT(IsValidBTypeImm(encoded_offset));
-            instruction |= TransformToBTypeImm(static_cast<uint32_t>(encoded_offset));
-        } else if (is_j_type(instruction)) {
-            BISCUIT_ASSERT(IsValidJTypeImm(encoded_offset));
-            instruction |= TransformToJTypeImm(static_cast<uint32_t>(encoded_offset));
+        if (inst_size == sizeof(uint32_t)) {
+            if (is_b_type(instruction)) {
+                BISCUIT_ASSERT(IsValidBTypeImm(encoded_offset));
+                instruction |= TransformToBTypeImm(static_cast<uint32_t>(encoded_offset));
+            } else if (is_j_type(instruction)) {
+                BISCUIT_ASSERT(IsValidJTypeImm(encoded_offset));
+                instruction |= TransformToJTypeImm(static_cast<uint32_t>(encoded_offset));
+            }
+        } else {
+            if (is_cb_type(instruction)) {
+                BISCUIT_ASSERT(IsValidCBTypeImm(encoded_offset));
+                instruction |= TransformToCBTypeImm(static_cast<uint32_t>(encoded_offset));
+            } else if (is_cj_type(instruction)) {
+                BISCUIT_ASSERT(IsValidCJTypeImm(encoded_offset));
+                instruction |= TransformToCJTypeImm(static_cast<uint32_t>(encoded_offset));
+            }
         }
 
-        std::memcpy(ptr, &instruction, sizeof(uint32_t));
+        std::memcpy(ptr, &instruction, inst_size);
     }
 }
 

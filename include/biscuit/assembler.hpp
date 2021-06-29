@@ -486,6 +486,10 @@ public:
     void C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept;
     void C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_FSW(FPR rs2, uint32_t imm, GPR rs1) noexcept;
+    void C_J(int32_t offset) noexcept;
+    void C_J(Label* label) noexcept;
+    void C_JAL(Label* label) noexcept;
+    void C_JAL(int32_t offset) noexcept;
     void C_LD(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_LW(GPR rd, uint32_t imm, GPR rs) noexcept;
@@ -533,6 +537,10 @@ private:
 
     // Emits a fence instruction
     void EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept;
+
+    // Emits a compressed jump instruction. These consist of:
+    // funct3 | imm | op
+    void EmitCompressedJump(uint32_t funct3, int32_t offset, uint32_t op) noexcept;
 
     // Emits a compress immediate instruction. These consist of:
     // funct3 | imm | rd | imm | op
