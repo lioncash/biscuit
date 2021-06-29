@@ -35,6 +35,11 @@ static uint32_t TransformToJTypeImm(uint32_t imm) noexcept {
     // clang-format on
 }
 
+// Determines if a value lies within the range of a 6-bit immediate.
+static bool IsValid6BitSignedImm(int32_t value) noexcept {
+    return value >= -32 && value <= 31;
+}
+
 void Assembler::Bind(Label* label) {
     BindToOffset(label, m_buffer.GetCursorOffset());
 }
@@ -1036,7 +1041,13 @@ void Assembler::FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode) noexcept {
 
 // RVC Extension Instructions
 
+void Assembler::C_ADDI(GPR rd, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
+    EmitCompressedImmediate(0b000, imm, rd, 0b01);
+}
+
 void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm != 0);
     EmitCompressedWideImmediate(0b000, imm, rd, 0b00);
 }
 
@@ -1173,6 +1184,12 @@ static bool IsValid3BitCompressedReg(Register reg) noexcept {
 
 static uint32_t CompressedRegTo3BitEncoding(Register reg) noexcept {
     return reg.Index() - 8;
+}
+
+void Assembler::EmitCompressedImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
+    BISCUIT_ASSERT(rd != x0);
+    const auto new_imm = ((imm & 0b11111) << 2) | ((imm & 0b100000) << 7);
+    m_buffer.Emit16(((funct3 & 0b111) << 13) | new_imm | (rd.Index() << 7) | (op & 0b11));
 }
 
 void Assembler::EmitCompressedLoad(uint32_t funct3, uint32_t imm, GPR rs, Register rd, uint32_t op) noexcept {

@@ -480,6 +480,7 @@ public:
 
     // RVC Extension Instructions
 
+    void C_ADDI(GPR rd, int32_t imm) noexcept;
     void C_ADDI4SPN(GPR rd, uint32_t imm) noexcept;
     void C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept;
     void C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept;
@@ -532,6 +533,10 @@ private:
 
     // Emits a fence instruction
     void EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept;
+
+    // Emits a compress immediate instruction. These consist of:
+    // funct3 | imm | rd | imm | op
+    void EmitCompressedImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept;
 
     // Emits a compressed load instruction. These consist of:
     // funct3 | imm | rs1 | imm | rd | op
