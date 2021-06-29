@@ -1130,6 +1130,11 @@ void Assembler::C_LD(GPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b011, imm, rs, rd, 0b00);
 }
 
+void Assembler::C_LI(GPR rd, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
+    EmitCompressedImmediate(0b010, imm, rd, 0b01);
+}
+
 void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
     imm &= 0x1F0;
     const auto new_imm = ((imm & 0x100) >> 5) | (imm & 0xF0);

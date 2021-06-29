@@ -119,6 +119,24 @@ TEST_CASE("C.LD", "[rvc]") {
     REQUIRE(value == 0x6F9C);
 }
 
+TEST_CASE("C.LI", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_LI(x15, -1);
+    REQUIRE(value == 0x57FD);
+
+    as.RewindBuffer();
+
+    as.C_LI(x15, -32);
+    REQUIRE(value == 0x5781);
+
+    as.RewindBuffer();
+
+    as.C_LI(x15, 31);
+    REQUIRE(value == 0x47FD);
+}
+
 TEST_CASE("C.LQ", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
