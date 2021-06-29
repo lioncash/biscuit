@@ -1156,6 +1156,14 @@ void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b001, new_imm, rs, rd, 0b00);
 }
 
+void Assembler::C_LUI(GPR rd, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm != 0);
+    BISCUIT_ASSERT(rd != x0 && rd != x2);
+
+    const auto new_imm = (imm & 0x3F000) >> 12;
+    EmitCompressedImmediate(0b011, new_imm, rd, 0b01);
+}
+
 void Assembler::C_LW(GPR rd, uint32_t imm, GPR rs) noexcept {
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);

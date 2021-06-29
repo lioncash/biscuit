@@ -163,6 +163,19 @@ TEST_CASE("C.LQ", "[rvc]") {
     REQUIRE(value == 0x279C);
 }
 
+TEST_CASE("C.LUI", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_LUI(x15, 0x3F000);
+    REQUIRE(value == 0x77FD);
+
+    as.RewindBuffer();
+
+    as.C_LUI(x15, 0x0F000);
+    REQUIRE(value == 0x67BD);
+}
+
 TEST_CASE("C.LW", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
