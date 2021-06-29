@@ -54,6 +54,19 @@ TEST_CASE("C.ADDI4SPN", "[rvc]") {
     REQUIRE(value == 0x1FE0);
 }
 
+TEST_CASE("C.ADDI16SP", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_ADDI16SP(16);
+    REQUIRE(value == 0x6141);
+
+    as.RewindBuffer();
+
+    as.C_ADDI16SP(64);
+    REQUIRE(value == 0x6121);
+}
+
 TEST_CASE("C.FLD", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

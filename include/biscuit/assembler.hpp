@@ -483,6 +483,7 @@ public:
     void C_ADDI(GPR rd, int32_t imm) noexcept;
     void C_ADDIW(GPR rd, int32_t imm) noexcept;
     void C_ADDI4SPN(GPR rd, uint32_t imm) noexcept;
+    void C_ADDI16SP(int32_t imm) noexcept;
     void C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept;
     void C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept;
     void C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept;

@@ -1086,6 +1086,21 @@ void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
     EmitCompressedWideImmediate(0b000, imm, rd, 0b00);
 }
 
+void Assembler::C_ADDI16SP(int32_t imm) noexcept {
+    BISCUIT_ASSERT(imm != 0);
+
+    // clang-format off
+    const auto uimm = static_cast<uint32_t>(imm);
+    const auto new_imm = ((uimm & 0x020) >> 3) |
+                         ((uimm & 0x180) >> 4) |
+                         ((uimm & 0x040) >> 1) |
+                         ((uimm & 0x010) << 2) |
+                         ((uimm & 0x200) << 3);
+    // clang-format on
+
+    m_buffer.Emit16(0x6000U | new_imm | (x2.Index() << 7) | 0b01U);
+}
+
 void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b001, imm, rs, rd, 0b00);
 }
