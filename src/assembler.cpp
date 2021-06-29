@@ -1044,6 +1044,12 @@ void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b001, imm, rs, rd, 0b00);
 }
 
+void Assembler::C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept {
+    imm &= 0x7C;
+    const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
+    EmitCompressedLoad(0b011, new_imm, rs, rd, 0b00);
+}
+
 void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
     imm &= 0x1F0;
     const auto new_imm = ((imm & 0x100) >> 5) | (imm & 0xF0);
