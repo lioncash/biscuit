@@ -1054,6 +1054,12 @@ void Assembler::C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept {
     EmitCompressedStore(0b101, imm, rs1, rs2, 0b00);
 }
 
+void Assembler::C_FSW(FPR rs2, uint32_t imm, GPR rs1) noexcept {
+    imm &= 0x7C;
+    const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
+    EmitCompressedStore(0b111, new_imm, rs1, rs2, 0b00);
+}
+
 void Assembler::C_LD(GPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b011, imm, rs, rd, 0b00);
 }
