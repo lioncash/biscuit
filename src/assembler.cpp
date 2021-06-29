@@ -1040,6 +1040,10 @@ void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
     EmitCompressedWideImmediate(0b000, imm, rd, 0b00);
 }
 
+void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
+    EmitCompressedLoad(0b001, imm, rs, rd, 0b00);
+}
+
 void Assembler::C_UNDEF() noexcept {
     m_buffer.Emit16(0);
 }
@@ -1110,11 +1114,30 @@ void Assembler::EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs,
     // clang-format on
 }
 
-void Assembler::EmitCompressedWideImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
-    const auto rd_index = rd.Index();
-    BISCUIT_ASSERT(rd_index >= 8 && rd_index <= 15);
+static bool IsValidCompressedReg(Register reg) noexcept {
+    const auto index = reg.Index();
+    return index >= 8 && index <= 15;
+}
 
-    const auto rd_sanitized = rd_index - 8;
+static uint32_t CompressedRegToEncoding(Register reg) noexcept {
+    return reg.Index() - 8;
+}
+
+void Assembler::EmitCompressedLoad(uint32_t funct3, uint32_t imm, GPR rs, Register rd, uint32_t op) noexcept {
+    BISCUIT_ASSERT(IsValidCompressedReg(rs));
+    BISCUIT_ASSERT(IsValidCompressedReg(rd));
+
+    imm &= 0xF8;
+
+    const auto imm_enc = ((imm & 0x38) << 7) | ((imm & 0xC0) >> 1);
+    const auto rd_san = CompressedRegToEncoding(rd);
+    const auto rs_san = CompressedRegToEncoding(rs);
+    m_buffer.Emit16(((funct3 & 0b111) << 13) | imm_enc | (rs_san << 7) | (rd_san << 2) | (op & 0b11));
+}
+
+void Assembler::EmitCompressedWideImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
+    BISCUIT_ASSERT(IsValidCompressedReg(rd));
+    const auto rd_sanitized = CompressedRegToEncoding(rd);
     m_buffer.Emit16(((funct3 & 0b111) << 13) | ((imm & 0xFF) << 5) | (rd_sanitized << 2) | (op & 0b11));
 }
 
