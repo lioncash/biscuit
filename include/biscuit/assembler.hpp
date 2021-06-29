@@ -130,7 +130,7 @@ public:
     // RV32I Instructions
 
     void ADD(GPR rd, GPR lhs, GPR rhs) noexcept;
-    void ADDI(GPR rd, GPR rs, uint32_t imm) noexcept;
+    void ADDI(GPR rd, GPR rs, int32_t imm) noexcept;
     void AND(GPR rd, GPR lhs, GPR rhs) noexcept;
     void ANDI(GPR rd, GPR rs, uint32_t imm) noexcept;
 
@@ -239,7 +239,7 @@ public:
 
     // RV64I Base Instruction Set
 
-    void ADDIW(GPR rd, GPR rs, uint32_t imm) noexcept;
+    void ADDIW(GPR rd, GPR rs, int32_t imm) noexcept;
     void ADDW(GPR rd, GPR lhs, GPR rhs) noexcept;
     void LD(GPR rd, uint32_t imm, GPR rs) noexcept;
     void LWU(GPR rd, GPR rs, uint32_t imm) noexcept;

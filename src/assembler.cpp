@@ -83,8 +83,8 @@ void Assembler::ADD(GPR rd, GPR lhs, GPR rhs) noexcept {
     EmitRType(0b0000000, rhs, lhs, 0b000, rd, 0b0110011);
 }
 
-void Assembler::ADDI(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(imm, rs, 0b000, rd, 0b0010011);
+void Assembler::ADDI(GPR rd, GPR rs, int32_t imm) noexcept {
+    EmitIType(static_cast<uint32_t>(imm), rs, 0b000, rd, 0b0010011);
 }
 
 void Assembler::AND(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -467,8 +467,8 @@ void Assembler::XORI(GPR rd, GPR rs, uint32_t imm) noexcept {
 
 // RV64I Instructions
 
-void Assembler::ADDIW(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(imm, rs, 0b000, rd, 0b0011011);
+void Assembler::ADDIW(GPR rd, GPR rs, int32_t imm) noexcept {
+    EmitIType(static_cast<uint32_t>(imm), rs, 0b000, rd, 0b0011011);
 }
 
 void Assembler::ADDW(GPR rd, GPR lhs, GPR rhs) noexcept {
