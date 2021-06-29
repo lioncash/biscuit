@@ -1195,6 +1195,17 @@ void Assembler::C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     EmitCompressedStore(0b101, new_imm, rs1, rs2, 0b00);
 }
 
+void Assembler::C_SRAI(GPR rd, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
+    BISCUIT_ASSERT(shift != 0);
+
+    constexpr auto base = 0x8401U;
+    const auto shift_enc = ((shift & 0b11111) << 2) | ((shift & 0b100000) << 7);
+    const auto reg = CompressedRegTo3BitEncoding(rd);
+
+    m_buffer.Emit16(base | shift_enc | (reg << 7));
+}
+
 void Assembler::C_SRLI(GPR rd, uint32_t shift) noexcept {
     BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
     BISCUIT_ASSERT(shift != 0);

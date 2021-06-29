@@ -223,6 +223,19 @@ TEST_CASE("C.SQ", "[rvc]") {
     REQUIRE(value == 0xA79C);
 }
 
+TEST_CASE("C.SRAI", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_SRAI(x15, 16);
+    REQUIRE(value == 0x87C1);
+
+    as.RewindBuffer();
+
+    as.C_SRAI(x15, 31);
+    REQUIRE(value == 0x87FD);
+}
+
 TEST_CASE("C.SRLI", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

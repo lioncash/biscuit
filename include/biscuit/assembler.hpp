@@ -500,6 +500,7 @@ public:
     void C_NOP() noexcept;
     void C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept;
+    void C_SRAI(GPR rd, uint32_t shift) noexcept;
     void C_SRLI(GPR rd, uint32_t shift) noexcept;
     void C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_UNDEF() noexcept;
