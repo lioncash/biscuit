@@ -488,6 +488,7 @@ public:
     void C_LD(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_LW(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_UNDEF() noexcept;

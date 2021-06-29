@@ -108,6 +108,19 @@ TEST_CASE("C.LW", "[rvc]") {
     REQUIRE(value == 0x4F9C);
 }
 
+TEST_CASE("C.SD", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_SD(x15, 8, x15);
+    REQUIRE(value == 0xE79C);
+
+    as.RewindBuffer();
+
+    as.C_SD(x15, 24, x15);
+    REQUIRE(value == 0xEF9C);
+}
+
 TEST_CASE("C.SQ", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
