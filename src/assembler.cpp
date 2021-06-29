@@ -15,7 +15,7 @@ namespace biscuit {
     return value >= -0x80000 && value <= 0x7FFFF;
 }
 
-// CB-type immediates only provide ~256B range branches
+// CB-type immediates only provide ~256B range branches.
 [[nodiscard]] static bool IsValidCBTypeImm(ptrdiff_t value) noexcept {
     return value >= -256 && value <= 255;
 }
@@ -23,6 +23,17 @@ namespace biscuit {
 // CJ-type immediates only provide ~2KiB range branches.
 [[nodiscard]] static bool IsValidCJTypeImm(ptrdiff_t value) noexcept {
     return value >= -1024 && value <= 1023;
+}
+
+// Determines whether or not the register fits in 3-bit compressed encoding.
+[[nodiscard]] static bool IsValid3BitCompressedReg(Register reg) noexcept {
+    const auto index = reg.Index();
+    return index >= 8 && index <= 15;
+}
+
+// Turns a compressed register into its encoding.
+[[nodiscard]] static uint32_t CompressedRegTo3BitEncoding(Register reg) noexcept {
+    return reg.Index() - 8;
 }
 
 // Transforms a regular value into an immediate encoded in a B-type instruction.
@@ -1184,6 +1195,17 @@ void Assembler::C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     EmitCompressedStore(0b101, new_imm, rs1, rs2, 0b00);
 }
 
+void Assembler::C_SRLI(GPR rd, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
+    BISCUIT_ASSERT(shift != 0);
+
+    constexpr auto base = 0x8001U;
+    const auto shift_enc = ((shift & 0b11111) << 2) | ((shift & 0b100000) << 7);
+    const auto reg = CompressedRegTo3BitEncoding(rd);
+
+    m_buffer.Emit16(base | shift_enc | (reg << 7));
+}
+
 void Assembler::C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
@@ -1258,15 +1280,6 @@ void Assembler::EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs,
                     (rd.Index() << 7) |
                     (opcode & 0x7F));
     // clang-format on
-}
-
-[[nodiscard]] static bool IsValid3BitCompressedReg(Register reg) noexcept {
-    const auto index = reg.Index();
-    return index >= 8 && index <= 15;
-}
-
-[[nodiscard]] static uint32_t CompressedRegTo3BitEncoding(Register reg) noexcept {
-    return reg.Index() - 8;
 }
 
 void Assembler::EmitCompressedJump(uint32_t funct3, int32_t offset, uint32_t op) noexcept {
