@@ -1112,6 +1112,16 @@ void Assembler::C_ADDI16SP(int32_t imm) noexcept {
     m_buffer.Emit16(0x6000U | new_imm | (x2.Index() << 7) | 0b01U);
 }
 
+void Assembler::C_ANDI(GPR rd, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
+
+    constexpr auto base = 0x8801U;
+    const auto shift_enc = ((imm & 0b11111) << 2) | ((imm & 0b100000) << 7);
+    const auto reg = CompressedRegTo3BitEncoding(rd);
+
+    m_buffer.Emit16(base | shift_enc | (reg << 7));
+}
+
 void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b001, imm, rs, rd, 0b00);
 }
