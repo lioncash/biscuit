@@ -483,7 +483,8 @@ public:
     void C_ADDI4SPN(GPR rd, uint32_t imm) noexcept;
     void C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept;
     void C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept;
-    void C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void C_LD(GPR rd, uint32_t imm, GPR rs) noexcept;
+	void C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_LW(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_UNDEF() noexcept;
 
