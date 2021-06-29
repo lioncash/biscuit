@@ -483,8 +483,9 @@ public:
     void C_ADDI4SPN(GPR rd, uint32_t imm) noexcept;
     void C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept;
     void C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept;
+    void C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_LD(GPR rd, uint32_t imm, GPR rs) noexcept;
-	void C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_LW(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_UNDEF() noexcept;
 
@@ -530,6 +531,10 @@ private:
     // Emits a compressed load instruction. These consist of:
     // funct3 | imm | rs1 | imm | rd | op
     void EmitCompressedLoad(uint32_t funct3, uint32_t imm, GPR rs, Register rd, uint32_t op) noexcept;
+
+    // Emits a compressed store instruction. These consist of:
+    // funct3 | imm | rs1 | imm | rs2 | op
+    void EmitCompressedStore(uint32_t funct3, uint32_t imm, GPR rs1, Register rs2, uint32_t op) noexcept;
 
     // Emits a compressed wide immediate instruction. These consist of:
     // funct3 | imm | rd | opcode

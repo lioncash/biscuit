@@ -1050,6 +1050,10 @@ void Assembler::C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b011, new_imm, rs, rd, 0b00);
 }
 
+void Assembler::C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept {
+    EmitCompressedStore(0b101, imm, rs1, rs2, 0b00);
+}
+
 void Assembler::C_LD(GPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b011, imm, rs, rd, 0b00);
 }
@@ -1155,6 +1159,12 @@ void Assembler::EmitCompressedLoad(uint32_t funct3, uint32_t imm, GPR rs, Regist
     const auto rd_san = CompressedRegTo3BitEncoding(rd);
     const auto rs_san = CompressedRegTo3BitEncoding(rs);
     m_buffer.Emit16(((funct3 & 0b111) << 13) | imm_enc | (rs_san << 7) | (rd_san << 2) | (op & 0b11));
+}
+
+void Assembler::EmitCompressedStore(uint32_t funct3, uint32_t imm, GPR rs1, Register rs2, uint32_t op) noexcept {
+    // This has the same format as a compressed load, with rs2 taking the place of rd.
+    // We can reuse the code we've already written to handle this.
+    EmitCompressedLoad(funct3, imm, rs1, rs2, op);
 }
 
 void Assembler::EmitCompressedWideImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
