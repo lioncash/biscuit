@@ -491,6 +491,7 @@ public:
     void C_BEQZ(GPR rs, Label* label) noexcept;
     void C_BNEZ(GPR rs, int32_t offset) noexcept;
     void C_BNEZ(GPR rs, Label* label) noexcept;
+    void C_EBREAK() noexcept;
     void C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept;
     void C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept;
     void C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept;

@@ -106,6 +106,14 @@ TEST_CASE("C.ANDI", "[rvc]") {
     REQUIRE(value == 0x8BFD);
 }
 
+TEST_CASE("C.EBREAK", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_EBREAK();
+    REQUIRE(value == 0x9002);
+}
+
 TEST_CASE("C.FLD", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

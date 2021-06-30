@@ -1148,6 +1148,10 @@ void Assembler::C_BNEZ(GPR rs, Label* label) noexcept {
     C_BNEZ(rs, static_cast<int32_t>(address));
 }
 
+void Assembler::C_EBREAK() noexcept {
+    m_buffer.Emit16(0x9002);
+}
+
 void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b001, imm, rs, rd, 0b00);
 }
