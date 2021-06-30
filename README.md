@@ -2,7 +2,10 @@
 
 *RISC it for the biscuit*
 
-An experimental runtime code generator for RISC-V. Emphasis on the experimental part.
+An experimental runtime code generator for RISC-V.
+
+This allows for runtime code generation of RISC-V instructions. Similar
+to how [Xbyak](https://github.com/herumi/xbyak) allows for runtime code generation of x86 instructions.
 
 
 ## Implemented Extension Instructions
