@@ -519,6 +519,7 @@ public:
     void C_NOP() noexcept;
     void C_OR(GPR rd, GPR rs) noexcept;
     void C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept;
+    void C_SDSP(GPR rs, uint32_t imm) noexcept;
     void C_SLLI(GPR rd, uint32_t shift) noexcept;
     void C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_SQSP(GPR rs, uint32_t imm) noexcept;
