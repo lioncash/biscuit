@@ -506,6 +506,7 @@ public:
     void C_SRAI(GPR rd, uint32_t shift) noexcept;
     void C_SRLI(GPR rd, uint32_t shift) noexcept;
     void C_SUB(GPR rd, GPR rs) noexcept;
+    void C_SUBW(GPR rd, GPR rs) noexcept;
     void C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_UNDEF() noexcept;
     void C_XOR(GPR rd, GPR rs) noexcept;

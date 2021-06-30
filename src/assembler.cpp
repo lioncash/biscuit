@@ -1239,6 +1239,10 @@ void Assembler::C_SUB(GPR rd, GPR rs) noexcept {
     EmitCompressedRegArith(0b100011, rd, 0b00, rs, 0b01);
 }
 
+void Assembler::C_SUBW(GPR rd, GPR rs) noexcept {
+    EmitCompressedRegArith(0b100111, rd, 0b00, rs, 0b01);
+}
+
 void Assembler::C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);

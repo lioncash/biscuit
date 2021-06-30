@@ -301,6 +301,19 @@ TEST_CASE("C.SUB", "[rvc]") {
     REQUIRE(value == 0x8F81);
 }
 
+TEST_CASE("C.SUBW", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_SUBW(x15, x15);
+    REQUIRE(value == 0x9F9D);
+
+    as.RewindBuffer();
+
+    as.C_SUBW(x15, x8);
+    REQUIRE(value == 0x9F81);
+}
+
 TEST_CASE("C.SW", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
