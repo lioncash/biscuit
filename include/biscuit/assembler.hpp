@@ -506,6 +506,7 @@ public:
     void C_SUB(GPR rd, GPR rs) noexcept;
     void C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_UNDEF() noexcept;
+    void C_XOR(GPR rd, GPR rs) noexcept;
 
 private:
     // Emits an atomic instruction.

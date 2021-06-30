@@ -295,3 +295,16 @@ TEST_CASE("C.UNDEF", "[rvc]") {
     as.C_UNDEF();
     REQUIRE(value == 0);
 }
+
+TEST_CASE("C.XOR", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_XOR(x15, x15);
+    REQUIRE(value == 0x8FBD);
+
+    as.RewindBuffer();
+
+    as.C_XOR(x15, x8);
+    REQUIRE(value == 0x8FA1);
+}
