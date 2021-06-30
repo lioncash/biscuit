@@ -1162,6 +1162,16 @@ void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b001, imm, rs, rd, 0b00);
 }
 
+void Assembler::C_FLDSP(FPR rd, uint32_t imm) noexcept {
+    // clang-format off
+    const auto new_imm = ((imm & 0x018) << 2) |
+                         ((imm & 0x1C0) >> 4) |
+                         ((imm & 0x020) << 7);
+    // clang-format on
+
+    m_buffer.Emit16(0x2002U | (rd.Index() << 7) | new_imm);
+}
+
 void Assembler::C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept {
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
