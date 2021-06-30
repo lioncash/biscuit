@@ -1233,6 +1233,18 @@ void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b001, new_imm, rs, rd, 0b00);
 }
 
+void Assembler::C_LQSP(GPR rd, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(rd != x0);
+
+    // clang-format off
+    const auto new_imm = ((imm & 0x020) << 7) |
+                         ((imm & 0x010) << 2) |
+                         ((imm & 0x3C0) >> 4);
+    // clang-format on
+
+    m_buffer.Emit16(0x2002U | (rd.Index() << 7) | new_imm);
+}
+
 void Assembler::C_LUI(GPR rd, uint32_t imm) noexcept {
     BISCUIT_ASSERT(imm != 0);
     BISCUIT_ASSERT(rd != x0 && rd != x2);

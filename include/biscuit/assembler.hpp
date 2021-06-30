@@ -507,6 +507,7 @@ public:
     void C_LD(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_LI(GPR rd, int32_t imm) noexcept;
     void C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void C_LQSP(GPR rd, uint32_t imm) noexcept;
     void C_LUI(GPR rd, uint32_t imm) noexcept;
     void C_LW(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_MV(GPR rd, GPR rs) noexcept;
