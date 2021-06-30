@@ -9,6 +9,7 @@ add_library(biscuit
     "${PROJECT_SOURCE_DIR}/include/biscuit/assembler.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/assert.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/code_buffer.hpp"
+    "${PROJECT_SOURCE_DIR}/include/biscuit/csr.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/label.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/registers.hpp"
 )
