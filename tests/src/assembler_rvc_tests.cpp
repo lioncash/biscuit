@@ -262,6 +262,19 @@ TEST_CASE("C.LW", "[rvc]") {
     REQUIRE(value == 0x4F9C);
 }
 
+TEST_CASE("C.MV", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_MV(x31, x31);
+    REQUIRE(value == 0x8FFE);
+
+    as.RewindBuffer();
+
+    as.C_MV(x15, x8);
+    REQUIRE(value == 0x87A2);
+}
+
 TEST_CASE("C.NOP", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

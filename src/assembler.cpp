@@ -1231,6 +1231,12 @@ void Assembler::C_LW(GPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b010, new_imm, rs, rd, 0b00);
 }
 
+void Assembler::C_MV(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(rd != x0);
+    BISCUIT_ASSERT(rs != x0);
+    m_buffer.Emit16(0x8002 | (rd.Index() << 7) | (rs.Index() << 2));
+}
+
 void Assembler::C_NOP() noexcept {
     m_buffer.Emit16(1);
 }
