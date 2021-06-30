@@ -1255,6 +1255,14 @@ void Assembler::C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     EmitCompressedLoad(0b111, imm, rs1, rs2, 0b00);
 }
 
+void Assembler::C_SLLI(GPR rd, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(rd != x0);
+    BISCUIT_ASSERT(shift != 0);
+
+    const auto shift_enc = ((shift & 0b11111) << 2) | ((shift & 0b100000) << 7);
+    m_buffer.Emit16(0x0002U | shift_enc | (rd.Index() << 7));
+}
+
 void Assembler::C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     imm &= 0x1F0;
     const auto new_imm = ((imm & 0x100) >> 5) | (imm & 0xF0);
