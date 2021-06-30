@@ -1420,6 +1420,10 @@ void Assembler::MRET() noexcept {
     m_buffer.Emit32(0x30200073);
 }
 
+void Assembler::SFENCE_VMA(GPR rs1, GPR rs2) noexcept {
+    m_buffer.Emit32(0x12000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
+}
+
 void Assembler::SRET() noexcept {
     m_buffer.Emit32(0x10200073);
 }

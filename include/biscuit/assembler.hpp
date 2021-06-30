@@ -522,6 +522,7 @@ public:
     // Privileged Instructions
 
     void MRET() noexcept;
+    void SFENCE_VMA(GPR rs1, GPR rs2) noexcept;
     void SRET() noexcept;
     void URET() noexcept;
     void WFI() noexcept;
