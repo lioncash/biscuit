@@ -1130,6 +1130,24 @@ void Assembler::C_ANDI(GPR rd, uint32_t imm) noexcept {
     m_buffer.Emit16(base | shift_enc | (reg << 7));
 }
 
+void Assembler::C_BEQZ(GPR rs, int32_t offset) noexcept {
+    EmitCompressedBranch(0b110, offset, rs, 0b01);
+}
+
+void Assembler::C_BEQZ(GPR rs, Label* label) noexcept {
+    const auto address = LinkAndGetOffset(label);
+    C_BEQZ(rs, static_cast<int32_t>(address));
+}
+
+void Assembler::C_BNEZ(GPR rs, int32_t offset) noexcept {
+    EmitCompressedBranch(0b111, offset, rs, 0b01);
+}
+
+void Assembler::C_BNEZ(GPR rs, Label* label) noexcept {
+    const auto address = LinkAndGetOffset(label);
+    C_BNEZ(rs, static_cast<int32_t>(address));
+}
+
 void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
     EmitCompressedLoad(0b001, imm, rs, rd, 0b00);
 }
@@ -1325,6 +1343,15 @@ void Assembler::EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs,
                     (rd.Index() << 7) |
                     (opcode & 0x7F));
     // clang-format on
+}
+
+void Assembler::EmitCompressedBranch(uint32_t funct3, int32_t offset, GPR rs, uint32_t op) noexcept {
+    BISCUIT_ASSERT(IsValidCBTypeImm(offset));
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
+
+    const auto transformed_imm = TransformToCBTypeImm(static_cast<uint32_t>(offset));
+    const auto rs_san = CompressedRegTo3BitEncoding(rs);
+    m_buffer.Emit16(((funct3 & 0b111) << 13) | transformed_imm | (rs_san << 7) | (op & 0b11));
 }
 
 void Assembler::EmitCompressedJump(uint32_t funct3, int32_t offset, uint32_t op) noexcept {

@@ -38,6 +38,16 @@ TEST_CASE("Branch to Self", "[branch]") {
         as.BNE(x3, x4, &label);
         REQUIRE(data == 0x00419063);
     }
+
+    as.RewindBuffer();
+
+    // Simple branch to self with a compressed branch instruction.
+    {
+        Label label;
+        as.Bind(&label);
+        as.C_BNEZ(x15, &label);
+        REQUIRE((data & 0xFFFF) == 0xE381);
+    }
 }
 
 TEST_CASE("Branch with Instructions Between", "[branch]") {
