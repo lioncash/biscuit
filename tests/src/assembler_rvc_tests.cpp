@@ -67,6 +67,19 @@ TEST_CASE("C.ADDI16SP", "[rvc]") {
     REQUIRE(value == 0x6121);
 }
 
+TEST_CASE("C.AND", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_AND(x15, x15);
+    REQUIRE(value == 0x8FFD);
+
+    as.RewindBuffer();
+
+    as.C_AND(x15, x8);
+    REQUIRE(value == 0x8FE1);
+}
+
 TEST_CASE("C.ANDI", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

@@ -1112,6 +1112,10 @@ void Assembler::C_ADDI16SP(int32_t imm) noexcept {
     m_buffer.Emit16(0x6000U | new_imm | (x2.Index() << 7) | 0b01U);
 }
 
+void Assembler::C_AND(GPR rd, GPR rs) noexcept {
+    EmitCompressedRegArith(0b100011, rd, 0b11, rs, 0b01);
+}
+
 void Assembler::C_ANDI(GPR rd, uint32_t imm) noexcept {
     BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
 
