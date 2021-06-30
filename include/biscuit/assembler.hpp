@@ -500,6 +500,7 @@ public:
     void C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_FSDSP(FPR rs, uint32_t imm) noexcept;
     void C_FSW(FPR rs2, uint32_t imm, GPR rs1) noexcept;
+    void C_FSWSP(FPR rs, uint32_t imm) noexcept;
     void C_J(int32_t offset) noexcept;
     void C_J(Label* label) noexcept;
     void C_JAL(Label* label) noexcept;
