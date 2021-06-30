@@ -506,6 +506,7 @@ public:
     void C_JALR(GPR rs) noexcept;
     void C_JR(GPR rs) noexcept;
     void C_LD(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void C_LDSP(GPR rd, uint32_t imm) noexcept;
     void C_LI(GPR rd, int32_t imm) noexcept;
     void C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept;
     void C_LQSP(GPR rd, uint32_t imm) noexcept;

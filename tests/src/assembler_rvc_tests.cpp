@@ -244,6 +244,19 @@ TEST_CASE("C.LD", "[rvc]") {
     REQUIRE(value == 0x6F9C);
 }
 
+TEST_CASE("C.LDSP", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_LDSP(x15, 8);
+    REQUIRE(value == 0x67A2);
+
+    as.RewindBuffer();
+
+    as.C_LDSP(x15, 24);
+    REQUIRE(value == 0x67E2);
+}
+
 TEST_CASE("C.LI", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
