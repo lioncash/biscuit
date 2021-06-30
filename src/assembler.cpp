@@ -1416,6 +1416,14 @@ void Assembler::C_XOR(GPR rd, GPR rs) noexcept {
 
 // Privileged Instructions
 
+void Assembler::HFENCE_BVMA(GPR rs1, GPR rs2) noexcept {
+    m_buffer.Emit32(0x22000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
+}
+
+void Assembler::HFENCE_GVMA(GPR rs1, GPR rs2) noexcept {
+    m_buffer.Emit32(0xA2000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
+}
+
 void Assembler::MRET() noexcept {
     m_buffer.Emit32(0x30200073);
 }
