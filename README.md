@@ -10,6 +10,7 @@ An experimental runtime code generator for RISC-V. Emphasis on the experimental 
 Includes both 32-bit and 64-bit instructions in the following:
 
 - RVA
+- RVC
 - RVD
 - RVF
 - RVI
