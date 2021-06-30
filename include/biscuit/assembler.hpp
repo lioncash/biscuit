@@ -510,6 +510,7 @@ public:
     void C_LQSP(GPR rd, uint32_t imm) noexcept;
     void C_LUI(GPR rd, uint32_t imm) noexcept;
     void C_LW(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void C_LWSP(GPR rd, uint32_t imm) noexcept;
     void C_MV(GPR rd, GPR rs) noexcept;
     void C_NOP() noexcept;
     void C_OR(GPR rd, GPR rs) noexcept;
