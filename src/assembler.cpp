@@ -1227,6 +1227,10 @@ void Assembler::C_SRLI(GPR rd, uint32_t shift) noexcept {
     m_buffer.Emit16(base | shift_enc | (reg << 7));
 }
 
+void Assembler::C_SUB(GPR rd, GPR rs) noexcept {
+    EmitCompressedRegArith(0b100011, rd, 0b00, rs, 0b01);
+}
+
 void Assembler::C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
@@ -1324,6 +1328,15 @@ void Assembler::EmitCompressedLoad(uint32_t funct3, uint32_t imm, GPR rs, Regist
     const auto rd_san = CompressedRegTo3BitEncoding(rd);
     const auto rs_san = CompressedRegTo3BitEncoding(rs);
     m_buffer.Emit16(((funct3 & 0b111) << 13) | imm_enc | (rs_san << 7) | (rd_san << 2) | (op & 0b11));
+}
+
+void Assembler::EmitCompressedRegArith(uint32_t funct6, GPR rd, uint32_t funct2, GPR rs, uint32_t op) noexcept {
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
+
+    const auto rd_san = CompressedRegTo3BitEncoding(rd);
+    const auto rs_san = CompressedRegTo3BitEncoding(rs);
+    m_buffer.Emit16(((funct6 & 0b111111) << 10) | (rd_san << 7) | ((funct2 & 0b11) << 5) | (rs_san << 2) | (op & 0b11));
 }
 
 void Assembler::EmitCompressedStore(uint32_t funct3, uint32_t imm, GPR rs1, Register rs2, uint32_t op) noexcept {

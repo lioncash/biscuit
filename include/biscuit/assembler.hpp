@@ -503,6 +503,7 @@ public:
     void C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_SRAI(GPR rd, uint32_t shift) noexcept;
     void C_SRLI(GPR rd, uint32_t shift) noexcept;
+    void C_SUB(GPR rd, GPR rs) noexcept;
     void C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept;
     void C_UNDEF() noexcept;
 
@@ -556,6 +557,10 @@ private:
     // Emits a compressed load instruction. These consist of:
     // funct3 | imm | rs1 | imm | rd | op
     void EmitCompressedLoad(uint32_t funct3, uint32_t imm, GPR rs, Register rd, uint32_t op) noexcept;
+
+    // Emits a compressed register arithmetic instruction. These consist of:
+    // funct6 | rd | funct2 | rs | op
+    void EmitCompressedRegArith(uint32_t funct6, GPR rd, uint32_t funct2, GPR rs, uint32_t op) noexcept;
 
     // Emits a compressed store instruction. These consist of:
     // funct3 | imm | rs1 | imm | rs2 | op
