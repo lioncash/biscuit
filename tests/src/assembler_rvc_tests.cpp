@@ -504,6 +504,19 @@ TEST_CASE("C.SW", "[rvc]") {
     REQUIRE(value == 0xCF9C);
 }
 
+TEST_CASE("C.SWSP", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_SWSP(x15, 16);
+    REQUIRE(value == 0xC83E);
+
+    as.RewindBuffer();
+
+    as.C_SWSP(x15, 24);
+    REQUIRE(value == 0xCC3E);
+}
+
 TEST_CASE("C.UNDEF", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

@@ -1379,6 +1379,15 @@ void Assembler::C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     EmitCompressedStore(0b110, new_imm, rs1, rs2, 0b00);
 }
 
+void Assembler::C_SWSP(GPR rs, uint32_t imm) noexcept {
+    // clang-format off
+    const auto new_imm = ((imm & 0x0C0) << 1) |
+                         ((imm & 0x03C) << 7);
+    // clang-format on
+
+    m_buffer.Emit16(0xC002U | (rs.Index() << 2) | new_imm);
+}
+
 void Assembler::C_UNDEF() noexcept {
     m_buffer.Emit16(0);
 }
