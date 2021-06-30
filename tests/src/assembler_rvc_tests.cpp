@@ -210,6 +210,19 @@ TEST_CASE("C.NOP", "[rvc]") {
     REQUIRE(value == 0x0001);
 }
 
+TEST_CASE("C.OR", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_OR(x15, x15);
+    REQUIRE(value == 0x8FDD);
+
+    as.RewindBuffer();
+
+    as.C_OR(x15, x8);
+    REQUIRE(value == 0x8FC1);
+}
+
 TEST_CASE("C.SD", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
