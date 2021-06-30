@@ -1097,6 +1097,10 @@ void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
     EmitCompressedWideImmediate(0b000, imm, rd, 0b00);
 }
 
+void Assembler::C_ADDW(GPR rd, GPR rs) noexcept {
+    EmitCompressedRegArith(0b100111, rd, 0b01, rs, 0b01);
+}
+
 void Assembler::C_ADDI16SP(int32_t imm) noexcept {
     BISCUIT_ASSERT(imm != 0);
 
