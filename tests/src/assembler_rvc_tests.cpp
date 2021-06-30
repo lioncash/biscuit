@@ -5,6 +5,19 @@
 
 using namespace biscuit;
 
+TEST_CASE("C.ADD", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_ADD(x31, x31);
+    REQUIRE(value == 0x9FFE);
+
+    as.RewindBuffer();
+
+    as.C_ADD(x15, x8);
+    REQUIRE(value == 0x97A2);
+}
+
 TEST_CASE("C.ADDI", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
