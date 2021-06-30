@@ -1414,6 +1414,24 @@ void Assembler::C_XOR(GPR rd, GPR rs) noexcept {
     EmitCompressedRegArith(0b100011, rd, 0b01, rs, 0b01);
 }
 
+// Privileged Instructions
+
+void Assembler::MRET() noexcept {
+    m_buffer.Emit32(0x30200073);
+}
+
+void Assembler::SRET() noexcept {
+    m_buffer.Emit32(0x10200073);
+}
+
+void Assembler::URET() noexcept {
+    m_buffer.Emit32(0x00200073);
+}
+
+void Assembler::WFI() noexcept {
+    m_buffer.Emit32(0x10500073);
+}
+
 void Assembler::EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
     const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
     EmitRType(funct7, rs2, rs1, funct3, rd, opcode);

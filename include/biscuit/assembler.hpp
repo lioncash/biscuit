@@ -519,6 +519,13 @@ public:
     void C_UNDEF() noexcept;
     void C_XOR(GPR rd, GPR rs) noexcept;
 
+    // Privileged Instructions
+
+    void MRET() noexcept;
+    void SRET() noexcept;
+    void URET() noexcept;
+    void WFI() noexcept;
+
 private:
     // Emits an atomic instruction.
     void EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept;
