@@ -1192,6 +1192,15 @@ void Assembler::C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept {
     EmitCompressedStore(0b101, imm, rs1, rs2, 0b00);
 }
 
+void Assembler::C_FSDSP(FPR rs, uint32_t imm) noexcept {
+    // clang-format off
+    const auto new_imm = ((imm & 0x038) << 7) |
+                         ((imm & 0x1C0) << 1);
+    // clang-format on
+
+    m_buffer.Emit16(0xA002U | (rs.Index() << 2) | new_imm);
+}
+
 void Assembler::C_J(Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
     BISCUIT_ASSERT(IsValidCJTypeImm(address));

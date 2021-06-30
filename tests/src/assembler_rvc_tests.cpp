@@ -192,6 +192,19 @@ TEST_CASE("C.FSD", "[rvc]") {
     REQUIRE(value == 0xAF9C);
 }
 
+TEST_CASE("C.FSDSP", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_FSDSP(f15, 8);
+    REQUIRE(value == 0xA43E);
+
+    as.RewindBuffer();
+
+    as.C_FSDSP(f15, 24);
+    REQUIRE(value == 0xAC3E);
+}
+
 TEST_CASE("C.FSW", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
