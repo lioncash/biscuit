@@ -1192,6 +1192,11 @@ void Assembler::C_FSW(FPR rs2, uint32_t imm, GPR rs1) noexcept {
     EmitCompressedStore(0b111, new_imm, rs1, rs2, 0b00);
 }
 
+void Assembler::C_JALR(GPR rs) noexcept {
+    BISCUIT_ASSERT(rs != x0);
+    m_buffer.Emit16(0x9002 | (rs.Index() << 7));
+}
+
 void Assembler::C_JR(GPR rs) noexcept {
     BISCUIT_ASSERT(rs != x0);
     m_buffer.Emit16(0x8002 | (rs.Index() << 7));

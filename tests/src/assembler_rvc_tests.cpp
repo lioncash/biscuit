@@ -166,17 +166,17 @@ TEST_CASE("C.FSW", "[rvc]") {
     REQUIRE(value == 0xEF9C);
 }
 
-TEST_CASE("C.LD", "[rvc]") {
+TEST_CASE("C.JALR", "[rvc]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.C_LD(x15, 8, x15);
-    REQUIRE(value == 0x679C);
+    as.C_JALR(x31);
+    REQUIRE(value == 0x9F82);
 
     as.RewindBuffer();
 
-    as.C_LD(x15, 24, x15);
-    REQUIRE(value == 0x6F9C);
+    as.C_JALR(x15);
+    REQUIRE(value == 0x9782);
 }
 
 TEST_CASE("C.JR", "[rvc]") {
@@ -190,6 +190,19 @@ TEST_CASE("C.JR", "[rvc]") {
 
     as.C_JR(x15);
     REQUIRE(value == 0x8782);
+}
+
+TEST_CASE("C.LD", "[rvc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.C_LD(x15, 8, x15);
+    REQUIRE(value == 0x679C);
+
+    as.RewindBuffer();
+
+    as.C_LD(x15, 24, x15);
+    REQUIRE(value == 0x6F9C);
 }
 
 TEST_CASE("C.LI", "[rvc]") {
