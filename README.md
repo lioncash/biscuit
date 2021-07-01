@@ -12,15 +12,18 @@ to how [Xbyak](https://github.com/herumi/xbyak) allows for runtime code generati
 
 Includes both 32-bit and 64-bit instructions in the following:
 
-- RVA
-- RVC
-- RVD
-- RVF
-- RVI
-- RVM
-- RVQ
-- Zicsr
-- Zifencei
+| Feature   | Version |
+|:----------|:-------:|
+| A         | 2.1     |
+| C         | 2.0     |
+| D         | 2.2     |
+| F         | 2.2     |
+| M         | 2.0     |
+| Q         | 2.2     |
+| RV32I     | 2.1     |
+| RV64I     | 2.1     |
+| Zicsr     | 2.0     |
+| Zifencei  | 2.0     |
 
 Note that only extensions considered ratified will be implemented
 as non-ratified documents are considerably more likely to have
