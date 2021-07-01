@@ -2,6 +2,8 @@
 
 *RISC it for the biscuit*
 
+## About
+
 An experimental runtime code generator for RISC-V.
 
 This allows for runtime code generation of RISC-V instructions. Similar
