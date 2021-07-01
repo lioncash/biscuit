@@ -21,9 +21,11 @@ Includes both 32-bit and 64-bit instructions in the following:
 | D         | 2.2     |
 | F         | 2.2     |
 | M         | 2.0     |
+| N         | 1.1     |
 | Q         | 2.2     |
 | RV32I     | 2.1     |
 | RV64I     | 2.1     |
+| S         | 1.12    |
 | Zicsr     | 2.0     |
 | Zifencei  | 2.0     |
 
