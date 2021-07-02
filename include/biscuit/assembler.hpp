@@ -10,8 +10,10 @@
 namespace biscuit {
 
 /**
- * Base class that all assembler instances will inherit from
- * to generate RISC-V code.
+ * Code generator for RISC-V code.
+ *
+ * User code may inherit from this in order to make use of
+ * the API more convenient, or use it separately if desired.
  */
 class Assembler {
 public:
