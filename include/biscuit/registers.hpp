@@ -59,8 +59,8 @@ private:
 /// General purpose register.
 class GPR final : public Register {
 public:
-    constexpr GPR() : Register{0, Type::GPR} {}
-    constexpr explicit GPR(uint32_t index) : Register{index, Type::GPR} {}
+    constexpr GPR() noexcept : Register{0, Type::GPR} {}
+    constexpr explicit GPR(uint32_t index) noexcept : Register{index, Type::GPR} {}
 
     friend constexpr bool operator==(GPR lhs, GPR rhs) noexcept {
         return lhs.Index() == rhs.Index();
@@ -73,8 +73,8 @@ public:
 /// Floating point register.
 class FPR final : public Register {
 public:
-    constexpr FPR() : Register{0, Type::FPR} {}
-    constexpr explicit FPR(uint32_t index) : Register{index, Type::FPR} {}
+    constexpr FPR() noexcept : Register{0, Type::FPR} {}
+    constexpr explicit FPR(uint32_t index) noexcept : Register{index, Type::FPR} {}
 
     friend constexpr bool operator==(FPR lhs, FPR rhs) noexcept {
         return lhs.Index() == rhs.Index();
