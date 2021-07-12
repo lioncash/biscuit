@@ -3,6 +3,7 @@
 add_library(biscuit
     # Source files
     assembler.cpp
+    assembler_vector.cpp
     code_buffer.cpp
 
     # Headers
@@ -12,6 +13,7 @@ add_library(biscuit
     "${PROJECT_SOURCE_DIR}/include/biscuit/csr.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/label.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/registers.hpp"
+    "${PROJECT_SOURCE_DIR}/include/biscuit/vector.hpp"
 )
 add_library(biscuit::biscuit ALIAS biscuit)
 

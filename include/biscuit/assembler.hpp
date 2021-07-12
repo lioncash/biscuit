@@ -4,6 +4,7 @@
 #include <biscuit/csr.hpp>
 #include <biscuit/label.hpp>
 #include <biscuit/registers.hpp>
+#include <biscuit/vector.hpp>
 #include <cstddef>
 #include <cstdint>
 
@@ -530,6 +531,12 @@ public:
     void SRET() noexcept;
     void URET() noexcept;
     void WFI() noexcept;
+
+    // Vector Extension Instructions
+
+    void VSETIVLI(GPR rd, uint32_t imm, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
+    void VSETVL(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void VSETVLI(GPR rd, GPR rs, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
 
 private:
     // Emits an atomic instruction.
