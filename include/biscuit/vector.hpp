@@ -6,6 +6,12 @@
 
 namespace biscuit {
 
+/// Describes whether or not an instruction should make use of the mask vector.
+enum class VecMask : uint32_t {
+    Yes = 0,
+    No = 1,
+};
+
 /// Describes the selected element width.
 enum class SEW : uint32_t {
     E8    = 0b000, // 8-bit vector elements

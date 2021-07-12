@@ -534,6 +534,123 @@ public:
 
     // Vector Extension Instructions
 
+    void VLE8(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VLE16(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VLE32(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VLE64(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VLM(Vec vd, GPR rs) noexcept;
+
+    void VLSE8(Vec vd, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VLSE16(Vec vd, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VLSE32(Vec vd, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VLSE64(Vec vd, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+
+    void VLOXEI8(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLOXEI16(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLOXEI32(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLOXEI64(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+
+    void VLUXEI8(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLUXEI16(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLUXEI32(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLUXEI64(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+
+    void VLE8FF(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VLE16FF(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VLE32FF(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VLE64FF(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+
+    void VLSEGE8(uint32_t num_segments, Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VLSEGE16(uint32_t num_segments, Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VLSEGE32(uint32_t num_segments, Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VLSEGE64(uint32_t num_segments, Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
+
+    void VLSSEGE8(uint32_t num_segments, Vec vd, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VLSSEGE16(uint32_t num_segments, Vec vd, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VLSSEGE32(uint32_t num_segments, Vec vd, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VLSSEGE64(uint32_t num_segments, Vec vd, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+
+    void VLOXSEGEI8(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLOXSEGEI16(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLOXSEGEI32(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLOXSEGEI64(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+
+    void VLUXSEGEI8(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLUXSEGEI16(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLUXSEGEI32(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VLUXSEGEI64(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+
+    void VLRE8(uint32_t num_registers, Vec vd, GPR rs) noexcept;
+    void VL1RE8(Vec vd, GPR rs) noexcept;
+    void VL2RE8(Vec vd, GPR rs) noexcept;
+    void VL4RE8(Vec vd, GPR rs) noexcept;
+    void VL8RE8(Vec vd, GPR rs) noexcept;
+
+    void VLRE16(uint32_t num_registers, Vec vd, GPR rs) noexcept;
+    void VL1RE16(Vec vd, GPR rs) noexcept;
+    void VL2RE16(Vec vd, GPR rs) noexcept;
+    void VL4RE16(Vec vd, GPR rs) noexcept;
+    void VL8RE16(Vec vd, GPR rs) noexcept;
+
+    void VLRE32(uint32_t num_registers, Vec vd, GPR rs) noexcept;
+    void VL1RE32(Vec vd, GPR rs) noexcept;
+    void VL2RE32(Vec vd, GPR rs) noexcept;
+    void VL4RE32(Vec vd, GPR rs) noexcept;
+    void VL8RE32(Vec vd, GPR rs) noexcept;
+
+    void VLRE64(uint32_t num_registers, Vec vd, GPR rs) noexcept;
+    void VL1RE64(Vec vd, GPR rs) noexcept;
+    void VL2RE64(Vec vd, GPR rs) noexcept;
+    void VL4RE64(Vec vd, GPR rs) noexcept;
+    void VL8RE64(Vec vd, GPR rs) noexcept;
+
+    void VSE8(Vec vs, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VSE16(Vec vs, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VSE32(Vec vs, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VSE64(Vec vs, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VSM(Vec vs, GPR rs) noexcept;
+
+    void VSSE8(Vec vs, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VSSE16(Vec vs, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VSSE32(Vec vs, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VSSE64(Vec vs, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+
+    void VSOXEI8(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSOXEI16(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSOXEI32(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSOXEI64(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+
+    void VSUXEI8(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSUXEI16(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSUXEI32(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSUXEI64(Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+
+    void VSSEGE8(uint32_t num_segments, Vec vs, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VSSEGE16(uint32_t num_segments, Vec vs, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VSSEGE32(uint32_t num_segments, Vec vs, GPR rs, VecMask mask = VecMask::No) noexcept;
+    void VSSEGE64(uint32_t num_segments, Vec vs, GPR rs, VecMask mask = VecMask::No) noexcept;
+
+    void VSSSEGE8(uint32_t num_segments, Vec vs, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VSSSEGE16(uint32_t num_segments, Vec vs, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VSSSEGE32(uint32_t num_segments, Vec vs, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+    void VSSSEGE64(uint32_t num_segments, Vec vs, GPR rs1, GPR rs2, VecMask mask = VecMask::No) noexcept;
+
+    void VSOXSEGEI8(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSOXSEGEI16(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSOXSEGEI32(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSOXSEGEI64(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+
+    void VSUXSEGEI8(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSUXSEGEI16(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSUXSEGEI32(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VSUXSEGEI64(uint32_t num_segments, Vec vd, GPR rs, Vec vs, VecMask mask = VecMask::No) noexcept;
+
+    void VSR(uint32_t num_registers, Vec vs, GPR rs) noexcept;
+    void VS1R(Vec vs, GPR rs) noexcept;
+    void VS2R(Vec vs, GPR rs) noexcept;
+    void VS4R(Vec vs, GPR rs) noexcept;
+    void VS8R(Vec vs, GPR rs) noexcept;
+
     void VSETIVLI(GPR rd, uint32_t imm, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
     void VSETVL(GPR rd, GPR rs1, GPR rs2) noexcept;
     void VSETVLI(GPR rd, GPR rs, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
