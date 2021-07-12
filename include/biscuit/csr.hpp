@@ -196,6 +196,16 @@ enum class CSR : uint32_t {
     DScratch0      = 0x7B2, // Debug scratch register 0
     DScratch1      = 0x7B3, // Debug scratch register 0
 
+    // Vector Extension CSRs
+
+    VStart         = 0x008, // Vector start position
+    VXSat          = 0x009, // Fixed-Point Saturate Flag
+    VXRM           = 0x00A, // Fixed-Point Rounding Mode
+    VCSR           = 0x00F, // Vector control and status register
+    VL             = 0xC20, // Vector length
+    VType          = 0xC21, // Vector data type register
+    VLenb          = 0xC22, // Vector register length in bytes
+
     // clang-format on
 };
 
