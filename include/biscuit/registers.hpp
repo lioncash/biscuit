@@ -43,8 +43,9 @@ public:
 
 protected:
     enum class Type {
-        GPR, // General purpose register
-        FPR, // Floating-point register
+        GPR,    // General purpose register
+        FPR,    // Floating-point register
+        Vector, // Vector register
     };
 
     constexpr Register(uint32_t index, Type type) noexcept
@@ -79,6 +80,20 @@ public:
         return lhs.Index() == rhs.Index();
     }
     friend constexpr bool operator!=(FPR lhs, FPR rhs) noexcept {
+        return !operator==(lhs, rhs);
+    }
+};
+
+/// Floating point register.
+class Vec final : public Register {
+public:
+    constexpr Vec() noexcept : Register{0, Type::Vector} {}
+    constexpr explicit Vec(uint32_t index) noexcept : Register{index, Type::Vector} {}
+
+    friend constexpr bool operator==(Vec lhs, Vec rhs) noexcept {
+        return lhs.Index() == rhs.Index();
+    }
+    friend constexpr bool operator!=(Vec lhs, Vec rhs) noexcept {
         return !operator==(lhs, rhs);
     }
 };
@@ -227,5 +242,40 @@ constexpr FPR fs8{f24};
 constexpr FPR fs9{f25};
 constexpr FPR fs10{f26};
 constexpr FPR fs11{f27};
+
+// Vector registers (V extension)
+
+constexpr Vec v0{0};
+constexpr Vec v1{1};
+constexpr Vec v2{2};
+constexpr Vec v3{3};
+constexpr Vec v4{4};
+constexpr Vec v5{5};
+constexpr Vec v6{6};
+constexpr Vec v7{7};
+constexpr Vec v8{8};
+constexpr Vec v9{9};
+constexpr Vec v10{10};
+constexpr Vec v11{11};
+constexpr Vec v12{12};
+constexpr Vec v13{13};
+constexpr Vec v14{14};
+constexpr Vec v15{15};
+constexpr Vec v16{16};
+constexpr Vec v17{17};
+constexpr Vec v18{18};
+constexpr Vec v19{19};
+constexpr Vec v20{20};
+constexpr Vec v21{21};
+constexpr Vec v22{22};
+constexpr Vec v23{23};
+constexpr Vec v24{24};
+constexpr Vec v25{25};
+constexpr Vec v26{26};
+constexpr Vec v27{27};
+constexpr Vec v28{28};
+constexpr Vec v29{29};
+constexpr Vec v30{30};
+constexpr Vec v31{31};
 
 } // namespace biscuit
