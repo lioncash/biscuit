@@ -56,7 +56,7 @@ private:
 };
 
 /// General purpose register.
-class GPR : public Register {
+class GPR final : public Register {
 public:
     constexpr GPR() : Register{0, Type::GPR} {}
     constexpr explicit GPR(uint32_t index) : Register{index, Type::GPR} {}
@@ -70,7 +70,7 @@ public:
 };
 
 /// Floating point register.
-class FPR : public Register {
+class FPR final : public Register {
 public:
     constexpr FPR() : Register{0, Type::FPR} {}
     constexpr explicit FPR(uint32_t index) : Register{index, Type::FPR} {}
