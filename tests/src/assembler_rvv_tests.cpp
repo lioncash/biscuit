@@ -30,6 +30,58 @@ TEST_CASE("VADD.VX", "[rvv]") {
     REQUIRE(value == 0x0085C257);
 }
 
+TEST_CASE("VMAX.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMAX(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x1E860257);
+
+    as.RewindBuffer();
+
+    as.VMAX(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x1C860257);
+}
+
+TEST_CASE("VMAX.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMAX(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x1E85C257);
+
+    as.RewindBuffer();
+
+    as.VMAX(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x1C85C257);
+}
+
+TEST_CASE("VMAXU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMAXU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x1A860257);
+
+    as.RewindBuffer();
+
+    as.VMAXU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x18860257);
+}
+
+TEST_CASE("VMAXU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMAXU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x1A85C257);
+
+    as.RewindBuffer();
+
+    as.VMAXU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x1885C257);
+}
+
 TEST_CASE("VMIN.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
