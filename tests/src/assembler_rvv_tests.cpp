@@ -30,6 +30,42 @@ TEST_CASE("VADD.VX", "[rvv]") {
     REQUIRE(value == 0x0085C257);
 }
 
+TEST_CASE("VRSUB.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VRSUB(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x0E85C257);
+
+    as.RewindBuffer();
+
+    as.VRSUB(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x0C85C257);
+}
+
+TEST_CASE("VRSUB.VI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VRSUB(v4, v8, 15, VecMask::No);
+    REQUIRE(value == 0x0E87B257);
+
+    as.RewindBuffer();
+
+    as.VRSUB(v4, v8, -16, VecMask::No);
+    REQUIRE(value == 0x0E883257);
+
+    as.RewindBuffer();
+
+    as.VRSUB(v4, v8, 15, VecMask::Yes);
+    REQUIRE(value == 0x0C87B257);
+
+    as.RewindBuffer();
+
+    as.VRSUB(v4, v8, -16, VecMask::Yes);
+    REQUIRE(value == 0x0C883257);
+}
+
 TEST_CASE("VSUB.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

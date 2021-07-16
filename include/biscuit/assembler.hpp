@@ -538,6 +538,9 @@ public:
     void VADD(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VADD(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
+    void VRSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VRSUB(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
+
     void VSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
