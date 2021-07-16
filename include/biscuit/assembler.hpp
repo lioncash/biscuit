@@ -534,6 +534,13 @@ public:
 
     // Vector Extension Instructions
 
+    void VADD(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VADD(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VADD(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
+
+    void VSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
     void VLE8(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
     void VLE16(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
     void VLE32(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;

@@ -4,6 +4,81 @@
 
 using namespace biscuit;
 
+TEST_CASE("VADD.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VADD(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x02860257);
+
+    as.RewindBuffer();
+
+    as.VADD(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x00860257);
+}
+
+TEST_CASE("VADD.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VADD(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x0285C257);
+
+    as.RewindBuffer();
+
+    as.VADD(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x0085C257);
+}
+
+TEST_CASE("VSUB.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSUB(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x0A860257);
+
+    as.RewindBuffer();
+
+    as.VSUB(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x08860257);
+}
+
+TEST_CASE("VSUB.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSUB(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x0A85C257);
+
+    as.RewindBuffer();
+
+    as.VSUB(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x0885C257);
+}
+
+TEST_CASE("VADD.VI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VADD(v4, v8, 15, VecMask::No);
+    REQUIRE(value == 0x0287B257);
+
+    as.RewindBuffer();
+
+    as.VADD(v4, v8, -16, VecMask::No);
+    REQUIRE(value == 0x02883257);
+
+    as.RewindBuffer();
+
+    as.VADD(v4, v8, 15, VecMask::Yes);
+    REQUIRE(value == 0x0087B257);
+
+    as.RewindBuffer();
+
+    as.VADD(v4, v8, -16, VecMask::Yes);
+    REQUIRE(value == 0x00883257);
+}
+
 TEST_CASE("VLE8.V", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

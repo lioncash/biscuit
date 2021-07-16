@@ -133,7 +133,67 @@ void EmitVectorStoreWholeReg(CodeBuffer& buffer, uint32_t nf, GPR rs, Vec vs) no
     EmitVectorStoreImpl(buffer, nf, false, AddressingMode::UnitStride, VecMask::No,
                         0b01000, rs, WidthEncoding::E8, vs);
 }
+
+void EmitVectorOPIVI(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, int32_t simm5, Vec vd) noexcept {
+    BISCUIT_ASSERT(simm5 >= -16 && simm5 <= 15);
+
+    // clang-format off
+    const auto value = (funct6 << 26) |
+                       (static_cast<uint32_t>(vm) << 25) |
+                       (vs2.Index() << 20) |
+                       ((static_cast<uint32_t>(simm5) & 0b11111) << 15) |
+                       (0b011U << 12) |
+                       (vd.Index() << 7);
+    // clang-format on
+
+    buffer.Emit32(value | 0b1010111);
+}
+
+void EmitVectorOPIVV(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, Vec vs1, Vec vd) noexcept {
+    // clang-format off
+    const auto value = (funct6 << 26) |
+                       (static_cast<uint32_t>(vm) << 25) |
+                       (vs2.Index() << 20) |
+                       (vs1.Index() << 15) |
+                       (vd.Index() << 7);
+    // clang-format on
+
+    buffer.Emit32(value | 0b1010111);
+}
+
+void EmitVectorOPIVX(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, GPR rs1, Vec vd) noexcept {
+    // clang-format off
+    const auto value = (funct6 << 26) |
+                       (static_cast<uint32_t>(vm) << 25) |
+                       (vs2.Index() << 20) |
+                       (rs1.Index() << 15) |
+                       (0b100U << 12) |
+                       (vd.Index() << 7);
+    // clang-format on
+
+    buffer.Emit32(value | 0b1010111);
+}
 } // Anonymous namespace
+
+void Assembler::VADD(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b000000, mask, vs2, vs1, vd);
+}
+
+void Assembler::VADD(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b000000, mask, vs2, rs1, vd);
+}
+
+void Assembler::VADD(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
+    EmitVectorOPIVI(m_buffer, 0b000000, mask, vs2, simm, vd);
+}
+
+void Assembler::VSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b000010, mask, vs2, vs1, vd);
+}
+
+void Assembler::VSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b000010, mask, vs2, rs1, vd);
+}
 
 void Assembler::VLE8(Vec vd, GPR rs, VecMask mask) noexcept {
     VLSEGE8(1, vd, rs, mask);
