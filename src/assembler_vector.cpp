@@ -187,6 +187,18 @@ void Assembler::VADD(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
     EmitVectorOPIVI(m_buffer, 0b000000, mask, vs2, simm, vd);
 }
 
+void Assembler::VAND(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b001001, mask, vs2, vs1, vd);
+}
+
+void Assembler::VAND(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b001001, mask, vs2, rs1, vd);
+}
+
+void Assembler::VAND(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
+    EmitVectorOPIVI(m_buffer, 0b001001, mask, vs2, simm, vd);
+}
+
 void Assembler::VMAX(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b000111, mask, vs2, vs1, vd);
 }
