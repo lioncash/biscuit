@@ -534,15 +534,25 @@ public:
 
     // Vector Extension Instructions
 
+    // Vector Arithmetic Instructions
+
     void VADD(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VADD(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VADD(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
+
+    void VMIN(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VMIN(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
+    void VMINU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VMINU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VRSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VRSUB(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
     void VSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
+    // Vector Load/Store Instructions
 
     void VLE8(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
     void VLE16(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;
@@ -660,6 +670,8 @@ public:
     void VS2R(Vec vs, GPR rs) noexcept;
     void VS4R(Vec vs, GPR rs) noexcept;
     void VS8R(Vec vs, GPR rs) noexcept;
+
+    // Vector Configuration Setting Instructions
 
     void VSETIVLI(GPR rd, uint32_t imm, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
     void VSETVL(GPR rd, GPR rs1, GPR rs2) noexcept;
