@@ -232,6 +232,35 @@ TEST_CASE("VMAXU.VX", "[rvv]") {
     REQUIRE(value == 0x1885C257);
 }
 
+TEST_CASE("VMERGE.VVM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMERGE(v4, v8, v12);
+    REQUIRE(value == 0x5C860257);
+}
+
+TEST_CASE("VMERGE.VXM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMERGE(v4, v8, x11);
+    REQUIRE(value == 0x5C85C257);
+}
+
+TEST_CASE("VMERGE.VIM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMERGE(v4, v8, 15);
+    REQUIRE(value == 0x5C87B257);
+
+    as.RewindBuffer();
+
+    as.VMERGE(v4, v8, -16);
+    REQUIRE(value == 0x5C883257);
+}
+
 TEST_CASE("VMIN.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
@@ -308,6 +337,35 @@ TEST_CASE("VMSBC.VX(M)", "[rvv]") {
 
     as.VMSBC(v4, v8, x11, VecMask::Yes);
     REQUIRE(value == 0x4C85C257);
+}
+
+TEST_CASE("VMV.V.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMV(v8, v12);
+    REQUIRE(value == 0x5E060457);
+}
+
+TEST_CASE("VMV.V.X", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMV(v8, x11);
+    REQUIRE(value == 0x5E05C457);
+}
+
+TEST_CASE("VMV.V.I", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMV(v8, 15);
+    REQUIRE(value == 0x5E07B457);
+
+    as.RewindBuffer();
+
+    as.VMV(v8, -16);
+    REQUIRE(value == 0x5E083457);
 }
 
 TEST_CASE("VOR.VV", "[rvv]") {
