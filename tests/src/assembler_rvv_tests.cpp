@@ -388,6 +388,42 @@ TEST_CASE("VMSEQ.VI", "[rvv]") {
     REQUIRE(value == 0x60883257);
 }
 
+TEST_CASE("VMSGTU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMSGTU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x7A85C257);
+
+    as.RewindBuffer();
+
+    as.VMSGTU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x7885C257);
+}
+
+TEST_CASE("VMSGTU.VI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMSGTU(v4, v8, 15, VecMask::No);
+    REQUIRE(value == 0x7A87B257);
+
+    as.RewindBuffer();
+
+    as.VMSGTU(v4, v8, -16, VecMask::No);
+    REQUIRE(value == 0x7A883257);
+
+    as.RewindBuffer();
+
+    as.VMSGTU(v4, v8, 15, VecMask::Yes);
+    REQUIRE(value == 0x7887B257);
+
+    as.RewindBuffer();
+
+    as.VMSGTU(v4, v8, -16, VecMask::Yes);
+    REQUIRE(value == 0x78883257);
+}
+
 TEST_CASE("VMSLE.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
