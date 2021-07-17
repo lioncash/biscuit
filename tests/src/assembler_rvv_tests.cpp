@@ -317,6 +317,55 @@ TEST_CASE("VSUB.VX", "[rvv]") {
     REQUIRE(value == 0x0885C257);
 }
 
+TEST_CASE("VXOR.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VXOR(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x2E860257);
+
+    as.RewindBuffer();
+
+    as.VXOR(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x2C860257);
+}
+
+TEST_CASE("VXOR.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VXOR(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x2E85C257);
+
+    as.RewindBuffer();
+
+    as.VXOR(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x2C85C257);
+}
+
+TEST_CASE("VXOR.VI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VXOR(v4, v8, 15, VecMask::No);
+    REQUIRE(value == 0x2E87B257);
+
+    as.RewindBuffer();
+
+    as.VXOR(v4, v8, -16, VecMask::No);
+    REQUIRE(value == 0x2E883257);
+
+    as.RewindBuffer();
+
+    as.VXOR(v4, v8, 15, VecMask::Yes);
+    REQUIRE(value == 0x2C87B257);
+
+    as.RewindBuffer();
+
+    as.VXOR(v4, v8, -16, VecMask::Yes);
+    REQUIRE(value == 0x2C883257);
+}
+
 TEST_CASE("VLE8.V", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
