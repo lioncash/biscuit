@@ -284,6 +284,32 @@ TEST_CASE("VMINU.VX", "[rvv]") {
     REQUIRE(value == 0x1085C257);
 }
 
+TEST_CASE("VMSBC.VV(M)", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMSBC(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x4E860257);
+
+    as.RewindBuffer();
+
+    as.VMSBC(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x4C860257);
+}
+
+TEST_CASE("VMSBC.VX(M)", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMSBC(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x4E85C257);
+
+    as.RewindBuffer();
+
+    as.VMSBC(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x4C85C257);
+}
+
 TEST_CASE("VOR.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

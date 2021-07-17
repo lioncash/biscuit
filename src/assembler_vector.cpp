@@ -259,6 +259,18 @@ void Assembler::VMINU(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b000100, mask, vs2, vs1, vd);
 }
 
+void Assembler::VMINU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b000100, mask, vs2, rs1, vd);
+}
+
+void Assembler::VMSBC(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b010011, mask, vs2, vs1, vd);
+}
+
+void Assembler::VMSBC(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b010011, mask, vs2, rs1, vd);
+}
+
 void Assembler::VOR(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b001010, mask, vs2, vs1, vd);
 }
@@ -269,10 +281,6 @@ void Assembler::VOR(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
 
 void Assembler::VOR(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
     EmitVectorOPIVI(m_buffer, 0b001010, mask, vs2, simm, vd);
-}
-
-void Assembler::VMINU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
-    EmitVectorOPIVX(m_buffer, 0b000100, mask, vs2, rs1, vd);
 }
 
 void Assembler::VRGATHER(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
