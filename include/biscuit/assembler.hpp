@@ -556,6 +556,10 @@ public:
     void VMINU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VMINU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VOR(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VOR(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VOR(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
+
     void VRSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VRSUB(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 

@@ -206,6 +206,55 @@ TEST_CASE("VMINU.VX", "[rvv]") {
     REQUIRE(value == 0x1085C257);
 }
 
+TEST_CASE("VOR.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VOR(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x2A860257);
+
+    as.RewindBuffer();
+
+    as.VOR(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x28860257);
+}
+
+TEST_CASE("VOR.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VOR(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x2A85C257);
+
+    as.RewindBuffer();
+
+    as.VOR(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x2885C257);
+}
+
+TEST_CASE("VOR.VI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VOR(v4, v8, 15, VecMask::No);
+    REQUIRE(value == 0x2A87B257);
+
+    as.RewindBuffer();
+
+    as.VOR(v4, v8, -16, VecMask::No);
+    REQUIRE(value == 0x2A883257);
+
+    as.RewindBuffer();
+
+    as.VOR(v4, v8, 15, VecMask::Yes);
+    REQUIRE(value == 0x2887B257);
+
+    as.RewindBuffer();
+
+    as.VOR(v4, v8, -16, VecMask::Yes);
+    REQUIRE(value == 0x28883257);
+}
+
 TEST_CASE("VRSUB.VX", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
