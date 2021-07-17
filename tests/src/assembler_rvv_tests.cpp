@@ -304,6 +304,19 @@ TEST_CASE("VRGATHER.VI", "[rvv]") {
     REQUIRE(value == 0x308FB257);
 }
 
+TEST_CASE("VRGATHEREI16.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VRGATHEREI16(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x3A860257);
+
+    as.RewindBuffer();
+
+    as.VRGATHEREI16(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x38860257);
+}
+
 TEST_CASE("VRSUB.VX", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
