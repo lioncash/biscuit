@@ -388,6 +388,55 @@ TEST_CASE("VMSEQ.VI", "[rvv]") {
     REQUIRE(value == 0x60883257);
 }
 
+TEST_CASE("VMSNE.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMSNE(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x66860257);
+
+    as.RewindBuffer();
+
+    as.VMSNE(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x64860257);
+}
+
+TEST_CASE("VMSNE.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMSNE(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x6685C257);
+
+    as.RewindBuffer();
+
+    as.VMSNE(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x6485C257);
+}
+
+TEST_CASE("VMSNE.VI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMSNE(v4, v8, 15, VecMask::No);
+    REQUIRE(value == 0x6687B257);
+
+    as.RewindBuffer();
+
+    as.VMSNE(v4, v8, -16, VecMask::No);
+    REQUIRE(value == 0x66883257);
+
+    as.RewindBuffer();
+
+    as.VMSNE(v4, v8, 15, VecMask::Yes);
+    REQUIRE(value == 0x6487B257);
+
+    as.RewindBuffer();
+
+    as.VMSNE(v4, v8, -16, VecMask::Yes);
+    REQUIRE(value == 0x64883257);
+}
+
 TEST_CASE("VMV.V.V", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
