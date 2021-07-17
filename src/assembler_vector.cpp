@@ -299,6 +299,14 @@ void Assembler::VRSUB(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
     EmitVectorOPIVI(m_buffer, 0b000011, mask, vs2, simm, vd);
 }
 
+void Assembler::VSBC(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b010010, VecMask::Yes, vs2, vs1, vd);
+}
+
+void Assembler::VSBC(Vec vd, Vec vs2, GPR rs1) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b010010, VecMask::Yes, vs2, rs1, vd);
+}
+
 void Assembler::VSLIDEDOWN(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPIVX(m_buffer, 0b001111, mask, vs2, rs1, vd);
 }

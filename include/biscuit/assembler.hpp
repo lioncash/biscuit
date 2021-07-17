@@ -577,6 +577,9 @@ public:
     void VRSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VRSUB(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
+    void VSBC(Vec vd, Vec vs2, Vec vs1) noexcept;
+    void VSBC(Vec vd, Vec vs2, GPR rs1) noexcept;
+
     void VSLIDEDOWN(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VSLIDEDOWN(Vec vd, Vec vs2, uint32_t uimm, VecMask mask = VecMask::No) noexcept;
 

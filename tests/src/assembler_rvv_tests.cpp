@@ -431,6 +431,22 @@ TEST_CASE("VRSUB.VI", "[rvv]") {
     REQUIRE(value == 0x0C883257);
 }
 
+TEST_CASE("VSBC.VVM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSBC(v4, v8, v12);
+    REQUIRE(value == 0x48860257);
+}
+
+TEST_CASE("VSBC.VXM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSBC(v4, v8, x11);
+    REQUIRE(value == 0x4885C257);
+}
+
 TEST_CASE("VSLIDEDOWN.VX", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
