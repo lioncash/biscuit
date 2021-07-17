@@ -134,19 +134,27 @@ void EmitVectorStoreWholeReg(CodeBuffer& buffer, uint32_t nf, GPR rs, Vec vs) no
                         0b01000, rs, WidthEncoding::E8, vs);
 }
 
-void EmitVectorOPIVI(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, int32_t simm5, Vec vd) noexcept {
-    BISCUIT_ASSERT(simm5 >= -16 && simm5 <= 15);
-
+void EmitVectorOPIVIImpl(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, uint32_t imm5, Vec vd) noexcept {
     // clang-format off
     const auto value = (funct6 << 26) |
                        (static_cast<uint32_t>(vm) << 25) |
                        (vs2.Index() << 20) |
-                       ((static_cast<uint32_t>(simm5) & 0b11111) << 15) |
+                       ((imm5 & 0b11111) << 15) |
                        (0b011U << 12) |
                        (vd.Index() << 7);
     // clang-format on
 
     buffer.Emit32(value | 0b1010111);
+}
+
+void EmitVectorOPIVI(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, int32_t simm5, Vec vd) noexcept {
+    BISCUIT_ASSERT(simm5 >= -16 && simm5 <= 15);
+    EmitVectorOPIVIImpl(buffer, funct6, vm, vs2, static_cast<uint32_t>(simm5), vd);
+}
+
+void EmitVectorOPIVUI(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, uint32_t uimm5, Vec vd) noexcept {
+    BISCUIT_ASSERT(uimm5 <= 31);
+    EmitVectorOPIVIImpl(buffer, funct6, vm, vs2, uimm5, vd);
 }
 
 void EmitVectorOPIVV(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, Vec vs1, Vec vd) noexcept {
@@ -241,6 +249,18 @@ void Assembler::VOR(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
 
 void Assembler::VMINU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPIVX(m_buffer, 0b000100, mask, vs2, rs1, vd);
+}
+
+void Assembler::VRGATHER(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b001100, mask, vs2, vs1, vd);
+}
+
+void Assembler::VRGATHER(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b001100, mask, vs2, rs1, vd);
+}
+
+void Assembler::VRGATHER(Vec vd, Vec vs2, uint32_t uimm, VecMask mask) noexcept {
+    EmitVectorOPIVUI(m_buffer, 0b001100, mask, vs2, static_cast<int32_t>(uimm), vd);
 }
 
 void Assembler::VRSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {

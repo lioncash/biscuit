@@ -255,6 +255,55 @@ TEST_CASE("VOR.VI", "[rvv]") {
     REQUIRE(value == 0x28883257);
 }
 
+TEST_CASE("VRGATHER.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VRGATHER(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x32860257);
+
+    as.RewindBuffer();
+
+    as.VRGATHER(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x30860257);
+}
+
+TEST_CASE("VRGATHER.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VRGATHER(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x3285C257);
+
+    as.RewindBuffer();
+
+    as.VRGATHER(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x3085C257);
+}
+
+TEST_CASE("VRGATHER.VI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VRGATHER(v4, v8, 0, VecMask::No);
+    REQUIRE(value == 0x32803257);
+
+    as.RewindBuffer();
+
+    as.VRGATHER(v4, v8, 31, VecMask::No);
+    REQUIRE(value == 0x328FB257);
+
+    as.RewindBuffer();
+
+    as.VRGATHER(v4, v8, 0, VecMask::Yes);
+    REQUIRE(value == 0x30803257);
+
+    as.RewindBuffer();
+
+    as.VRGATHER(v4, v8, 31, VecMask::Yes);
+    REQUIRE(value == 0x308FB257);
+}
+
 TEST_CASE("VRSUB.VX", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
