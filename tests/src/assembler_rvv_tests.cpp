@@ -131,6 +131,55 @@ TEST_CASE("VAND.VI", "[rvv]") {
     REQUIRE(value == 0x24883257);
 }
 
+TEST_CASE("VMADC.VV(M)", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMADC(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x46860257);
+
+    as.RewindBuffer();
+
+    as.VMADC(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x44860257);
+}
+
+TEST_CASE("VMADC.VX(M)", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMADC(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x4685C257);
+
+    as.RewindBuffer();
+
+    as.VMADC(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x4485C257);
+}
+
+TEST_CASE("VMADC.VI(M)", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMADC(v4, v8, 15, VecMask::No);
+    REQUIRE(value == 0x4687B257);
+
+    as.RewindBuffer();
+
+    as.VMADC(v4, v8, -16, VecMask::No);
+    REQUIRE(value == 0x46883257);
+
+    as.RewindBuffer();
+
+    as.VMADC(v4, v8, 15, VecMask::Yes);
+    REQUIRE(value == 0x4487B257);
+
+    as.RewindBuffer();
+
+    as.VMADC(v4, v8, -16, VecMask::Yes);
+    REQUIRE(value == 0x44883257);
+}
+
 TEST_CASE("VMAX.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
