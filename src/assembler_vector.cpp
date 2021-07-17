@@ -183,6 +183,18 @@ void EmitVectorOPIVX(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, G
 }
 } // Anonymous namespace
 
+void Assembler::VADC(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b010000, VecMask::Yes, vs2, vs1, vd);
+}
+
+void Assembler::VADC(Vec vd, Vec vs2, GPR rs1) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b010000, VecMask::Yes, vs2, rs1, vd);
+}
+
+void Assembler::VADC(Vec vd, Vec vs2, int32_t simm) noexcept {
+    EmitVectorOPIVI(m_buffer, 0b010000, VecMask::Yes, vs2, simm, vd);
+}
+
 void Assembler::VADD(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b000000, mask, vs2, vs1, vd);
 }
