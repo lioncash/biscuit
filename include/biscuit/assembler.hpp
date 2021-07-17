@@ -571,6 +571,10 @@ public:
     void VMSBC(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VMSBC(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VMSEQ(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VMSEQ(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMSEQ(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
+
     void VMV(Vec vd, Vec vs1) noexcept;
     void VMV(Vec vd, GPR rs1) noexcept;
     void VMV(Vec vd, int32_t simm) noexcept;
