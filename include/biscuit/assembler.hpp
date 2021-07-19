@@ -814,6 +814,10 @@ public:
     void VXOR(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VXOR(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
+    void VZEXTVF2(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VZEXTVF4(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VZEXTVF8(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+
     // Vector Load/Store Instructions
 
     void VLE8(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;

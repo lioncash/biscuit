@@ -2710,6 +2710,45 @@ TEST_CASE("VXOR.VI", "[rvv]") {
     REQUIRE(value == 0x2C883257);
 }
 
+TEST_CASE("VZEXT.VF2", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VZEXTVF2(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A832257);
+
+    as.RewindBuffer();
+
+    as.VZEXTVF2(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48832257);
+}
+
+TEST_CASE("VZEXT.VF4", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VZEXTVF4(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A822257);
+
+    as.RewindBuffer();
+
+    as.VZEXTVF4(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48822257);
+}
+
+TEST_CASE("VZEXT.VF8", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VZEXTVF8(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A812257);
+
+    as.RewindBuffer();
+
+    as.VZEXTVF8(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48812257);
+}
+
 TEST_CASE("VLE8.V", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

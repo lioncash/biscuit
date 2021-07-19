@@ -1016,6 +1016,18 @@ void Assembler::VXOR(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
     EmitVectorOPIVI(m_buffer, 0b001011, mask, vs2, simm, vd);
 }
 
+void Assembler::VZEXTVF2(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010010, mask, vs, v6, vd);
+}
+
+void Assembler::VZEXTVF4(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010010, mask, vs, v4, vd);
+}
+
+void Assembler::VZEXTVF8(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010010, mask, vs, v2, vd);
+}
+
 // Vector Load/Store Instructions
 
 void Assembler::VLE8(Vec vd, GPR rs, VecMask mask) noexcept {
