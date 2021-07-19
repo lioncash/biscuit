@@ -425,6 +425,32 @@ TEST_CASE("VFREDOSUM.VS", "[rvv]") {
     REQUIRE(value == 0x0C861257);
 }
 
+TEST_CASE("VFMADD.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFMADD(v4, v12, v8, VecMask::No);
+    REQUIRE(value == 0xA2861257);
+
+    as.RewindBuffer();
+
+    as.VFMADD(v4, v12, v8, VecMask::Yes);
+    REQUIRE(value == 0xA0861257);
+}
+
+TEST_CASE("VFMADD.VF", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFMADD(v4, f12, v8, VecMask::No);
+    REQUIRE(value == 0xA2865257);
+
+    as.RewindBuffer();
+
+    as.VFMADD(v4, f12, v8, VecMask::Yes);
+    REQUIRE(value == 0xA0865257);
+}
+
 TEST_CASE("VFMAX.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
