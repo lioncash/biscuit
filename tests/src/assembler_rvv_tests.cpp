@@ -334,6 +334,84 @@ TEST_CASE("VFCLASS.V", "[rvv]") {
     REQUIRE(value == 0x4C881257);
 }
 
+TEST_CASE("VFCVT.F.X.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFCVT_F_X(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A819257);
+
+    as.RewindBuffer();
+
+    as.VFCVT_F_X(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48819257);
+}
+
+TEST_CASE("VFCVT.F.XU.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFCVT_F_XU(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A811257);
+
+    as.RewindBuffer();
+
+    as.VFCVT_F_XU(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48811257);
+}
+
+TEST_CASE("VFCVT.RTZ.X.F.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFCVT_RTZ_X_F(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A839257);
+
+    as.RewindBuffer();
+
+    as.VFCVT_RTZ_X_F(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48839257);
+}
+
+TEST_CASE("VFCVT.RTZ.XU.F.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFCVT_RTZ_XU_F(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A831257);
+
+    as.RewindBuffer();
+
+    as.VFCVT_RTZ_XU_F(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48831257);
+}
+
+TEST_CASE("VFCVT.X.F.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFCVT_X_F(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A809257);
+
+    as.RewindBuffer();
+
+    as.VFCVT_X_F(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48809257);
+}
+
+TEST_CASE("VFCVT.XU.F.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFCVT_XU_F(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A801257);
+
+    as.RewindBuffer();
+
+    as.VFCVT_XU_F(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48801257);
+}
+
 TEST_CASE("VFDIV.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

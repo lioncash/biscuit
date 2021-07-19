@@ -837,6 +837,13 @@ public:
 
     void VFCLASS(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
 
+    void VFCVT_F_X(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFCVT_F_XU(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFCVT_RTZ_X_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFCVT_RTZ_XU_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFCVT_X_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFCVT_XU_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+
     void VFDIV(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VFDIV(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
     void VFRDIV(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
