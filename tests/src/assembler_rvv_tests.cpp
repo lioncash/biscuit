@@ -665,6 +665,19 @@ TEST_CASE("VFSUB.VF", "[rvv]") {
     REQUIRE(value == 0x08865257);
 }
 
+TEST_CASE("VFRSUB.VF", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFRSUB(v4, v8, f12, VecMask::No);
+    REQUIRE(value == 0x9E865257);
+
+    as.RewindBuffer();
+
+    as.VFRSUB(v4, v8, f12, VecMask::Yes);
+    REQUIRE(value == 0x9C865257);
+}
+
 TEST_CASE("VID.M", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
