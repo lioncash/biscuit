@@ -904,12 +904,24 @@ void Assembler::VWMACC(Vec vd, GPR rs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPMVX(m_buffer, 0b111101, mask, vs2, rs1, vd);
 }
 
+void Assembler::VWMACCSU(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b111111, mask, vs2, vs1, vd);
+}
+
+void Assembler::VWMACCSU(Vec vd, GPR rs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b111111, mask, vs2, rs1, vd);
+}
+
 void Assembler::VWMACCU(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b111100, mask, vs2, vs1, vd);
 }
 
 void Assembler::VWMACCU(Vec vd, GPR rs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPMVX(m_buffer, 0b111100, mask, vs2, rs1, vd);
+}
+
+void Assembler::VWMACCUS(Vec vd, GPR rs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b111110, mask, vs2, rs1, vd);
 }
 
 void Assembler::VWMUL(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {

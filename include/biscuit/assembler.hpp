@@ -771,8 +771,13 @@ public:
     void VWMACC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VWMACC(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
+    void VWMACCSU(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VWMACCSU(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+
     void VWMACCU(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VWMACCU(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+
+    void VWMACCUS(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
     void VWMUL(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VWMUL(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;

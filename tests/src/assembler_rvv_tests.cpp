@@ -2346,6 +2346,32 @@ TEST_CASE("VWMACC.VX", "[rvv]") {
     REQUIRE(value == 0xF485E257);
 }
 
+TEST_CASE("VWMACCSU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWMACCSU(v4, v12, v8, VecMask::No);
+    REQUIRE(value == 0xFE862257);
+
+    as.RewindBuffer();
+
+    as.VWMACCSU(v4, v12, v8, VecMask::Yes);
+    REQUIRE(value == 0xFC862257);
+}
+
+TEST_CASE("VWMACCSU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWMACCSU(v4, x11, v8, VecMask::No);
+    REQUIRE(value == 0xFE85E257);
+
+    as.RewindBuffer();
+
+    as.VWMACCSU(v4, x11, v8, VecMask::Yes);
+    REQUIRE(value == 0xFC85E257);
+}
+
 TEST_CASE("VWMACCU.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
@@ -2370,6 +2396,19 @@ TEST_CASE("VWMACCU.VX", "[rvv]") {
 
     as.VWMACCU(v4, x11, v8, VecMask::Yes);
     REQUIRE(value == 0xF085E257);
+}
+
+TEST_CASE("VWMACCUS.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWMACCUS(v4, x11, v8, VecMask::No);
+    REQUIRE(value == 0xFA85E257);
+
+    as.RewindBuffer();
+
+    as.VWMACCUS(v4, x11, v8, VecMask::Yes);
+    REQUIRE(value == 0xF885E257);
 }
 
 TEST_CASE("VWMUL.VV", "[rvv]") {
