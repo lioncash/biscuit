@@ -609,6 +609,7 @@ public:
     void VMSBC(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VMSBF(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VMSIF(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
     void VMSOF(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
 
     void VMSEQ(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
