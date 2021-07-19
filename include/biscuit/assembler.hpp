@@ -570,6 +570,8 @@ public:
 
     void VFIRST(GPR rd, Vec vs, VecMask mask = VecMask::No) noexcept;
 
+    void VIOTA(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+
     void VMACC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VMACC(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 

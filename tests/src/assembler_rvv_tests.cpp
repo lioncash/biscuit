@@ -308,6 +308,19 @@ TEST_CASE("VFIRST.M", "[rvv]") {
     REQUIRE(value == 0x40C8A557);
 }
 
+TEST_CASE("VIOTA.M", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VIOTA(v4, v8, VecMask::No);
+    REQUIRE(value == 0x52882257);
+
+    as.RewindBuffer();
+
+    as.VIOTA(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x50882257);
+}
+
 TEST_CASE("VMACC.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
