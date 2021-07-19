@@ -23,7 +23,7 @@ public:
     /**
      * Constructor
      *
-     * @param capacity The initial capacity for the code buffer in bytes.
+     * @param capacity The initial capacity of the code buffer in bytes.
      */
     explicit CodeBuffer(size_t capacity = default_capacity);
 
