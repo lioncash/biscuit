@@ -572,6 +572,10 @@ void Assembler::VMVSX(Vec vd, GPR rs) noexcept {
     EmitVectorOPMVX(m_buffer, 0b010000, VecMask::No, v0, rs, vd);
 }
 
+void Assembler::VMVXS(GPR rd, Vec vs) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010000, VecMask::No, vs, v0, Vec{rd.Index()});
+}
+
 void Assembler::VNCLIP(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b101111, mask, vs2, vs1, vd);
 }
