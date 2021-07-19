@@ -629,6 +629,7 @@ public:
     void VOR(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
     void VREDAND(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VREDMINU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VREDOR(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VREDXOR(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;

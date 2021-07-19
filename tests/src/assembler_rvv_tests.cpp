@@ -978,6 +978,19 @@ TEST_CASE("VREDAND.VS", "[rvv]") {
     REQUIRE(value == 0x04862257);
 }
 
+TEST_CASE("VREDMINU.VS", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VREDMINU(v4, v8, v8, VecMask::No);
+    REQUIRE(value == 0x12842257);
+
+    as.RewindBuffer();
+
+    as.VREDMINU(v4, v8, v8, VecMask::Yes);
+    REQUIRE(value == 0x10842257);
+}
+
 TEST_CASE("VREDOR.VS", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
