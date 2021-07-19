@@ -1102,10 +1102,6 @@ public:
     void VSETVLI(GPR rd, GPR rs, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
 
 private:
-    // Emits a compressed load instruction. These consist of:
-    // funct3 | imm | rs1 | imm | rd | op
-    void EmitCompressedLoad(uint32_t funct3, uint32_t imm, GPR rs, Register rd, uint32_t op) noexcept;
-
     // Emits a compressed register arithmetic instruction. These consist of:
     // funct6 | rd | funct2 | rs | op
     void EmitCompressedRegArith(uint32_t funct6, GPR rd, uint32_t funct2, GPR rs, uint32_t op) noexcept;

@@ -205,6 +205,20 @@ void EmitCompressedImmediate(CodeBuffer& buffer, uint32_t funct3, uint32_t imm, 
     const auto new_imm = ((imm & 0b11111) << 2) | ((imm & 0b100000) << 7);
     buffer.Emit16(((funct3 & 0b111) << 13) | new_imm | (rd.Index() << 7) | (op & 0b11));
 }
+
+// Emits a compressed load instruction. These consist of:
+// funct3 | imm | rs1 | imm | rd | op
+void EmitCompressedLoad(CodeBuffer& buffer, uint32_t funct3, uint32_t imm, GPR rs, Register rd, uint32_t op) noexcept {
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
+
+    imm &= 0xF8;
+
+    const auto imm_enc = ((imm & 0x38) << 7) | ((imm & 0xC0) >> 1);
+    const auto rd_san = CompressedRegTo3BitEncoding(rd);
+    const auto rs_san = CompressedRegTo3BitEncoding(rs);
+    buffer.Emit16(((funct3 & 0b111) << 13) | imm_enc | (rs_san << 7) | (rd_san << 2) | (op & 0b11));
+}
 } // Anonymous namespace
 
 void Assembler::Bind(Label* label) {
@@ -1280,7 +1294,7 @@ void Assembler::C_EBREAK() noexcept {
 }
 
 void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitCompressedLoad(0b001, imm, rs, rd, 0b00);
+    EmitCompressedLoad(m_buffer, 0b001, imm, rs, rd, 0b00);
 }
 
 void Assembler::C_FLDSP(FPR rd, uint32_t imm) noexcept {
@@ -1296,7 +1310,7 @@ void Assembler::C_FLDSP(FPR rd, uint32_t imm) noexcept {
 void Assembler::C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept {
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
-    EmitCompressedLoad(0b011, new_imm, rs, rd, 0b00);
+    EmitCompressedLoad(m_buffer, 0b011, new_imm, rs, rd, 0b00);
 }
 
 void Assembler::C_FLWSP(FPR rd, uint32_t imm) noexcept {
@@ -1368,7 +1382,7 @@ void Assembler::C_JR(GPR rs) noexcept {
 }
 
 void Assembler::C_LD(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitCompressedLoad(0b011, imm, rs, rd, 0b00);
+    EmitCompressedLoad(m_buffer, 0b011, imm, rs, rd, 0b00);
 }
 
 void Assembler::C_LDSP(GPR rd, uint32_t imm) noexcept {
@@ -1391,7 +1405,7 @@ void Assembler::C_LI(GPR rd, int32_t imm) noexcept {
 void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
     imm &= 0x1F0;
     const auto new_imm = ((imm & 0x100) >> 5) | (imm & 0xF0);
-    EmitCompressedLoad(0b001, new_imm, rs, rd, 0b00);
+    EmitCompressedLoad(m_buffer, 0b001, new_imm, rs, rd, 0b00);
 }
 
 void Assembler::C_LQSP(GPR rd, uint32_t imm) noexcept {
@@ -1417,7 +1431,7 @@ void Assembler::C_LUI(GPR rd, uint32_t imm) noexcept {
 void Assembler::C_LW(GPR rd, uint32_t imm, GPR rs) noexcept {
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
-    EmitCompressedLoad(0b010, new_imm, rs, rd, 0b00);
+    EmitCompressedLoad(m_buffer, 0b010, new_imm, rs, rd, 0b00);
 }
 
 void Assembler::C_LWSP(GPR rd, uint32_t imm) noexcept {
@@ -1447,7 +1461,7 @@ void Assembler::C_OR(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-    EmitCompressedLoad(0b111, imm, rs1, rs2, 0b00);
+    EmitCompressedLoad(m_buffer, 0b111, imm, rs1, rs2, 0b00);
 }
 
 void Assembler::C_SDSP(GPR rs, uint32_t imm) noexcept {
@@ -1565,18 +1579,6 @@ void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
 }
 
-void Assembler::EmitCompressedLoad(uint32_t funct3, uint32_t imm, GPR rs, Register rd, uint32_t op) noexcept {
-    BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
-    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
-
-    imm &= 0xF8;
-
-    const auto imm_enc = ((imm & 0x38) << 7) | ((imm & 0xC0) >> 1);
-    const auto rd_san = CompressedRegTo3BitEncoding(rd);
-    const auto rs_san = CompressedRegTo3BitEncoding(rs);
-    m_buffer.Emit16(((funct3 & 0b111) << 13) | imm_enc | (rs_san << 7) | (rd_san << 2) | (op & 0b11));
-}
-
 void Assembler::EmitCompressedRegArith(uint32_t funct6, GPR rd, uint32_t funct2, GPR rs, uint32_t op) noexcept {
     BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
     BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
@@ -1589,7 +1591,7 @@ void Assembler::EmitCompressedRegArith(uint32_t funct6, GPR rd, uint32_t funct2,
 void Assembler::EmitCompressedStore(uint32_t funct3, uint32_t imm, GPR rs1, Register rs2, uint32_t op) noexcept {
     // This has the same format as a compressed load, with rs2 taking the place of rd.
     // We can reuse the code we've already written to handle this.
-    EmitCompressedLoad(funct3, imm, rs1, rs2, op);
+    EmitCompressedLoad(m_buffer, funct3, imm, rs1, rs2, op);
 }
 
 void Assembler::EmitCompressedWideImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
