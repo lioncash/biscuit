@@ -334,6 +334,19 @@ TEST_CASE("VFIRST.M", "[rvv]") {
     REQUIRE(value == 0x40C8A557);
 }
 
+TEST_CASE("VFREDMIN.VS", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFREDMIN(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x16861257);
+
+    as.RewindBuffer();
+
+    as.VFREDMIN(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x14861257);
+}
+
 TEST_CASE("VFREDSUM.VS", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
