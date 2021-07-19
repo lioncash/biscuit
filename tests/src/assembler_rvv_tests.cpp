@@ -183,6 +183,32 @@ TEST_CASE("VAND.VI", "[rvv]") {
     REQUIRE(value == 0x24883257);
 }
 
+TEST_CASE("VASUBU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VASUBU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x2A862257);
+
+    as.RewindBuffer();
+
+    as.VASUBU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x28862257);
+}
+
+TEST_CASE("VASUBU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VASUBU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x2A85E257);
+
+    as.RewindBuffer();
+
+    as.VASUBU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x2885E257);
+}
+
 TEST_CASE("VMADC.VV(M)", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
