@@ -1272,6 +1272,14 @@ void Assembler::VFRSUB(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b100111, mask, vs2, rs1, vd);
 }
 
+void Assembler::VFWADD(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b110000, mask, vs2, vs1, vd);
+}
+
+void Assembler::VFWADD(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b110000, mask, vs2, rs1, vd);
+}
+
 void Assembler::VMFEQ(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b011000, mask, vs2, vs1, vd);
 }
