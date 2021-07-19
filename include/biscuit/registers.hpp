@@ -30,17 +30,6 @@ public:
         return m_type == Type::FPR;
     }
 
-    /// Ensures that this register represents a valid GPR.
-    void EnforceValidGPR() const noexcept {
-        // TODO: Handle the RISC-V compressed extension, which only has 16 GPRs.
-        BISCUIT_ASSERT(IsGPR() && m_index < 32);
-    }
-
-    /// Ensures that this register represents a valid FPR.
-    void EnforceValidFPR() const noexcept {
-        BISCUIT_ASSERT(IsFPR() && m_index < 32);
-    }
-
 protected:
     enum class Type {
         GPR,    // General purpose register
