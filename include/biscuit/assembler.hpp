@@ -684,6 +684,8 @@ public:
     void VOR(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VOR(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
+    void VPOPC(GPR rd, Vec vs, VecMask mask = VecMask::No) noexcept;
+
     void VREDAND(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VREDMAX(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VREDMAXU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;

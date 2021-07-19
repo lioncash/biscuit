@@ -1417,6 +1417,19 @@ TEST_CASE("VOR.VI", "[rvv]") {
     REQUIRE(value == 0x28883257);
 }
 
+TEST_CASE("VPOPC.M", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VPOPC(x10, v12, VecMask::No);
+    REQUIRE(value == 0x42C82557);
+
+    as.RewindBuffer();
+
+    as.VPOPC(x10, v12, VecMask::Yes);
+    REQUIRE(value == 0x40C82557);
+}
+
 TEST_CASE("VREDAND.VS", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
