@@ -485,6 +485,10 @@ void Assembler::VREDAND(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b000001, mask, vs2, vs1, vd);
 }
 
+void Assembler::VREDMAX(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b000111, mask, vs2, vs1, vd);
+}
+
 void Assembler::VREDMAXU(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b000110, mask, vs2, vs1, vd);
 }
