@@ -869,6 +869,9 @@ public:
     void VFMV_FS(FPR rd, Vec vs) noexcept;
     void VFMV_SF(Vec vd, FPR rs) noexcept;
 
+    void VFNMACC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VFNMACC(Vec vd, FPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+
     void VFNMADD(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VFNMADD(Vec vd, FPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
