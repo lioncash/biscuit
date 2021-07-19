@@ -165,6 +165,20 @@ void EmitAtomic(CodeBuffer& buffer, uint32_t funct5, Assembler::Ordering orderin
     const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
     EmitRType(buffer, funct7, rs2, rs1, funct3, rd, opcode);
 }
+
+// Emits a fence instruction
+void EmitFENCE(CodeBuffer& buffer, uint32_t fm, Assembler::FenceOrder pred, Assembler::FenceOrder succ,
+               GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
+    // clang-format off
+    buffer.Emit32(((fm & 0b1111) << 28) |
+                  (static_cast<uint32_t>(pred) << 24) |
+                  (static_cast<uint32_t>(succ) << 20) |
+                  (rs.Index() << 15) |
+                  ((funct3 & 0b111) << 12) |
+                  (rd.Index() << 7) |
+                  (opcode & 0x7F));
+    // clang-format on
+}
 } // Anonymous namespace
 
 void Assembler::Bind(Label* label) {
@@ -354,7 +368,7 @@ void Assembler::FENCE() noexcept {
 }
 
 void Assembler::FENCE(FenceOrder pred, FenceOrder succ) noexcept {
-    EmitFENCE(0b0000, pred, succ, x0, 0b000, x0, 0b0001111);
+    EmitFENCE(m_buffer, 0b0000, pred, succ, x0, 0b000, x0, 0b0001111);
 }
 
 void Assembler::FENCEI(GPR rd, GPR rs, uint32_t imm) noexcept {
@@ -362,7 +376,7 @@ void Assembler::FENCEI(GPR rd, GPR rs, uint32_t imm) noexcept {
 }
 
 void Assembler::FENCETSO() noexcept {
-    EmitFENCE(0b1000, FenceOrder::RW, FenceOrder::RW, x0, 0b000, x0, 0b0001111);
+    EmitFENCE(m_buffer, 0b1000, FenceOrder::RW, FenceOrder::RW, x0, 0b000, x0, 0b0001111);
 }
 
 void Assembler::J(Label* label) noexcept {
@@ -1523,18 +1537,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
-    // clang-format off
-    m_buffer.Emit32(((fm & 0b1111) << 28) |
-                    (static_cast<uint32_t>(pred) << 24) |
-                    (static_cast<uint32_t>(succ) << 20) |
-                    (rs.Index() << 15) |
-                    ((funct3 & 0b111) << 12) |
-                    (rd.Index() << 7) |
-                    (opcode & 0x7F));
-    // clang-format on
 }
 
 void Assembler::EmitCompressedBranch(uint32_t funct3, int32_t offset, GPR rs, uint32_t op) noexcept {
