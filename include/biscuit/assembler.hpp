@@ -830,6 +830,11 @@ public:
     void VZEXTVF4(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
     void VZEXTVF8(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
 
+    // Vector Floating-Point Instructions
+
+    void VFADD(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VFADD(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
     // Vector Load/Store Instructions
 
     void VLE8(Vec vd, GPR rs, VecMask mask = VecMask::No) noexcept;

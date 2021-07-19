@@ -207,6 +207,32 @@ void EmitVectorOPMVX(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, G
 
     buffer.Emit32(value | 0b1010111);
 }
+
+void EmitVectorOPFVV(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, Vec vs1, Vec vd) noexcept {
+    // clang-format off
+    const auto value = (funct6 << 26) |
+                       (static_cast<uint32_t>(vm) << 25) |
+                       (vs2.Index() << 20) |
+                       (vs1.Index() << 15) |
+                       (0b001U << 12) |
+                       (vd.Index() << 7);
+    // clang-format on
+
+    buffer.Emit32(value | 0b1010111);
+}
+
+void EmitVectorOPFVF(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, GPR rs1, Vec vd) noexcept {
+    // clang-format off
+    const auto value = (funct6 << 26) |
+                       (static_cast<uint32_t>(vm) << 25) |
+                       (vs2.Index() << 20) |
+                       (rs1.Index() << 15) |
+                       (0b101U << 12) |
+                       (vd.Index() << 7);
+    // clang-format on
+
+    buffer.Emit32(value | 0b1010111);
+}
 } // Anonymous namespace
 
 // Vector Integer Arithmetic Instructions
@@ -1058,6 +1084,16 @@ void Assembler::VZEXTVF4(Vec vd, Vec vs, VecMask mask) noexcept {
 
 void Assembler::VZEXTVF8(Vec vd, Vec vs, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b010010, mask, vs, v2, vd);
+}
+
+// Vector Floating-Point Instructions
+
+void Assembler::VFADD(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b000000, mask, vs2, vs1, vd);
+}
+
+void Assembler::VFADD(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b000000, mask, vs2, rs1, vd);
 }
 
 // Vector Load/Store Instructions
