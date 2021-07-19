@@ -313,6 +313,14 @@ void Assembler::VMADC(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
     EmitVectorOPIVI(m_buffer, 0b010001, mask, vs2, simm, vd);
 }
 
+void Assembler::VMADD(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b101001, mask, vs2, vs1, vd);
+}
+
+void Assembler::VMADD(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b101001, mask, vs2, rs1, vd);
+}
+
 void Assembler::VMAND(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVV(m_buffer, 0b011001, VecMask::No, vs2, vs1, vd);
 }

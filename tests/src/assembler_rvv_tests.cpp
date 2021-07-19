@@ -344,6 +344,32 @@ TEST_CASE("VMADC.VI(M)", "[rvv]") {
     REQUIRE(value == 0x44883257);
 }
 
+TEST_CASE("VMADD.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMADD(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0xA6862257);
+
+    as.RewindBuffer();
+
+    as.VMADD(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0xA4862257);
+}
+
+TEST_CASE("VMADD.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMADD(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0xA685E257);
+
+    as.RewindBuffer();
+
+    as.VMADD(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0xA485E257);
+}
+
 TEST_CASE("VMAND.MM", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
