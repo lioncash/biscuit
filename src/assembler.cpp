@@ -4,40 +4,40 @@
 #include <cstring>
 
 namespace biscuit {
-
+namespace {
 // B-type immediates only provide ~4KiB range branches.
-[[nodiscard]] static bool IsValidBTypeImm(ptrdiff_t value) noexcept {
+[[nodiscard]] bool IsValidBTypeImm(ptrdiff_t value) noexcept {
     return value >= -2048 && value <= 2047;
 }
 
 // J-type immediates only provide ~1MiB range branches.
-[[nodiscard]] static bool IsValidJTypeImm(ptrdiff_t value) noexcept {
+[[nodiscard]] bool IsValidJTypeImm(ptrdiff_t value) noexcept {
     return value >= -0x80000 && value <= 0x7FFFF;
 }
 
 // CB-type immediates only provide ~256B range branches.
-[[nodiscard]] static bool IsValidCBTypeImm(ptrdiff_t value) noexcept {
+[[nodiscard]] bool IsValidCBTypeImm(ptrdiff_t value) noexcept {
     return value >= -256 && value <= 255;
 }
 
 // CJ-type immediates only provide ~2KiB range branches.
-[[nodiscard]] static bool IsValidCJTypeImm(ptrdiff_t value) noexcept {
+[[nodiscard]] bool IsValidCJTypeImm(ptrdiff_t value) noexcept {
     return value >= -1024 && value <= 1023;
 }
 
 // Determines whether or not the register fits in 3-bit compressed encoding.
-[[nodiscard]] static bool IsValid3BitCompressedReg(Register reg) noexcept {
+[[nodiscard]] bool IsValid3BitCompressedReg(Register reg) noexcept {
     const auto index = reg.Index();
     return index >= 8 && index <= 15;
 }
 
 // Turns a compressed register into its encoding.
-[[nodiscard]] static uint32_t CompressedRegTo3BitEncoding(Register reg) noexcept {
+[[nodiscard]] uint32_t CompressedRegTo3BitEncoding(Register reg) noexcept {
     return reg.Index() - 8;
 }
 
 // Transforms a regular value into an immediate encoded in a B-type instruction.
-[[nodiscard]] static uint32_t TransformToBTypeImm(uint32_t imm) noexcept {
+[[nodiscard]] uint32_t TransformToBTypeImm(uint32_t imm) noexcept {
     // clang-format off
     return ((imm & 0x07E0) << 20) |
            ((imm & 0x1000) << 19) |
@@ -47,7 +47,7 @@ namespace biscuit {
 }
 
 // Transforms a regular value into an immediate encoded in a J-type instruction.
-[[nodiscard]] static uint32_t TransformToJTypeImm(uint32_t imm) noexcept {
+[[nodiscard]] uint32_t TransformToJTypeImm(uint32_t imm) noexcept {
     // clang-format off
     return ((imm & 0x0FF000) >> 0) |
            ((imm & 0x000800) << 9) |
@@ -57,7 +57,7 @@ namespace biscuit {
 }
 
 // Transforms a regular value into an immediate encoded in a CB-type instruction.
-[[nodiscard]] static uint32_t TransformToCBTypeImm(uint32_t imm) noexcept {
+[[nodiscard]] uint32_t TransformToCBTypeImm(uint32_t imm) noexcept {
     // clang-format off
     return ((imm & 0x0C0) >> 1) |
            ((imm & 0x006) << 2) |
@@ -68,7 +68,7 @@ namespace biscuit {
 }
 
 // Transforms a regular value into an immediate encoded in a CJ-type instruction.
-[[nodiscard]] static uint32_t TransformToCJTypeImm(uint32_t imm) noexcept {
+[[nodiscard]] uint32_t TransformToCJTypeImm(uint32_t imm) noexcept {
     // clang-format off
     return ((imm & 0x800) << 1) |
            ((imm & 0x010) << 7) |
@@ -82,9 +82,11 @@ namespace biscuit {
 }
 
 // Determines if a value lies within the range of a 6-bit immediate.
-[[nodiscard]] static bool IsValid6BitSignedImm(int32_t value) noexcept {
+[[nodiscard]] bool IsValid6BitSignedImm(int32_t value) noexcept {
     return value >= -32 && value <= 31;
 }
+
+} // Anonymous namespace
 
 void Assembler::Bind(Label* label) {
     BindToOffset(label, m_buffer.GetCursorOffset());
