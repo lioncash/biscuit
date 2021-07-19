@@ -753,6 +753,32 @@ TEST_CASE("VMFEQ.VF", "[rvv]") {
     REQUIRE(value == 0x60865257);
 }
 
+TEST_CASE("VMFLE.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMFLE(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x66861257);
+
+    as.RewindBuffer();
+
+    as.VMFLE(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x64861257);
+}
+
+TEST_CASE("VMFLE.VF", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMFLE(v4, v8, x12, VecMask::No);
+    REQUIRE(value == 0x66865257);
+
+    as.RewindBuffer();
+
+    as.VMFLE(v4, v8, x12, VecMask::Yes);
+    REQUIRE(value == 0x64865257);
+}
+
 TEST_CASE("VMNAND.MM", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
