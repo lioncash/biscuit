@@ -1200,6 +1200,14 @@ void Assembler::VMFLT(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b011011, mask, vs2, rs1, vd);
 }
 
+void Assembler::VMFNE(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b011100, mask, vs2, vs1, vd);
+}
+
+void Assembler::VMFNE(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b011100, mask, vs2, rs1, vd);
+}
+
 // Vector Load/Store Instructions
 
 void Assembler::VLE8(Vec vd, GPR rs, VecMask mask) noexcept {
