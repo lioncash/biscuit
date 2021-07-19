@@ -618,11 +618,11 @@ void Assembler::VMV8R(Vec vd, Vec vs) noexcept {
     EmitVectorOPIVI(m_buffer, 0b100111, VecMask::No, vs, 0b00111, vd);
 }
 
-void Assembler::VMVSX(Vec vd, GPR rs) noexcept {
+void Assembler::VMV_SX(Vec vd, GPR rs) noexcept {
     EmitVectorOPMVX(m_buffer, 0b010000, VecMask::No, v0, rs, vd);
 }
 
-void Assembler::VMVXS(GPR rd, Vec vs) noexcept {
+void Assembler::VMV_XS(GPR rd, Vec vs) noexcept {
     EmitVectorOPMVV(m_buffer, 0b010000, VecMask::No, vs, v0, Vec{rd.Index()});
 }
 
