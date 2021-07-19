@@ -421,6 +421,10 @@ void Assembler::VMSBF(Vec vd, Vec vs, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b010100, mask, vs, v1, vd);
 }
 
+void Assembler::VMSOF(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010100, mask, vs, v2, vd);
+}
+
 void Assembler::VMSEQ(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b011000, mask, vs2, vs1, vd);
 }

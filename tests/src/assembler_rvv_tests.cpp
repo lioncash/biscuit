@@ -645,6 +645,19 @@ TEST_CASE("VMSBF.M", "[rvv]") {
     REQUIRE(value == 0x5080A257);
 }
 
+TEST_CASE("VMSOF.M", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMSOF(v4, v8, VecMask::No);
+    REQUIRE(value == 0x52812257);
+
+    as.RewindBuffer();
+
+    as.VMSOF(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x50812257);
+}
+
 TEST_CASE("VMSEQ.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
