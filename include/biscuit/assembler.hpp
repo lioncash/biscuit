@@ -845,6 +845,9 @@ public:
     void VFREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VFREDOSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
 
+    void VFMACC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VFMACC(Vec vd, FPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+
     void VFMADD(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VFMADD(Vec vd, FPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
