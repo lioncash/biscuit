@@ -669,11 +669,11 @@ public:
     void VSBC(Vec vd, Vec vs2, Vec vs1) noexcept;
     void VSBC(Vec vd, Vec vs2, GPR rs1) noexcept;
 
+    void VSLIDE1DOWN(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VSLIDEDOWN(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VSLIDEDOWN(Vec vd, Vec vs2, uint32_t uimm, VecMask mask = VecMask::No) noexcept;
 
     void VSLIDE1UP(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
-
     void VSLIDEUP(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VSLIDEUP(Vec vd, Vec vs2, uint32_t uimm, VecMask mask = VecMask::No) noexcept;
 
