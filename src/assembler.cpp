@@ -179,6 +179,17 @@ void EmitFENCE(CodeBuffer& buffer, uint32_t fm, Assembler::FenceOrder pred, Asse
                   (opcode & 0x7F));
     // clang-format on
 }
+
+// Emits a compressed branch instruction. These consist of:
+// funct3 | imm[8|4:3] | rs | imm[7:6|2:1|5] | op
+void EmitCompressedBranch(CodeBuffer& buffer, uint32_t funct3, int32_t offset, GPR rs, uint32_t op) noexcept {
+    BISCUIT_ASSERT(IsValidCBTypeImm(offset));
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
+
+    const auto transformed_imm = TransformToCBTypeImm(static_cast<uint32_t>(offset));
+    const auto rs_san = CompressedRegTo3BitEncoding(rs);
+    buffer.Emit16(((funct3 & 0b111) << 13) | transformed_imm | (rs_san << 7) | (op & 0b11));
+}
 } // Anonymous namespace
 
 void Assembler::Bind(Label* label) {
@@ -1232,7 +1243,7 @@ void Assembler::C_ANDI(GPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::C_BEQZ(GPR rs, int32_t offset) noexcept {
-    EmitCompressedBranch(0b110, offset, rs, 0b01);
+    EmitCompressedBranch(m_buffer, 0b110, offset, rs, 0b01);
 }
 
 void Assembler::C_BEQZ(GPR rs, Label* label) noexcept {
@@ -1241,7 +1252,7 @@ void Assembler::C_BEQZ(GPR rs, Label* label) noexcept {
 }
 
 void Assembler::C_BNEZ(GPR rs, int32_t offset) noexcept {
-    EmitCompressedBranch(0b111, offset, rs, 0b01);
+    EmitCompressedBranch(m_buffer, 0b111, offset, rs, 0b01);
 }
 
 void Assembler::C_BNEZ(GPR rs, Label* label) noexcept {
@@ -1537,15 +1548,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitCompressedBranch(uint32_t funct3, int32_t offset, GPR rs, uint32_t op) noexcept {
-    BISCUIT_ASSERT(IsValidCBTypeImm(offset));
-    BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
-
-    const auto transformed_imm = TransformToCBTypeImm(static_cast<uint32_t>(offset));
-    const auto rs_san = CompressedRegTo3BitEncoding(rs);
-    m_buffer.Emit16(((funct3 & 0b111) << 13) | transformed_imm | (rs_san << 7) | (op & 0b11));
 }
 
 void Assembler::EmitCompressedJump(uint32_t funct3, int32_t offset, uint32_t op) noexcept {

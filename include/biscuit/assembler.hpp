@@ -1102,10 +1102,6 @@ public:
     void VSETVLI(GPR rd, GPR rs, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
 
 private:
-    // Emits a compressed branch instruction. These consist of:
-    // funct3 | imm[8|4:3] | rs | imm[7:6|2:1|5] | op
-    void EmitCompressedBranch(uint32_t funct3, int32_t offset, GPR rs, uint32_t op) noexcept;
-
     // Emits a compressed jump instruction. These consist of:
     // funct3 | imm | op
     void EmitCompressedJump(uint32_t funct3, int32_t offset, uint32_t op) noexcept;
