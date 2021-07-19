@@ -292,6 +292,70 @@ TEST_CASE("VMADC.VI(M)", "[rvv]") {
     REQUIRE(value == 0x44883257);
 }
 
+TEST_CASE("VMAND.MM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMAND(v4, v8, v12);
+    REQUIRE(value == 0x66862257);
+}
+
+TEST_CASE("VMANDNOT.MM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMANDNOT(v4, v8, v12);
+    REQUIRE(value == 0x62862257);
+}
+
+TEST_CASE("VMNAND.MM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMNAND(v4, v8, v12);
+    REQUIRE(value == 0x76862257);
+}
+
+TEST_CASE("VMNOR.MM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMNOR(v4, v8, v12);
+    REQUIRE(value == 0x7A862257);
+}
+
+TEST_CASE("VMOR.MM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMOR(v4, v8, v12);
+    REQUIRE(value == 0x6A862257);
+}
+
+TEST_CASE("VMORNOT.MM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMORNOT(v4, v8, v12);
+    REQUIRE(value == 0x72862257);
+}
+
+TEST_CASE("VMXNOR.MM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMXNOR(v4, v8, v12);
+    REQUIRE(value == 0x7E862257);
+}
+
+TEST_CASE("VMXOR.MM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMXOR(v4, v8, v12);
+    REQUIRE(value == 0x6E862257);
+}
+
 TEST_CASE("VMAX.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

@@ -297,6 +297,38 @@ void Assembler::VMADC(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
     EmitVectorOPIVI(m_buffer, 0b010001, mask, vs2, simm, vd);
 }
 
+void Assembler::VMAND(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b011001, VecMask::No, vs2, vs1, vd);
+}
+
+void Assembler::VMANDNOT(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b011000, VecMask::No, vs2, vs1, vd);
+}
+
+void Assembler::VMNAND(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b011101, VecMask::No, vs2, vs1, vd);
+}
+
+void Assembler::VMNOR(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b011110, VecMask::No, vs2, vs1, vd);
+}
+
+void Assembler::VMOR(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b011010, VecMask::No, vs2, vs1, vd);
+}
+
+void Assembler::VMORNOT(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b011100, VecMask::No, vs2, vs1, vd);
+}
+
+void Assembler::VMXNOR(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b011111, VecMask::No, vs2, vs1, vd);
+}
+
+void Assembler::VMXOR(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b011011, VecMask::No, vs2, vs1, vd);
+}
+
 void Assembler::VMAX(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b000111, mask, vs2, vs1, vd);
 }
