@@ -516,6 +516,32 @@ TEST_CASE("VFSGNJX.VF", "[rvv]") {
     REQUIRE(value == 0x28865257);
 }
 
+TEST_CASE("VFSLIDE1DOWN.VF", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFSLIDE1DOWN(v4, v8, x12, VecMask::No);
+    REQUIRE(value == 0x3E865257);
+
+    as.RewindBuffer();
+
+    as.VFSLIDE1DOWN(v4, v8, x12, VecMask::Yes);
+    REQUIRE(value == 0x3C865257);
+}
+
+TEST_CASE("VFSLIDE1UP.VF", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFSLIDE1UP(v4, v8, x12, VecMask::No);
+    REQUIRE(value == 0x3A865257);
+
+    as.RewindBuffer();
+
+    as.VFSLIDE1UP(v4, v8, x12, VecMask::Yes);
+    REQUIRE(value == 0x38865257);
+}
+
 TEST_CASE("VFSUB.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
