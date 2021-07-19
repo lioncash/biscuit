@@ -1124,6 +1124,34 @@ void Assembler::VFCVT_XU_F(Vec vd, Vec vs, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v0, vd);
 }
 
+void Assembler::VFWCVT_F_F(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v12, vd);
+}
+
+void Assembler::VFWCVT_F_X(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v11, vd);
+}
+
+void Assembler::VFWCVT_F_XU(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v10, vd);
+}
+
+void Assembler::VFWCVT_RTZ_X_F(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v15, vd);
+}
+
+void Assembler::VFWCVT_RTZ_XU_F(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v14, vd);
+}
+
+void Assembler::VFWCVT_X_F(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v9, vd);
+}
+
+void Assembler::VFWCVT_XU_F(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v8, vd);
+}
+
 void Assembler::VFDIV(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b100000, mask, vs2, vs1, vd);
 }
