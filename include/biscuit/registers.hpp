@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <biscuit/assert.hpp>
 
 namespace biscuit {
 
