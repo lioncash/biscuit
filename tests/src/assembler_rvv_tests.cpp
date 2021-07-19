@@ -753,6 +753,19 @@ TEST_CASE("VMFEQ.VF", "[rvv]") {
     REQUIRE(value == 0x60865257);
 }
 
+TEST_CASE("VMFGT.VF", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMFGT(v4, v8, x12, VecMask::No);
+    REQUIRE(value == 0x76865257);
+
+    as.RewindBuffer();
+
+    as.VMFGT(v4, v8, x12, VecMask::Yes);
+    REQUIRE(value == 0x74865257);
+}
+
 TEST_CASE("VMFLE.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
