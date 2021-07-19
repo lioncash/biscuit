@@ -194,7 +194,7 @@ enum class CSR : uint32_t {
     DCSR           = 0x7B0, // Debug control and status register
     DPC            = 0x7B1, // Debug PC
     DScratch0      = 0x7B2, // Debug scratch register 0
-    DScratch1      = 0x7B3, // Debug scratch register 0
+    DScratch1      = 0x7B3, // Debug scratch register 1
 
     // Vector Extension CSRs
 
