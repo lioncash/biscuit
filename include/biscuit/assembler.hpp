@@ -835,6 +835,8 @@ public:
     void VFADD(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VFADD(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VFCLASS(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+
     void VFDIV(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VFDIV(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
     void VFRDIV(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
