@@ -1100,6 +1100,10 @@ void Assembler::VFREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b000001, mask, vs2, vs1, vd);
 }
 
+void Assembler::VFREDOSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b000011, mask, vs2, vs1, vd);
+}
+
 void Assembler::VFSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b000010, mask, vs2, vs1, vd);
 }

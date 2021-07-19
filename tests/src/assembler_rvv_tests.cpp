@@ -347,6 +347,19 @@ TEST_CASE("VFREDSUM.VS", "[rvv]") {
     REQUIRE(value == 0x04861257);
 }
 
+TEST_CASE("VFREDOSUM.VS", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFREDOSUM(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x0E861257);
+
+    as.RewindBuffer();
+
+    as.VFREDOSUM(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x0C861257);
+}
+
 TEST_CASE("VFSUB.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
