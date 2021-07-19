@@ -26,10 +26,11 @@ Includes both 32-bit and 64-bit instructions in the following:
 | RV32I     | 2.1     |
 | RV64I     | 2.1     |
 | S         | 1.12    |
+| V         | 1.0 RC  |
 | Zicsr     | 2.0     |
 | Zifencei  | 2.0     |
 
-Note that only extensions considered ratified will be implemented
+Note that usually only extensions considered ratified will be implemented
 as non-ratified documents are considerably more likely to have
 large changes made to them, which makes maintaining instruction
 APIs a little annoying.
