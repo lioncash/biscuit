@@ -869,6 +869,7 @@ public:
     void VMFEQ(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VMFEQ(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VMFGE(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VMFGT(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VMFLE(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;

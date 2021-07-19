@@ -1184,6 +1184,10 @@ void Assembler::VMFEQ(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b011000, mask, vs2, rs1, vd);
 }
 
+void Assembler::VMFGE(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b011111, mask, vs2, rs1, vd);
+}
+
 void Assembler::VMFGT(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b011101, mask, vs2, rs1, vd);
 }
