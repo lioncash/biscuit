@@ -69,7 +69,7 @@ public:
     [[nodiscard]] explicit Assembler(size_t capacity = CodeBuffer::default_capacity)
         : m_buffer(capacity) {}
 
-   /**
+    /**
      * Constructor
      *
      * @param buffer   A non-null pointer to an allocated buffer of size `capacity`.
