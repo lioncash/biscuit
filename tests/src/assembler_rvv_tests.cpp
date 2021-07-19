@@ -990,6 +990,32 @@ TEST_CASE("VFWMUL.VF", "[rvv]") {
     REQUIRE(value == 0xE0865257);
 }
 
+TEST_CASE("VFWNMACC.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFWNMACC(v4, v12, v8, VecMask::No);
+    REQUIRE(value == 0xF6861257);
+
+    as.RewindBuffer();
+
+    as.VFWNMACC(v4, v12, v8, VecMask::Yes);
+    REQUIRE(value == 0xF4861257);
+}
+
+TEST_CASE("VFWNMACC.VF", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFWNMACC(v4, f12, v8, VecMask::No);
+    REQUIRE(value == 0xF6865257);
+
+    as.RewindBuffer();
+
+    as.VFWNMACC(v4, f12, v8, VecMask::Yes);
+    REQUIRE(value == 0xF4865257);
+}
+
 TEST_CASE("VFWREDSUM.VS", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

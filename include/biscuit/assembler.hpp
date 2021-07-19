@@ -912,6 +912,9 @@ public:
     void VFWMUL(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VFWMUL(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VFWNMACC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VFWNMACC(Vec vd, FPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+
     void VFWREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VFWREDOSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
 
