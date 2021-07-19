@@ -301,6 +301,10 @@ void Assembler::VDIVU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPMVX(m_buffer, 0b100000, mask, vs2, rs1, vd);
 }
 
+void Assembler::VFIRST(GPR rd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010000, mask, vs, v17, Vec{rd.Index()});
+}
+
 void Assembler::VMACC(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b101101, mask, vs2, vs1, vd);
 }
