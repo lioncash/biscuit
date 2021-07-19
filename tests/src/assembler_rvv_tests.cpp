@@ -235,6 +235,14 @@ TEST_CASE("VASUBU.VX", "[rvv]") {
     REQUIRE(value == 0x2885E257);
 }
 
+TEST_CASE("VCOMPRESS.VM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VCOMPRESS(v4, v8, v12);
+    REQUIRE(value == 0x5E862257);
+}
+
 TEST_CASE("VMADC.VV(M)", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

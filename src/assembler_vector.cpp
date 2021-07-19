@@ -279,6 +279,12 @@ void Assembler::VASUBU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPMVX(m_buffer, 0b001010, mask, vs2, rs1, vd);
 }
 
+void Assembler::VCOMPRESS(Vec vd, Vec vs2, Vec vs1) noexcept {
+    // Note: Destination register may not overlap any of the source registers,
+    //       as per the RVV spec (as of 1.0RC; see section 16.5)
+    EmitVectorOPMVV(m_buffer, 0b010111, VecMask::No, vs2, vs1, vd);
+}
+
 void Assembler::VMADC(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b010001, mask, vs2, vs1, vd);
 }
