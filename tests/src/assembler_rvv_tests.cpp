@@ -965,6 +965,19 @@ TEST_CASE("VOR.VI", "[rvv]") {
     REQUIRE(value == 0x28883257);
 }
 
+TEST_CASE("VREDAND.VS", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VREDAND(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x06862257);
+
+    as.RewindBuffer();
+
+    as.VREDAND(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x04862257);
+}
+
 TEST_CASE("VREDSUM.VS", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
@@ -977,7 +990,6 @@ TEST_CASE("VREDSUM.VS", "[rvv]") {
     as.VREDSUM(v4, v8, v12, VecMask::Yes);
     REQUIRE(value == 0x00862257);
 }
-
 
 TEST_CASE("VRGATHER.VV", "[rvv]") {
     uint32_t value = 0;

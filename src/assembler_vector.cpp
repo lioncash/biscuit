@@ -481,6 +481,10 @@ void Assembler::VOR(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
     EmitVectorOPIVI(m_buffer, 0b001010, mask, vs2, simm, vd);
 }
 
+void Assembler::VREDAND(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b000001, mask, vs2, vs1, vd);
+}
+
 void Assembler::VREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b000000, mask, vs2, vs1, vd);
 }
