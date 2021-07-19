@@ -864,6 +864,22 @@ void Assembler::VSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPIVX(m_buffer, 0b000010, mask, vs2, rs1, vd);
 }
 
+void Assembler::VWADD(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b110001, mask, vs2, vs1, vd);
+}
+
+void Assembler::VWADD(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b110001, mask, vs2, rs1, vd);
+}
+
+void Assembler::VWADDU(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b110000, mask, vs2, vs1, vd);
+}
+
+void Assembler::VWADDU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b110000, mask, vs2, rs1, vd);
+}
+
 void Assembler::VWREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b110001, mask, vs2, vs1, vd);
 }

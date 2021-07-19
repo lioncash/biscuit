@@ -2216,6 +2216,58 @@ TEST_CASE("VSUB.VX", "[rvv]") {
     REQUIRE(value == 0x0885C257);
 }
 
+TEST_CASE("VWADD.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWADD(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0xC6862257);
+
+    as.RewindBuffer();
+
+    as.VWADD(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0xC4862257);
+}
+
+TEST_CASE("VWADD.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWADD(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0xC685E257);
+
+    as.RewindBuffer();
+
+    as.VWADD(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0xC485E257);
+}
+
+TEST_CASE("VWADDU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWADDU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0xC2862257);
+
+    as.RewindBuffer();
+
+    as.VWADDU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0xC0862257);
+}
+
+TEST_CASE("VWADDU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWADDU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0xC285E257);
+
+    as.RewindBuffer();
+
+    as.VWADDU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0xC085E257);
+}
+
 TEST_CASE("VWREDSUM.VS", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

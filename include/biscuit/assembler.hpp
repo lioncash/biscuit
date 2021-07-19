@@ -756,6 +756,12 @@ public:
     void VSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VWADD(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VWADD(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
+    void VWADDU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VWADDU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
     void VWREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VWREDSUMU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
 
