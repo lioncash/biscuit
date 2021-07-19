@@ -1212,6 +1212,14 @@ void Assembler::VFNMADD(Vec vd, FPR rs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b101001, mask, vs2, rs1, vd);
 }
 
+void Assembler::VFNMSAC(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b101111, mask, vs2, vs1, vd);
+}
+
+void Assembler::VFNMSAC(Vec vd, FPR rs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b101111, mask, vs2, rs1, vd);
+}
+
 void Assembler::VFNMSUB(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b101011, mask, vs2, vs1, vd);
 }
