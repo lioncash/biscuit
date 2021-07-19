@@ -834,6 +834,19 @@ TEST_CASE("VFSQRT.V", "[rvv]") {
     REQUIRE(value == 0x4C801257);
 }
 
+TEST_CASE("VFRSQRT7.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFRSQRT7(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4E821257);
+
+    as.RewindBuffer();
+
+    as.VFRSQRT7(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x4C821257);
+}
+
 TEST_CASE("VFSLIDE1DOWN.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

@@ -894,6 +894,7 @@ public:
     void VFSGNJX(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VFSQRT(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFRSQRT7(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
 
     void VFSLIDE1DOWN(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
     void VFSLIDE1UP(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
