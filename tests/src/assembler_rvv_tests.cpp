@@ -925,6 +925,32 @@ TEST_CASE("VFWREDSUM.VS", "[rvv]") {
     REQUIRE(value == 0xC4861257);
 }
 
+TEST_CASE("VFWSUB.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFWSUB(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0xCA861257);
+
+    as.RewindBuffer();
+
+    as.VFWSUB(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0xC8861257);
+}
+
+TEST_CASE("VFWSUB.VF", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFWSUB(v4, v8, f12, VecMask::No);
+    REQUIRE(value == 0xCA865257);
+
+    as.RewindBuffer();
+
+    as.VFWSUB(v4, v8, f12, VecMask::Yes);
+    REQUIRE(value == 0xC8865257);
+}
+
 TEST_CASE("VID.M", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

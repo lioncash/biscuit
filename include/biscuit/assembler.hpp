@@ -905,6 +905,9 @@ public:
 
     void VFWREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
 
+    void VFWSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VFWSUB(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
+
     void VMFEQ(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VMFEQ(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
