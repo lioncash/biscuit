@@ -653,6 +653,10 @@ public:
     void VSRL(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VSRL(Vec vd, Vec vs2, uint32_t uimm, VecMask mask = VecMask::No) noexcept;
 
+    void VSSRL(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VSSRL(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VSSRL(Vec vd, Vec vs2, uint32_t uimm, VecMask mask = VecMask::No) noexcept;
+
     void VSSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VSSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
