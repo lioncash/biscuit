@@ -347,6 +347,19 @@ TEST_CASE("VFDIV.VF", "[rvv]") {
     REQUIRE(value == 0x80865257);
 }
 
+TEST_CASE("VFRDIV.VF", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFRDIV(v4, v8, f12, VecMask::No);
+    REQUIRE(value == 0x86865257);
+
+    as.RewindBuffer();
+
+    as.VFRDIV(v4, v8, f12, VecMask::Yes);
+    REQUIRE(value == 0x84865257);
+}
+
 TEST_CASE("VFIRST.M", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

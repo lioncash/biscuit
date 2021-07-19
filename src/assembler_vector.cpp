@@ -1104,6 +1104,10 @@ void Assembler::VFDIV(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b100000, mask, vs2, rs1, vd);
 }
 
+void Assembler::VFRDIV(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b100001, mask, vs2, rs1, vd);
+}
+
 void Assembler::VFREDMAX(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b000111, mask, vs2, vs1, vd);
 }

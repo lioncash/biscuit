@@ -837,6 +837,7 @@ public:
 
     void VFDIV(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VFDIV(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VFRDIV(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VFREDMAX(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VFREDMIN(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
