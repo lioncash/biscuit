@@ -4,6 +4,32 @@
 
 using namespace biscuit;
 
+TEST_CASE("VAADDU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VAADDU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x22862257);
+
+    as.RewindBuffer();
+
+    as.VAADDU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x20862257);
+}
+
+TEST_CASE("VAADDU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VAADDU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x2285E257);
+
+    as.RewindBuffer();
+
+    as.VAADDU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x2085E257);
+}
+
 TEST_CASE("VADC.VVM", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

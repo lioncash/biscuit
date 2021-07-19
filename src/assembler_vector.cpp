@@ -194,9 +194,30 @@ void EmitVectorOPMVV(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, V
 
     buffer.Emit32(value | 0b1010111);
 }
+
+void EmitVectorOPMVX(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, GPR rs1, Vec vd) noexcept {
+    // clang-format off
+    const auto value = (funct6 << 26) |
+                       (static_cast<uint32_t>(vm) << 25) |
+                       (vs2.Index() << 20) |
+                       (rs1.Index() << 15) |
+                       (0b110U << 12) |
+                       (vd.Index() << 7);
+    // clang-format on
+
+    buffer.Emit32(value | 0b1010111);
+}
 } // Anonymous namespace
 
 // Vector Integer Arithmetic Instructions
+
+void Assembler::VAADDU(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b001000, mask, vs2, vs1, vd);
+}
+
+void Assembler::VAADDU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b001000, mask, vs2, rs1, vd);
+}
 
 void Assembler::VADC(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPIVV(m_buffer, 0b010000, VecMask::Yes, vs2, vs1, vd);
