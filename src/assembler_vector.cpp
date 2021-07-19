@@ -1132,8 +1132,12 @@ void Assembler::VFMIN(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b000100, mask, vs2, rs1, vd);
 }
 
-void Assembler::VFMV(Vec vd, FPR rs1) noexcept {
-    EmitVectorOPFVF(m_buffer, 0b010111, VecMask::No, v0, rs1, vd);
+void Assembler::VFMV(Vec vd, FPR rs) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b010111, VecMask::No, v0, rs, vd);
+}
+
+void Assembler::VFMV_SF(Vec vd, FPR rs) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b010000, VecMask::No, v0, rs, vd);
 }
 
 void Assembler::VFSGNJ(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
