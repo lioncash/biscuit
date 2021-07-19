@@ -94,6 +94,14 @@ void EmitBType(CodeBuffer& buffer, uint32_t imm, GPR rs2, GPR rs1, uint32_t func
     buffer.Emit32(TransformToBTypeImm(imm) | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
 }
 
+// Emits a I type RISC-V instruction. These consist of:
+// imm[11:0] | rs1 | funct3 | rd | opcode
+void EmitIType(CodeBuffer& buffer, uint32_t imm, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept {
+    imm &= 0xFFF;
+
+    buffer.Emit32((imm << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
+}
+
 // Emits a R type RISC instruction. These consist of:
 // funct7 | rs2 | rs1 | funct3 | rd | opcode
 void EmitRType(CodeBuffer& buffer, uint32_t funct7, Register rs2, Register rs1, uint32_t funct3,
@@ -133,7 +141,7 @@ void Assembler::ADD(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::ADDI(GPR rd, GPR rs, int32_t imm) noexcept {
-    EmitIType(static_cast<uint32_t>(imm), rs, 0b000, rd, 0b0010011);
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b000, rd, 0b0010011);
 }
 
 void Assembler::AND(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -141,7 +149,7 @@ void Assembler::AND(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::ANDI(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(imm, rs, 0b111, rd, 0b0010011);
+    EmitIType(m_buffer, imm, rs, 0b111, rd, 0b0010011);
 }
 
 void Assembler::AUIPC(GPR rd, uint32_t imm) noexcept {
@@ -361,7 +369,7 @@ void Assembler::JALR(GPR rs) noexcept {
 
 void Assembler::JALR(GPR rd, int32_t imm, GPR rs1) noexcept {
     BISCUIT_ASSERT(IsValidJTypeImm(imm));
-    EmitIType(static_cast<uint32_t>(imm), rs1, 0b000, rd, 0b1100111);
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs1, 0b000, rd, 0b1100111);
 }
 
 void Assembler::JR(GPR rs) noexcept {
@@ -369,19 +377,19 @@ void Assembler::JR(GPR rs) noexcept {
 }
 
 void Assembler::LB(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(imm, rs, 0b000, rd, 0b0000011);
+    EmitIType(m_buffer, imm, rs, 0b000, rd, 0b0000011);
 }
 
 void Assembler::LBU(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(imm, rs, 0b100, rd, 0b0000011);
+    EmitIType(m_buffer, imm, rs, 0b100, rd, 0b0000011);
 }
 
 void Assembler::LH(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(imm, rs, 0b001, rd, 0b0000011);
+    EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0000011);
 }
 
 void Assembler::LHU(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(imm, rs, 0b101, rd, 0b0000011);
+    EmitIType(m_buffer, imm, rs, 0b101, rd, 0b0000011);
 }
 
 void Assembler::LUI(GPR rd, uint32_t imm) noexcept {
@@ -389,7 +397,7 @@ void Assembler::LUI(GPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::LW(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(imm, rs, 0b010, rd, 0b0000011);
+    EmitIType(m_buffer, imm, rs, 0b010, rd, 0b0000011);
 }
 
 void Assembler::MV(GPR rd, GPR rs) noexcept {
@@ -413,7 +421,7 @@ void Assembler::OR(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::ORI(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(imm, rs, 0b110, rd, 0b0010011);
+    EmitIType(m_buffer, imm, rs, 0b110, rd, 0b0010011);
 }
 
 void Assembler::PAUSE() noexcept {
@@ -445,7 +453,7 @@ void Assembler::SLL(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SLLI(GPR rd, GPR rs, uint32_t shift) noexcept {
-    EmitIType(shift & 0x1F, rs, 0b001, rd, 0b0010011);
+    EmitIType(m_buffer, shift & 0x1F, rs, 0b001, rd, 0b0010011);
 }
 
 void Assembler::SLT(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -453,11 +461,11 @@ void Assembler::SLT(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SLTI(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(imm, rs, 0b010, rd, 0b0010011);
+    EmitIType(m_buffer, imm, rs, 0b010, rd, 0b0010011);
 }
 
 void Assembler::SLTIU(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(imm, rs, 0b011, rd, 0b0010011);
+    EmitIType(m_buffer, imm, rs, 0b011, rd, 0b0010011);
 }
 
 void Assembler::SLTU(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -477,7 +485,7 @@ void Assembler::SRA(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SRAI(GPR rd, GPR rs, uint32_t shift) noexcept {
-    EmitIType((0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0010011);
+    EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0010011);
 }
 
 void Assembler::SRL(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -485,7 +493,7 @@ void Assembler::SRL(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SRLI(GPR rd, GPR rs, uint32_t shift) noexcept {
-    EmitIType(shift & 0x1F, rs, 0b101, rd, 0b0010011);
+    EmitIType(m_buffer, shift & 0x1F, rs, 0b101, rd, 0b0010011);
 }
 
 void Assembler::SUB(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -501,13 +509,13 @@ void Assembler::XOR(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::XORI(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(imm, rs, 0b100, rd, 0b0010011);
+    EmitIType(m_buffer, imm, rs, 0b100, rd, 0b0010011);
 }
 
 // RV64I Instructions
 
 void Assembler::ADDIW(GPR rd, GPR rs, int32_t imm) noexcept {
-    EmitIType(static_cast<uint32_t>(imm), rs, 0b000, rd, 0b0011011);
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b000, rd, 0b0011011);
 }
 
 void Assembler::ADDW(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -515,11 +523,11 @@ void Assembler::ADDW(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::LD(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(imm, rs, 0b011, rd, 0b0000011);
+    EmitIType(m_buffer, imm, rs, 0b011, rd, 0b0000011);
 }
 
 void Assembler::LWU(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(imm, rs, 0b110, rd, 0b0000011);
+    EmitIType(m_buffer, imm, rs, 0b110, rd, 0b0000011);
 }
 
 void Assembler::SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
@@ -527,23 +535,23 @@ void Assembler::SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
 }
 
 void Assembler::SRAI64(GPR rd, GPR rs, uint32_t shift) noexcept {
-    EmitIType((0b0100000 << 5) | (shift & 0x3F), rs, 0b101, rd, 0b0010011);
+    EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x3F), rs, 0b101, rd, 0b0010011);
 }
 void Assembler::SLLI64(GPR rd, GPR rs, uint32_t shift) noexcept {
-    EmitIType(shift & 0x3F, rs, 0b001, rd, 0b0010011);
+    EmitIType(m_buffer, shift & 0x3F, rs, 0b001, rd, 0b0010011);
 }
 void Assembler::SRLI64(GPR rd, GPR rs, uint32_t shift) noexcept {
-    EmitIType(shift & 0x3F, rs, 0b101, rd, 0b0010011);
+    EmitIType(m_buffer, shift & 0x3F, rs, 0b101, rd, 0b0010011);
 }
 
 void Assembler::SLLIW(GPR rd, GPR rs, uint32_t shift) noexcept {
-    EmitIType(shift & 0x1F, rs, 0b001, rd, 0b0011011);
+    EmitIType(m_buffer, shift & 0x1F, rs, 0b001, rd, 0b0011011);
 }
 void Assembler::SRAIW(GPR rd, GPR rs, uint32_t shift) noexcept {
-    EmitIType((0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0011011);
+    EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0011011);
 }
 void Assembler::SRLIW(GPR rd, GPR rs, uint32_t shift) noexcept {
-    EmitIType(shift & 0x1F, rs, 0b101, rd, 0b0011011);
+    EmitIType(m_buffer, shift & 0x1F, rs, 0b101, rd, 0b0011011);
 }
 
 void Assembler::SLLW(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -563,22 +571,22 @@ void Assembler::SUBW(GPR rd, GPR lhs, GPR rhs) noexcept {
 // Zicsr Extension Instructions
 
 void Assembler::CSRRC(GPR rd, CSR csr, GPR rs) noexcept {
-    EmitIType(static_cast<uint32_t>(csr), rs, 0b011, rd, 0b1110011);
+    EmitIType(m_buffer, static_cast<uint32_t>(csr), rs, 0b011, rd, 0b1110011);
 }
 void Assembler::CSRRCI(GPR rd, CSR csr, uint32_t imm) noexcept {
-    EmitIType(static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b111, rd, 0b1110011);
+    EmitIType(m_buffer, static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b111, rd, 0b1110011);
 }
 void Assembler::CSRRS(GPR rd, CSR csr, GPR rs) noexcept {
-    EmitIType(static_cast<uint32_t>(csr), rs, 0b010, rd, 0b1110011);
+    EmitIType(m_buffer, static_cast<uint32_t>(csr), rs, 0b010, rd, 0b1110011);
 }
 void Assembler::CSRRSI(GPR rd, CSR csr, uint32_t imm) noexcept {
-    EmitIType(static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b110, rd, 0b1110011);
+    EmitIType(m_buffer, static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b110, rd, 0b1110011);
 }
 void Assembler::CSRRW(GPR rd, CSR csr, GPR rs) noexcept {
-    EmitIType(static_cast<uint32_t>(csr), rs, 0b001, rd, 0b1110011);
+    EmitIType(m_buffer, static_cast<uint32_t>(csr), rs, 0b001, rd, 0b1110011);
 }
 void Assembler::CSRRWI(GPR rd, CSR csr, uint32_t imm) noexcept {
-    EmitIType(static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b101, rd, 0b1110011);
+    EmitIType(m_buffer, static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b101, rd, 0b1110011);
 }
 
 void Assembler::CSRR(GPR rd, CSR csr) noexcept {
@@ -820,7 +828,7 @@ void Assembler::FLT_S(GPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b1010000, rs2, rs1, 0b001, rd, 0b1010011);
 }
 void Assembler::FLW(FPR rd, uint32_t offset, GPR rs) noexcept {
-    EmitIType(offset, rs, 0b010, rd, 0b0000111);
+    EmitIType(m_buffer, offset, rs, 0b010, rd, 0b0000111);
 }
 void Assembler::FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
     EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
@@ -932,7 +940,7 @@ void Assembler::FLT_D(GPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b1010001, rs2, rs1, 0b001, rd, 0b1010011);
 }
 void Assembler::FLD(FPR rd, uint32_t offset, GPR rs) noexcept {
-    EmitIType(offset, rs, 0b011, rd, 0b0000111);
+    EmitIType(m_buffer, offset, rs, 0b011, rd, 0b0000111);
 }
 void Assembler::FMADD_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
     EmitR4Type(rs3, 0b01, rs2, rs1, rmode, rd, 0b1000011);
@@ -1050,7 +1058,7 @@ void Assembler::FLT_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b1010011, rs2, rs1, 0b001, rd, 0b1010011);
 }
 void Assembler::FLQ(FPR rd, uint32_t offset, GPR rs) noexcept {
-    EmitIType(offset, rs, 0b100, rd, 0b0000111);
+    EmitIType(m_buffer, offset, rs, 0b100, rd, 0b0000111);
 }
 void Assembler::FMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
     EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1000011);
@@ -1480,12 +1488,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitIType(uint32_t imm, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept {
-    imm &= 0xFFF;
-
-    m_buffer.Emit32((imm << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
 }
 
 void Assembler::EmitJType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {

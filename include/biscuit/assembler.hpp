@@ -1102,10 +1102,6 @@ public:
     void VSETVLI(GPR rd, GPR rs, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
 
 private:
-    // Emits a I type RISC-V instruction. These consist of:
-    // imm[11:0] | rs1 | funct3 | rd | opcode
-    void EmitIType(uint32_t imm, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept;
-
     // Emits a J type RISC-V instruction. These consist of:
     // imm[20|10:1|11|19:12] | rd | opcode
     void EmitJType(uint32_t imm, GPR rd, uint32_t opcode) noexcept;
