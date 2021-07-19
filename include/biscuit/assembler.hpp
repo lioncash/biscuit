@@ -774,8 +774,14 @@ public:
     void VWSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VWSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VWSUBW(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VWSUBW(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
     void VWSUBU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VWSUBU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
+    void VWSUBUW(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VWSUBUW(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VXOR(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VXOR(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
