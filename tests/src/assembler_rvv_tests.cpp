@@ -887,6 +887,58 @@ TEST_CASE("VMSNE.VI", "[rvv]") {
     REQUIRE(value == 0x64883257);
 }
 
+TEST_CASE("VMULHSU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMULHSU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x9A862257);
+
+    as.RewindBuffer();
+
+    as.VMULHSU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x98862257);
+}
+
+TEST_CASE("VMULHSU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMULHSU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x9A85E257);
+
+    as.RewindBuffer();
+
+    as.VMULHSU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x9885E257);
+}
+
+TEST_CASE("VMULHU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMULHU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x92862257);
+
+    as.RewindBuffer();
+
+    as.VMULHU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x90862257);
+}
+
+TEST_CASE("VMULHU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMULHU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x9285E257);
+
+    as.RewindBuffer();
+
+    as.VMULHU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x9085E257);
+}
+
 TEST_CASE("VMV.V.V", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
