@@ -720,6 +720,104 @@ TEST_CASE("VMV8R.V", "[rvv]") {
     REQUIRE(value == 0x9E83B057);
 }
 
+TEST_CASE("VNCLIP.WV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VNCLIP(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0xBE860257);
+
+    as.RewindBuffer();
+
+    as.VNCLIP(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0xBC860257);
+}
+
+TEST_CASE("VNCLIP.WX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VNCLIP(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0xBE85C257);
+
+    as.RewindBuffer();
+
+    as.VNCLIP(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0xBC85C257);
+}
+
+TEST_CASE("VNCLIP.WI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VNCLIP(v4, v8, 1, VecMask::No);
+    REQUIRE(value == 0xBE80B257);
+
+    as.RewindBuffer();
+
+    as.VNCLIP(v4, v8, 31, VecMask::No);
+    REQUIRE(value == 0xBE8FB257);
+
+    as.RewindBuffer();
+
+    as.VNCLIP(v4, v8, 1, VecMask::Yes);
+    REQUIRE(value == 0xBC80B257);
+
+    as.RewindBuffer();
+
+    as.VNCLIP(v4, v8, 31, VecMask::Yes);
+    REQUIRE(value == 0xBC8FB257);
+}
+
+TEST_CASE("VNCLIPU.WV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VNCLIPU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0xBA860257);
+
+    as.RewindBuffer();
+
+    as.VNCLIPU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0xB8860257);
+}
+
+TEST_CASE("VNCLIPU.WX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VNCLIPU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0xBA85C257);
+
+    as.RewindBuffer();
+
+    as.VNCLIPU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0xB885C257);
+}
+
+TEST_CASE("VNCLIPU.WI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VNCLIPU(v4, v8, 1, VecMask::No);
+    REQUIRE(value == 0xBA80B257);
+
+    as.RewindBuffer();
+
+    as.VNCLIPU(v4, v8, 31, VecMask::No);
+    REQUIRE(value == 0xBA8FB257);
+
+    as.RewindBuffer();
+
+    as.VNCLIPU(v4, v8, 1, VecMask::Yes);
+    REQUIRE(value == 0xB880B257);
+
+    as.RewindBuffer();
+
+    as.VNCLIPU(v4, v8, 31, VecMask::Yes);
+    REQUIRE(value == 0xB88FB257);
+}
+
 TEST_CASE("VNSRA.WV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
