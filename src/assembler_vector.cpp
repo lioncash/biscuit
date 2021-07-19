@@ -1252,6 +1252,10 @@ void Assembler::VFSGNJX(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b001010, mask, vs2, rs1, vd);
 }
 
+void Assembler::VFSQRT(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010011, mask, vs, v0, vd);
+}
+
 void Assembler::VFSLIDE1DOWN(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b001111, mask, vs2, rs1, vd);
 }
