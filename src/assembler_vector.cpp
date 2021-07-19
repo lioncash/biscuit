@@ -534,6 +534,18 @@ void Assembler::VSRL(Vec vd, Vec vs2, uint32_t uimm, VecMask mask) noexcept {
     EmitVectorOPIVUI(m_buffer, 0b101000, mask, vs2, uimm, vd);
 }
 
+void Assembler::VSSRA(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b101011, mask, vs2, vs1, vd);
+}
+
+void Assembler::VSSRA(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b101011, mask, vs2, rs1, vd);
+}
+
+void Assembler::VSSRA(Vec vd, Vec vs2, uint32_t uimm, VecMask mask) noexcept {
+    EmitVectorOPIVUI(m_buffer, 0b101011, mask, vs2, uimm, vd);
+}
+
 void Assembler::VSSRL(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b101010, mask, vs2, vs1, vd);
 }
