@@ -768,6 +768,15 @@ public:
     void VWADDUW(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VWADDUW(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VWMUL(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VWMUL(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
+    void VWMULSU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VWMULSU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
+    void VWMULU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VWMULU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
     void VWREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VWREDSUMU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
 

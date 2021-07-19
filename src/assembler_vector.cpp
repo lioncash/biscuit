@@ -896,6 +896,30 @@ void Assembler::VWADDUW(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPMVX(m_buffer, 0b110100, mask, vs2, rs1, vd);
 }
 
+void Assembler::VWMUL(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b111011, mask, vs2, vs1, vd);
+}
+
+void Assembler::VWMUL(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b111011, mask, vs2, rs1, vd);
+}
+
+void Assembler::VWMULSU(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b111010, mask, vs2, vs1, vd);
+}
+
+void Assembler::VWMULSU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b111010, mask, vs2, rs1, vd);
+}
+
+void Assembler::VWMULU(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b111000, mask, vs2, vs1, vd);
+}
+
+void Assembler::VWMULU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b111000, mask, vs2, rs1, vd);
+}
+
 void Assembler::VWREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b110001, mask, vs2, vs1, vd);
 }

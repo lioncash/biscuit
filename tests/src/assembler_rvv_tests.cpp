@@ -2320,6 +2320,84 @@ TEST_CASE("VWADDU.WX", "[rvv]") {
     REQUIRE(value == 0xD085E257);
 }
 
+TEST_CASE("VWMUL.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWMUL(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0xEE862257);
+
+    as.RewindBuffer();
+
+    as.VWMUL(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0xEC862257);
+}
+
+TEST_CASE("VWMUL.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWMUL(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0xEE85E257);
+
+    as.RewindBuffer();
+
+    as.VWMUL(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0xEC85E257);
+}
+
+TEST_CASE("VWMULSU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWMULSU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0xEA862257);
+
+    as.RewindBuffer();
+
+    as.VWMULSU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0xE8862257);
+}
+
+TEST_CASE("VWMULSU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWMULSU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0xEA85E257);
+
+    as.RewindBuffer();
+
+    as.VWMULSU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0xE885E257);
+}
+
+TEST_CASE("VWMULU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWMULU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0xE2862257);
+
+    as.RewindBuffer();
+
+    as.VWMULU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0xE0862257);
+}
+
+TEST_CASE("VWMULU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VWMULU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0xE285E257);
+
+    as.RewindBuffer();
+
+    as.VWMULU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0xE085E257);
+}
+
 TEST_CASE("VWREDSUM.VS", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
