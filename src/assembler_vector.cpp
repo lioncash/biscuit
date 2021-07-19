@@ -211,6 +211,14 @@ void EmitVectorOPMVX(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, G
 
 // Vector Integer Arithmetic Instructions
 
+void Assembler::VAADD(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b001001, mask, vs2, vs1, vd);
+}
+
+void Assembler::VAADD(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b001001, mask, vs2, rs1, vd);
+}
+
 void Assembler::VAADDU(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b001000, mask, vs2, vs1, vd);
 }
