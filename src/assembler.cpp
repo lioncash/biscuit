@@ -219,6 +219,17 @@ void EmitCompressedLoad(CodeBuffer& buffer, uint32_t funct3, uint32_t imm, GPR r
     const auto rs_san = CompressedRegTo3BitEncoding(rs);
     buffer.Emit16(((funct3 & 0b111) << 13) | imm_enc | (rs_san << 7) | (rd_san << 2) | (op & 0b11));
 }
+
+// Emits a compressed register arithmetic instruction. These consist of:
+// funct6 | rd | funct2 | rs | op
+void EmitCompressedRegArith(CodeBuffer& buffer, uint32_t funct6, GPR rd, uint32_t funct2, GPR rs, uint32_t op) noexcept {
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
+
+    const auto rd_san = CompressedRegTo3BitEncoding(rd);
+    const auto rs_san = CompressedRegTo3BitEncoding(rs);
+    buffer.Emit16(((funct6 & 0b111111) << 10) | (rd_san << 7) | ((funct2 & 0b11) << 5) | (rs_san << 2) | (op & 0b11));
+}
 } // Anonymous namespace
 
 void Assembler::Bind(Label* label) {
@@ -1239,7 +1250,7 @@ void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::C_ADDW(GPR rd, GPR rs) noexcept {
-    EmitCompressedRegArith(0b100111, rd, 0b01, rs, 0b01);
+    EmitCompressedRegArith(m_buffer, 0b100111, rd, 0b01, rs, 0b01);
 }
 
 void Assembler::C_ADDI16SP(int32_t imm) noexcept {
@@ -1258,7 +1269,7 @@ void Assembler::C_ADDI16SP(int32_t imm) noexcept {
 }
 
 void Assembler::C_AND(GPR rd, GPR rs) noexcept {
-    EmitCompressedRegArith(0b100011, rd, 0b11, rs, 0b01);
+    EmitCompressedRegArith(m_buffer, 0b100011, rd, 0b11, rs, 0b01);
 }
 
 void Assembler::C_ANDI(GPR rd, uint32_t imm) noexcept {
@@ -1457,7 +1468,7 @@ void Assembler::C_NOP() noexcept {
 }
 
 void Assembler::C_OR(GPR rd, GPR rs) noexcept {
-    EmitCompressedRegArith(0b100011, rd, 0b10, rs, 0b01);
+    EmitCompressedRegArith(m_buffer, 0b100011, rd, 0b10, rs, 0b01);
 }
 
 void Assembler::C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
@@ -1519,11 +1530,11 @@ void Assembler::C_SRLI(GPR rd, uint32_t shift) noexcept {
 }
 
 void Assembler::C_SUB(GPR rd, GPR rs) noexcept {
-    EmitCompressedRegArith(0b100011, rd, 0b00, rs, 0b01);
+    EmitCompressedRegArith(m_buffer, 0b100011, rd, 0b00, rs, 0b01);
 }
 
 void Assembler::C_SUBW(GPR rd, GPR rs) noexcept {
-    EmitCompressedRegArith(0b100111, rd, 0b00, rs, 0b01);
+    EmitCompressedRegArith(m_buffer, 0b100111, rd, 0b00, rs, 0b01);
 }
 
 void Assembler::C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
@@ -1546,7 +1557,7 @@ void Assembler::C_UNDEF() noexcept {
 }
 
 void Assembler::C_XOR(GPR rd, GPR rs) noexcept {
-    EmitCompressedRegArith(0b100011, rd, 0b01, rs, 0b01);
+    EmitCompressedRegArith(m_buffer, 0b100011, rd, 0b01, rs, 0b01);
 }
 
 // Privileged Instructions
@@ -1577,15 +1588,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitCompressedRegArith(uint32_t funct6, GPR rd, uint32_t funct2, GPR rs, uint32_t op) noexcept {
-    BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
-    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
-
-    const auto rd_san = CompressedRegTo3BitEncoding(rd);
-    const auto rs_san = CompressedRegTo3BitEncoding(rs);
-    m_buffer.Emit16(((funct6 & 0b111111) << 10) | (rd_san << 7) | ((funct2 & 0b11) << 5) | (rs_san << 2) | (op & 0b11));
 }
 
 void Assembler::EmitCompressedStore(uint32_t funct3, uint32_t imm, GPR rs1, Register rs2, uint32_t op) noexcept {
