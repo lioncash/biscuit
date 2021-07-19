@@ -844,6 +844,15 @@ public:
     void VFCVT_X_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
     void VFCVT_XU_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
 
+    void VFNCVT_F_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFNCVT_F_X(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFNCVT_F_XU(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFNCVT_ROD_F_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFNCVT_RTZ_X_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFNCVT_RTZ_XU_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFNCVT_X_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFNCVT_XU_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+
     void VFWCVT_F_F(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
     void VFWCVT_F_X(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
     void VFWCVT_F_XU(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;

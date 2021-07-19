@@ -412,6 +412,110 @@ TEST_CASE("VFCVT.XU.F.V", "[rvv]") {
     REQUIRE(value == 0x48801257);
 }
 
+TEST_CASE("VFNCVT.F.F.W", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFNCVT_F_F(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A8A1257);
+
+    as.RewindBuffer();
+
+    as.VFNCVT_F_F(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x488A1257);
+}
+
+TEST_CASE("VFNCVT.F.X.W", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFNCVT_F_X(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A899257);
+
+    as.RewindBuffer();
+
+    as.VFNCVT_F_X(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48899257);
+}
+
+TEST_CASE("VFNCVT.F.XU.W", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFNCVT_F_XU(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A891257);
+
+    as.RewindBuffer();
+
+    as.VFNCVT_F_XU(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48891257);
+}
+
+TEST_CASE("VFNCVT.ROD.F.F.W", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFNCVT_ROD_F_F(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A8A9257);
+
+    as.RewindBuffer();
+
+    as.VFNCVT_ROD_F_F(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x488A9257);
+}
+
+TEST_CASE("VFNCVT.RTZ.X.F.W", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFNCVT_RTZ_X_F(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A8B9257);
+
+    as.RewindBuffer();
+
+    as.VFNCVT_RTZ_X_F(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x488B9257);
+}
+
+TEST_CASE("VFNCVT.RTZ.XU.F.W", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFNCVT_RTZ_XU_F(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A8B1257);
+
+    as.RewindBuffer();
+
+    as.VFNCVT_RTZ_XU_F(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x488B1257);
+}
+
+TEST_CASE("VFNCVT.X.F.W", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFNCVT_X_F(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A889257);
+
+    as.RewindBuffer();
+
+    as.VFNCVT_X_F(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48889257);
+}
+
+TEST_CASE("VFNCVT.XU.F.W", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFNCVT_XU_F(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4A881257);
+
+    as.RewindBuffer();
+
+    as.VFNCVT_XU_F(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x48881257);
+}
+
 TEST_CASE("VFWCVT.F.F.V", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
