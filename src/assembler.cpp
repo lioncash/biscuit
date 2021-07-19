@@ -140,6 +140,19 @@ void EmitR4Type(CodeBuffer& buffer, FPR rs3, uint32_t funct2, FPR rs2, FPR rs1, 
     buffer.Emit32(reg_bits | funct_bits | (opcode & 0x7F));
 }
 
+// Emits a S type RISC-V instruction. These consist of:
+// imm[11:5] | rs2 | rs1 | funct3 | imm[4:0] | opcode
+void EmitSType(CodeBuffer& buffer, uint32_t imm, Register rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
+    imm &= 0xFFF;
+
+    // clang-format off
+    const auto new_imm = ((imm & 0x01F) << 7) |
+                         ((imm & 0xFE0) << 20);
+    // clang-format on
+
+    buffer.Emit32(new_imm | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
+}
+
 // Emits an atomic instruction.
 void EmitAtomic(CodeBuffer& buffer, uint32_t funct5, Assembler::Ordering ordering, GPR rs2, GPR rs1,
                 uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
@@ -449,7 +462,7 @@ void Assembler::RET() noexcept {
 }
 
 void Assembler::SB(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-    EmitSType(imm, rs2, rs1, 0b000, 0b0100011);
+    EmitSType(m_buffer, imm, rs2, rs1, 0b000, 0b0100011);
 }
 
 void Assembler::SEQZ(GPR rd, GPR rs) noexcept {
@@ -461,7 +474,7 @@ void Assembler::SGTZ(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::SH(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-    EmitSType(imm, rs2, rs1, 0b001, 0b0100011);
+    EmitSType(m_buffer, imm, rs2, rs1, 0b001, 0b0100011);
 }
 
 void Assembler::SLL(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -517,7 +530,7 @@ void Assembler::SUB(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-    EmitSType(imm, rs2, rs1, 0b010, 0b0100011);
+    EmitSType(m_buffer, imm, rs2, rs1, 0b010, 0b0100011);
 }
 
 void Assembler::XOR(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -547,7 +560,7 @@ void Assembler::LWU(GPR rd, GPR rs, uint32_t imm) noexcept {
 }
 
 void Assembler::SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-    EmitSType(imm, rs2, rs1, 0b011, 0b0100011);
+    EmitSType(m_buffer, imm, rs2, rs1, 0b011, 0b0100011);
 }
 
 void Assembler::SRAI64(GPR rd, GPR rs, uint32_t shift) noexcept {
@@ -889,7 +902,7 @@ void Assembler::FSUB_S(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000100, rs2, rs1, rmode, rd, 0b1010011);
 }
 void Assembler::FSW(FPR rs2, uint32_t offset, GPR rs1) noexcept {
-    EmitSType(offset, rs2, rs1, 0b010, 0b0100111);
+    EmitSType(m_buffer, offset, rs2, rs1, 0b010, 0b0100111);
 }
 
 void Assembler::FABS_S(FPR rd, FPR rs) noexcept {
@@ -995,7 +1008,7 @@ void Assembler::FSUB_D(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000101, rs2, rs1, rmode, rd, 0b1010011);
 }
 void Assembler::FSD(FPR rs2, uint32_t offset, GPR rs1) noexcept {
-    EmitSType(offset, rs2, rs1, 0b011, 0b0100111);
+    EmitSType(m_buffer, offset, rs2, rs1, 0b011, 0b0100111);
 }
 
 void Assembler::FABS_D(FPR rd, FPR rs) noexcept {
@@ -1113,7 +1126,7 @@ void Assembler::FSUB_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000111, rs2, rs1, rmode, rd, 0b1010011);
 }
 void Assembler::FSQ(FPR rs2, uint32_t offset, GPR rs1) noexcept {
-    EmitSType(offset, rs2, rs1, 0b100, 0b0100111);
+    EmitSType(m_buffer, offset, rs2, rs1, 0b100, 0b0100111);
 }
 
 void Assembler::FABS_Q(FPR rd, FPR rs) noexcept {
@@ -1504,17 +1517,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitSType(uint32_t imm, Register rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
-    imm &= 0xFFF;
-
-    // clang-format off
-    const auto new_imm = ((imm & 0x01F) << 7) |
-                         ((imm & 0xFE0) << 20);
-    // clang-format on
-
-    m_buffer.Emit32(new_imm | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
 }
 
 void Assembler::EmitUType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
