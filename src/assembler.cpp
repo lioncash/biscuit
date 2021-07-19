@@ -230,6 +230,14 @@ void EmitCompressedRegArith(CodeBuffer& buffer, uint32_t funct6, GPR rd, uint32_
     const auto rs_san = CompressedRegTo3BitEncoding(rs);
     buffer.Emit16(((funct6 & 0b111111) << 10) | (rd_san << 7) | ((funct2 & 0b11) << 5) | (rs_san << 2) | (op & 0b11));
 }
+
+// Emits a compressed store instruction. These consist of:
+// funct3 | imm | rs1 | imm | rs2 | op
+void EmitCompressedStore(CodeBuffer& buffer, uint32_t funct3, uint32_t imm, GPR rs1, Register rs2, uint32_t op) noexcept {
+    // This has the same format as a compressed load, with rs2 taking the place of rd.
+    // We can reuse the code we've already written to handle this.
+    EmitCompressedLoad(buffer, funct3, imm, rs1, rs2, op);
+}
 } // Anonymous namespace
 
 void Assembler::Bind(Label* label) {
@@ -1335,7 +1343,7 @@ void Assembler::C_FLWSP(FPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept {
-    EmitCompressedStore(0b101, imm, rs1, rs2, 0b00);
+    EmitCompressedStore(m_buffer, 0b101, imm, rs1, rs2, 0b00);
 }
 
 void Assembler::C_FSDSP(FPR rs, uint32_t imm) noexcept {
@@ -1370,7 +1378,7 @@ void Assembler::C_JAL(int32_t offset) noexcept {
 void Assembler::C_FSW(FPR rs2, uint32_t imm, GPR rs1) noexcept {
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
-    EmitCompressedStore(0b111, new_imm, rs1, rs2, 0b00);
+    EmitCompressedStore(m_buffer, 0b111, new_imm, rs1, rs2, 0b00);
 }
 
 void Assembler::C_FSWSP(FPR rs, uint32_t imm) noexcept {
@@ -1495,7 +1503,7 @@ void Assembler::C_SLLI(GPR rd, uint32_t shift) noexcept {
 void Assembler::C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     imm &= 0x1F0;
     const auto new_imm = ((imm & 0x100) >> 5) | (imm & 0xF0);
-    EmitCompressedStore(0b101, new_imm, rs1, rs2, 0b00);
+    EmitCompressedStore(m_buffer, 0b101, new_imm, rs1, rs2, 0b00);
 }
 
 void Assembler::C_SQSP(GPR rs, uint32_t imm) noexcept {
@@ -1540,7 +1548,7 @@ void Assembler::C_SUBW(GPR rd, GPR rs) noexcept {
 void Assembler::C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
-    EmitCompressedStore(0b110, new_imm, rs1, rs2, 0b00);
+    EmitCompressedStore(m_buffer, 0b110, new_imm, rs1, rs2, 0b00);
 }
 
 void Assembler::C_SWSP(GPR rs, uint32_t imm) noexcept {
@@ -1588,12 +1596,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitCompressedStore(uint32_t funct3, uint32_t imm, GPR rs1, Register rs2, uint32_t op) noexcept {
-    // This has the same format as a compressed load, with rs2 taking the place of rd.
-    // We can reuse the code we've already written to handle this.
-    EmitCompressedLoad(m_buffer, funct3, imm, rs1, rs2, op);
 }
 
 void Assembler::EmitCompressedWideImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {

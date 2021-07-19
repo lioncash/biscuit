@@ -1102,10 +1102,6 @@ public:
     void VSETVLI(GPR rd, GPR rs, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
 
 private:
-    // Emits a compressed store instruction. These consist of:
-    // funct3 | imm | rs1 | imm | rs2 | op
-    void EmitCompressedStore(uint32_t funct3, uint32_t imm, GPR rs1, Register rs2, uint32_t op) noexcept;
-
     // Emits a compressed wide immediate instruction. These consist of:
     // funct3 | imm | rd | opcode
     void EmitCompressedWideImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept;
