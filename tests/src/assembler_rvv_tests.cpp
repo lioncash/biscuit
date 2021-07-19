@@ -511,6 +511,32 @@ TEST_CASE("VFMIN.VF", "[rvv]") {
     REQUIRE(value == 0x10865257);
 }
 
+TEST_CASE("VFMSUB.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFMSUB(v4, v12, v8, VecMask::No);
+    REQUIRE(value == 0xAA861257);
+
+    as.RewindBuffer();
+
+    as.VFMSUB(v4, v12, v8, VecMask::Yes);
+    REQUIRE(value == 0xA8861257);
+}
+
+TEST_CASE("VFMSUB.VF", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFMSUB(v4, f12, v8, VecMask::No);
+    REQUIRE(value == 0xAA865257);
+
+    as.RewindBuffer();
+
+    as.VFMSUB(v4, f12, v8, VecMask::Yes);
+    REQUIRE(value == 0xA8865257);
+}
+
 TEST_CASE("VFMUL.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
