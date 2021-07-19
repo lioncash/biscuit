@@ -86,6 +86,14 @@ namespace {
     return value >= -32 && value <= 31;
 }
 
+// Emits a B type RISC-V instruction. These consist of:
+// imm[12|10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
+void EmitBType(CodeBuffer& buffer, uint32_t imm, GPR rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
+    imm &= 0x1FFE;
+
+    buffer.Emit32(TransformToBTypeImm(imm) | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
+}
+
 // Emits a R type RISC instruction. These consist of:
 // funct7 | rs2 | rs1 | funct3 | rd | opcode
 void EmitRType(CodeBuffer& buffer, uint32_t funct7, Register rs2, Register rs1, uint32_t funct3,
@@ -222,7 +230,7 @@ void Assembler::BNEZ(GPR rs, Label* label) noexcept {
 
 void Assembler::BEQ(GPR rs1, GPR rs2, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValidBTypeImm(imm));
-    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b000, 0b1100011);
+    EmitBType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b000, 0b1100011);
 }
 
 void Assembler::BEQZ(GPR rs, int32_t imm) noexcept {
@@ -231,12 +239,12 @@ void Assembler::BEQZ(GPR rs, int32_t imm) noexcept {
 
 void Assembler::BGE(GPR rs1, GPR rs2, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValidBTypeImm(imm));
-    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b101, 0b1100011);
+    EmitBType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b101, 0b1100011);
 }
 
 void Assembler::BGEU(GPR rs1, GPR rs2, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValidBTypeImm(imm));
-    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b111, 0b1100011);
+    EmitBType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b111, 0b1100011);
 }
 
 void Assembler::BGEZ(GPR rs, int32_t imm) noexcept {
@@ -269,12 +277,12 @@ void Assembler::BLEZ(GPR rs, int32_t imm) noexcept {
 
 void Assembler::BLT(GPR rs1, GPR rs2, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValidBTypeImm(imm));
-    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b100, 0b1100011);
+    EmitBType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b100, 0b1100011);
 }
 
 void Assembler::BLTU(GPR rs1, GPR rs2, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValidBTypeImm(imm));
-    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b110, 0b1100011);
+    EmitBType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b110, 0b1100011);
 }
 
 void Assembler::BLTZ(GPR rs, int32_t imm) noexcept {
@@ -283,7 +291,7 @@ void Assembler::BLTZ(GPR rs, int32_t imm) noexcept {
 
 void Assembler::BNE(GPR rs1, GPR rs2, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValidBTypeImm(imm));
-    EmitBType(static_cast<uint32_t>(imm), rs2, rs1, 0b001, 0b1100011);
+    EmitBType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b001, 0b1100011);
 }
 
 void Assembler::BNEZ(GPR rs, int32_t imm) noexcept {
@@ -1472,12 +1480,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitBType(uint32_t imm, GPR rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
-    imm &= 0x1FFE;
-
-    m_buffer.Emit32(TransformToBTypeImm(imm) | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
 }
 
 void Assembler::EmitIType(uint32_t imm, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept {
