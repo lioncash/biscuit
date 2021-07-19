@@ -1136,6 +1136,10 @@ void Assembler::VFMV(Vec vd, FPR rs) noexcept {
     EmitVectorOPFVF(m_buffer, 0b010111, VecMask::No, v0, rs, vd);
 }
 
+void Assembler::VFMV_FS(FPR rd, Vec vs) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010000, VecMask::No, vs, v0, Vec{rd.Index()});
+}
+
 void Assembler::VFMV_SF(Vec vd, FPR rs) noexcept {
     EmitVectorOPFVF(m_buffer, 0b010000, VecMask::No, v0, rs, vd);
 }
