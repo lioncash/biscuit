@@ -446,6 +446,14 @@ TEST_CASE("VFMIN.VF", "[rvv]") {
     REQUIRE(value == 0x10865257);
 }
 
+TEST_CASE("VFMV.V.F", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFMV(v4, x11);
+    REQUIRE(value == 0x5E05D257);
+}
+
 TEST_CASE("VFSGNJ.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
