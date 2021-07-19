@@ -1176,6 +1176,32 @@ TEST_CASE("VNCLIPU.WI", "[rvv]") {
     REQUIRE(value == 0xB88FB257);
 }
 
+TEST_CASE("VNMSUB.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VNMSUB(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0xAE862257);
+
+    as.RewindBuffer();
+
+    as.VNMSUB(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0xAC862257);
+}
+
+TEST_CASE("VNMSUB.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VNMSUB(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0xAE85E257);
+
+    as.RewindBuffer();
+
+    as.VNMSUB(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0xAC85E257);
+}
+
 TEST_CASE("VNSRA.WV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
