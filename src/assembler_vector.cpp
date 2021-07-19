@@ -305,6 +305,10 @@ void Assembler::VFIRST(GPR rd, Vec vs, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b010000, mask, vs, v17, Vec{rd.Index()});
 }
 
+void Assembler::VID(Vec vd, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010100, mask, v0, v17, vd);
+}
+
 void Assembler::VIOTA(Vec vd, Vec vs, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b010100, mask, vs, v16, vd);
 }
