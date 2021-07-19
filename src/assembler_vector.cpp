@@ -221,7 +221,7 @@ void EmitVectorOPFVV(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, V
     buffer.Emit32(value | 0b1010111);
 }
 
-void EmitVectorOPFVF(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, GPR rs1, Vec vd) noexcept {
+void EmitVectorOPFVF(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, FPR rs1, Vec vd) noexcept {
     // clang-format off
     const auto value = (funct6 << 26) |
                        (static_cast<uint32_t>(vm) << 25) |
@@ -1092,7 +1092,7 @@ void Assembler::VFADD(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b000000, mask, vs2, vs1, vd);
 }
 
-void Assembler::VFADD(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VFADD(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b000000, mask, vs2, rs1, vd);
 }
 
@@ -1116,11 +1116,11 @@ void Assembler::VFMAX(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b000110, mask, vs2, vs1, vd);
 }
 
-void Assembler::VFMAX(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VFMAX(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b000110, mask, vs2, rs1, vd);
 }
 
-void Assembler::VFMERGE(Vec vd, Vec vs2, GPR rs1) noexcept {
+void Assembler::VFMERGE(Vec vd, Vec vs2, FPR rs1) noexcept {
     EmitVectorOPFVF(m_buffer, 0b010111, VecMask::Yes, vs2, rs1, vd);
 }
 
@@ -1128,11 +1128,11 @@ void Assembler::VFMIN(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b000100, mask, vs2, vs1, vd);
 }
 
-void Assembler::VFMIN(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VFMIN(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b000100, mask, vs2, rs1, vd);
 }
 
-void Assembler::VFMV(Vec vd, GPR rs1) noexcept {
+void Assembler::VFMV(Vec vd, FPR rs1) noexcept {
     EmitVectorOPFVF(m_buffer, 0b010111, VecMask::No, v0, rs1, vd);
 }
 
@@ -1140,7 +1140,7 @@ void Assembler::VFSGNJ(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b001000, mask, vs2, vs1, vd);
 }
 
-void Assembler::VFSGNJ(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VFSGNJ(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b001000, mask, vs2, rs1, vd);
 }
 
@@ -1148,7 +1148,7 @@ void Assembler::VFSGNJN(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b001001, mask, vs2, vs1, vd);
 }
 
-void Assembler::VFSGNJN(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VFSGNJN(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b001001, mask, vs2, rs1, vd);
 }
 
@@ -1156,15 +1156,15 @@ void Assembler::VFSGNJX(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b001010, mask, vs2, vs1, vd);
 }
 
-void Assembler::VFSGNJX(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VFSGNJX(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b001010, mask, vs2, rs1, vd);
 }
 
-void Assembler::VFSLIDE1DOWN(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VFSLIDE1DOWN(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b001111, mask, vs2, rs1, vd);
 }
 
-void Assembler::VFSLIDE1UP(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VFSLIDE1UP(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b001110, mask, vs2, rs1, vd);
 }
 
@@ -1172,7 +1172,7 @@ void Assembler::VFSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b000010, mask, vs2, vs1, vd);
 }
 
-void Assembler::VFSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VFSUB(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b000010, mask, vs2, rs1, vd);
 }
 
@@ -1180,15 +1180,15 @@ void Assembler::VMFEQ(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b011000, mask, vs2, vs1, vd);
 }
 
-void Assembler::VMFEQ(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VMFEQ(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b011000, mask, vs2, rs1, vd);
 }
 
-void Assembler::VMFGE(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VMFGE(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b011111, mask, vs2, rs1, vd);
 }
 
-void Assembler::VMFGT(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VMFGT(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b011101, mask, vs2, rs1, vd);
 }
 
@@ -1196,7 +1196,7 @@ void Assembler::VMFLE(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b011001, mask, vs2, vs1, vd);
 }
 
-void Assembler::VMFLE(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VMFLE(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b011001, mask, vs2, rs1, vd);
 }
 
@@ -1204,7 +1204,7 @@ void Assembler::VMFLT(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b011011, mask, vs2, vs1, vd);
 }
 
-void Assembler::VMFLT(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VMFLT(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b011011, mask, vs2, rs1, vd);
 }
 
@@ -1212,7 +1212,7 @@ void Assembler::VMFNE(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b011100, mask, vs2, vs1, vd);
 }
 
-void Assembler::VMFNE(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+void Assembler::VMFNE(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b011100, mask, vs2, rs1, vd);
 }
 

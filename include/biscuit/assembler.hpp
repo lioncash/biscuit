@@ -833,7 +833,7 @@ public:
     // Vector Floating-Point Instructions
 
     void VFADD(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VFADD(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VFADD(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VFREDMAX(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VFREDMIN(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
@@ -842,44 +842,44 @@ public:
     void VFREDOSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
 
     void VFMAX(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VFMAX(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VFMAX(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
-    void VFMERGE(Vec vd, Vec vs2, GPR rs1) noexcept;
+    void VFMERGE(Vec vd, Vec vs2, FPR rs1) noexcept;
 
     void VFMIN(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VFMIN(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VFMIN(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
-    void VFMV(Vec vd, GPR rs1) noexcept;
+    void VFMV(Vec vd, FPR rs1) noexcept;
 
     void VFSGNJ(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VFSGNJ(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VFSGNJ(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VFSGNJN(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VFSGNJN(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VFSGNJN(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VFSGNJX(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VFSGNJX(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VFSGNJX(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
-    void VFSLIDE1DOWN(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
-    void VFSLIDE1UP(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VFSLIDE1DOWN(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VFSLIDE1UP(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VFSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VFSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VFSUB(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VMFEQ(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VMFEQ(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMFEQ(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
-    void VMFGE(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
-    void VMFGT(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMFGE(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMFGT(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VMFLE(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VMFLE(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMFLE(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VMFLT(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VMFLT(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMFLT(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     void VMFNE(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VMFNE(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMFNE(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
     // Vector Load/Store Instructions
 

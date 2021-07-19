@@ -312,12 +312,12 @@ TEST_CASE("VFADD.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFADD(v4, v8, x12, VecMask::No);
+    as.VFADD(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x02865257);
 
     as.RewindBuffer();
 
-    as.VFADD(v4, v8, x12, VecMask::Yes);
+    as.VFADD(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x00865257);
 }
 
@@ -403,12 +403,12 @@ TEST_CASE("VFMAX.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFMAX(v4, v8, x12, VecMask::No);
+    as.VFMAX(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x1A865257);
 
     as.RewindBuffer();
 
-    as.VFMAX(v4, v8, x12, VecMask::Yes);
+    as.VFMAX(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x18865257);
 }
 
@@ -416,7 +416,7 @@ TEST_CASE("VFMERGE.VFM", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFMERGE(v4, v8, x12);
+    as.VFMERGE(v4, v8, f12);
     REQUIRE(value == 0x5C865257);
 }
 
@@ -437,12 +437,12 @@ TEST_CASE("VFMIN.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFMIN(v4, v8, x12, VecMask::No);
+    as.VFMIN(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x12865257);
 
     as.RewindBuffer();
 
-    as.VFMIN(v4, v8, x12, VecMask::Yes);
+    as.VFMIN(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x10865257);
 }
 
@@ -450,7 +450,7 @@ TEST_CASE("VFMV.V.F", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFMV(v4, x11);
+    as.VFMV(v4, f11);
     REQUIRE(value == 0x5E05D257);
 }
 
@@ -471,12 +471,12 @@ TEST_CASE("VFSGNJ.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFSGNJ(v4, v8, x12, VecMask::No);
+    as.VFSGNJ(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x22865257);
 
     as.RewindBuffer();
 
-    as.VFSGNJ(v4, v8, x12, VecMask::Yes);
+    as.VFSGNJ(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x20865257);
 }
 
@@ -497,12 +497,12 @@ TEST_CASE("VFSGNJN.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFSGNJN(v4, v8, x12, VecMask::No);
+    as.VFSGNJN(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x26865257);
 
     as.RewindBuffer();
 
-    as.VFSGNJN(v4, v8, x12, VecMask::Yes);
+    as.VFSGNJN(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x24865257);
 }
 
@@ -523,12 +523,12 @@ TEST_CASE("VFSGNJX.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFSGNJX(v4, v8, x12, VecMask::No);
+    as.VFSGNJX(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x2A865257);
 
     as.RewindBuffer();
 
-    as.VFSGNJX(v4, v8, x12, VecMask::Yes);
+    as.VFSGNJX(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x28865257);
 }
 
@@ -536,12 +536,12 @@ TEST_CASE("VFSLIDE1DOWN.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFSLIDE1DOWN(v4, v8, x12, VecMask::No);
+    as.VFSLIDE1DOWN(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x3E865257);
 
     as.RewindBuffer();
 
-    as.VFSLIDE1DOWN(v4, v8, x12, VecMask::Yes);
+    as.VFSLIDE1DOWN(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x3C865257);
 }
 
@@ -549,12 +549,12 @@ TEST_CASE("VFSLIDE1UP.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFSLIDE1UP(v4, v8, x12, VecMask::No);
+    as.VFSLIDE1UP(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x3A865257);
 
     as.RewindBuffer();
 
-    as.VFSLIDE1UP(v4, v8, x12, VecMask::Yes);
+    as.VFSLIDE1UP(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x38865257);
 }
 
@@ -575,12 +575,12 @@ TEST_CASE("VFSUB.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VFSUB(v4, v8, x12, VecMask::No);
+    as.VFSUB(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x0A865257);
 
     as.RewindBuffer();
 
-    as.VFSUB(v4, v8, x12, VecMask::Yes);
+    as.VFSUB(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x08865257);
 }
 
@@ -744,12 +744,12 @@ TEST_CASE("VMFEQ.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VMFEQ(v4, v8, x12, VecMask::No);
+    as.VMFEQ(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x62865257);
 
     as.RewindBuffer();
 
-    as.VMFEQ(v4, v8, x12, VecMask::Yes);
+    as.VMFEQ(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x60865257);
 }
 
@@ -757,12 +757,12 @@ TEST_CASE("VMFGE.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VMFGE(v4, v8, x12, VecMask::No);
+    as.VMFGE(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x7E865257);
 
     as.RewindBuffer();
 
-    as.VMFGE(v4, v8, x12, VecMask::Yes);
+    as.VMFGE(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x7C865257);
 }
 
@@ -770,12 +770,12 @@ TEST_CASE("VMFGT.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VMFGT(v4, v8, x12, VecMask::No);
+    as.VMFGT(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x76865257);
 
     as.RewindBuffer();
 
-    as.VMFGT(v4, v8, x12, VecMask::Yes);
+    as.VMFGT(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x74865257);
 }
 
@@ -796,12 +796,12 @@ TEST_CASE("VMFLE.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VMFLE(v4, v8, x12, VecMask::No);
+    as.VMFLE(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x66865257);
 
     as.RewindBuffer();
 
-    as.VMFLE(v4, v8, x12, VecMask::Yes);
+    as.VMFLE(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x64865257);
 }
 
@@ -822,12 +822,12 @@ TEST_CASE("VMFLT.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VMFLT(v4, v8, x12, VecMask::No);
+    as.VMFLT(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x6E865257);
 
     as.RewindBuffer();
 
-    as.VMFLT(v4, v8, x12, VecMask::Yes);
+    as.VMFLT(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x6C865257);
 }
 
@@ -848,12 +848,12 @@ TEST_CASE("VMFNE.VF", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.VMFNE(v4, v8, x12, VecMask::No);
+    as.VMFNE(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x72865257);
 
     as.RewindBuffer();
 
-    as.VMFNE(v4, v8, x12, VecMask::Yes);
+    as.VMFNE(v4, v8, f12, VecMask::Yes);
     REQUIRE(value == 0x70865257);
 }
 
