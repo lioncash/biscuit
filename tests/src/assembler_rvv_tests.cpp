@@ -1021,6 +1021,55 @@ TEST_CASE("VSLIDEUP.VI", "[rvv]") {
     REQUIRE(value == 0x388FB257);
 }
 
+TEST_CASE("VSLL.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSLL(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x96860257);
+
+    as.RewindBuffer();
+
+    as.VSLL(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x94860257);
+}
+
+TEST_CASE("VSLL.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSLL(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x9685C257);
+
+    as.RewindBuffer();
+
+    as.VSLL(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x9485C257);
+}
+
+TEST_CASE("VSLL.VI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSLL(v4, v8, 1, VecMask::No);
+    REQUIRE(value == 0x9680B257);
+
+    as.RewindBuffer();
+
+    as.VSLL(v4, v8, 31, VecMask::No);
+    REQUIRE(value == 0x968FB257);
+
+    as.RewindBuffer();
+
+    as.VSLL(v4, v8, 1, VecMask::Yes);
+    REQUIRE(value == 0x9480B257);
+
+    as.RewindBuffer();
+
+    as.VSLL(v4, v8, 31, VecMask::Yes);
+    REQUIRE(value == 0x948FB257);
+}
+
 TEST_CASE("VSSUB.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
