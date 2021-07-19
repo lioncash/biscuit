@@ -1160,6 +1160,14 @@ void Assembler::VFMIN(Vec vd, Vec vs2, FPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b000100, mask, vs2, rs1, vd);
 }
 
+void Assembler::VFMSAC(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b101110, mask, vs2, vs1, vd);
+}
+
+void Assembler::VFMSAC(Vec vd, FPR rs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b101110, mask, vs2, rs1, vd);
+}
+
 void Assembler::VFMSUB(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b101010, mask, vs2, vs1, vd);
 }

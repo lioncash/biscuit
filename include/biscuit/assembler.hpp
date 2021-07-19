@@ -859,6 +859,9 @@ public:
     void VFMIN(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VFMIN(Vec vd, Vec vs2, FPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VFMSAC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VFMSAC(Vec vd, FPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+
     void VFMSUB(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VFMSUB(Vec vd, FPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
