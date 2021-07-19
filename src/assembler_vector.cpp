@@ -622,6 +622,10 @@ void Assembler::VSLIDEDOWN(Vec vd, Vec vs2, uint32_t uimm, VecMask mask) noexcep
     EmitVectorOPIVUI(m_buffer, 0b001111, mask, vs2, uimm, vd);
 }
 
+void Assembler::VSLIDE1UP(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b001110, mask, vs2, rs1, vd);
+}
+
 void Assembler::VSLIDEUP(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPIVX(m_buffer, 0b001110, mask, vs2, rs1, vd);
 }

@@ -1421,6 +1421,19 @@ TEST_CASE("VSLIDEDOWN.VI", "[rvv]") {
     REQUIRE(value == 0x3C8FB257);
 }
 
+TEST_CASE("VSLIDE1UP.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSLIDE1UP(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x3A85E257);
+
+    as.RewindBuffer();
+
+    as.VSLIDE1UP(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x3885E257);
+}
+
 TEST_CASE("VSLIDEUP.VX", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
