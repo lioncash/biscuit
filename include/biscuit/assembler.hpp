@@ -628,6 +628,12 @@ public:
     void VMSNE(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VMSNE(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
+    void VMUL(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VMUL(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
+    void VMULH(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VMULH(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
     void VMULHSU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VMULHSU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 

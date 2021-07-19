@@ -477,6 +477,22 @@ void Assembler::VMSNE(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
     EmitVectorOPIVI(m_buffer, 0b011001, mask, vs2, simm, vd);
 }
 
+void Assembler::VMUL(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b100101, mask, vs2, vs1, vd);
+}
+
+void Assembler::VMUL(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b100101, mask, vs2, rs1, vd);
+}
+
+void Assembler::VMULH(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b100111, mask, vs2, vs1, vd);
+}
+
+void Assembler::VMULH(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b100111, mask, vs2, rs1, vd);
+}
+
 void Assembler::VMULHSU(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b100110, mask, vs2, vs1, vd);
 }
