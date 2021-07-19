@@ -666,6 +666,12 @@ public:
     void VREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VREDXOR(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
 
+    void VREM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VREM(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
+    void VREMU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VREMU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
     void VRGATHER(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VRGATHER(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VRGATHER(Vec vd, Vec vs2, uint32_t uimm, VecMask mask = VecMask::No) noexcept;

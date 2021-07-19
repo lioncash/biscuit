@@ -1297,6 +1297,58 @@ TEST_CASE("VREDXOR.VS", "[rvv]") {
     REQUIRE(value == 0x0C862257);
 }
 
+TEST_CASE("VREM.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VREM(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x8E862257);
+
+    as.RewindBuffer();
+
+    as.VREM(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x8C862257);
+}
+
+TEST_CASE("VREM.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VREM(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x8E85E257);
+
+    as.RewindBuffer();
+
+    as.VREM(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x8C85E257);
+}
+
+TEST_CASE("VREMU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VREMU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x8A862257);
+
+    as.RewindBuffer();
+
+    as.VREMU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x88862257);
+}
+
+TEST_CASE("VREMU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VREMU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x8A85E257);
+
+    as.RewindBuffer();
+
+    as.VREMU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x8885E257);
+}
+
 TEST_CASE("VRGATHER.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
