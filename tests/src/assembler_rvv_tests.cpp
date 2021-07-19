@@ -743,6 +743,19 @@ TEST_CASE("VFNMSUB.VF", "[rvv]") {
     REQUIRE(value == 0xAC865257);
 }
 
+TEST_CASE("VFREC7.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFREC7(v4, v8, VecMask::No);
+    REQUIRE(value == 0x4E829257);
+
+    as.RewindBuffer();
+
+    as.VFREC7(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x4C829257);
+}
+
 TEST_CASE("VFSGNJ.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
