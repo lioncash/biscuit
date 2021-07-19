@@ -412,6 +412,14 @@ TEST_CASE("VFMAX.VF", "[rvv]") {
     REQUIRE(value == 0x18865257);
 }
 
+TEST_CASE("VFMERGE.VFM", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VFMERGE(v4, v8, x12);
+    REQUIRE(value == 0x5C865257);
+}
+
 TEST_CASE("VFMIN.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
