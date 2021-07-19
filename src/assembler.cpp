@@ -190,6 +190,13 @@ void EmitCompressedBranch(CodeBuffer& buffer, uint32_t funct3, int32_t offset, G
     const auto rs_san = CompressedRegTo3BitEncoding(rs);
     buffer.Emit16(((funct3 & 0b111) << 13) | transformed_imm | (rs_san << 7) | (op & 0b11));
 }
+
+// Emits a compressed jump instruction. These consist of:
+// funct3 | imm | op
+void EmitCompressedJump(CodeBuffer& buffer, uint32_t funct3, int32_t offset, uint32_t op) noexcept {
+    BISCUIT_ASSERT(IsValidCJTypeImm(offset));
+    buffer.Emit16(TransformToCJTypeImm(static_cast<uint32_t>(offset)) | ((funct3 & 0b111) << 13) | (op & 0b11));
+}
 } // Anonymous namespace
 
 void Assembler::Bind(Label* label) {
@@ -1314,7 +1321,7 @@ void Assembler::C_J(Label* label) noexcept {
 }
 
 void Assembler::C_J(int32_t offset) noexcept {
-    EmitCompressedJump(0b101, offset, 0b01);
+    EmitCompressedJump(m_buffer, 0b101, offset, 0b01);
 }
 
 void Assembler::C_JAL(Label* label) noexcept {
@@ -1324,7 +1331,7 @@ void Assembler::C_JAL(Label* label) noexcept {
 }
 
 void Assembler::C_JAL(int32_t offset) noexcept {
-    EmitCompressedJump(0b001, offset, 0b01);
+    EmitCompressedJump(m_buffer, 0b001, offset, 0b01);
 }
 
 void Assembler::C_FSW(FPR rs2, uint32_t imm, GPR rs1) noexcept {
@@ -1548,11 +1555,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitCompressedJump(uint32_t funct3, int32_t offset, uint32_t op) noexcept {
-    BISCUIT_ASSERT(IsValidCJTypeImm(offset));
-    m_buffer.Emit16(TransformToCJTypeImm(static_cast<uint32_t>(offset)) | ((funct3 & 0b111) << 13) | (op & 0b11));
 }
 
 void Assembler::EmitCompressedImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {

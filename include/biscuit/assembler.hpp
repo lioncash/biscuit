@@ -1102,10 +1102,6 @@ public:
     void VSETVLI(GPR rd, GPR rs, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
 
 private:
-    // Emits a compressed jump instruction. These consist of:
-    // funct3 | imm | op
-    void EmitCompressedJump(uint32_t funct3, int32_t offset, uint32_t op) noexcept;
-
     // Emits a compress immediate instruction. These consist of:
     // funct3 | imm | rd | imm | op
     void EmitCompressedImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept;
