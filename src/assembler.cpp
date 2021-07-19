@@ -132,6 +132,14 @@ void EmitRType(CodeBuffer& buffer, uint32_t funct7, FPR rs2, FPR rs1, Assembler:
     EmitRType(buffer, funct7, rs2, rs1, static_cast<uint32_t>(funct3), rd, opcode);
 }
 
+// Emits a R4 type RISC instruction. These consist of:
+// rs3 | funct2 | rs2 | rs1 | funct3 | rd | opcode
+void EmitR4Type(CodeBuffer& buffer, FPR rs3, uint32_t funct2, FPR rs2, FPR rs1, Assembler::RMode funct3, FPR rd, uint32_t opcode) noexcept {
+    const auto reg_bits = (rs3.Index() << 27) | (rs2.Index() << 20) | (rs1.Index() << 15) | (rd.Index() << 7);
+    const auto funct_bits = ((funct2 & 0b11) << 25) | (static_cast<uint32_t>(funct3) << 12);
+    buffer.Emit32(reg_bits | funct_bits | (opcode & 0x7F));
+}
+
 // Emits an atomic instruction.
 void EmitAtomic(CodeBuffer& buffer, uint32_t funct5, Assembler::Ordering ordering, GPR rs2, GPR rs1,
                 uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
@@ -839,7 +847,7 @@ void Assembler::FLW(FPR rd, uint32_t offset, GPR rs) noexcept {
     EmitIType(m_buffer, offset, rs, 0b010, rd, 0b0000111);
 }
 void Assembler::FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
+    EmitR4Type(m_buffer, rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
 }
 void Assembler::FMAX_S(FPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b001, rd, 0b1010011);
@@ -848,7 +856,7 @@ void Assembler::FMIN_S(FPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b000, rd, 0b1010011);
 }
 void Assembler::FMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1000111);
+    EmitR4Type(m_buffer, rs3, 0b00, rs2, rs1, rmode, rd, 0b1000111);
 }
 void Assembler::FMUL_S(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0001000, rs2, rs1, rmode, rd, 0b1010011);
@@ -860,10 +868,10 @@ void Assembler::FMV_X_W(GPR rd, FPR rs1) noexcept {
     EmitRType(m_buffer, 0b1110000, f0, rs1, 0b000, rd, 0b1010011);
 }
 void Assembler::FNMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1001111);
+    EmitR4Type(m_buffer, rs3, 0b00, rs2, rs1, rmode, rd, 0b1001111);
 }
 void Assembler::FNMSUB_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b00, rs2, rs1, rmode, rd, 0b1001011);
+    EmitR4Type(m_buffer, rs3, 0b00, rs2, rs1, rmode, rd, 0b1001011);
 }
 void Assembler::FSGNJ_S(FPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010000, rs2, rs1, 0b000, rd, 0b1010011);
@@ -951,7 +959,7 @@ void Assembler::FLD(FPR rd, uint32_t offset, GPR rs) noexcept {
     EmitIType(m_buffer, offset, rs, 0b011, rd, 0b0000111);
 }
 void Assembler::FMADD_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b01, rs2, rs1, rmode, rd, 0b1000011);
+    EmitR4Type(m_buffer, rs3, 0b01, rs2, rs1, rmode, rd, 0b1000011);
 }
 void Assembler::FMAX_D(FPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010101, rs2, rs1, 0b001, rd, 0b1010011);
@@ -960,16 +968,16 @@ void Assembler::FMIN_D(FPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010101, rs2, rs1, 0b000, rd, 0b1010011);
 }
 void Assembler::FMSUB_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b01, rs2, rs1, rmode, rd, 0b1000111);
+    EmitR4Type(m_buffer, rs3, 0b01, rs2, rs1, rmode, rd, 0b1000111);
 }
 void Assembler::FMUL_D(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0001001, rs2, rs1, rmode, rd, 0b1010011);
 }
 void Assembler::FNMADD_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b01, rs2, rs1, rmode, rd, 0b1001111);
+    EmitR4Type(m_buffer, rs3, 0b01, rs2, rs1, rmode, rd, 0b1001111);
 }
 void Assembler::FNMSUB_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b01, rs2, rs1, rmode, rd, 0b1001011);
+    EmitR4Type(m_buffer, rs3, 0b01, rs2, rs1, rmode, rd, 0b1001011);
 }
 void Assembler::FSGNJ_D(FPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010001, rs2, rs1, 0b000, rd, 0b1010011);
@@ -1069,7 +1077,7 @@ void Assembler::FLQ(FPR rd, uint32_t offset, GPR rs) noexcept {
     EmitIType(m_buffer, offset, rs, 0b100, rd, 0b0000111);
 }
 void Assembler::FMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1000011);
+    EmitR4Type(m_buffer, rs3, 0b11, rs2, rs1, rmode, rd, 0b1000011);
 }
 void Assembler::FMAX_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010111, rs2, rs1, 0b001, rd, 0b1010011);
@@ -1078,16 +1086,16 @@ void Assembler::FMIN_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010111, rs2, rs1, 0b000, rd, 0b1010011);
 }
 void Assembler::FMSUB_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1000111);
+    EmitR4Type(m_buffer, rs3, 0b11, rs2, rs1, rmode, rd, 0b1000111);
 }
 void Assembler::FMUL_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0001011, rs2, rs1, rmode, rd, 0b1010011);
 }
 void Assembler::FNMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1001111);
+    EmitR4Type(m_buffer, rs3, 0b11, rs2, rs1, rmode, rd, 0b1001111);
 }
 void Assembler::FNMSUB_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
-    EmitR4Type(rs3, 0b11, rs2, rs1, rmode, rd, 0b1001011);
+    EmitR4Type(m_buffer, rs3, 0b11, rs2, rs1, rmode, rd, 0b1001011);
 }
 void Assembler::FSGNJ_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010011, rs2, rs1, 0b000, rd, 0b1010011);
@@ -1496,12 +1504,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitR4Type(FPR rs3, uint32_t funct2, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept {
-    const auto reg_bits = (rs3.Index() << 27) | (rs2.Index() << 20) | (rs1.Index() << 15) | (rd.Index() << 7);
-    const auto funct_bits = ((funct2 & 0b11) << 25) | (static_cast<uint32_t>(funct3) << 12);
-    m_buffer.Emit32(reg_bits | funct_bits | (opcode & 0x7F));
 }
 
 void Assembler::EmitSType(uint32_t imm, Register rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
