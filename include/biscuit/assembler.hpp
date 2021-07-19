@@ -568,15 +568,15 @@ public:
     void VDIVU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VDIVU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
-    void VMACC(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VMACC(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMACC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VMACC(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
     void VMADC(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VMADC(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VMADC(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
-    void VMADD(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VMADD(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMADD(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VMADD(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
     void VMAND(Vec vd, Vec vs2, Vec vs1) noexcept;
     void VMANDNOT(Vec vd, Vec vs2, Vec vs1) noexcept;
@@ -663,11 +663,11 @@ public:
     void VNCLIPU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VNCLIPU(Vec vd, Vec vs2, uint32_t uimm, VecMask mask = VecMask::No) noexcept;
 
-    void VNMSAC(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VNMSAC(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VNMSAC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VNMSAC(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
-    void VNMSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
-    void VNMSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VNMSUB(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VNMSUB(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
     void VNSRA(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VNSRA(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
@@ -767,6 +767,12 @@ public:
 
     void VWADDUW(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VWADDUW(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
+    void VWMACC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VWMACC(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+
+    void VWMACCU(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VWMACCU(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
     void VWMUL(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VWMUL(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
