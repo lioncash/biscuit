@@ -107,6 +107,13 @@ void EmitRType(CodeBuffer& buffer, uint32_t funct7, Register rs2, Register rs1, 
 void EmitRType(CodeBuffer& buffer, uint32_t funct7, FPR rs2, FPR rs1, Assembler::RMode funct3, FPR rd, uint32_t opcode) noexcept {
     EmitRType(buffer, funct7, rs2, rs1, static_cast<uint32_t>(funct3), rd, opcode);
 }
+
+// Emits an atomic instruction.
+void EmitAtomic(CodeBuffer& buffer, uint32_t funct5, Assembler::Ordering ordering, GPR rs2, GPR rs1,
+                uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
+    const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
+    EmitRType(buffer, funct7, rs2, rs1, funct3, rd, opcode);
+}
 } // Anonymous namespace
 
 void Assembler::Bind(Label* label) {
@@ -703,73 +710,73 @@ void Assembler::REMUW(GPR rd, GPR rs1, GPR rs2) noexcept {
 // RV32A Extension Instructions
 
 void Assembler::AMOADD_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b00000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b00000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 void Assembler::AMOAND_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b01100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b01100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 void Assembler::AMOMAX_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b10100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b10100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 void Assembler::AMOMAXU_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b11100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b11100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 void Assembler::AMOMIN_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b10000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b10000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 void Assembler::AMOMINU_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b11000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b11000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 void Assembler::AMOOR_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b01000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b01000, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 void Assembler::AMOSWAP_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b00001, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b00001, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 void Assembler::AMOXOR_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b00100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b00100, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 void Assembler::LR_W(Ordering ordering, GPR rd, GPR rs) noexcept {
-    EmitAtomic(0b00010, ordering, x0, rs, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b00010, ordering, x0, rs, 0b010, rd, 0b0101111);
 }
 void Assembler::SC_W(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept {
-    EmitAtomic(0b00011, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b00011, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 
 // RV64A Extension Instructions
 
 void Assembler::AMOADD_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b00000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b00000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 void Assembler::AMOAND_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b01100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b01100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 void Assembler::AMOMAX_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b10100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b10100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 void Assembler::AMOMAXU_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b11100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b11100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 void Assembler::AMOMIN_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b10000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b10000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 void Assembler::AMOMINU_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b11000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b11000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 void Assembler::AMOOR_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b01000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b01000, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 void Assembler::AMOSWAP_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b00001, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b00001, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 void Assembler::AMOXOR_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
-    EmitAtomic(0b00100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b00100, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 void Assembler::LR_D(Ordering ordering, GPR rd, GPR rs) noexcept {
-    EmitAtomic(0b00010, ordering, x0, rs, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b00010, ordering, x0, rs, 0b011, rd, 0b0101111);
 }
 void Assembler::SC_D(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept {
-    EmitAtomic(0b00011, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+    EmitAtomic(m_buffer, 0b00011, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 
 // RV32F Extension Instructions
@@ -1465,11 +1472,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitAtomic(uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
-    const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
-    EmitRType(m_buffer, funct7, rs2, rs1, funct3, rd, opcode);
 }
 
 void Assembler::EmitBType(uint32_t imm, GPR rs2, GPR rs1, uint32_t funct3, uint32_t opcode) noexcept {
