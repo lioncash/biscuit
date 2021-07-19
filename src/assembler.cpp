@@ -197,6 +197,14 @@ void EmitCompressedJump(CodeBuffer& buffer, uint32_t funct3, int32_t offset, uin
     BISCUIT_ASSERT(IsValidCJTypeImm(offset));
     buffer.Emit16(TransformToCJTypeImm(static_cast<uint32_t>(offset)) | ((funct3 & 0b111) << 13) | (op & 0b11));
 }
+
+// Emits a compress immediate instruction. These consist of:
+// funct3 | imm | rd | imm | op
+void EmitCompressedImmediate(CodeBuffer& buffer, uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
+    BISCUIT_ASSERT(rd != x0);
+    const auto new_imm = ((imm & 0b11111) << 2) | ((imm & 0b100000) << 7);
+    buffer.Emit16(((funct3 & 0b111) << 13) | new_imm | (rd.Index() << 7) | (op & 0b11));
+}
 } // Anonymous namespace
 
 void Assembler::Bind(Label* label) {
@@ -1203,12 +1211,12 @@ void Assembler::C_ADD(GPR rd, GPR rs) noexcept {
 void Assembler::C_ADDI(GPR rd, int32_t imm) noexcept {
     BISCUIT_ASSERT(imm != 0);
     BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
-    EmitCompressedImmediate(0b000, imm, rd, 0b01);
+    EmitCompressedImmediate(m_buffer, 0b000, imm, rd, 0b01);
 }
 
 void Assembler::C_ADDIW(GPR rd, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
-    EmitCompressedImmediate(0b001, imm, rd, 0b01);
+    EmitCompressedImmediate(m_buffer, 0b001, imm, rd, 0b01);
 }
 
 void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
@@ -1377,7 +1385,7 @@ void Assembler::C_LDSP(GPR rd, uint32_t imm) noexcept {
 
 void Assembler::C_LI(GPR rd, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
-    EmitCompressedImmediate(0b010, imm, rd, 0b01);
+    EmitCompressedImmediate(m_buffer, 0b010, imm, rd, 0b01);
 }
 
 void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
@@ -1403,7 +1411,7 @@ void Assembler::C_LUI(GPR rd, uint32_t imm) noexcept {
     BISCUIT_ASSERT(rd != x0 && rd != x2);
 
     const auto new_imm = (imm & 0x3F000) >> 12;
-    EmitCompressedImmediate(0b011, new_imm, rd, 0b01);
+    EmitCompressedImmediate(m_buffer, 0b011, new_imm, rd, 0b01);
 }
 
 void Assembler::C_LW(GPR rd, uint32_t imm, GPR rs) noexcept {
@@ -1555,12 +1563,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitCompressedImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
-    BISCUIT_ASSERT(rd != x0);
-    const auto new_imm = ((imm & 0b11111) << 2) | ((imm & 0b100000) << 7);
-    m_buffer.Emit16(((funct3 & 0b111) << 13) | new_imm | (rd.Index() << 7) | (op & 0b11));
 }
 
 void Assembler::EmitCompressedLoad(uint32_t funct3, uint32_t imm, GPR rs, Register rd, uint32_t op) noexcept {
