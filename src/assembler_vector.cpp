@@ -285,6 +285,22 @@ void Assembler::VCOMPRESS(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVV(m_buffer, 0b010111, VecMask::No, vs2, vs1, vd);
 }
 
+void Assembler::VDIV(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b100001, mask, vs2, vs1, vd);
+}
+
+void Assembler::VDIV(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b100001, mask, vs2, rs1, vd);
+}
+
+void Assembler::VDIVU(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b100000, mask, vs2, vs1, vd);
+}
+
+void Assembler::VDIVU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b100000, mask, vs2, rs1, vd);
+}
+
 void Assembler::VMADC(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b010001, mask, vs2, vs1, vd);
 }

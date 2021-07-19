@@ -243,6 +243,58 @@ TEST_CASE("VCOMPRESS.VM", "[rvv]") {
     REQUIRE(value == 0x5E862257);
 }
 
+TEST_CASE("VDIV.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VDIV(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x86862257);
+
+    as.RewindBuffer();
+
+    as.VDIV(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x84862257);
+}
+
+TEST_CASE("VDIV.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VDIV(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x8685E257);
+
+    as.RewindBuffer();
+
+    as.VDIV(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x8485E257);
+}
+
+TEST_CASE("VDIVU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VDIVU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x82862257);
+
+    as.RewindBuffer();
+
+    as.VDIVU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x80862257);
+}
+
+TEST_CASE("VDIVU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VDIVU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x8285E257);
+
+    as.RewindBuffer();
+
+    as.VDIVU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x8085E257);
+}
+
 TEST_CASE("VMADC.VV(M)", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
