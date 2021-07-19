@@ -835,6 +835,104 @@ TEST_CASE("VRSUB.VI", "[rvv]") {
     REQUIRE(value == 0x0C883257);
 }
 
+TEST_CASE("VSADD.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSADD(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x86860257);
+
+    as.RewindBuffer();
+
+    as.VSADD(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x84860257);
+}
+
+TEST_CASE("VSADD.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSADD(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x8685C257);
+
+    as.RewindBuffer();
+
+    as.VSADD(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x8485C257);
+}
+
+TEST_CASE("VSADD.VI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSADD(v4, v8, 15, VecMask::No);
+    REQUIRE(value == 0x8687B257);
+
+    as.RewindBuffer();
+
+    as.VSADD(v4, v8, -16, VecMask::No);
+    REQUIRE(value == 0x86883257);
+
+    as.RewindBuffer();
+
+    as.VSADD(v4, v8, 15, VecMask::Yes);
+    REQUIRE(value == 0x8487B257);
+
+    as.RewindBuffer();
+
+    as.VSADD(v4, v8, -16, VecMask::Yes);
+    REQUIRE(value == 0x84883257);
+}
+
+TEST_CASE("VSADDU.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSADDU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x82860257);
+
+    as.RewindBuffer();
+
+    as.VSADDU(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x80860257);
+}
+
+TEST_CASE("VSADDU.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSADDU(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x8285C257);
+
+    as.RewindBuffer();
+
+    as.VSADDU(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x8085C257);
+}
+
+TEST_CASE("VSADDU.VI", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSADDU(v4, v8, 15, VecMask::No);
+    REQUIRE(value == 0x8287B257);
+
+    as.RewindBuffer();
+
+    as.VSADDU(v4, v8, -16, VecMask::No);
+    REQUIRE(value == 0x82883257);
+
+    as.RewindBuffer();
+
+    as.VSADDU(v4, v8, 15, VecMask::Yes);
+    REQUIRE(value == 0x8087B257);
+
+    as.RewindBuffer();
+
+    as.VSADDU(v4, v8, -16, VecMask::Yes);
+    REQUIRE(value == 0x80883257);
+}
+
 TEST_CASE("VSBC.VVM", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
