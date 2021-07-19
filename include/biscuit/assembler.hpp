@@ -628,6 +628,8 @@ public:
     void VOR(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VOR(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
+    void VREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+
     void VRGATHER(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VRGATHER(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VRGATHER(Vec vd, Vec vs2, uint32_t uimm, VecMask mask = VecMask::No) noexcept;
