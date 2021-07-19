@@ -764,6 +764,18 @@ void Assembler::VSBC(Vec vd, Vec vs2, GPR rs1) noexcept {
     EmitVectorOPIVX(m_buffer, 0b010010, VecMask::Yes, vs2, rs1, vd);
 }
 
+void Assembler::VSEXTVF2(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010010, mask, vs, v7, vd);
+}
+
+void Assembler::VSEXTVF4(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010010, mask, vs, v5, vd);
+}
+
+void Assembler::VSEXTVF8(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010010, mask, vs, v3, vd);
+}
+
 void Assembler::VSLIDE1DOWN(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPMVX(m_buffer, 0b001111, mask, vs2, rs1, vd);
 }
