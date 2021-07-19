@@ -153,6 +153,12 @@ void EmitSType(CodeBuffer& buffer, uint32_t imm, Register rs2, GPR rs1, uint32_t
     buffer.Emit32(new_imm | (rs2.Index() << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (opcode & 0x7F));
 }
 
+// Emits a U type RISC-V instruction. These consist of:
+// imm[31:12] | rd | opcode
+void EmitUType(CodeBuffer& buffer, uint32_t imm, GPR rd, uint32_t opcode) noexcept {
+    buffer.Emit32((imm & 0xFFFFF000) | rd.Index() << 7 | (opcode & 0x7F));
+}
+
 // Emits an atomic instruction.
 void EmitAtomic(CodeBuffer& buffer, uint32_t funct5, Assembler::Ordering ordering, GPR rs2, GPR rs1,
                 uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
@@ -182,7 +188,7 @@ void Assembler::ANDI(GPR rd, GPR rs, uint32_t imm) noexcept {
 }
 
 void Assembler::AUIPC(GPR rd, uint32_t imm) noexcept {
-    EmitUType(imm, rd, 0b0010111);
+    EmitUType(m_buffer, imm, rd, 0b0010111);
 }
 
 void Assembler::BEQ(GPR rs1, GPR rs2, Label* label) noexcept {
@@ -422,7 +428,7 @@ void Assembler::LHU(GPR rd, uint32_t imm, GPR rs) noexcept {
 }
 
 void Assembler::LUI(GPR rd, uint32_t imm) noexcept {
-    EmitUType(imm, rd, 0b0110111);
+    EmitUType(m_buffer, imm, rd, 0b0110111);
 }
 
 void Assembler::LW(GPR rd, uint32_t imm, GPR rs) noexcept {
@@ -1517,10 +1523,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitUType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
-    m_buffer.Emit32((imm & 0xFFFFF000) | rd.Index() << 7 | (opcode & 0x7F));
 }
 
 void Assembler::EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {

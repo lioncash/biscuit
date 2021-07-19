@@ -1102,10 +1102,6 @@ public:
     void VSETVLI(GPR rd, GPR rs, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
 
 private:
-    // Emits a U type RISC-V instruction. These consist of:
-    // imm[31:12] | rd | opcode
-    void EmitUType(uint32_t imm, GPR rd, uint32_t opcode) noexcept;
-
     // Emits a fence instruction
     void EmitFENCE(uint32_t fm, FenceOrder pred, FenceOrder succ, GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept;
 
