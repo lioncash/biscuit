@@ -375,6 +375,37 @@ void Assembler::VMV(Vec vd, int32_t simm) noexcept {
     EmitVectorOPIVI(m_buffer, 0b010111, VecMask::No, v0, simm, vd);
 }
 
+void Assembler::VMV1R(Vec vd, Vec vs) noexcept {
+    EmitVectorOPIVI(m_buffer, 0b100111, VecMask::No, vs, 0b00000, vd);
+}
+
+void Assembler::VMV2R(Vec vd, Vec vs) noexcept {
+    // Registers must be aligned to the register group size, per the
+    // RVV spec (as of 1.0RC)
+    BISCUIT_ASSERT(vd.Index() % 2 == 0);
+    BISCUIT_ASSERT(vs.Index() % 2 == 0);
+
+    EmitVectorOPIVI(m_buffer, 0b100111, VecMask::No, vs, 0b00001, vd);
+}
+
+void Assembler::VMV4R(Vec vd, Vec vs) noexcept {
+    // Registers must be aligned to the register group size, per the
+    // RVV spec (as of 1.0RC)
+    BISCUIT_ASSERT(vd.Index() % 4 == 0);
+    BISCUIT_ASSERT(vs.Index() % 4 == 0);
+
+    EmitVectorOPIVI(m_buffer, 0b100111, VecMask::No, vs, 0b00011, vd);
+}
+
+void Assembler::VMV8R(Vec vd, Vec vs) noexcept {
+    // Registers must be aligned to the register group size, per the
+    // RVV spec (as of 1.0RC)
+    BISCUIT_ASSERT(vd.Index() % 8 == 0);
+    BISCUIT_ASSERT(vs.Index() % 8 == 0);
+
+    EmitVectorOPIVI(m_buffer, 0b100111, VecMask::No, vs, 0b00111, vd);
+}
+
 void Assembler::VOR(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b001010, mask, vs2, vs1, vd);
 }

@@ -688,6 +688,38 @@ TEST_CASE("VMV.V.I", "[rvv]") {
     REQUIRE(value == 0x5E083457);
 }
 
+TEST_CASE("VMV1R.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMV1R(v1, v2);
+    REQUIRE(value == 0x9E2030D7);
+}
+
+TEST_CASE("VMV2R.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMV2R(v2, v4);
+    REQUIRE(value == 0x9E40B157);
+}
+
+TEST_CASE("VMV4R.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMV4R(v4, v8);
+    REQUIRE(value == 0x9E81B257);
+}
+
+TEST_CASE("VMV8R.V", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMV8R(v0, v8);
+    REQUIRE(value == 0x9E83B057);
+}
+
 TEST_CASE("VOR.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
