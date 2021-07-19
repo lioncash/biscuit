@@ -102,6 +102,14 @@ void EmitIType(CodeBuffer& buffer, uint32_t imm, Register rs1, uint32_t funct3, 
     buffer.Emit32((imm << 20) | (rs1.Index() << 15) | ((funct3 & 0b111) << 12) | (rd.Index() << 7) | (opcode & 0x7F));
 }
 
+// Emits a J type RISC-V instruction. These consist of:
+// imm[20|10:1|11|19:12] | rd | opcode
+void EmitJType(CodeBuffer& buffer, uint32_t imm, GPR rd, uint32_t opcode) noexcept {
+    imm &= 0x1FFFFE;
+
+    buffer.Emit32(TransformToJTypeImm(imm) | rd.Index() << 7 | (opcode & 0x7F));
+}
+
 // Emits a R type RISC instruction. These consist of:
 // funct7 | rs2 | rs1 | funct3 | rd | opcode
 void EmitRType(CodeBuffer& buffer, uint32_t funct7, Register rs2, Register rs1, uint32_t funct3,
@@ -355,12 +363,12 @@ void Assembler::J(int32_t imm) noexcept {
 
 void Assembler::JAL(int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValidJTypeImm(imm));
-    EmitJType(imm, x1, 0b1101111);
+    EmitJType(m_buffer, imm, x1, 0b1101111);
 }
 
 void Assembler::JAL(GPR rd, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValidJTypeImm(imm));
-    EmitJType(static_cast<uint32_t>(imm), rd, 0b1101111);
+    EmitJType(m_buffer, static_cast<uint32_t>(imm), rd, 0b1101111);
 }
 
 void Assembler::JALR(GPR rs) noexcept {
@@ -1488,12 +1496,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitJType(uint32_t imm, GPR rd, uint32_t opcode) noexcept {
-    imm &= 0x1FFFFE;
-
-    m_buffer.Emit32(TransformToJTypeImm(imm) | rd.Index() << 7 | (opcode & 0x7F));
 }
 
 void Assembler::EmitR4Type(FPR rs3, uint32_t funct2, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept {
