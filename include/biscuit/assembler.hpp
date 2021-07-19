@@ -1117,14 +1117,6 @@ private:
     // imm[20|10:1|11|19:12] | rd | opcode
     void EmitJType(uint32_t imm, GPR rd, uint32_t opcode) noexcept;
 
-    // Emits a R type RISC instruction. These consist of:
-    // funct7 | rs2 | rs1 | funct3 | rd | opcode
-    void EmitRType(uint32_t funct7, Register rs2, Register rs1, uint32_t funct3, Register rd, uint32_t opcode) noexcept;
-
-    // Emits a R type RISC instruction. These consist of:
-    // funct7 | rs2 | rs1 | funct3 | rd | opcode
-    void EmitRType(uint32_t funct7, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept;
-
     // Emits a R4 type RISC instruction. These consist of:
     // rs3 | funct2 | rs2 | rs1 | funct3 | rd | opcode
     void EmitR4Type(FPR rs3, uint32_t funct2, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept;
