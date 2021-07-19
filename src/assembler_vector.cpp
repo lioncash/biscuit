@@ -1312,6 +1312,14 @@ void Assembler::VFWNMACC(Vec vd, FPR rs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b111101, mask, vs2, rs1, vd);
 }
 
+void Assembler::VFWNMSAC(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b111111, mask, vs2, vs1, vd);
+}
+
+void Assembler::VFWNMSAC(Vec vd, FPR rs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b111111, mask, vs2, rs1, vd);
+}
+
 void Assembler::VFWREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b110001, mask, vs2, vs1, vd);
 }
