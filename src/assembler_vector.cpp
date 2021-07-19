@@ -1136,6 +1136,14 @@ void Assembler::VFSGNJ(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPFVF(m_buffer, 0b001000, mask, vs2, rs1, vd);
 }
 
+void Assembler::VFSGNJN(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b001001, mask, vs2, vs1, vd);
+}
+
+void Assembler::VFSGNJN(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b001001, mask, vs2, rs1, vd);
+}
+
 void Assembler::VFSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b000010, mask, vs2, vs1, vd);
 }
