@@ -1108,6 +1108,14 @@ void Assembler::VFREDOSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b000011, mask, vs2, vs1, vd);
 }
 
+void Assembler::VFMAX(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b000110, mask, vs2, vs1, vd);
+}
+
+void Assembler::VFMAX(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b000110, mask, vs2, rs1, vd);
+}
+
 void Assembler::VFMIN(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b000100, mask, vs2, vs1, vd);
 }
