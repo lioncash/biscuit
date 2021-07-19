@@ -1070,6 +1070,32 @@ TEST_CASE("VSLL.VI", "[rvv]") {
     REQUIRE(value == 0x948FB257);
 }
 
+TEST_CASE("VSMUL.VV", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSMUL(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x9E860257);
+
+    as.RewindBuffer();
+
+    as.VSMUL(v4, v8, v12, VecMask::Yes);
+    REQUIRE(value == 0x9C860257);
+}
+
+TEST_CASE("VSMUL.VX", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSMUL(v4, v8, x11, VecMask::No);
+    REQUIRE(value == 0x9E85C257);
+
+    as.RewindBuffer();
+
+    as.VSMUL(v4, v8, x11, VecMask::Yes);
+    REQUIRE(value == 0x9C85C257);
+}
+
 TEST_CASE("VSSUB.VV", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

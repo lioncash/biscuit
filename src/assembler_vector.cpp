@@ -471,6 +471,14 @@ void Assembler::VSLL(Vec vd, Vec vs2, uint32_t uimm, VecMask mask) noexcept {
     EmitVectorOPIVUI(m_buffer, 0b100101, mask, vs2, uimm, vd);
 }
 
+void Assembler::VSMUL(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b100111, mask, vs2, vs1, vd);
+}
+
+void Assembler::VSMUL(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b100111, mask, vs2, rs1, vd);
+}
+
 void Assembler::VSSUB(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b100011, mask, vs2, vs1, vd);
 }
