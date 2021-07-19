@@ -238,6 +238,14 @@ void EmitCompressedStore(CodeBuffer& buffer, uint32_t funct3, uint32_t imm, GPR 
     // We can reuse the code we've already written to handle this.
     EmitCompressedLoad(buffer, funct3, imm, rs1, rs2, op);
 }
+
+// Emits a compressed wide immediate instruction. These consist of:
+// funct3 | imm | rd | opcode
+void EmitCompressedWideImmediate(CodeBuffer& buffer, uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
+    const auto rd_sanitized = CompressedRegTo3BitEncoding(rd);
+    buffer.Emit16(((funct3 & 0b111) << 13) | ((imm & 0xFF) << 5) | (rd_sanitized << 2) | (op & 0b11));
+}
 } // Anonymous namespace
 
 void Assembler::Bind(Label* label) {
@@ -1254,7 +1262,7 @@ void Assembler::C_ADDIW(GPR rd, int32_t imm) noexcept {
 
 void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
     BISCUIT_ASSERT(imm != 0);
-    EmitCompressedWideImmediate(0b000, imm, rd, 0b00);
+    EmitCompressedWideImmediate(m_buffer, 0b000, imm, rd, 0b00);
 }
 
 void Assembler::C_ADDW(GPR rd, GPR rs) noexcept {
@@ -1596,12 +1604,6 @@ void Assembler::URET() noexcept {
 
 void Assembler::WFI() noexcept {
     m_buffer.Emit32(0x10500073);
-}
-
-void Assembler::EmitCompressedWideImmediate(uint32_t funct3, uint32_t imm, GPR rd, uint32_t op) noexcept {
-    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
-    const auto rd_sanitized = CompressedRegTo3BitEncoding(rd);
-    m_buffer.Emit16(((funct3 & 0b111) << 13) | ((imm & 0xFF) << 5) | (rd_sanitized << 2) | (op & 0b11));
 }
 
 void Assembler::BindToOffset(Label* label, Label::LocationOffset offset) {
