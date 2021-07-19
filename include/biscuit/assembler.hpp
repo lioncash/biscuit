@@ -655,6 +655,8 @@ public:
     void VMV4R(Vec vd, Vec vs) noexcept;
     void VMV8R(Vec vd, Vec vs) noexcept;
 
+    void VMVSX(Vec vd, GPR rs) noexcept;
+
     void VNCLIP(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VNCLIP(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VNCLIP(Vec vd, Vec vs2, uint32_t uimm, VecMask mask = VecMask::No) noexcept;

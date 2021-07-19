@@ -1043,6 +1043,14 @@ TEST_CASE("VMULHU.VX", "[rvv]") {
     REQUIRE(value == 0x9085E257);
 }
 
+TEST_CASE("VMV.S.X", "[rvv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VMVSX(v4, x10);
+    REQUIRE(value == 0x42056257);
+}
+
 TEST_CASE("VMV.V.V", "[rvv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

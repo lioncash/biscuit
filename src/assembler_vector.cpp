@@ -568,6 +568,10 @@ void Assembler::VMV8R(Vec vd, Vec vs) noexcept {
     EmitVectorOPIVI(m_buffer, 0b100111, VecMask::No, vs, 0b00111, vd);
 }
 
+void Assembler::VMVSX(Vec vd, GPR rs) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b010000, VecMask::No, v0, rs, vd);
+}
+
 void Assembler::VNCLIP(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b101111, mask, vs2, vs1, vd);
 }
