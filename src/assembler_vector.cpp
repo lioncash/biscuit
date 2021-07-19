@@ -493,6 +493,10 @@ void Assembler::VREDSUM(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b000000, mask, vs2, vs1, vd);
 }
 
+void Assembler::VREDXOR(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b000011, mask, vs2, vs1, vd);
+}
+
 void Assembler::VRGATHER(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b001100, mask, vs2, vs1, vd);
 }
