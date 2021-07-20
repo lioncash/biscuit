@@ -333,3 +333,19 @@ TEST_CASE("SH1ADD.UW", "[rvb]") {
     as.SH1ADDUW(x31, x7, x15);
     REQUIRE(value == 0x20F3AFBB);
 }
+
+TEST_CASE("SH2ADD", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SH2ADD(x31, x7, x15);
+    REQUIRE(value == 0x20F3CFB3);
+}
+
+TEST_CASE("SH2ADD.UW", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SH2ADDUW(x31, x7, x15);
+    REQUIRE(value == 0x20F3CFBB);
+}

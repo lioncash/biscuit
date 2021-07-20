@@ -1393,6 +1393,14 @@ void Assembler::SH1ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010000, rs2, rs1, 0b010, rd, 0b0111011);
 }
 
+void Assembler::SH2ADD(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010000, rs2, rs1, 0b100, rd, 0b0110011);
+}
+
+void Assembler::SH2ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010000, rs2, rs1, 0b100, rd, 0b0111011);
+}
+
 void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
     ADDUW(rd, rs, x0);
 }
