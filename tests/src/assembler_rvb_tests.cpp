@@ -230,3 +230,16 @@ TEST_CASE("ORN", "[rvb]") {
     as.ORN(x31, x7, x15);
     REQUIRE(value == 0x40F3EFB3);
 }
+
+TEST_CASE("REV8", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.REV8_32(x31, x7);
+    REQUIRE(value == 0x6983DF93);
+
+    as.RewindBuffer();
+
+    as.REV8_64(x31, x7);
+    REQUIRE(value == 0x6B83DF93);
+}
