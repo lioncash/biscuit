@@ -301,3 +301,19 @@ TEST_CASE("RORIW", "[rvb]") {
     as.RORIW(x31, x7, 63);
     REQUIRE(value == 0x63F3DF9B);
 }
+
+TEST_CASE("SEXT.B", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SEXTB(x31, x7);
+    REQUIRE(value == 0x60439F93);
+}
+
+TEST_CASE("SEXT.H", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SEXTH(x31, x7);
+    REQUIRE(value == 0x60539F93);
+}

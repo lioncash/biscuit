@@ -1377,6 +1377,14 @@ void Assembler::RORW(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b0110000, rs2, rs1, 0b101, rd, 0b0111011);
 }
 
+void Assembler::SEXTB(GPR rd, GPR rs) noexcept {
+    EmitIType(m_buffer, 0b011000000100, rs, 0b001, rd, 0b0010011);
+}
+
+void Assembler::SEXTH(GPR rd, GPR rs) noexcept {
+    EmitIType(m_buffer, 0b011000000101, rs, 0b001, rd, 0b0010011);
+}
+
 void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
     ADDUW(rd, rs, x0);
 }
