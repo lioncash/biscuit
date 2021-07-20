@@ -317,3 +317,19 @@ TEST_CASE("SEXT.H", "[rvb]") {
     as.SEXTH(x31, x7);
     REQUIRE(value == 0x60539F93);
 }
+
+TEST_CASE("SH1ADD", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SH1ADD(x31, x7, x15);
+    REQUIRE(value == 0x20F3AFB3);
+}
+
+TEST_CASE("SH1ADD.UW", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SH1ADDUW(x31, x7, x15);
+    REQUIRE(value == 0x20F3AFBB);
+}

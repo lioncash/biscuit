@@ -505,6 +505,8 @@ public:
     void RORW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void SEXTB(GPR rd, GPR rs) noexcept;
     void SEXTH(GPR rd, GPR rs) noexcept;
+    void SH1ADD(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void SH1ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
 
     // RVC Extension Instructions
