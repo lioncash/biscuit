@@ -378,3 +378,11 @@ TEST_CASE("SLLI.UW", "[rvb]") {
     as.SLLIUW(x31, x7, 63);
     REQUIRE(value == 0x0BF39F9B);
 }
+
+TEST_CASE("XNOR", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.XNOR(x31, x7, x15);
+    REQUIRE(value == 0x40F3CFB3);
+}
