@@ -1,6 +1,5 @@
 #include <catch/catch.hpp>
 
-#include <array>
 #include <biscuit/assembler.hpp>
 
 using namespace biscuit;

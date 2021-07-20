@@ -1,7 +1,6 @@
 #include <catch/catch.hpp>
 
 #include <array>
-#include <vector>
 
 #include <biscuit/assembler.hpp>
 
