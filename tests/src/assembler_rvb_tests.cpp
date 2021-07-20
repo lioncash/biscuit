@@ -134,3 +134,11 @@ TEST_CASE("CLMULR", "[rvb]") {
     as.CLMULR(x31, x7, x15);
     REQUIRE(value == 0x0AF3AFB3);
 }
+
+TEST_CASE("CLZ", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.CLZ(x31, x7);
+    REQUIRE(value == 0x60039F93);
+}
