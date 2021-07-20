@@ -386,3 +386,16 @@ TEST_CASE("XNOR", "[rvb]") {
     as.XNOR(x31, x7, x15);
     REQUIRE(value == 0x40F3CFB3);
 }
+
+TEST_CASE("ZEXT.H", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ZEXTH_32(x31, x7);
+    REQUIRE(value == 0x0803CFB3);
+
+    as.RewindBuffer();
+
+    as.ZEXTH_64(x31, x7);
+    REQUIRE(value == 0x0803CFBB);
+}
