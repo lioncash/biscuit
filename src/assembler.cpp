@@ -540,10 +540,9 @@ void Assembler::LI(GPR rd, uint32_t imm) noexcept {
         // In the event of the sign-extension, this means that we'll be adding
         // an equivalent of "lower - 4096" to the upper immediate.
         //
-        // To counteract this, we add 1 to the upper part of the immediate.
-        // the upper part's least significant bit is bit 12. Adding 1 to this
-        // bit is equivalent to adding 4096, which counteracts the
-        // sign-extension, preserving the value.
+        // We add 1 to the upper part of the immediate. the upper part's least
+        // significant bit is bit 12. Adding 1 to this bit is equivalent to adding
+        // 4096, which counteracts the sign-extension, preserving the value.
 
         LUI(rd, upper_imm);
         ADDI(rd, rd, static_cast<int32_t>(lower));
