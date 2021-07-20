@@ -1309,6 +1309,14 @@ void Assembler::CPOPW(GPR rd, GPR rs) noexcept {
     EmitIType(m_buffer, 0b011000000010, rs, 0b001, rd, 0b0011011);
 }
 
+void Assembler::CTZ(GPR rd, GPR rs) noexcept {
+    EmitIType(m_buffer, 0b011000000001, rs, 0b001, rd, 0b0010011);
+}
+
+void Assembler::CTZW(GPR rd, GPR rs) noexcept {
+    EmitIType(m_buffer, 0b011000000001, rs, 0b001, rd, 0b0011011);
+}
+
 void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
     ADDUW(rd, rs, x0);
 }
