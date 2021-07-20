@@ -68,6 +68,7 @@ While it's not a requirement whatsoever, it'd be pretty neat if you told me that
 ## Example
 
 The following is an adapted equivalent of the `strlen` implementation within the RISC-V bit manipulation extension specification.
+For brevity, it has been condensed to only handle little-endian platforms.
 
 ```cpp
 // We prepare some contiguous buffer and give the pointer to the beginning
