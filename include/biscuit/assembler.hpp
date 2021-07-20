@@ -480,6 +480,9 @@ public:
     void BINVI(GPR rd, GPR rs, uint32_t bit) noexcept;
     void BSET(GPR rd, GPR rs1, GPR rs2) noexcept;
     void BSETI(GPR rd, GPR rs, uint32_t bit) noexcept;
+    void CLMUL(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void CLMULH(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void CLMULR(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
 
     // RVC Extension Instructions

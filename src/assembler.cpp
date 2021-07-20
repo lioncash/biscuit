@@ -1281,6 +1281,18 @@ void Assembler::BINVI(GPR rd, GPR rs, uint32_t bit) noexcept {
     EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0010011);
 }
 
+void Assembler::CLMUL(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0000101, rs2, rs1, 0b001, rd, 0b0110011);
+}
+
+void Assembler::CLMULH(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0000101, rs2, rs1, 0b011, rd, 0b0110011);
+}
+
+void Assembler::CLMULR(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0000101, rs2, rs1, 0b010, rd, 0b0110011);
+}
+
 void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
     ADDUW(rd, rs, x0);
 }

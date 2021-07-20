@@ -110,3 +110,27 @@ TEST_CASE("BSETI", "[rvb]") {
     as.BSETI(x31, x7, 63);
     REQUIRE(value == 0x2BF39FB3);
 }
+
+TEST_CASE("CLMUL", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.CLMUL(x31, x7, x15);
+    REQUIRE(value == 0x0AF39FB3);
+}
+
+TEST_CASE("CLMULH", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.CLMULH(x31, x7, x15);
+    REQUIRE(value == 0x0AF3BFB3);
+}
+
+TEST_CASE("CLMULR", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.CLMULR(x31, x7, x15);
+    REQUIRE(value == 0x0AF3AFB3);
+}
