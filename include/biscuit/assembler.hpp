@@ -511,6 +511,7 @@ public:
     void SH2ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void SH3ADD(GPR rd, GPR rs1, GPR rs2) noexcept;
     void SH3ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void SLLIUW(GPR rd, GPR rs, uint32_t shift_amount) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
 
     // RVC Extension Instructions
