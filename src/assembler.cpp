@@ -1257,7 +1257,7 @@ void Assembler::BCLR(GPR rd, GPR rs1, GPR rs2) noexcept {
 
 void Assembler::BCLRI(GPR rd, GPR rs, uint32_t bit) noexcept {
     BISCUIT_ASSERT(bit <= 63);
-    const auto imm = (0b10010U << 6) | bit;
+    const auto imm = (0b010010U << 6) | bit;
     EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0010011);
 }
 
@@ -1267,8 +1267,18 @@ void Assembler::BEXT(GPR rd, GPR rs1, GPR rs2) noexcept {
 
 void Assembler::BEXTI(GPR rd, GPR rs, uint32_t bit) noexcept {
     BISCUIT_ASSERT(bit <= 63);
-    const auto imm = (0b10010U << 6) | bit;
+    const auto imm = (0b010010U << 6) | bit;
     EmitIType(m_buffer, imm, rs, 0b101, rd, 0b0010011);
+}
+
+void Assembler::BINV(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0110100, rs2, rs1, 0b001, rd, 0b0110011);
+}
+
+void Assembler::BINVI(GPR rd, GPR rs, uint32_t bit) noexcept {
+    BISCUIT_ASSERT(bit <= 63);
+    const auto imm = (0b011010U << 6) | bit;
+    EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0010011);
 }
 
 void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {

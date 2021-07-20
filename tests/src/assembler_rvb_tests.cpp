@@ -68,3 +68,24 @@ TEST_CASE("BEXTI", "[rvb]") {
     as.BEXTI(x31, x7, 63);
     REQUIRE(value == 0x4BF3DF93);
 }
+
+TEST_CASE("BINV", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.BINV(x31, x7, x15);
+    REQUIRE(value == 0x68F39FB3);
+}
+
+TEST_CASE("BINVI", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.BINVI(x31, x7, 0);
+    REQUIRE(value == 0x68039F93);
+
+    as.RewindBuffer();
+
+    as.BINVI(x31, x7, 63);
+    REQUIRE(value == 0x6BF39F93);
+}
