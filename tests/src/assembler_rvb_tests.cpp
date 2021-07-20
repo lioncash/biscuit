@@ -198,3 +198,19 @@ TEST_CASE("MAXU", "[rvb]") {
     as.MAXU(x31, x7, x15);
     REQUIRE(value == 0x0AF3FFB3);
 }
+
+TEST_CASE("MIN", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.MIN(x31, x7, x15);
+    REQUIRE(value == 0x0AF3CFB3);
+}
+
+TEST_CASE("MINU", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.MINU(x31, x7, x15);
+    REQUIRE(value == 0x0AF3DFB3);
+}

@@ -1325,6 +1325,14 @@ void Assembler::MAXU(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b0000101, rs2, rs1, 0b111, rd, 0b0110011);
 }
 
+void Assembler::MIN(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0000101, rs2, rs1, 0b100, rd, 0b0110011);
+}
+
+void Assembler::MINU(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0000101, rs2, rs1, 0b101, rd, 0b0110011);
+}
+
 void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
     ADDUW(rd, rs, x0);
 }

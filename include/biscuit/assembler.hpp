@@ -491,6 +491,8 @@ public:
     void CTZW(GPR rd, GPR rs) noexcept;
     void MAX(GPR rd, GPR rs1, GPR rs2) noexcept;
     void MAXU(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void MIN(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void MINU(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
 
     // RVC Extension Instructions
