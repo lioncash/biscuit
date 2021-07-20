@@ -33,7 +33,7 @@ enum class CSR : uint32_t {
     // Supervisor-level CSRs
 
     SStatus        = 0x100, // Supervisor status register
-    SEDeleg        = 0x102, // Supervisor exeception delegation register
+    SEDeleg        = 0x102, // Supervisor exception delegation register
     SIDeleg        = 0x103, // Supervisor interrupt delegation register
     SIE            = 0x104, // Supervisor interrupt-enable register
     STVec          = 0x105, // Supervisor trap handler base address
