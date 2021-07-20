@@ -273,8 +273,8 @@ void Assembler::ANDI(GPR rd, GPR rs, uint32_t imm) noexcept {
     EmitIType(m_buffer, imm, rs, 0b111, rd, 0b0010011);
 }
 
-void Assembler::AUIPC(GPR rd, uint32_t imm) noexcept {
-    EmitUType(m_buffer, imm, rd, 0b0010111);
+void Assembler::AUIPC(GPR rd, int32_t imm) noexcept {
+    EmitUType(m_buffer, static_cast<uint32_t>(imm), rd, 0b0010111);
 }
 
 void Assembler::BEQ(GPR rs1, GPR rs2, Label* label) noexcept {

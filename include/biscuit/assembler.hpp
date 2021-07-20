@@ -124,7 +124,7 @@ public:
     void AND(GPR rd, GPR lhs, GPR rhs) noexcept;
     void ANDI(GPR rd, GPR rs, uint32_t imm) noexcept;
 
-    void AUIPC(GPR rd, uint32_t imm) noexcept;
+    void AUIPC(GPR rd, int32_t imm) noexcept;
 
     void BEQ(GPR rs1, GPR rs2, Label* label) noexcept;
     void BEQZ(GPR rs, Label* label) noexcept;

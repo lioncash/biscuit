@@ -81,7 +81,7 @@ TEST_CASE("AUIPC", "[rv32i]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.AUIPC(x31, 0xFFFFFFFF);
+    as.AUIPC(x31, -1);
     REQUIRE(value == 0xFFFFFF97);
 
     as.RewindBuffer();
