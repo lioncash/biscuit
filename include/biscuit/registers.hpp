@@ -72,7 +72,7 @@ public:
     }
 };
 
-/// Floating point register.
+/// Vector register.
 class Vec final : public Register {
 public:
     constexpr Vec() noexcept : Register{0, Type::Vector} {}
