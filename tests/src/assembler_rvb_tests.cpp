@@ -243,3 +243,19 @@ TEST_CASE("REV8", "[rvb]") {
     as.REV8_64(x31, x7);
     REQUIRE(value == 0x6B83DF93);
 }
+
+TEST_CASE("ROL", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ROL(x31, x7, x15);
+    REQUIRE(value == 0x60F39FB3);
+}
+
+TEST_CASE("ROLW", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ROLW(x31, x7, x15);
+    REQUIRE(value == 0x60F39FBB);
+}
