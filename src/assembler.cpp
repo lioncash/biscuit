@@ -156,7 +156,7 @@ void EmitSType(CodeBuffer& buffer, uint32_t imm, Register rs2, GPR rs1, uint32_t
 // Emits a U type RISC-V instruction. These consist of:
 // imm[31:12] | rd | opcode
 void EmitUType(CodeBuffer& buffer, uint32_t imm, GPR rd, uint32_t opcode) noexcept {
-    buffer.Emit32((imm & 0xFFFFF000) | rd.Index() << 7 | (opcode & 0x7F));
+    buffer.Emit32((imm & 0x000FFFFF) << 12 | rd.Index() << 7 | (opcode & 0x7F));
 }
 
 // Emits an atomic instruction.

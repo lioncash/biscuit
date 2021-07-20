@@ -89,7 +89,7 @@ TEST_CASE("AUIPC", "[rv32i]") {
     as.RewindBuffer();
 
     as.AUIPC(biscuit::x31, 0x00FF00FF);
-    REQUIRE(value == 0x00FF0F97);
+    REQUIRE(value == 0xF00FFF97);
 }
 
 TEST_CASE("BEQ", "[rv32i]") {
@@ -323,7 +323,7 @@ TEST_CASE("LUI", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.LUI(biscuit::x10, 0x7FFFF000);
+    as.LUI(biscuit::x10, 0xFFF7FFFF);
     REQUIRE(value == 0x7FFFF537);
 
     as.RewindBuffer();
