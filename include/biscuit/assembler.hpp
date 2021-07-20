@@ -179,12 +179,12 @@ public:
     void JALR(GPR rd, int32_t imm, GPR rs1) noexcept;
     void JR(GPR rs) noexcept;
 
-    void LB(GPR rd, uint32_t imm, GPR rs) noexcept;
-    void LBU(GPR rd, uint32_t imm, GPR rs) noexcept;
-    void LH(GPR rd, uint32_t imm, GPR rs) noexcept;
-    void LHU(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void LB(GPR rd, int32_t imm, GPR rs) noexcept;
+    void LBU(GPR rd, int32_t imm, GPR rs) noexcept;
+    void LH(GPR rd, int32_t imm, GPR rs) noexcept;
+    void LHU(GPR rd, int32_t imm, GPR rs) noexcept;
     void LUI(GPR rd, uint32_t imm) noexcept;
-    void LW(GPR rd, uint32_t imm, GPR rs) noexcept;
+    void LW(GPR rd, int32_t imm, GPR rs) noexcept;
 
     void MV(GPR rd, GPR rs) noexcept;
     void NEG(GPR rd, GPR rs) noexcept;
@@ -198,9 +198,9 @@ public:
     void PAUSE() noexcept;
     void RET() noexcept;
 
-    void SB(GPR rs2, uint32_t imm, GPR rs1) noexcept;
-    void SH(GPR rs2, uint32_t imm, GPR rs1) noexcept;
-    void SW(GPR rs2, uint32_t imm, GPR rs1) noexcept;
+    void SB(GPR rs2, int32_t imm, GPR rs1) noexcept;
+    void SH(GPR rs2, int32_t imm, GPR rs1) noexcept;
+    void SW(GPR rs2, int32_t imm, GPR rs1) noexcept;
 
     void SEQZ(GPR rd, GPR rs) noexcept;
     void SGTZ(GPR rd, GPR rs) noexcept;
@@ -231,9 +231,9 @@ public:
 
     void ADDIW(GPR rd, GPR rs, int32_t imm) noexcept;
     void ADDW(GPR rd, GPR lhs, GPR rhs) noexcept;
-    void LD(GPR rd, uint32_t imm, GPR rs) noexcept;
-    void LWU(GPR rd, GPR rs, uint32_t imm) noexcept;
-    void SD(GPR rs2, uint32_t imm, GPR rs1) noexcept;
+    void LD(GPR rd, int32_t imm, GPR rs) noexcept;
+    void LWU(GPR rd, int32_t imm, GPR rs) noexcept;
+    void SD(GPR rs2, int32_t imm, GPR rs1) noexcept;
 
     // NOTE: Perhaps we should coalesce this into the 32-bit variant?
     //       Keeping them separated would allow asserts for catching

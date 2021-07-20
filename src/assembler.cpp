@@ -5,9 +5,14 @@
 
 namespace biscuit {
 namespace {
+// S-type and I-type immediates are 12-bit immediates
+[[nodiscard]] bool IsValidSigned12BitImm(ptrdiff_t value) noexcept {
+    return value >= -2048 && value <= 2047;
+}
+
 // B-type immediates only provide ~4KiB range branches.
 [[nodiscard]] bool IsValidBTypeImm(ptrdiff_t value) noexcept {
-    return value >= -2048 && value <= 2047;
+    return IsValidSigned12BitImm(value);
 }
 
 // J-type immediates only provide ~1MiB range branches.
@@ -492,28 +497,33 @@ void Assembler::JR(GPR rs) noexcept {
     JALR(x0, 0, rs);
 }
 
-void Assembler::LB(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(m_buffer, imm, rs, 0b000, rd, 0b0000011);
+void Assembler::LB(GPR rd, int32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b000, rd, 0b0000011);
 }
 
-void Assembler::LBU(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(m_buffer, imm, rs, 0b100, rd, 0b0000011);
+void Assembler::LBU(GPR rd, int32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b100, rd, 0b0000011);
 }
 
-void Assembler::LH(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0000011);
+void Assembler::LH(GPR rd, int32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b001, rd, 0b0000011);
 }
 
-void Assembler::LHU(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(m_buffer, imm, rs, 0b101, rd, 0b0000011);
+void Assembler::LHU(GPR rd, int32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b101, rd, 0b0000011);
 }
 
 void Assembler::LUI(GPR rd, uint32_t imm) noexcept {
     EmitUType(m_buffer, imm, rd, 0b0110111);
 }
 
-void Assembler::LW(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(m_buffer, imm, rs, 0b010, rd, 0b0000011);
+void Assembler::LW(GPR rd, int32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b010, rd, 0b0000011);
 }
 
 void Assembler::MV(GPR rd, GPR rs) noexcept {
@@ -548,8 +558,9 @@ void Assembler::RET() noexcept {
     JALR(x0, 0, x1);
 }
 
-void Assembler::SB(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-    EmitSType(m_buffer, imm, rs2, rs1, 0b000, 0b0100011);
+void Assembler::SB(GPR rs2, int32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitSType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b000, 0b0100011);
 }
 
 void Assembler::SEQZ(GPR rd, GPR rs) noexcept {
@@ -560,8 +571,9 @@ void Assembler::SGTZ(GPR rd, GPR rs) noexcept {
     SLT(rd, x0, rs);
 }
 
-void Assembler::SH(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-    EmitSType(m_buffer, imm, rs2, rs1, 0b001, 0b0100011);
+void Assembler::SH(GPR rs2, int32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitSType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b001, 0b0100011);
 }
 
 void Assembler::SLL(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -616,8 +628,9 @@ void Assembler::SUB(GPR rd, GPR lhs, GPR rhs) noexcept {
     EmitRType(m_buffer, 0b0100000, rhs, lhs, 0b000, rd, 0b0110011);
 }
 
-void Assembler::SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-    EmitSType(m_buffer, imm, rs2, rs1, 0b010, 0b0100011);
+void Assembler::SW(GPR rs2, int32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitSType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b010, 0b0100011);
 }
 
 void Assembler::XOR(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -638,16 +651,19 @@ void Assembler::ADDW(GPR rd, GPR lhs, GPR rhs) noexcept {
     EmitRType(m_buffer, 0b0000000, rhs, lhs, 0b000, rd, 0b0111011);
 }
 
-void Assembler::LD(GPR rd, uint32_t imm, GPR rs) noexcept {
-    EmitIType(m_buffer, imm, rs, 0b011, rd, 0b0000011);
+void Assembler::LD(GPR rd, int32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b011, rd, 0b0000011);
 }
 
-void Assembler::LWU(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(m_buffer, imm, rs, 0b110, rd, 0b0000011);
+void Assembler::LWU(GPR rd, int32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b110, rd, 0b0000011);
 }
 
-void Assembler::SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-    EmitSType(m_buffer, imm, rs2, rs1, 0b011, 0b0100011);
+void Assembler::SD(GPR rs2, int32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitSType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b011, 0b0100011);
 }
 
 void Assembler::SRAI64(GPR rd, GPR rs, uint32_t shift) noexcept {

@@ -251,12 +251,12 @@ TEST_CASE("LB", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.LB(biscuit::x15, 2048, biscuit::x31);
-    REQUIRE(value == 0x800F8783);
+    as.LB(biscuit::x15, 1536, biscuit::x31);
+    REQUIRE(value == 0x600F8783);
 
     as.RewindBuffer();
 
-    as.LB(biscuit::x15, 4095, biscuit::x31);
+    as.LB(biscuit::x15, -1, biscuit::x31);
     REQUIRE(value == 0xFFFF8783);
 }
 
@@ -269,12 +269,12 @@ TEST_CASE("LBU", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.LBU(biscuit::x15, 2048, biscuit::x31);
-    REQUIRE(value == 0x800FC783);
+    as.LBU(biscuit::x15, 1536, biscuit::x31);
+    REQUIRE(value == 0x600FC783);
 
     as.RewindBuffer();
 
-    as.LBU(biscuit::x15, 4095, biscuit::x31);
+    as.LBU(biscuit::x15, -1, biscuit::x31);
     REQUIRE(value == 0xFFFFC783);
 }
 
@@ -287,12 +287,12 @@ TEST_CASE("LH", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.LH(biscuit::x15, 2048, biscuit::x31);
-    REQUIRE(value == 0x800F9783);
+    as.LH(biscuit::x15, 1536, biscuit::x31);
+    REQUIRE(value == 0x600F9783);
 
     as.RewindBuffer();
 
-    as.LH(biscuit::x15, 4095, biscuit::x31);
+    as.LH(biscuit::x15, -1, biscuit::x31);
     REQUIRE(value == 0xFFFF9783);
 }
 
@@ -305,12 +305,12 @@ TEST_CASE("LHU", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.LHU(biscuit::x15, 2048, biscuit::x31);
-    REQUIRE(value == 0x800FD783);
+    as.LHU(biscuit::x15, 1536, biscuit::x31);
+    REQUIRE(value == 0x600FD783);
 
     as.RewindBuffer();
 
-    as.LHU(biscuit::x15, 4095, biscuit::x31);
+    as.LHU(biscuit::x15, -1, biscuit::x31);
     REQUIRE(value == 0xFFFFD783);
 }
 
@@ -341,12 +341,12 @@ TEST_CASE("LW", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.LW(biscuit::x15, 2048, biscuit::x31);
-    REQUIRE(value == 0x800FA783);
+    as.LW(biscuit::x15, 1536, biscuit::x31);
+    REQUIRE(value == 0x600FA783);
 
     as.RewindBuffer();
 
-    as.LW(biscuit::x15, 4095, biscuit::x31);
+    as.LW(biscuit::x15, -1, biscuit::x31);
     REQUIRE(value == 0xFFFFA783);
 }
 
@@ -403,12 +403,12 @@ TEST_CASE("SB", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.SB(biscuit::x31, 2048, biscuit::x15);
-    REQUIRE(value == 0x81F78023);
+    as.SB(biscuit::x31, 1536, biscuit::x15);
+    REQUIRE(value == 0x61F78023);
 
     as.RewindBuffer();
 
-    as.SB(biscuit::x31, 4095, biscuit::x15);
+    as.SB(biscuit::x31, -1, biscuit::x15);
     REQUIRE(value == 0xFFF78FA3);
 }
 
@@ -421,12 +421,12 @@ TEST_CASE("SH", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.SH(biscuit::x31, 2048, biscuit::x15);
-    REQUIRE(value == 0x81F79023);
+    as.SH(biscuit::x31, 1536, biscuit::x15);
+    REQUIRE(value == 0x61F79023);
 
     as.RewindBuffer();
 
-    as.SH(biscuit::x31, 4095, biscuit::x15);
+    as.SH(biscuit::x31, -1, biscuit::x15);
     REQUIRE(value == 0xFFF79FA3);
 }
 
@@ -637,12 +637,12 @@ TEST_CASE("SW", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.SW(biscuit::x31, 2048, biscuit::x15);
-    REQUIRE(value == 0x81F7A023);
+    as.SW(biscuit::x31, 1536, biscuit::x15);
+    REQUIRE(value == 0x61F7A023);
 
     as.RewindBuffer();
 
-    as.SW(biscuit::x31, 4095, biscuit::x15);
+    as.SW(biscuit::x31, -1, biscuit::x15);
     REQUIRE(value == 0xFFF7AFA3);
 }
 

@@ -42,17 +42,17 @@ TEST_CASE("LWU", "[rv64i]") {
     uint32_t value = 0;
     biscuit::Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.LWU(biscuit::x15, biscuit::x31, 1024);
+    as.LWU(biscuit::x15, 1024, biscuit::x31);
     REQUIRE(value == 0x400FE783);
 
     as.RewindBuffer();
 
-    as.LWU(biscuit::x15, biscuit::x31, 2048);
-    REQUIRE(value == 0x800FE783);
+    as.LWU(biscuit::x15, 1536, biscuit::x31);
+    REQUIRE(value == 0x600FE783);
 
     as.RewindBuffer();
 
-    as.LWU(biscuit::x15, biscuit::x31, 4095);
+    as.LWU(biscuit::x15, -1, biscuit::x31);
     REQUIRE(value == 0xFFFFE783);
 }
 
@@ -65,12 +65,12 @@ TEST_CASE("LD", "[rv64i]") {
 
     as.RewindBuffer();
 
-    as.LD(biscuit::x15, 2048, biscuit::x31);
-    REQUIRE(value == 0x800FB783);
+    as.LD(biscuit::x15, 1536, biscuit::x31);
+    REQUIRE(value == 0x600FB783);
 
     as.RewindBuffer();
 
-    as.LD(biscuit::x15, 4095, biscuit::x31);
+    as.LD(biscuit::x15, -1, biscuit::x31);
     REQUIRE(value == 0xFFFFB783);
 }
 
@@ -83,12 +83,12 @@ TEST_CASE("SD", "[rv64i]") {
 
     as.RewindBuffer();
 
-    as.SD(biscuit::x15, 2048, biscuit::x31);
-    REQUIRE(value == 0x80FFB023);
+    as.SD(biscuit::x15, 1536, biscuit::x31);
+    REQUIRE(value == 0x60FFB023);
 
     as.RewindBuffer();
 
-    as.SD(biscuit::x15, 4095, biscuit::x31);
+    as.SD(biscuit::x15, -1, biscuit::x31);
     REQUIRE(value == 0xFEFFBFA3);
 }
 
