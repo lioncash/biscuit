@@ -499,6 +499,8 @@ public:
     void REV8_64(GPR rd, GPR rs) noexcept;
     void ROL(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ROLW(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void ROR(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void RORW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
 
     // RVC Extension Instructions

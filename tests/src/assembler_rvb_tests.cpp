@@ -259,3 +259,19 @@ TEST_CASE("ROLW", "[rvb]") {
     as.ROLW(x31, x7, x15);
     REQUIRE(value == 0x60F39FBB);
 }
+
+TEST_CASE("ROR", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ROR(x31, x7, x15);
+    REQUIRE(value == 0x60F3DFB3);
+}
+
+TEST_CASE("RORW", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.RORW(x31, x7, x15);
+    REQUIRE(value == 0x60F3DFBB);
+}
