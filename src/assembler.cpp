@@ -432,10 +432,14 @@ void Assembler::CALL(int32_t offset) noexcept {
     const auto lower = uimm & 0xFFF;
     const auto upper = (uimm & 0xFFFFF000) >> 12;
     const auto needs_increment = (uimm & 0x800) != 0;
+
+    // Sign-extend the lower portion if the MSB of it is set.
+    const auto new_lower = needs_increment ? static_cast<int32_t>(lower << 20) >> 20
+                                           : static_cast<int32_t>(lower);
     const auto new_upper = needs_increment ? upper + 1 : upper;
 
     AUIPC(x1, static_cast<int32_t>(new_upper));
-    JALR(x1, static_cast<int32_t>(lower), x1);
+    JALR(x1, new_lower, x1);
 }
 
 void Assembler::EBREAK() noexcept {
@@ -500,7 +504,7 @@ void Assembler::JALR(GPR rs) noexcept {
 }
 
 void Assembler::JALR(GPR rd, int32_t imm, GPR rs1) noexcept {
-    BISCUIT_ASSERT(IsValidJTypeImm(imm));
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
     EmitIType(m_buffer, static_cast<uint32_t>(imm), rs1, 0b000, rd, 0b1100111);
 }
 

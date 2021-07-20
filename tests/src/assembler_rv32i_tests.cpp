@@ -249,12 +249,12 @@ TEST_CASE("JALR", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.JALR(x15, 2048, x31);
-    REQUIRE(value == 0x800F87E7);
+    as.JALR(x15, 1536, x31);
+    REQUIRE(value == 0x600F87E7);
 
     as.RewindBuffer();
 
-    as.JALR(x15, 4095, x31);
+    as.JALR(x15, -1, x31);
     REQUIRE(value == 0xFFFF87E7);
 }
 
