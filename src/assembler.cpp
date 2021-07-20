@@ -1317,6 +1317,14 @@ void Assembler::CTZW(GPR rd, GPR rs) noexcept {
     EmitIType(m_buffer, 0b011000000001, rs, 0b001, rd, 0b0011011);
 }
 
+void Assembler::MAX(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0000101, rs2, rs1, 0b110, rd, 0b0110011);
+}
+
+void Assembler::MAXU(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0000101, rs2, rs1, 0b111, rd, 0b0110011);
+}
+
 void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
     ADDUW(rd, rs, x0);
 }

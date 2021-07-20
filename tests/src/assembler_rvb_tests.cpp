@@ -182,3 +182,19 @@ TEST_CASE("CTZW", "[rvb]") {
     as.CTZW(x31, x7);
     REQUIRE(value == 0x60139F9B);
 }
+
+TEST_CASE("MAX", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.MAX(x31, x7, x15);
+    REQUIRE(value == 0x0AF3EFB3);
+}
+
+TEST_CASE("MAXU", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.MAXU(x31, x7, x15);
+    REQUIRE(value == 0x0AF3FFB3);
+}
