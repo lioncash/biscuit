@@ -1285,6 +1285,16 @@ void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
     ADDUW(rd, rs, x0);
 }
 
+void Assembler::BSET(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b001, rd, 0b0110011);
+}
+
+void Assembler::BSETI(GPR rd, GPR rs, uint32_t bit) noexcept {
+    BISCUIT_ASSERT(bit <= 63);
+    const auto imm = (0b001010U << 6) | bit;
+    EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0110011);
+}
+
 // RVC Extension Instructions
 
 void Assembler::C_ADD(GPR rd, GPR rs) noexcept {

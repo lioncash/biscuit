@@ -89,3 +89,24 @@ TEST_CASE("BINVI", "[rvb]") {
     as.BINVI(x31, x7, 63);
     REQUIRE(value == 0x6BF39F93);
 }
+
+TEST_CASE("BSET", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.BSET(x31, x7, x15);
+    REQUIRE(value == 0x28F39FB3);
+}
+
+TEST_CASE("BSETI", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.BSETI(x31, x7, 0);
+    REQUIRE(value == 0x28039FB3);
+
+    as.RewindBuffer();
+
+    as.BSETI(x31, x7, 63);
+    REQUIRE(value == 0x2BF39FB3);
+}
