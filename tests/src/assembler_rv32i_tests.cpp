@@ -1,5 +1,6 @@
 #include <catch/catch.hpp>
 
+#include <array>
 #include <biscuit/assembler.hpp>
 
 TEST_CASE("ADD", "[rv32i]") {
@@ -312,6 +313,27 @@ TEST_CASE("LHU", "[rv32i]") {
 
     as.LHU(biscuit::x15, -1, biscuit::x31);
     REQUIRE(value == 0xFFFFD783);
+}
+
+TEST_CASE("LI", "[rv32i]") {
+    std::array<uint32_t, 2> vals{};
+    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&vals), sizeof(vals));
+
+    const auto compare_vals = [&vals](uint32_t val_1, uint32_t val_2) {
+        REQUIRE(vals[0] == val_1);
+        REQUIRE(vals[1] == val_2);
+    };
+
+    // Immediates that fit within -2048 to 2047 should only emit an ADDI
+    as.LI(biscuit::x1, -1);
+    compare_vals(0xFFF00093, 0x00000000);
+
+    as.RewindBuffer();
+    vals = {};
+
+    // Immediates larger than the above should generate both a LUI followed by an ADDI
+    as.LI(biscuit::x1, 0x11111111);
+    compare_vals(0x111110B7, 0x11108093);
 }
 
 TEST_CASE("LUI", "[rv32i]") {

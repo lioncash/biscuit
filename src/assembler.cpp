@@ -517,6 +517,39 @@ void Assembler::LHU(GPR rd, int32_t imm, GPR rs) noexcept {
     EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b101, rd, 0b0000011);
 }
 
+void Assembler::LI(GPR rd, int32_t imm) noexcept {
+    LI(rd, static_cast<uint32_t>(imm));
+}
+
+void Assembler::LI(GPR rd, uint32_t imm) noexcept {
+    const auto lower = imm & 0xFFF;
+    const auto upper = (imm & 0xFFFFF000) >> 12;
+    const auto simm = static_cast<int32_t>(imm);
+
+    // If the immediate can fit within 12 bits, we only need to emit an ADDI.
+    if (IsValidSigned12BitImm(simm)) {
+        ADDI(rd, x0, static_cast<int32_t>(lower));
+    } else {
+        const bool needs_increment = (lower & 0x800) != 0;
+        const auto upper_imm = needs_increment ? upper + 1 : upper;
+
+        // Note that we add 1 to the upper portion of the immediate if the lower
+        // immediate's most significant bit is set. This is necessary, as ADDI
+        // sign-extends its 12-bit immediate before performing addition.
+        //
+        // In the event of the sign-extension, this means that we'll be adding
+        // an equivalent of "lower - 4096" to the upper immediate.
+        //
+        // To counteract this, we add 1 to the upper part of the immediate.
+        // the upper part's least significant bit is bit 12. Adding 1 to this
+        // bit is equivalent to adding 4096, which counteracts the
+        // sign-extension, preserving the value.
+
+        LUI(rd, upper_imm);
+        ADDI(rd, rd, static_cast<int32_t>(lower));
+    }
+}
+
 void Assembler::LUI(GPR rd, uint32_t imm) noexcept {
     EmitUType(m_buffer, imm, rd, 0b0110111);
 }

@@ -183,6 +183,8 @@ public:
     void LBU(GPR rd, int32_t imm, GPR rs) noexcept;
     void LH(GPR rd, int32_t imm, GPR rs) noexcept;
     void LHU(GPR rd, int32_t imm, GPR rs) noexcept;
+    void LI(GPR rd, int32_t imm) noexcept;
+    void LI(GPR rd, uint32_t imm) noexcept;
     void LUI(GPR rd, uint32_t imm) noexcept;
     void LW(GPR rd, int32_t imm, GPR rs) noexcept;
 
