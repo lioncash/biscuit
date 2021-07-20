@@ -63,3 +63,72 @@ to worry about installing it yourself if you wish to run said tests.
 The library is licensed under the MIT license.
 
 While it's not a requirement whatsoever, it'd be pretty neat if you told me that you found the library useful :-)
+
+
+## Example
+
+The following is an adapted equivalent of the `strlen` implementation within the RISC-V bit manipulation extension specification.
+
+```cpp
+// We prepare some contiguous buffer and give the pointer to the beginning
+// of the data and the total size of the buffer in bytes to the assembler.
+
+void strlen_example(uint8_t* buffer, size_t buffer_size) {
+    using namespace biscuit;
+
+    constexpr int ptrlog = 3;
+    constexpr int szreg  = 8;
+
+    Assembler as(buffer, buffer_size);
+    Label done;
+    Label loop;
+
+    as.ANDI(a3, a0, szreg - 1); // Offset
+    as.ANDI(a1, a0, 0xFF8);     // Align pointer
+
+    as.LI(a4, szreg);
+    as.SUB(a4, a4, a3);         // XLEN - offset
+    as.SLLI(a3, a3, ptrlog);    // offset * 8
+    as.LD(a2, 0, a1);           // Chunk
+
+    //
+    // Shift the partial/unaligned chunk we loaded to remove the bytes
+    // from before the start of the string, adding NUL bytes at the end.
+    //
+    as.SRL(a2, a2, a3);         // chunk >> (offset * 8)
+    as.ORCB(a2, a2);
+    as.NOT(a2, a2);
+
+    // Non-NUL bytes in the string have been expanded to 0x00, while
+    // NUL bytes have become 0xff. Search for the first set bit
+    // (corresponding to a NUL byte in the original chunk).
+    as.CTZ(a2, a2);
+
+    // The first chunk is special: compare against the number of valid
+    // bytes in this chunk.
+    as.SRLI(a0, a2, 3);
+    as.BGTU(a4, a0, &done);
+    as.ADDI(a3, a1, szreg);
+    as.LI(a4, -1);
+
+    // Our critical loop is 4 instructions and processes data in 4 byte
+    // or 8 byte chunks.
+    as.Bind(&loop);
+
+    as.LD(a2, szreg, a1);
+    as.ADDI(a1, a1, szreg);
+    as.ORCB(a2, a2);
+    as.BEQ(a2, a4, &loop);
+
+    as.NOT(a2, a2);
+    as.CTZ(a2, a2);
+    as.SUB(a1, a1, a3);
+    as.ADD(a0, a0, a1);
+    as.SRLI(a2, a2, 3);
+    as.ADD(a0, a0, a2);
+
+    as.Bind(&done);
+
+    as.RET();
+}
+```
