@@ -55,3 +55,16 @@ TEST_CASE("BEXT", "[rvb]") {
     as.BEXT(x31, x7, x15);
     REQUIRE(value == 0x48F3DFB3);
 }
+
+TEST_CASE("BEXTI", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.BEXTI(x31, x7, 0);
+    REQUIRE(value == 0x4803DF93);
+
+    as.RewindBuffer();
+
+    as.BEXTI(x31, x7, 63);
+    REQUIRE(value == 0x4BF3DF93);
+}
