@@ -17,6 +17,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | Feature   | Version |
 |:----------|:-------:|
 | A         | 2.1     |
+| B         | 1.0 PR  |
 | C         | 2.0     |
 | D         | 2.2     |
 | F         | 2.2     |
