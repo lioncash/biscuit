@@ -142,3 +142,11 @@ TEST_CASE("CLZ", "[rvb]") {
     as.CLZ(x31, x7);
     REQUIRE(value == 0x60039F93);
 }
+
+TEST_CASE("CLZW", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.CLZW(x31, x7);
+    REQUIRE(value == 0x60039F9B);
+}

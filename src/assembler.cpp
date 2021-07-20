@@ -1297,6 +1297,10 @@ void Assembler::CLZ(GPR rd, GPR rs) noexcept {
     EmitIType(m_buffer, 0b011000000000, rs, 0b001, rd, 0b0010011);
 }
 
+void Assembler::CLZW(GPR rd, GPR rs) noexcept {
+    EmitIType(m_buffer, 0b011000000000, rs, 0b001, rd, 0b0011011);
+}
+
 void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
     ADDUW(rd, rs, x0);
 }
