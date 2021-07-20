@@ -1337,6 +1337,10 @@ void Assembler::ORCB(GPR rd, GPR rs) noexcept {
     EmitIType(m_buffer, 0b001010000111, rs, 0b101, rd, 0b0010011);
 }
 
+void Assembler::ORN(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0100000, rs2, rs1, 0b110, rd, 0b0110011);
+}
+
 void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
     ADDUW(rd, rs, x0);
 }

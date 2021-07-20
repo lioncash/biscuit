@@ -222,3 +222,11 @@ TEST_CASE("ORC.B", "[rvb]") {
     as.ORCB(x31, x7);
     REQUIRE(value == 0x2873DF93);
 }
+
+TEST_CASE("ORN", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ORN(x31, x7, x15);
+    REQUIRE(value == 0x40F3EFB3);
+}
