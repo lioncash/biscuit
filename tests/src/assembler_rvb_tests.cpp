@@ -214,3 +214,11 @@ TEST_CASE("MINU", "[rvb]") {
     as.MINU(x31, x7, x15);
     REQUIRE(value == 0x0AF3DFB3);
 }
+
+TEST_CASE("ORC.B", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ORCB(x31, x7);
+    REQUIRE(value == 0x2873DF93);
+}

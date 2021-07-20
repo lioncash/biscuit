@@ -493,6 +493,7 @@ public:
     void MAXU(GPR rd, GPR rs1, GPR rs2) noexcept;
     void MIN(GPR rd, GPR rs1, GPR rs2) noexcept;
     void MINU(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void ORCB(GPR rd, GPR rs) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
 
     // RVC Extension Instructions
