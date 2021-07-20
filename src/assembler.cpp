@@ -1361,6 +1361,18 @@ void Assembler::ROR(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b0110000, rs2, rs1, 0b101, rd, 0b0110011);
 }
 
+void Assembler::RORI(GPR rd, GPR rs, uint32_t rotate_amount) noexcept {
+    BISCUIT_ASSERT(rotate_amount <= 63);
+    const auto imm = (0b011000U << 6) | rotate_amount;
+    EmitIType(m_buffer, imm, rs, 0b101, rd, 0b0010011);
+}
+
+void Assembler::RORIW(GPR rd, GPR rs, uint32_t rotate_amount) noexcept {
+    BISCUIT_ASSERT(rotate_amount <= 63);
+    const auto imm = (0b011000U << 6) | rotate_amount;
+    EmitIType(m_buffer, imm, rs, 0b101, rd, 0b0011011);
+}
+
 void Assembler::RORW(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b0110000, rs2, rs1, 0b101, rd, 0b0111011);
 }

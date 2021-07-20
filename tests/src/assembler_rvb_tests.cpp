@@ -275,3 +275,29 @@ TEST_CASE("RORW", "[rvb]") {
     as.RORW(x31, x7, x15);
     REQUIRE(value == 0x60F3DFBB);
 }
+
+TEST_CASE("RORI", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.RORI(x31, x7, 0);
+    REQUIRE(value == 0x6003DF93);
+
+    as.RewindBuffer();
+
+    as.RORI(x31, x7, 63);
+    REQUIRE(value == 0x63F3DF93);
+}
+
+TEST_CASE("RORIW", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.RORIW(x31, x7, 0);
+    REQUIRE(value == 0x6003DF9B);
+
+    as.RewindBuffer();
+
+    as.RORIW(x31, x7, 63);
+    REQUIRE(value == 0x63F3DF9B);
+}

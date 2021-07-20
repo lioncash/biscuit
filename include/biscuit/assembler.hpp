@@ -500,6 +500,8 @@ public:
     void ROL(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ROLW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ROR(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void RORI(GPR rd, GPR rs, uint32_t rotate_amount) noexcept;
+    void RORIW(GPR rd, GPR rs, uint32_t rotate_amount) noexcept;
     void RORW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
 
