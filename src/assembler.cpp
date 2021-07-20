@@ -427,6 +427,17 @@ void Assembler::BNEZ(GPR rs, int32_t imm) noexcept {
     BNE(x0, rs, imm);
 }
 
+void Assembler::CALL(int32_t offset) noexcept {
+    const auto uimm = static_cast<uint32_t>(offset);
+    const auto lower = uimm & 0xFFF;
+    const auto upper = (uimm & 0xFFFFF000) >> 12;
+    const auto needs_increment = (uimm & 0x800) != 0;
+    const auto new_upper = needs_increment ? upper + 1 : upper;
+
+    AUIPC(x1, static_cast<int32_t>(new_upper));
+    JALR(x1, static_cast<int32_t>(lower), x1);
+}
+
 void Assembler::EBREAK() noexcept {
     m_buffer.Emit32(0x00100073);
 }

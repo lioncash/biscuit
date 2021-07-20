@@ -173,6 +173,19 @@ TEST_CASE("BLTU", "[rv32i]") {
     REQUIRE(value == 0xFFF7EFE3);
 }
 
+TEST_CASE("CALL", "[rv32i]") {
+    std::array<uint32_t, 2> vals{};
+    Assembler as(reinterpret_cast<uint8_t*>(vals.data()), sizeof(vals));
+
+    const auto compare_vals = [&vals](uint32_t val_1, uint32_t val_2) {
+        REQUIRE(vals[0] == val_1);
+        REQUIRE(vals[1] == val_2);
+    };
+
+    as.CALL(-1);
+    compare_vals(0x00000097, 0xFFF080E7);
+}
+
 TEST_CASE("EBREAK", "[rv32i]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
@@ -319,7 +332,7 @@ TEST_CASE("LHU", "[rv32i]") {
 
 TEST_CASE("LI", "[rv32i]") {
     std::array<uint32_t, 2> vals{};
-    Assembler as(reinterpret_cast<uint8_t*>(&vals), sizeof(vals));
+    Assembler as(reinterpret_cast<uint8_t*>(vals.data()), sizeof(vals));
 
     const auto compare_vals = [&vals](uint32_t val_1, uint32_t val_2) {
         REQUIRE(vals[0] == val_1);

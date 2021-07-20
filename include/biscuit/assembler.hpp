@@ -160,6 +160,8 @@ public:
     void BNE(GPR rs1, GPR rs2, int32_t imm) noexcept;
     void BNEZ(GPR rs, int32_t imm) noexcept;
 
+    void CALL(int32_t offset) noexcept;
+
     void EBREAK() noexcept;
     void ECALL() noexcept;
 
