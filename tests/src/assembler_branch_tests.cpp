@@ -8,7 +8,7 @@ using namespace biscuit;
 
 TEST_CASE("Branch to Self", "[branch]") {
     uint32_t data;
-    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&data), sizeof(data));
+    Assembler as(reinterpret_cast<uint8_t*>(&data), sizeof(data));
 
     // Simple branch to self with a jump instruction.
     {
@@ -51,7 +51,7 @@ TEST_CASE("Branch to Self", "[branch]") {
 
 TEST_CASE("Branch with Instructions Between", "[branch]") {
     std::array<uint32_t, 20> data{};
-    biscuit::Assembler as(reinterpret_cast<uint8_t*>(&data), sizeof(data));
+    Assembler as(reinterpret_cast<uint8_t*>(&data), sizeof(data));
 
     // Simple branch backward
     {
