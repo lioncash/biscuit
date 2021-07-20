@@ -281,12 +281,12 @@ TEST_CASE("FLD", "[rv32d]") {
 
     as.RewindBuffer();
 
-    as.FLD(f15, 2048, x31);
-    REQUIRE(value == 0x800FB787);
+    as.FLD(f15, 1536, x31);
+    REQUIRE(value == 0x600FB787);
 
     as.RewindBuffer();
 
-    as.FLD(f15, 4095, x31);
+    as.FLD(f15, -1, x31);
     REQUIRE(value == 0xFFFFB787);
 }
 
@@ -516,11 +516,11 @@ TEST_CASE("FSD", "[rv32d]") {
 
     as.RewindBuffer();
 
-    as.FSD(f31, 2048, x15);
-    REQUIRE(value == 0x81F7B027);
+    as.FSD(f31, 1536, x15);
+    REQUIRE(value == 0x61F7B027);
 
     as.RewindBuffer();
 
-    as.FSD(f31, 4095, x15);
+    as.FSD(f31, -1, x15);
     REQUIRE(value == 0xFFF7BFA7);
 }

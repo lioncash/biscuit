@@ -992,8 +992,9 @@ void Assembler::FLE_S(GPR rd, FPR rs1, FPR rs2) noexcept {
 void Assembler::FLT_S(GPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b1010000, rs2, rs1, 0b001, rd, 0b1010011);
 }
-void Assembler::FLW(FPR rd, uint32_t offset, GPR rs) noexcept {
-    EmitIType(m_buffer, offset, rs, 0b010, rd, 0b0000111);
+void Assembler::FLW(FPR rd, int32_t offset, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
+    EmitIType(m_buffer, static_cast<uint32_t>(offset), rs, 0b010, rd, 0b0000111);
 }
 void Assembler::FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
     EmitR4Type(m_buffer, rs3, 0b00, rs2, rs1, rmode, rd, 0b1000011);
@@ -1037,8 +1038,9 @@ void Assembler::FSQRT_S(FPR rd, FPR rs1, RMode rmode) noexcept {
 void Assembler::FSUB_S(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000100, rs2, rs1, rmode, rd, 0b1010011);
 }
-void Assembler::FSW(FPR rs2, uint32_t offset, GPR rs1) noexcept {
-    EmitSType(m_buffer, offset, rs2, rs1, 0b010, 0b0100111);
+void Assembler::FSW(FPR rs2, int32_t offset, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
+    EmitSType(m_buffer, static_cast<uint32_t>(offset), rs2, rs1, 0b010, 0b0100111);
 }
 
 void Assembler::FABS_S(FPR rd, FPR rs) noexcept {
@@ -1104,8 +1106,9 @@ void Assembler::FLE_D(GPR rd, FPR rs1, FPR rs2) noexcept {
 void Assembler::FLT_D(GPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b1010001, rs2, rs1, 0b001, rd, 0b1010011);
 }
-void Assembler::FLD(FPR rd, uint32_t offset, GPR rs) noexcept {
-    EmitIType(m_buffer, offset, rs, 0b011, rd, 0b0000111);
+void Assembler::FLD(FPR rd, int32_t offset, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
+    EmitIType(m_buffer, static_cast<uint32_t>(offset), rs, 0b011, rd, 0b0000111);
 }
 void Assembler::FMADD_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
     EmitR4Type(m_buffer, rs3, 0b01, rs2, rs1, rmode, rd, 0b1000011);
@@ -1143,8 +1146,9 @@ void Assembler::FSQRT_D(FPR rd, FPR rs1, RMode rmode) noexcept {
 void Assembler::FSUB_D(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000101, rs2, rs1, rmode, rd, 0b1010011);
 }
-void Assembler::FSD(FPR rs2, uint32_t offset, GPR rs1) noexcept {
-    EmitSType(m_buffer, offset, rs2, rs1, 0b011, 0b0100111);
+void Assembler::FSD(FPR rs2, int32_t offset, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
+    EmitSType(m_buffer, static_cast<uint32_t>(offset), rs2, rs1, 0b011, 0b0100111);
 }
 
 void Assembler::FABS_D(FPR rd, FPR rs) noexcept {
@@ -1222,8 +1226,9 @@ void Assembler::FLE_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
 void Assembler::FLT_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b1010011, rs2, rs1, 0b001, rd, 0b1010011);
 }
-void Assembler::FLQ(FPR rd, uint32_t offset, GPR rs) noexcept {
-    EmitIType(m_buffer, offset, rs, 0b100, rd, 0b0000111);
+void Assembler::FLQ(FPR rd, int32_t offset, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
+    EmitIType(m_buffer, static_cast<uint32_t>(offset), rs, 0b100, rd, 0b0000111);
 }
 void Assembler::FMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
     EmitR4Type(m_buffer, rs3, 0b11, rs2, rs1, rmode, rd, 0b1000011);
@@ -1261,8 +1266,9 @@ void Assembler::FSQRT_Q(FPR rd, FPR rs1, RMode rmode) noexcept {
 void Assembler::FSUB_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000111, rs2, rs1, rmode, rd, 0b1010011);
 }
-void Assembler::FSQ(FPR rs2, uint32_t offset, GPR rs1) noexcept {
-    EmitSType(m_buffer, offset, rs2, rs1, 0b100, 0b0100111);
+void Assembler::FSQ(FPR rs2, int32_t offset, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
+    EmitSType(m_buffer, static_cast<uint32_t>(offset), rs2, rs1, 0b100, 0b0100111);
 }
 
 void Assembler::FABS_Q(FPR rd, FPR rs) noexcept {

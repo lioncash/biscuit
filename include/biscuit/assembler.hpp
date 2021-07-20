@@ -358,7 +358,7 @@ public:
     void FEQ_S(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FLE_S(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FLT_S(GPR rd, FPR rs1, FPR rs2) noexcept;
-    void FLW(FPR rd, uint32_t offset, GPR rs) noexcept;
+    void FLW(FPR rd, int32_t offset, GPR rs) noexcept;
     void FMADD_S(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FMAX_S(FPR rd, FPR rs1, FPR rs2) noexcept;
     void FMIN_S(FPR rd, FPR rs1, FPR rs2) noexcept;
@@ -373,7 +373,7 @@ public:
     void FSGNJX_S(FPR rd, FPR rs1, FPR rs2) noexcept;
     void FSQRT_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FSUB_S(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
-    void FSW(FPR rs2, uint32_t offset, GPR rs1) noexcept;
+    void FSW(FPR rs2, int32_t offset, GPR rs1) noexcept;
 
     void FABS_S(FPR rd, FPR rs) noexcept;
     void FMV_S(FPR rd, FPR rs) noexcept;
@@ -400,7 +400,7 @@ public:
     void FEQ_D(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FLE_D(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FLT_D(GPR rd, FPR rs1, FPR rs2) noexcept;
-    void FLD(FPR rd, uint32_t offset, GPR rs) noexcept;
+    void FLD(FPR rd, int32_t offset, GPR rs) noexcept;
     void FMADD_D(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FMAX_D(FPR rd, FPR rs1, FPR rs2) noexcept;
     void FMIN_D(FPR rd, FPR rs1, FPR rs2) noexcept;
@@ -413,7 +413,7 @@ public:
     void FSGNJX_D(FPR rd, FPR rs1, FPR rs2) noexcept;
     void FSQRT_D(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FSUB_D(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
-    void FSD(FPR rs2, uint32_t offset, GPR rs1) noexcept;
+    void FSD(FPR rs2, int32_t offset, GPR rs1) noexcept;
 
     void FABS_D(FPR rd, FPR rs) noexcept;
     void FMV_D(FPR rd, FPR rs) noexcept;
@@ -444,7 +444,7 @@ public:
     void FEQ_Q(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FLE_Q(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FLT_Q(GPR rd, FPR rs1, FPR rs2) noexcept;
-    void FLQ(FPR rd, uint32_t offset, GPR rs) noexcept;
+    void FLQ(FPR rd, int32_t offset, GPR rs) noexcept;
     void FMADD_Q(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FMAX_Q(FPR rd, FPR rs1, FPR rs2) noexcept;
     void FMIN_Q(FPR rd, FPR rs1, FPR rs2) noexcept;
@@ -457,7 +457,7 @@ public:
     void FSGNJX_Q(FPR rd, FPR rs1, FPR rs2) noexcept;
     void FSQRT_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FSUB_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
-    void FSQ(FPR rs2, uint32_t offset, GPR rs1) noexcept;
+    void FSQ(FPR rs2, int32_t offset, GPR rs1) noexcept;
 
     void FABS_Q(FPR rd, FPR rs) noexcept;
     void FMV_Q(FPR rd, FPR rs) noexcept;

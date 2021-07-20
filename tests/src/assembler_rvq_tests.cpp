@@ -317,12 +317,12 @@ TEST_CASE("FLQ", "[rv32q]") {
 
     as.RewindBuffer();
 
-    as.FLQ(f15, 2048, x31);
-    REQUIRE(value == 0x800FC787);
+    as.FLQ(f15, 1536, x31);
+    REQUIRE(value == 0x600FC787);
 
     as.RewindBuffer();
 
-    as.FLQ(f15, 4095, x31);
+    as.FLQ(f15, -1, x31);
     REQUIRE(value == 0xFFFFC787);
 }
 
@@ -526,11 +526,11 @@ TEST_CASE("FSQ", "[rv32q]") {
 
     as.RewindBuffer();
 
-    as.FSQ(f31, 2048, x15);
-    REQUIRE(value == 0x81F7C027);
+    as.FSQ(f31, 1536, x15);
+    REQUIRE(value == 0x61F7C027);
 
     as.RewindBuffer();
 
-    as.FSQ(f31, 4095, x15);
+    as.FSQ(f31, -1, x15);
     REQUIRE(value == 0xFFF7CFA7);
 }

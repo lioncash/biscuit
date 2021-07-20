@@ -245,12 +245,12 @@ TEST_CASE("FLW", "[rv32f]") {
 
     as.RewindBuffer();
 
-    as.FLW(f15, 2048, x31);
-    REQUIRE(value == 0x800FA787);
+    as.FLW(f15, 1536, x31);
+    REQUIRE(value == 0x600FA787);
 
     as.RewindBuffer();
 
-    as.FLW(f15, 4095, x31);
+    as.FLW(f15, -1, x31);
     REQUIRE(value == 0xFFFFA787);
 }
 
@@ -480,11 +480,11 @@ TEST_CASE("FSW", "[rv32f]") {
 
     as.RewindBuffer();
 
-    as.FSW(f31, 2048, x15);
-    REQUIRE(value == 0x81F7A027);
+    as.FSW(f31, 1536, x15);
+    REQUIRE(value == 0x61F7A027);
 
     as.RewindBuffer();
 
-    as.FSW(f31, 4095, x15);
+    as.FSW(f31, -1, x15);
     REQUIRE(value == 0xFFF7AFA7);
 }
