@@ -473,6 +473,7 @@ public:
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ANDN(GPR rd, GPR rs1, GPR rs2) noexcept;
     void BCLR(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void BCLRI(GPR rd, GPR rs, uint32_t bit) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
 
     // RVC Extension Instructions
