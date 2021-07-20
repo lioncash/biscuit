@@ -485,6 +485,8 @@ public:
     void CLMULR(GPR rd, GPR rs1, GPR rs2) noexcept;
     void CLZ(GPR rd, GPR rs) noexcept;
     void CLZW(GPR rd, GPR rs) noexcept;
+    void CPOP(GPR rd, GPR rs) noexcept;
+    void CPOPW(GPR rd, GPR rs) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
 
     // RVC Extension Instructions
