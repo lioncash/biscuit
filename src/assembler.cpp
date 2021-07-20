@@ -1241,6 +1241,16 @@ void Assembler::FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b1101011, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 
+// RVB Extension Instructions
+
+void Assembler::ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0000100, rs2, rs1, 0b000, rd, 0b0111011);
+}
+
+void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
+    ADDUW(rd, rs, x0);
+}
+
 // RVC Extension Instructions
 
 void Assembler::C_ADD(GPR rd, GPR rs) noexcept {
