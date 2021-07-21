@@ -61,5 +61,23 @@ if (MSVC)
         /we4834 # Discarding return value of function with 'nodiscard' attribute
         /we5038 # data member 'member1' will be initialized after data member 'member2'
     )
-endif()
+elseif (("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang"))
+    target_compile_options(biscuit
+    PRIVATE
+        -Wall
+        -Wextra
+        -Wconversion
+        -Wsign-conversion
 
+        -Werror=array-bounds
+        -Werror=cast-qual
+        -Werror=ignored-qualifiers
+        -Werror=implicit-fallthrough
+        -Werror=sign-compare
+        -Werror=reorder
+        -Werror=uninitialized
+        -Werror=unused-function
+        -Werror=unused-result
+        -Werror=unused-variable
+    )
+endif()
