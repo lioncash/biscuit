@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <cstring>
 #include <type_traits>
+#include <utility>
 
 #include <biscuit/assert.hpp>
 
@@ -46,8 +47,21 @@ public:
     CodeBuffer& operator=(const CodeBuffer&) = delete;
 
     // Move constructing or moving the buffer in general is allowed, as it's a transfer of control.
-    CodeBuffer(CodeBuffer&&) = default;
-    CodeBuffer& operator=(CodeBuffer&&) = default;
+    CodeBuffer(CodeBuffer&& other) noexcept
+        : m_buffer{std::exchange(other.m_buffer, nullptr)}
+        , m_cursor{std::exchange(other.m_cursor, nullptr)}
+        , m_capacity{std::exchange(other.m_capacity, size_t{0})}
+        , m_is_managed{std::exchange(other.m_is_managed, false)} {}
+    CodeBuffer& operator=(CodeBuffer&& other) noexcept {
+        if (this == &other) {
+            return *this;
+        }
+        m_buffer = std::exchange(other.m_buffer, nullptr);
+        m_cursor = std::exchange(other.m_cursor, nullptr);
+        m_capacity = std::exchange(other.m_capacity, size_t{0});
+        m_is_managed = std::exchange(other.m_is_managed, false);
+        return *this;
+    }
 
     /**
      * Destructor
