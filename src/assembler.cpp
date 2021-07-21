@@ -133,13 +133,13 @@ void EmitRType(CodeBuffer& buffer, uint32_t funct7, Register rs2, Register rs1, 
 
 // Emits a R type RISC instruction. These consist of:
 // funct7 | rs2 | rs1 | funct3 | rd | opcode
-void EmitRType(CodeBuffer& buffer, uint32_t funct7, FPR rs2, FPR rs1, Assembler::RMode funct3, FPR rd, uint32_t opcode) noexcept {
+void EmitRType(CodeBuffer& buffer, uint32_t funct7, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept {
     EmitRType(buffer, funct7, rs2, rs1, static_cast<uint32_t>(funct3), rd, opcode);
 }
 
 // Emits a R4 type RISC instruction. These consist of:
 // rs3 | funct2 | rs2 | rs1 | funct3 | rd | opcode
-void EmitR4Type(CodeBuffer& buffer, FPR rs3, uint32_t funct2, FPR rs2, FPR rs1, Assembler::RMode funct3, FPR rd, uint32_t opcode) noexcept {
+void EmitR4Type(CodeBuffer& buffer, FPR rs3, uint32_t funct2, FPR rs2, FPR rs1, RMode funct3, FPR rd, uint32_t opcode) noexcept {
     const auto reg_bits = (rs3.Index() << 27) | (rs2.Index() << 20) | (rs1.Index() << 15) | (rd.Index() << 7);
     const auto funct_bits = ((funct2 & 0b11) << 25) | (static_cast<uint32_t>(funct3) << 12);
     buffer.Emit32(reg_bits | funct_bits | (opcode & 0x7F));
@@ -165,14 +165,14 @@ void EmitUType(CodeBuffer& buffer, uint32_t imm, GPR rd, uint32_t opcode) noexce
 }
 
 // Emits an atomic instruction.
-void EmitAtomic(CodeBuffer& buffer, uint32_t funct5, Assembler::Ordering ordering, GPR rs2, GPR rs1,
+void EmitAtomic(CodeBuffer& buffer, uint32_t funct5, Ordering ordering, GPR rs2, GPR rs1,
                 uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
     const auto funct7 = (funct5 << 2) | static_cast<uint32_t>(ordering);
     EmitRType(buffer, funct7, rs2, rs1, funct3, rd, opcode);
 }
 
 // Emits a fence instruction
-void EmitFENCE(CodeBuffer& buffer, uint32_t fm, Assembler::FenceOrder pred, Assembler::FenceOrder succ,
+void EmitFENCE(CodeBuffer& buffer, uint32_t fm, FenceOrder pred, FenceOrder succ,
                GPR rs, uint32_t funct3, GPR rd, uint32_t opcode) noexcept {
     // clang-format off
     buffer.Emit32(((fm & 0b1111) << 28) |

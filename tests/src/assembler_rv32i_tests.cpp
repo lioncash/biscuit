@@ -208,7 +208,7 @@ TEST_CASE("FENCE", "[rv32i]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.FENCE(Assembler::FenceOrder::IORW, Assembler::FenceOrder::IORW);
+    as.FENCE(FenceOrder::IORW, FenceOrder::IORW);
     REQUIRE(value == 0x0FF0000F);
 
     as.RewindBuffer();
