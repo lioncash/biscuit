@@ -29,6 +29,11 @@ public:
         return m_type == Type::FPR;
     }
 
+    /// Determines whether or not this register is a vector register.
+    [[nodiscard]] constexpr bool IsVector() const noexcept {
+        return m_type == Type::Vector;
+    }
+
 protected:
     enum class Type {
         GPR,    // General purpose register
