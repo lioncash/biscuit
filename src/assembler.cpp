@@ -27,7 +27,7 @@ namespace {
 
 // CJ-type immediates only provide ~2KiB range branches.
 [[nodiscard]] bool IsValidCJTypeImm(ptrdiff_t value) noexcept {
-    return value >= -1024 && value <= 1023;
+    return IsValidSigned12BitImm(value);
 }
 
 // Determines whether or not the register fits in 3-bit compressed encoding.
@@ -1639,7 +1639,6 @@ void Assembler::C_FSDSP(FPR rs, uint32_t imm) noexcept {
 
 void Assembler::C_J(Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidCJTypeImm(address));
     C_J(static_cast<int32_t>(address));
 }
 
@@ -1649,7 +1648,6 @@ void Assembler::C_J(int32_t offset) noexcept {
 
 void Assembler::C_JAL(Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
-    BISCUIT_ASSERT(IsValidCJTypeImm(address));
     C_JAL(static_cast<int32_t>(address));
 }
 
