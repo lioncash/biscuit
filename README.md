@@ -10,7 +10,7 @@ This allows for runtime code generation of RISC-V instructions. Similar
 to how [Xbyak](https://github.com/herumi/xbyak) allows for runtime code generation of x86 instructions.
 
 
-## Implemented Instructions Features
+## Implemented ISA Features
 
 Includes both 32-bit and 64-bit instructions in the following:
 
