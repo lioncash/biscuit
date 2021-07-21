@@ -496,7 +496,7 @@ void Assembler::J(int32_t imm) noexcept {
 
 void Assembler::JAL(int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValidJTypeImm(imm));
-    EmitJType(m_buffer, imm, x1, 0b1101111);
+    EmitJType(m_buffer, static_cast<uint32_t>(imm), x1, 0b1101111);
 }
 
 void Assembler::JAL(GPR rd, int32_t imm) noexcept {
