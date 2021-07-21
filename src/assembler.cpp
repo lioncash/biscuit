@@ -474,19 +474,19 @@ void Assembler::FENCETSO() noexcept {
 void Assembler::J(Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
     BISCUIT_ASSERT(IsValidJTypeImm(address));
-    J(static_cast<uint32_t>(address));
+    J(static_cast<int32_t>(address));
 }
 
 void Assembler::JAL(Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
     BISCUIT_ASSERT(IsValidJTypeImm(address));
-    JAL(static_cast<uint32_t>(address));
+    JAL(static_cast<int32_t>(address));
 }
 
 void Assembler::JAL(GPR rd, Label* label) noexcept {
     const auto address = LinkAndGetOffset(label);
     BISCUIT_ASSERT(IsValidJTypeImm(address));
-    JAL(rd, static_cast<uint32_t>(address));
+    JAL(rd, static_cast<int32_t>(address));
 }
 
 void Assembler::J(int32_t imm) noexcept {
@@ -1526,12 +1526,12 @@ void Assembler::C_ADD(GPR rd, GPR rs) noexcept {
 void Assembler::C_ADDI(GPR rd, int32_t imm) noexcept {
     BISCUIT_ASSERT(imm != 0);
     BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
-    EmitCompressedImmediate(m_buffer, 0b000, imm, rd, 0b01);
+    EmitCompressedImmediate(m_buffer, 0b000, static_cast<uint32_t>(imm), rd, 0b01);
 }
 
 void Assembler::C_ADDIW(GPR rd, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
-    EmitCompressedImmediate(m_buffer, 0b001, imm, rd, 0b01);
+    EmitCompressedImmediate(m_buffer, 0b001, static_cast<uint32_t>(imm), rd, 0b01);
 }
 
 void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
@@ -1698,7 +1698,7 @@ void Assembler::C_LDSP(GPR rd, uint32_t imm) noexcept {
 
 void Assembler::C_LI(GPR rd, int32_t imm) noexcept {
     BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
-    EmitCompressedImmediate(m_buffer, 0b010, imm, rd, 0b01);
+    EmitCompressedImmediate(m_buffer, 0b010, static_cast<uint32_t>(imm), rd, 0b01);
 }
 
 void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
@@ -1909,7 +1909,7 @@ ptrdiff_t Assembler::LinkAndGetOffset(Label* label) {
     // the offsets.
     if (label->IsBound()) {
         const auto cursor_address = m_buffer.GetCursorAddress();
-        const auto label_offset = m_buffer.GetOffsetAddress(static_cast<uintptr_t>(*label->GetLocation()));
+        const auto label_offset = m_buffer.GetOffsetAddress(*label->GetLocation());
         return static_cast<ptrdiff_t>(label_offset - cursor_address);
     }
 

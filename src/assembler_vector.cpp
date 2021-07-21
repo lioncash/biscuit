@@ -763,7 +763,7 @@ void Assembler::VRGATHER(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
 }
 
 void Assembler::VRGATHER(Vec vd, Vec vs2, uint32_t uimm, VecMask mask) noexcept {
-    EmitVectorOPIVUI(m_buffer, 0b001100, mask, vs2, static_cast<int32_t>(uimm), vd);
+    EmitVectorOPIVUI(m_buffer, 0b001100, mask, vs2, uimm, vd);
 }
 
 void Assembler::VRGATHEREI16(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {

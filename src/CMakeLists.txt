@@ -51,6 +51,8 @@ if (MSVC)
         /we4062 # enumerator 'identifier' in a switch of enum 'enumeration' is not handled
         /we4101 # 'identifier': unreferenced local variable
         /we4265 # 'class': class has virtual functions, but destructor is not virtual
+        /we4287 # 'operator' : unsigned/negative constant mismatch
+        /we4365 # 'action' : conversion from 'type_1' to 'type_2', signed/unsigned mismatch
         /we4388 # signed/unsigned mismatch
         /we4547 # 'operator' : operator before comma has no effect; expected operator with side-effect
         /we4549 # 'operator1': operator before comma has no effect; did you intend 'operator2'?
