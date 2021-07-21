@@ -36,6 +36,11 @@ namespace {
     return index >= 8 && index <= 15;
 }
 
+// Determines whether or not the given shift amount is valid for a compressed shift instruction
+[[nodiscard]] bool IsValidCompressedShiftAmount(uint32_t shift) noexcept {
+    return shift > 0 && shift <= 64;
+}
+
 // Turns a compressed register into its encoding.
 [[nodiscard]] uint32_t CompressedRegTo3BitEncoding(Register reg) noexcept {
     return reg.Index() - 8;
@@ -1771,7 +1776,12 @@ void Assembler::C_SDSP(GPR rs, uint32_t imm) noexcept {
 
 void Assembler::C_SLLI(GPR rd, uint32_t shift) noexcept {
     BISCUIT_ASSERT(rd != x0);
-    BISCUIT_ASSERT(shift != 0);
+    BISCUIT_ASSERT(IsValidCompressedShiftAmount(shift));
+
+    // RV128C encodes a 64-bit shift with an encoding of 0.
+    if (shift == 64) {
+        shift = 0;
+    }
 
     const auto shift_enc = ((shift & 0b11111) << 2) | ((shift & 0b100000) << 7);
     m_buffer.Emit16(0x0002U | shift_enc | (rd.Index() << 7));
@@ -1794,7 +1804,12 @@ void Assembler::C_SQSP(GPR rs, uint32_t imm) noexcept {
 
 void Assembler::C_SRAI(GPR rd, uint32_t shift) noexcept {
     BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
-    BISCUIT_ASSERT(shift != 0);
+    BISCUIT_ASSERT(IsValidCompressedShiftAmount(shift));
+
+    // RV128C encodes a 64-bit shift with an encoding of 0.
+    if (shift == 64) {
+        shift = 0;
+    }
 
     constexpr auto base = 0x8401U;
     const auto shift_enc = ((shift & 0b11111) << 2) | ((shift & 0b100000) << 7);
@@ -1805,7 +1820,12 @@ void Assembler::C_SRAI(GPR rd, uint32_t shift) noexcept {
 
 void Assembler::C_SRLI(GPR rd, uint32_t shift) noexcept {
     BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
-    BISCUIT_ASSERT(shift != 0);
+    BISCUIT_ASSERT(IsValidCompressedShiftAmount(shift));
+
+    // RV128C encodes a 64-bit shift with an encoding of 0.
+    if (shift == 64) {
+        shift = 0;
+    }
 
     constexpr auto base = 0x8001U;
     const auto shift_enc = ((shift & 0b11111) << 2) | ((shift & 0b100000) << 7);
