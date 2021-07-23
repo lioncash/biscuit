@@ -10,22 +10,22 @@ namespace {
     return value >= -2048 && value <= 2047;
 }
 
-// B-type immediates only provide ~4KiB range branches.
+// B-type immediates only provide -4Kib to +4KiB range branches.
 [[nodiscard]] bool IsValidBTypeImm(ptrdiff_t value) noexcept {
     return IsValidSigned12BitImm(value);
 }
 
-// J-type immediates only provide ~1MiB range branches.
+// J-type immediates only provide -1MiB to +1MiB range branches.
 [[nodiscard]] bool IsValidJTypeImm(ptrdiff_t value) noexcept {
     return value >= -0x80000 && value <= 0x7FFFF;
 }
 
-// CB-type immediates only provide ~256B range branches.
+// CB-type immediates only provide -256B to +256B range branches.
 [[nodiscard]] bool IsValidCBTypeImm(ptrdiff_t value) noexcept {
     return value >= -256 && value <= 255;
 }
 
-// CJ-type immediates only provide ~2KiB range branches.
+// CJ-type immediates only provide -2KiB to +2KiB range branches.
 [[nodiscard]] bool IsValidCJTypeImm(ptrdiff_t value) noexcept {
     return IsValidSigned12BitImm(value);
 }
