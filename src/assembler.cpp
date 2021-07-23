@@ -5,6 +5,11 @@
 
 namespace biscuit {
 namespace {
+// Determines if a value lies within the range of a 6-bit immediate.
+[[nodiscard]] bool IsValidSigned6BitImm(int32_t value) noexcept {
+    return value >= -32 && value <= 31;
+}
+
 // S-type and I-type immediates are 12 bits in size
 [[nodiscard]] bool IsValidSigned12BitImm(ptrdiff_t value) noexcept {
     return value >= -2048 && value <= 2047;
@@ -89,11 +94,6 @@ namespace {
            ((imm & 0x00E) << 4) |
            ((imm & 0x020) >> 3);
     // clang-format on
-}
-
-// Determines if a value lies within the range of a 6-bit immediate.
-[[nodiscard]] bool IsValid6BitSignedImm(int32_t value) noexcept {
-    return value >= -32 && value <= 31;
 }
 
 // Emits a B type RISC-V instruction. These consist of:
@@ -1525,12 +1525,12 @@ void Assembler::C_ADD(GPR rd, GPR rs) noexcept {
 
 void Assembler::C_ADDI(GPR rd, int32_t imm) noexcept {
     BISCUIT_ASSERT(imm != 0);
-    BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
+    BISCUIT_ASSERT(IsValidSigned6BitImm(imm));
     EmitCompressedImmediate(m_buffer, 0b000, static_cast<uint32_t>(imm), rd, 0b01);
 }
 
 void Assembler::C_ADDIW(GPR rd, int32_t imm) noexcept {
-    BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
+    BISCUIT_ASSERT(IsValidSigned6BitImm(imm));
     EmitCompressedImmediate(m_buffer, 0b001, static_cast<uint32_t>(imm), rd, 0b01);
 }
 
@@ -1697,7 +1697,7 @@ void Assembler::C_LDSP(GPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::C_LI(GPR rd, int32_t imm) noexcept {
-    BISCUIT_ASSERT(IsValid6BitSignedImm(imm));
+    BISCUIT_ASSERT(IsValidSigned6BitImm(imm));
     EmitCompressedImmediate(m_buffer, 0b010, static_cast<uint32_t>(imm), rd, 0b01);
 }
 
