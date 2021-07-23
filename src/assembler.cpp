@@ -1607,10 +1607,16 @@ void Assembler::C_EBREAK() noexcept {
 }
 
 void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(imm <= 248);
+    BISCUIT_ASSERT(imm % 8 == 0);
+
     EmitCompressedLoad(m_buffer, 0b001, imm, rs, rd, 0b00);
 }
 
 void Assembler::C_FLDSP(FPR rd, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm <= 504);
+    BISCUIT_ASSERT(imm % 8 == 0);
+
     // clang-format off
     const auto new_imm = ((imm & 0x018) << 2) |
                          ((imm & 0x1C0) >> 4) |
@@ -1621,12 +1627,18 @@ void Assembler::C_FLDSP(FPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(imm <= 124);
+    BISCUIT_ASSERT(imm % 4 == 0);
+
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
     EmitCompressedLoad(m_buffer, 0b011, new_imm, rs, rd, 0b00);
 }
 
 void Assembler::C_FLWSP(FPR rd, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm <= 252);
+    BISCUIT_ASSERT(imm % 4 == 0);
+
     // clang-format off
     const auto new_imm = ((imm & 0x020) << 7) |
                          ((imm & 0x0C0) >> 4) |
@@ -1637,10 +1649,16 @@ void Assembler::C_FLWSP(FPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(imm <= 248);
+    BISCUIT_ASSERT(imm % 8 == 0);
+
     EmitCompressedStore(m_buffer, 0b101, imm, rs1, rs2, 0b00);
 }
 
 void Assembler::C_FSDSP(FPR rs, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm <= 504);
+    BISCUIT_ASSERT(imm % 8 == 0);
+
     // clang-format off
     const auto new_imm = ((imm & 0x038) << 7) |
                          ((imm & 0x1C0) << 1);
@@ -1674,6 +1692,9 @@ void Assembler::C_FSW(FPR rs2, uint32_t imm, GPR rs1) noexcept {
 }
 
 void Assembler::C_FSWSP(FPR rs, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm <= 252);
+    BISCUIT_ASSERT(imm % 4 == 0);
+
     // clang-format off
     const auto new_imm = ((imm & 0x0C0) << 1) |
                          ((imm & 0x03C) << 7);
@@ -1693,11 +1714,16 @@ void Assembler::C_JR(GPR rs) noexcept {
 }
 
 void Assembler::C_LD(GPR rd, uint32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(imm <= 248);
+    BISCUIT_ASSERT(imm % 8 == 0);
+
     EmitCompressedLoad(m_buffer, 0b011, imm, rs, rd, 0b00);
 }
 
 void Assembler::C_LDSP(GPR rd, uint32_t imm) noexcept {
     BISCUIT_ASSERT(rd != x0);
+    BISCUIT_ASSERT(imm <= 504);
+    BISCUIT_ASSERT(imm % 8 == 0);
 
     // clang-format off
     const auto new_imm = ((imm & 0x018) << 2) |
@@ -1714,6 +1740,9 @@ void Assembler::C_LI(GPR rd, int32_t imm) noexcept {
 }
 
 void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(imm <= 496);
+    BISCUIT_ASSERT(imm % 16 == 0);
+
     imm &= 0x1F0;
     const auto new_imm = ((imm & 0x100) >> 5) | (imm & 0xF0);
     EmitCompressedLoad(m_buffer, 0b001, new_imm, rs, rd, 0b00);
@@ -1721,6 +1750,8 @@ void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
 
 void Assembler::C_LQSP(GPR rd, uint32_t imm) noexcept {
     BISCUIT_ASSERT(rd != x0);
+    BISCUIT_ASSERT(imm <= 1008);
+    BISCUIT_ASSERT(imm % 16 == 0);
 
     // clang-format off
     const auto new_imm = ((imm & 0x020) << 7) |
@@ -1740,6 +1771,9 @@ void Assembler::C_LUI(GPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::C_LW(GPR rd, uint32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(imm <= 124);
+    BISCUIT_ASSERT(imm % 4 == 0);
+
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
     EmitCompressedLoad(m_buffer, 0b010, new_imm, rs, rd, 0b00);
@@ -1747,6 +1781,8 @@ void Assembler::C_LW(GPR rd, uint32_t imm, GPR rs) noexcept {
 
 void Assembler::C_LWSP(GPR rd, uint32_t imm) noexcept {
     BISCUIT_ASSERT(rd != x0);
+    BISCUIT_ASSERT(imm <= 252);
+    BISCUIT_ASSERT(imm % 4 == 0);
 
     // clang-format off
     const auto new_imm = ((imm & 0x020) << 7) |
@@ -1772,10 +1808,16 @@ void Assembler::C_OR(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(imm <= 248);
+    BISCUIT_ASSERT(imm % 8 == 0);
+
     EmitCompressedLoad(m_buffer, 0b111, imm, rs1, rs2, 0b00);
 }
 
 void Assembler::C_SDSP(GPR rs, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm <= 504);
+    BISCUIT_ASSERT(imm % 8 == 0);
+
     // clang-format off
     const auto new_imm = ((imm & 0x038) << 7) |
                          ((imm & 0x1C0) << 1);
@@ -1798,12 +1840,18 @@ void Assembler::C_SLLI(GPR rd, uint32_t shift) noexcept {
 }
 
 void Assembler::C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(imm <= 496);
+    BISCUIT_ASSERT(imm % 16 == 0);
+
     imm &= 0x1F0;
     const auto new_imm = ((imm & 0x100) >> 5) | (imm & 0xF0);
     EmitCompressedStore(m_buffer, 0b101, new_imm, rs1, rs2, 0b00);
 }
 
 void Assembler::C_SQSP(GPR rs, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm <= 1008);
+    BISCUIT_ASSERT(imm % 16 == 0);
+
     // clang-format off
     const auto new_imm = ((imm & 0x3C0) << 1) |
                          ((imm & 0x030) << 7);
@@ -1853,12 +1901,18 @@ void Assembler::C_SUBW(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::C_SW(GPR rs2, uint32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(imm <= 124);
+    BISCUIT_ASSERT(imm % 4 == 0);
+
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
     EmitCompressedStore(m_buffer, 0b110, new_imm, rs1, rs2, 0b00);
 }
 
 void Assembler::C_SWSP(GPR rs, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm <= 252);
+    BISCUIT_ASSERT(imm % 4 == 0);
+
     // clang-format off
     const auto new_imm = ((imm & 0x0C0) << 1) |
                          ((imm & 0x03C) << 7);
