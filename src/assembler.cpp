@@ -5,14 +5,14 @@
 
 namespace biscuit {
 namespace {
-// S-type and I-type immediates are 12-bit immediates
+// S-type and I-type immediates are 12 bits in size
 [[nodiscard]] bool IsValidSigned12BitImm(ptrdiff_t value) noexcept {
     return value >= -2048 && value <= 2047;
 }
 
-// B-type immediates only provide -4Kib to +4KiB range branches.
+// B-type immediates only provide -4KiB to +4KiB range branches.
 [[nodiscard]] bool IsValidBTypeImm(ptrdiff_t value) noexcept {
-    return IsValidSigned12BitImm(value);
+    return value >= -4096 && value <= 4095;
 }
 
 // J-type immediates only provide -1MiB to +1MiB range branches.
