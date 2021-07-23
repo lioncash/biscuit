@@ -633,6 +633,7 @@ void Assembler::SLL(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SLLI(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(shift <= 31);
     EmitIType(m_buffer, shift & 0x1F, rs, 0b001, rd, 0b0010011);
 }
 
@@ -665,6 +666,7 @@ void Assembler::SRA(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SRAI(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(shift <= 31);
     EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0010011);
 }
 
@@ -673,6 +675,7 @@ void Assembler::SRL(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SRLI(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(shift <= 31);
     EmitIType(m_buffer, shift & 0x1F, rs, 0b101, rd, 0b0010011);
 }
 
@@ -719,22 +722,28 @@ void Assembler::SD(GPR rs2, int32_t imm, GPR rs1) noexcept {
 }
 
 void Assembler::SRAI64(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(shift <= 63);
     EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x3F), rs, 0b101, rd, 0b0010011);
 }
 void Assembler::SLLI64(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(shift <= 63);
     EmitIType(m_buffer, shift & 0x3F, rs, 0b001, rd, 0b0010011);
 }
 void Assembler::SRLI64(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(shift <= 63);
     EmitIType(m_buffer, shift & 0x3F, rs, 0b101, rd, 0b0010011);
 }
 
 void Assembler::SLLIW(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(shift <= 31);
     EmitIType(m_buffer, shift & 0x1F, rs, 0b001, rd, 0b0011011);
 }
 void Assembler::SRAIW(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(shift <= 31);
     EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0011011);
 }
 void Assembler::SRLIW(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(shift <= 31);
     EmitIType(m_buffer, shift & 0x1F, rs, 0b101, rd, 0b0011011);
 }
 
