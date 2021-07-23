@@ -1548,7 +1548,17 @@ void Assembler::C_ADDIW(GPR rd, int32_t imm) noexcept {
 
 void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
     BISCUIT_ASSERT(imm != 0);
-    EmitCompressedWideImmediate(m_buffer, 0b000, imm, rd, 0b00);
+    BISCUIT_ASSERT(imm <= 1020);
+    BISCUIT_ASSERT(imm % 4 == 0);
+
+    // clang-format off
+    const auto new_imm = ((imm & 0x030) << 2) |
+                         ((imm & 0x3C0) >> 4) |
+                         ((imm & 0x004) >> 1) |
+                         ((imm & 0x008) >> 3);
+    // clang-format on
+
+    EmitCompressedWideImmediate(m_buffer, 0b000, new_imm, rd, 0b00);
 }
 
 void Assembler::C_ADDW(GPR rd, GPR rs) noexcept {
@@ -1557,6 +1567,8 @@ void Assembler::C_ADDW(GPR rd, GPR rs) noexcept {
 
 void Assembler::C_ADDI16SP(int32_t imm) noexcept {
     BISCUIT_ASSERT(imm != 0);
+    BISCUIT_ASSERT(imm >= -512 && imm <= 496);
+    BISCUIT_ASSERT(imm % 16 == 0);
 
     // clang-format off
     const auto uimm = static_cast<uint32_t>(imm);
