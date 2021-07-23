@@ -767,18 +767,21 @@ void Assembler::CSRRC(GPR rd, CSR csr, GPR rs) noexcept {
     EmitIType(m_buffer, static_cast<uint32_t>(csr), rs, 0b011, rd, 0b1110011);
 }
 void Assembler::CSRRCI(GPR rd, CSR csr, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm <= 0x1F);
     EmitIType(m_buffer, static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b111, rd, 0b1110011);
 }
 void Assembler::CSRRS(GPR rd, CSR csr, GPR rs) noexcept {
     EmitIType(m_buffer, static_cast<uint32_t>(csr), rs, 0b010, rd, 0b1110011);
 }
 void Assembler::CSRRSI(GPR rd, CSR csr, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm <= 0x1F);
     EmitIType(m_buffer, static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b110, rd, 0b1110011);
 }
 void Assembler::CSRRW(GPR rd, CSR csr, GPR rs) noexcept {
     EmitIType(m_buffer, static_cast<uint32_t>(csr), rs, 0b001, rd, 0b1110011);
 }
 void Assembler::CSRRWI(GPR rd, CSR csr, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(imm <= 0x1F);
     EmitIType(m_buffer, static_cast<uint32_t>(csr), GPR{imm & 0x1F}, 0b101, rd, 0b1110011);
 }
 
