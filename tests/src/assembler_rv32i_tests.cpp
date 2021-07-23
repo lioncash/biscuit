@@ -530,12 +530,12 @@ TEST_CASE("SLTI", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.SLTI(x15, x31, 2048);
+    as.SLTI(x15, x31, -2048);
     REQUIRE(value == 0x800FA793);
 
     as.RewindBuffer();
 
-    as.SLTI(x15, x31, 4095);
+    as.SLTI(x15, x31, -1);
     REQUIRE(value == 0xFFFFA793);
 }
 
@@ -548,12 +548,12 @@ TEST_CASE("SLTIU", "[rv32i]") {
 
     as.RewindBuffer();
 
-    as.SLTIU(x15, x31, 2048);
+    as.SLTIU(x15, x31, -2048);
     REQUIRE(value == 0x800FB793);
 
     as.RewindBuffer();
 
-    as.SLTIU(x15, x31, 4095);
+    as.SLTIU(x15, x31, -1);
     REQUIRE(value == 0xFFFFB793);
 }
 

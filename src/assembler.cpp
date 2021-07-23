@@ -6,7 +6,7 @@
 namespace biscuit {
 namespace {
 // Determines if a value lies within the range of a 6-bit immediate.
-[[nodiscard]] bool IsValidSigned6BitImm(int32_t value) noexcept {
+[[nodiscard]] bool IsValidSigned6BitImm(ptrdiff_t value) noexcept {
     return value >= -32 && value <= 31;
 }
 
@@ -641,12 +641,14 @@ void Assembler::SLT(GPR rd, GPR lhs, GPR rhs) noexcept {
     EmitRType(m_buffer, 0b0000000, rhs, lhs, 0b010, rd, 0b0110011);
 }
 
-void Assembler::SLTI(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(m_buffer, imm, rs, 0b010, rd, 0b0010011);
+void Assembler::SLTI(GPR rd, GPR rs, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b010, rd, 0b0010011);
 }
 
-void Assembler::SLTIU(GPR rd, GPR rs, uint32_t imm) noexcept {
-    EmitIType(m_buffer, imm, rs, 0b011, rd, 0b0010011);
+void Assembler::SLTIU(GPR rd, GPR rs, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
+    EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b011, rd, 0b0010011);
 }
 
 void Assembler::SLTU(GPR rd, GPR lhs, GPR rhs) noexcept {

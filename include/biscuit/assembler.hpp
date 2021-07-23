@@ -175,8 +175,8 @@ public:
     void SLLI(GPR rd, GPR rs, uint32_t shift) noexcept;
 
     void SLT(GPR rd, GPR lhs, GPR rhs) noexcept;
-    void SLTI(GPR rd, GPR rs, uint32_t imm) noexcept;
-    void SLTIU(GPR rd, GPR rs, uint32_t imm) noexcept;
+    void SLTI(GPR rd, GPR rs, int32_t imm) noexcept;
+    void SLTIU(GPR rd, GPR rs, int32_t imm) noexcept;
     void SLTU(GPR rd, GPR lhs, GPR rhs) noexcept;
     void SLTZ(GPR rd, GPR rs) noexcept;
 
