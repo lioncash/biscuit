@@ -17,6 +17,11 @@ void EmitSHAInstruction(CodeBuffer& buffer, uint32_t op, GPR rd, GPR rs1, GPR rs
     // Same behavior, function exists for a better contextual name.
     EmitAES64Instruction(buffer, op, rd, rs1, rs2);
 }
+
+void EmitSM3Instruction(CodeBuffer& buffer, uint32_t op, GPR rd, GPR rs1, GPR rs2) noexcept {
+    // Same behavior, function exists for a better contextual name.
+    EmitAES64Instruction(buffer, op, rd, rs1, rs2);
+}
 } // Anonymous namespace
 
 void Assembler::AES32DSI(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
@@ -123,5 +128,9 @@ void Assembler::SHA512SUM1(GPR rd, GPR rs) noexcept {
 
 void Assembler::SHA512SUM1R(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitSHAInstruction(m_buffer, 0x52000033, rd, rs1, rs2);
+}
+
+void Assembler::SM3P0(GPR rd, GPR rs) noexcept {
+    EmitSM3Instruction(m_buffer, 0x10801013, rd, rs, x0);
 }
 } // namespace biscuit
