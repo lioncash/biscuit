@@ -100,4 +100,8 @@ void Assembler::SHA512SIG0L(GPR rd, GPR rs1, GPR rs2) noexcept {
 void Assembler::SHA512SIG1(GPR rd, GPR rs) noexcept {
     EmitSHAInstruction(m_buffer, 0x10701013, rd, rs, x0);
 }
+
+void Assembler::SHA512SIG1H(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitSHAInstruction(m_buffer, 0x5E000033, rd, rs1, rs2);
+}
 } // namespace biscuit
