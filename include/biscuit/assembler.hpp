@@ -462,6 +462,7 @@ public:
     void ORCB(GPR rd, GPR rs) noexcept;
     void ORN(GPR rd, GPR rs1, GPR rs2) noexcept;
     void PACK(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void PACKH(GPR rd, GPR rs1, GPR rs2) noexcept;
     void REV8_32(GPR rd, GPR rs) noexcept;
     void REV8_64(GPR rd, GPR rs) noexcept;
     void ROL(GPR rd, GPR rs1, GPR rs2) noexcept;

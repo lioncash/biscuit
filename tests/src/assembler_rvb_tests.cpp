@@ -239,6 +239,14 @@ TEST_CASE("PACK", "[rvb]") {
     REQUIRE(value == 0x0823CFB3);
 }
 
+TEST_CASE("PACKH", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.PACKH(x31, x7, x2);
+    REQUIRE(value == 0x823FFB3);
+}
+
 TEST_CASE("REV8", "[rvb]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
