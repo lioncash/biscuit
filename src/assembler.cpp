@@ -1527,6 +1527,10 @@ void Assembler::XNOR(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b0100000, rs2, rs1, 0b100, rd, 0b0110011);
 }
 
+void Assembler::XPERMB(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b100, rd, 0b0110011);
+}
+
 void Assembler::ZEXTH_32(GPR rd, GPR rs) noexcept {
     EmitIType(m_buffer, 0b000010000000, rs, 0b100, rd, 0b0110011);
 }

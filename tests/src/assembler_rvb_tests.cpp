@@ -437,6 +437,19 @@ TEST_CASE("XNOR", "[rvb]") {
     REQUIRE(value == 0x40F3CFB3);
 }
 
+TEST_CASE("XPERMB", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.XPERMB(x31, x31, x31);
+    REQUIRE(value == 0x29FFCFB3);
+
+    as.RewindBuffer();
+
+    as.XPERMB(x1, x2, x3);
+    REQUIRE(value == 0x283140B3);
+}
+
 TEST_CASE("ZEXT.H", "[rvb]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
