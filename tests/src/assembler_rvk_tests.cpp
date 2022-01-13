@@ -328,3 +328,16 @@ TEST_CASE("SHA512SUM1", "[rvk]") {
     as.SHA512SUM1(x1, x2);
     REQUIRE(value == 0x10511093);
 }
+
+TEST_CASE("SHA512SUM1R", "[rvk]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SHA512SUM1R(x31, x31, x31);
+    REQUIRE(value == 0x53FF8FB3);
+
+    as.RewindBuffer();
+
+    as.SHA512SUM1R(x1, x2, x3);
+    REQUIRE(value == 0x523100B3);
+}

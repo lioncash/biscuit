@@ -510,6 +510,7 @@ public:
     void SHA512SUM0(GPR rd, GPR rs) noexcept;
     void SHA512SUM0R(GPR rd, GPR rs1, GPR rs2) noexcept;
     void SHA512SUM1(GPR rd, GPR rs) noexcept;
+    void SHA512SUM1R(GPR rd, GPR rs1, GPR rs2) noexcept;
 
     // RVC Extension Instructions
 
