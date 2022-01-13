@@ -487,6 +487,7 @@ public:
 
     void AES32DSI(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept;
     void AES32DSMI(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept;
+    void AES32ESI(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept;
 
     // RVC Extension Instructions
 
