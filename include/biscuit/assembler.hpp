@@ -513,6 +513,7 @@ public:
     void SHA512SUM1R(GPR rd, GPR rs1, GPR rs2) noexcept;
     void SM3P0(GPR rd, GPR rs) noexcept;
     void SM3P1(GPR rd, GPR rs) noexcept;
+    void SM4ED(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept;
 
     // RVC Extension Instructions
 

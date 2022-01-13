@@ -9,6 +9,11 @@ void EmitAES32Instruction(CodeBuffer& buffer, uint32_t op, GPR rd, GPR rs1, GPR 
                   (rs1.Index() << 15) | (rd.Index() << 7));
 }
 
+void EmitSM4Instruction(CodeBuffer& buffer, uint32_t op, GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
+    // Same behavior, function exists for a better contextual name.
+    EmitAES32Instruction(buffer, op, rd, rs1, rs2, bs);
+}
+
 void EmitAES64Instruction(CodeBuffer& buffer, uint32_t op, GPR rd, GPR rs1, GPR rs2) noexcept {
     buffer.Emit32(op | (rs2.Index() << 20) | (rs1.Index() << 15) | (rd.Index() << 7));
 }
@@ -136,5 +141,9 @@ void Assembler::SM3P0(GPR rd, GPR rs) noexcept {
 
 void Assembler::SM3P1(GPR rd, GPR rs) noexcept {
     EmitSM3Instruction(m_buffer, 0x10901013, rd, rs);
+}
+
+void Assembler::SM4ED(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
+    EmitSM4Instruction(m_buffer, 0x30000033, rd, rs1, rs2, bs);
 }
 } // namespace biscuit
