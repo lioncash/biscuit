@@ -72,4 +72,8 @@ void Assembler::BREV8(GPR rd, GPR rs) noexcept {
 void Assembler::SHA256SIG0(GPR rd, GPR rs) noexcept {
     EmitSHAInstruction(m_buffer, 0x10201013, rd, rs, x0);
 }
+
+void Assembler::SHA256SIG1(GPR rd, GPR rs) noexcept {
+    EmitSHAInstruction(m_buffer, 0x10301013, rd, rs, x0);
+}
 } // namespace biscuit
