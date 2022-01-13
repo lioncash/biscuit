@@ -489,6 +489,7 @@ public:
     void ZEXTH_32(GPR rd, GPR rs) noexcept;
     void ZEXTH_64(GPR rd, GPR rs) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
+    void ZIP(GPR rd, GPR rs) noexcept;
 
     // Scalar Cryptography (RVK) instructions
 

@@ -475,3 +475,16 @@ TEST_CASE("ZEXT.H", "[rvb]") {
     as.ZEXTH_64(x31, x7);
     REQUIRE(value == 0x0803CFBB);
 }
+
+TEST_CASE("ZIP", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.ZIP(x31, x31);
+    REQUIRE(value == 0x09EF9F93);
+
+    as.RewindBuffer();
+
+    as.ZIP(x1, x2);
+    REQUIRE(value == 0x09E11093);
+}

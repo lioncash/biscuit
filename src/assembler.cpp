@@ -1547,6 +1547,10 @@ void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
     ADDUW(rd, rs, x0);
 }
 
+void Assembler::ZIP(GPR rd, GPR rs) noexcept {
+    EmitIType(m_buffer, 0b000010011110, rs, 0b001, rd, 0b0010011);
+}
+
 void Assembler::BSET(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b001, rd, 0b0110011);
 }
