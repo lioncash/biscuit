@@ -196,6 +196,10 @@ enum class CSR : uint32_t {
     DScratch0      = 0x7B2, // Debug scratch register 0
     DScratch1      = 0x7B3, // Debug scratch register 1
 
+    // Scalar Cryptography Entropy Source Extension CSRs
+
+    Seed           = 0x015, // Entropy bit provider (up to 16 bits)
+
     // Vector Extension CSRs
 
     VStart         = 0x008, // Vector start position
