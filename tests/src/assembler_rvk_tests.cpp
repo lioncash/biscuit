@@ -147,19 +147,6 @@ TEST_CASE("AES64KS2", "[rvk]") {
     REQUIRE(value == 0x7E3100B3);
 }
 
-TEST_CASE("BREV8", "[rvk]") {
-    uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
-
-    as.BREV8(x31, x31);
-    REQUIRE(value == 0x687FDF93);
-
-    as.RewindBuffer();
-
-    as.BREV8(x1, x2);
-    REQUIRE(value == 0x68715093);
-}
-
 TEST_CASE("SHA256SIG0", "[rvk]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

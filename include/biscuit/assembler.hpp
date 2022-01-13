@@ -466,6 +466,7 @@ public:
     void PACKW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void REV8_32(GPR rd, GPR rs) noexcept;
     void REV8_64(GPR rd, GPR rs) noexcept;
+    void REV_B(GPR rd, GPR rs) noexcept;
     void ROL(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ROLW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ROR(GPR rd, GPR rs1, GPR rs2) noexcept;
@@ -499,7 +500,6 @@ public:
     void AES64IM(GPR rd, GPR rs) noexcept;
     void AES64KS1I(GPR rd, GPR rs, uint32_t rnum) noexcept;
     void AES64KS2(GPR rd, GPR rs1, GPR rs2) noexcept;
-    void BREV8(GPR rd, GPR rs) noexcept;
     void SHA256SIG0(GPR rd, GPR rs) noexcept;
     void SHA256SIG1(GPR rd, GPR rs) noexcept;
     void SHA256SUM0(GPR rd, GPR rs) noexcept;
