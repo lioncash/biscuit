@@ -485,6 +485,7 @@ public:
     void UNZIP(GPR rd, GPR rs) noexcept;
     void XNOR(GPR rd, GPR rs1, GPR rs2) noexcept;
     void XPERMB(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void XPERMN(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ZEXTH_32(GPR rd, GPR rs) noexcept;
     void ZEXTH_64(GPR rd, GPR rs) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
