@@ -17,7 +17,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | Feature   | Version |
 |:----------|:-------:|
 | A         | 2.1     |
-| B         | 1.0 PR  |
+| B         | 1.0     |
 | C         | 2.0     |
 | D         | 2.2     |
 | F         | 2.2     |
@@ -27,7 +27,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | RV32I     | 2.1     |
 | RV64I     | 2.1     |
 | S         | 1.12    |
-| V         | 1.0 RC  |
+| V         | 1.0     |
 | Zicsr     | 2.0     |
 | Zifencei  | 2.0     |
 
