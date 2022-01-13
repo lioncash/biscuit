@@ -146,4 +146,8 @@ void Assembler::SM3P1(GPR rd, GPR rs) noexcept {
 void Assembler::SM4ED(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
     EmitSM4Instruction(m_buffer, 0x30000033, rd, rs1, rs2, bs);
 }
+
+void Assembler::SM4KS(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
+    EmitSM4Instruction(m_buffer, 0x34000033, rd, rs1, rs2, bs);
+}
 } // namespace biscuit
