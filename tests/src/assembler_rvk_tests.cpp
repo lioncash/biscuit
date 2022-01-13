@@ -211,3 +211,16 @@ TEST_CASE("SHA256SUM1", "[rvk]") {
     as.SHA256SUM1(x1, x2);
     REQUIRE(value == 0x10111093);
 }
+
+TEST_CASE("SHA512SIG0", "[rvk]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SHA512SIG0(x31, x31);
+    REQUIRE(value == 0x106F9F93);
+
+    as.RewindBuffer();
+
+    as.SHA512SIG0(x1, x2);
+    REQUIRE(value == 0x10611093);
+}
