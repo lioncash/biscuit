@@ -12,6 +12,11 @@ void EmitAES32Instruction(CodeBuffer& buffer, uint32_t op, GPR rd, GPR rs1, GPR 
 void EmitAES64Instruction(CodeBuffer& buffer, uint32_t op, GPR rd, GPR rs1, GPR rs2) noexcept {
     buffer.Emit32(op | (rs2.Index() << 20) | (rs1.Index() << 15) | (rd.Index() << 7));
 }
+
+void EmitSHAInstruction(CodeBuffer& buffer, uint32_t op, GPR rd, GPR rs1, GPR rs2) noexcept {
+    // Same behavior, function exists for a better contextual name.
+    EmitAES64Instruction(buffer, op, rd, rs1, rs2);
+}
 } // Anonymous namespace
 
 void Assembler::AES32DSI(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
@@ -62,5 +67,9 @@ void Assembler::AES64KS2(GPR rd, GPR rs1, GPR rs2) noexcept {
 
 void Assembler::BREV8(GPR rd, GPR rs) noexcept {
     m_buffer.Emit32(0x68705013U | (rs.Index() << 15) | (rd.Index() << 7));
+}
+
+void Assembler::SHA256SIG0(GPR rd, GPR rs) noexcept {
+    EmitSHAInstruction(m_buffer, 0x10201013, rd, rs, x0);
 }
 } // namespace biscuit

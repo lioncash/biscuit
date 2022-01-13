@@ -159,3 +159,16 @@ TEST_CASE("BREV8", "[rvk]") {
     as.BREV8(x1, x2);
     REQUIRE(value == 0x68715093);
 }
+
+TEST_CASE("SHA256SIG0", "[rvk]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SHA256SIG0(x31, x31);
+    REQUIRE(value == 0x102F9F93);
+
+    as.RewindBuffer();
+
+    as.SHA256SIG0(x1, x2);
+    REQUIRE(value == 0x10211093);
+}
