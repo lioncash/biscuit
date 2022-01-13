@@ -1450,7 +1450,7 @@ void Assembler::REV8_64(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::REV_B(GPR rd, GPR rs) noexcept {
-    EmitIType(m_buffer, 0b0110100000111, rs, 0b101, rd, 0b0010011);
+    EmitIType(m_buffer, 0b011010000111, rs, 0b101, rd, 0b0010011);
 }
 
 void Assembler::ROL(GPR rd, GPR rs1, GPR rs2) noexcept {
@@ -1517,6 +1517,10 @@ void Assembler::SLLIUW(GPR rd, GPR rs, uint32_t shift_amount) noexcept {
     BISCUIT_ASSERT(shift_amount <= 63);
     const auto imm = (0b000010U << 6) | shift_amount;
     EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0011011);
+}
+
+void Assembler::UNZIP(GPR rd, GPR rs) noexcept {
+    EmitIType(m_buffer, 0b000010011111, rs, 0b101, rd, 0b0010011);
 }
 
 void Assembler::XNOR(GPR rd, GPR rs1, GPR rs2) noexcept {

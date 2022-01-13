@@ -416,6 +416,19 @@ TEST_CASE("SLLI.UW", "[rvb]") {
     REQUIRE(value == 0x0BF39F9B);
 }
 
+TEST_CASE("UNZIP", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.UNZIP(x31, x31);
+    REQUIRE(value == 0x09FFDF93);
+
+    as.RewindBuffer();
+
+    as.UNZIP(x1, x2);
+    REQUIRE(value == 0x09F15093);
+}
+
 TEST_CASE("XNOR", "[rvb]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
