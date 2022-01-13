@@ -59,4 +59,8 @@ void Assembler::AES64KS1I(GPR rd, GPR rs, uint32_t rnum) noexcept {
 void Assembler::AES64KS2(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitAES64Instruction(m_buffer, 0x7E000033, rd, rs1, rs2);
 }
+
+void Assembler::BREV8(GPR rd, GPR rs) noexcept {
+    m_buffer.Emit32(0x68705013U | (rs.Index() << 15) | (rd.Index() << 7));
+}
 } // namespace biscuit
