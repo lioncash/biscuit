@@ -500,6 +500,7 @@ public:
     void SHA256SIG0(GPR rd, GPR rs) noexcept;
     void SHA256SIG1(GPR rd, GPR rs) noexcept;
     void SHA256SUM0(GPR rd, GPR rs) noexcept;
+    void SHA256SUM1(GPR rd, GPR rs) noexcept;
 
     // RVC Extension Instructions
 
