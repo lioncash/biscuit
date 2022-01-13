@@ -231,6 +231,14 @@ TEST_CASE("ORN", "[rvb]") {
     REQUIRE(value == 0x40F3EFB3);
 }
 
+TEST_CASE("PACK", "[rvb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.PACK(x31, x7, x2);
+    REQUIRE(value == 0x0823CFB3);
+}
+
 TEST_CASE("REV8", "[rvb]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
