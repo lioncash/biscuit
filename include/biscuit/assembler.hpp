@@ -492,6 +492,7 @@ public:
     void AES64DS(GPR rd, GPR rs1, GPR rs2) noexcept;
     void AES64DSM(GPR rd, GPR rs1, GPR rs2) noexcept;
     void AES64ES(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void AES64ESM(GPR rd, GPR rs1, GPR rs2) noexcept;
 
     // RVC Extension Instructions
 

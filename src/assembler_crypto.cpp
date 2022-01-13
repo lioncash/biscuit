@@ -41,4 +41,8 @@ void Assembler::AES64DSM(GPR rd, GPR rs1, GPR rs2) noexcept {
 void Assembler::AES64ES(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitAES64Instruction(m_buffer, 0x32000033, rd, rs1, rs2);
 }
+
+void Assembler::AES64ESM(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitAES64Instruction(m_buffer, 0x36000033, rd, rs1, rs2);
+}
 } // namespace biscuit
