@@ -224,3 +224,16 @@ TEST_CASE("SHA512SIG0", "[rvk]") {
     as.SHA512SIG0(x1, x2);
     REQUIRE(value == 0x10611093);
 }
+
+TEST_CASE("SHA512SIG0H", "[rvk]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SHA512SIG0H(x31, x31, x31);
+    REQUIRE(value == 0x5DFF8FB3);
+
+    as.RewindBuffer();
+
+    as.SHA512SIG0H(x1, x2, x3);
+    REQUIRE(value == 0x5C3100B3);
+}
