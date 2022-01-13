@@ -116,4 +116,8 @@ void Assembler::SHA512SUM0(GPR rd, GPR rs) noexcept {
 void Assembler::SHA512SUM0R(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitSHAInstruction(m_buffer, 0x50000033, rd, rs1, rs2);
 }
+
+void Assembler::SHA512SUM1(GPR rd, GPR rs) noexcept {
+    EmitSHAInstruction(m_buffer, 0x10501013, rd, rs, x0);
+}
 } // namespace biscuit
