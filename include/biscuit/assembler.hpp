@@ -495,6 +495,7 @@ public:
     void AES64ESM(GPR rd, GPR rs1, GPR rs2) noexcept;
     void AES64IM(GPR rd, GPR rs) noexcept;
     void AES64KS1I(GPR rd, GPR rs, uint32_t rnum) noexcept;
+    void AES64KS2(GPR rd, GPR rs1, GPR rs2) noexcept;
 
     // RVC Extension Instructions
 

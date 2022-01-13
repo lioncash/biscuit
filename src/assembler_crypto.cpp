@@ -49,9 +49,14 @@ void Assembler::AES64ESM(GPR rd, GPR rs1, GPR rs2) noexcept {
 void Assembler::AES64IM(GPR rd, GPR rs) noexcept {
     EmitAES64Instruction(m_buffer, 0x30001013, rd, rs, x0);
 }
+
 void Assembler::AES64KS1I(GPR rd, GPR rs, uint32_t rnum) noexcept {
     // RVK spec states that 0xB to 0xF are reserved.
     BISCUIT_ASSERT(rnum <= 0xA);
     EmitAES64Instruction(m_buffer, 0x31001013, rd, rs, GPR{rnum});
+}
+
+void Assembler::AES64KS2(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitAES64Instruction(m_buffer, 0x7E000033, rd, rs1, rs2);
 }
 } // namespace biscuit
