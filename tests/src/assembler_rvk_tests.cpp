@@ -81,3 +81,16 @@ TEST_CASE("AES64DSM", "[rvk]") {
     as.AES64DSM(x1, x2, x3);
     REQUIRE(value == 0x3E3100B3);
 }
+
+TEST_CASE("AES64ES", "[rvk]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.AES64ES(x31, x31, x31);
+    REQUIRE(value == 0x33FF8FB3);
+
+    as.RewindBuffer();
+
+    as.AES64ES(x1, x2, x3);
+    REQUIRE(value == 0x323100B3);
+}
