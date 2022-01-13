@@ -120,3 +120,16 @@ TEST_CASE("AES64IM", "[rvk]") {
     as.AES64IM(x1, x2);
     REQUIRE(value == 0x30011093);
 }
+
+TEST_CASE("AES64KS1I", "[rvk]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.AES64KS1I(x31, x31, 0xA);
+    REQUIRE(value == 0x31AF9F93);
+
+    as.RewindBuffer();
+
+    as.AES64KS1I(x1, x2, 0x5);
+    REQUIRE(value == 0x31511093);
+}
