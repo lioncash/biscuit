@@ -10,6 +10,7 @@ add_executable(${PROJECT_NAME}
     src/assembler_rvc_tests.cpp
     src/assembler_rvd_tests.cpp
     src/assembler_rvf_tests.cpp
+    src/assembler_rvk_tests.cpp
     src/assembler_rvm_tests.cpp
     src/assembler_rvq_tests.cpp
     src/assembler_rvv_tests.cpp

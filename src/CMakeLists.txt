@@ -3,6 +3,7 @@
 add_library(biscuit
     # Source files
     assembler.cpp
+    assembler_crypto.cpp
     assembler_vector.cpp
     code_buffer.cpp
 

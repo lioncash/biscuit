@@ -483,6 +483,10 @@ public:
     void ZEXTH_64(GPR rd, GPR rs) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
 
+    // Scalar Cryptography (RVK) instructions
+
+    void AES32DSI(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept;
+
     // RVC Extension Instructions
 
     void C_ADD(GPR rd, GPR rs) noexcept;
