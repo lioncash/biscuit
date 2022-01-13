@@ -55,3 +55,16 @@ TEST_CASE("AES32ESMI", "[rvk]") {
     as.AES32ESMI(x1, x2, x3, 0b10);
     REQUIRE(value == 0xA63100B3);
 }
+
+TEST_CASE("AES64DS", "[rvk]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.AES64DS(x31, x31, x31);
+    REQUIRE(value == 0x3BFF8FB3);
+
+    as.RewindBuffer();
+
+    as.AES64DS(x1, x2, x3);
+    REQUIRE(value == 0x3A3100B3);
+}
