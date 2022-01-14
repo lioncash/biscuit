@@ -1993,6 +1993,10 @@ void Assembler::HINVAL_VVMA(GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010011, rs2, rs1, 0b000, x0, 0b1110011);
 }
 
+void Assembler::HLV_B(GPR rd, GPR rs) noexcept {
+    EmitRType(m_buffer, 0b0110000, x0, rs, 0b100, rd, 0b1110011);
+}
+
 void Assembler::MRET() noexcept {
     m_buffer.Emit32(0x30200073);
 }

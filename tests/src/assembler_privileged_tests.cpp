@@ -9,7 +9,7 @@ TEST_CASE("HFENCE.VVMA", "[rvpriv]") {
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
     as.HFENCE_VVMA(x0, x0);
-    REQUIRE(value == 0x22000073U);
+    REQUIRE(value == 0x22000073);
 
     as.RewindBuffer();
 
@@ -22,7 +22,7 @@ TEST_CASE("HFENCE.GVMA", "[rvpriv]") {
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
     as.HFENCE_GVMA(x0, x0);
-    REQUIRE(value == 0x62000073U);
+    REQUIRE(value == 0x62000073);
 
     as.RewindBuffer();
 
@@ -35,7 +35,7 @@ TEST_CASE("HINVAL.VVMA", "[rvpriv]") {
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
     as.HINVAL_VVMA(x0, x0);
-    REQUIRE(value == 0x26000073U);
+    REQUIRE(value == 0x26000073);
 
     as.RewindBuffer();
 
@@ -48,12 +48,25 @@ TEST_CASE("HINVAL.GVMA", "[rvpriv]") {
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
     as.HINVAL_GVMA(x0, x0);
-    REQUIRE(value == 0x66000073U);
+    REQUIRE(value == 0x66000073);
 
     as.RewindBuffer();
 
     as.HINVAL_GVMA(x15, x15);
     REQUIRE(value == 0x66F78073);
+}
+
+TEST_CASE("HLV.B", "[rvpriv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.HLV_B(x0, x0);
+    REQUIRE(value == 0x60004073);
+
+    as.RewindBuffer();
+
+    as.HLV_B(x15, x14);
+    REQUIRE(value == 0x600747F3);
 }
 
 TEST_CASE("MRET", "[rvpriv]") {
@@ -77,7 +90,7 @@ TEST_CASE("SFENCE.VMA", "[rvpriv]") {
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
     as.SFENCE_VMA(x0, x0);
-    REQUIRE(value == 0x12000073U);
+    REQUIRE(value == 0x12000073);
 
     as.RewindBuffer();
 
@@ -98,7 +111,7 @@ TEST_CASE("SINVAL.VMA", "[rvpriv]") {
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
     as.SINVAL_VMA(x0, x0);
-    REQUIRE(value == 0x16000073U);
+    REQUIRE(value == 0x16000073);
 
     as.RewindBuffer();
 

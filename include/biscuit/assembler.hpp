@@ -583,6 +583,7 @@ public:
     void HFENCE_VVMA(GPR rs1, GPR rs2) noexcept;
     void HINVAL_GVMA(GPR rs1, GPR rs2) noexcept;
     void HINVAL_VVMA(GPR rs1, GPR rs2) noexcept;
+    void HLV_B(GPR rd, GPR rs) noexcept;
     void MRET() noexcept;
     void SFENCE_INVAL_IR() noexcept;
     void SFENCE_VMA(GPR rs1, GPR rs2) noexcept;
