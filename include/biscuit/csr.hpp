@@ -105,6 +105,9 @@ enum class CSR : uint32_t {
     STVal          = 0x143, // Supervisor bad address or instruction
     SIP            = 0x144, // Supervisor interrupt pending.
 
+    STimeCmp       = 0x14D, // Supervisor timer register
+    STimeCmpH      = 0x15D, // Supervisor timer register, RV32 only
+
     SATP           = 0x180, // Supervisor address translation and protection
 
     SContext       = 0x5A8, // Supervisor-mode context register
@@ -142,6 +145,10 @@ enum class CSR : uint32_t {
     VSCause        = 0x242, // Virtual supervisor trap cause
     VSTVal         = 0x243, // Virtual supervisor bad address or instruction
     VSIP           = 0x244, // Virtual supervisor interrupt pending
+
+    VSTimeCmp      = 0x24D, // Virtual supervisor timer register
+    VSTimeCmpH     = 0x25D, // Virtual supervisor timer register, RV32 only
+
     VSATP          = 0x280, // Virtual supervisor address translation and protection
 
     // Machine-level CSRs
