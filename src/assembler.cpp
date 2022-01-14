@@ -2005,6 +2005,10 @@ void Assembler::HLV_H(GPR rd, GPR rs) noexcept {
     EmitRType(m_buffer, 0b0110010, x0, rs, 0b100, rd, 0b1110011);
 }
 
+void Assembler::HLV_HU(GPR rd, GPR rs) noexcept {
+    EmitRType(m_buffer, 0b0110010, x1, rs, 0b100, rd, 0b1110011);
+}
+
 void Assembler::MRET() noexcept {
     m_buffer.Emit32(0x30200073);
 }
