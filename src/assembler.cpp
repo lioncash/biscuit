@@ -2017,6 +2017,10 @@ void Assembler::HLVX_HU(GPR rd, GPR rs) noexcept {
     EmitRType(m_buffer, 0b0110010, x3, rs, 0b100, rd, 0b1110011);
 }
 
+void Assembler::HLVX_WU(GPR rd, GPR rs) noexcept {
+    EmitRType(m_buffer, 0b0110100, x3, rs, 0b100, rd, 0b1110011);
+}
+
 void Assembler::MRET() noexcept {
     m_buffer.Emit32(0x30200073);
 }
