@@ -579,7 +579,7 @@ public:
 
     // Privileged Instructions
 
-    void HFENCE_BVMA(GPR rs1, GPR rs2) noexcept;
+    void HFENCE_VVMA(GPR rs1, GPR rs2) noexcept;
     void HFENCE_GVMA(GPR rs1, GPR rs2) noexcept;
     void MRET() noexcept;
     void SFENCE_VMA(GPR rs1, GPR rs2) noexcept;

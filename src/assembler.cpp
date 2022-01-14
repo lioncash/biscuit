@@ -1977,7 +1977,7 @@ void Assembler::C_XOR(GPR rd, GPR rs) noexcept {
 
 // Privileged Instructions
 
-void Assembler::HFENCE_BVMA(GPR rs1, GPR rs2) noexcept {
+void Assembler::HFENCE_VVMA(GPR rs1, GPR rs2) noexcept {
     m_buffer.Emit32(0x22000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
 }
 
