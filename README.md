@@ -30,6 +30,9 @@ Includes both 32-bit and 64-bit instructions in the following:
 | RV64I     | 2.1     |
 | S         | 1.12    |
 | V         | 1.0     |
+| Zicbom    | 1.0     |
+| Zicbop    | 1.0     |
+| Zicboz    | 1.0     |
 | Zicsr     | 2.0     |
 | Zifencei  | 2.0     |
 
