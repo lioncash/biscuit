@@ -77,6 +77,19 @@ TEST_CASE("SFENCE.VMA", "[rvpriv]") {
     REQUIRE(value == 0x12F78073);
 }
 
+TEST_CASE("SINVAL.VMA", "[rvpriv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SINVAL_VMA(x0, x0);
+    REQUIRE(value == 0x16000073U);
+
+    as.RewindBuffer();
+
+    as.SINVAL_VMA(x15, x15);
+    REQUIRE(value == 0x16F78073);
+}
+
 TEST_CASE("SRET", "[rvpriv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
