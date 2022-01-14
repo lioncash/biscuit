@@ -82,3 +82,63 @@ elseif (("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") OR ("${CMAKE_CXX_COMPILER_I
         -Werror=unused-variable
     )
 endif()
+
+# Install target
+
+include(GNUInstallDirs)
+set(BISCUIT_INSTALL_CONFIGDIR "${CMAKE_INSTALL_LIBDIR}/cmake/biscuit")
+
+# Set install target and relevant includes.
+install(TARGETS biscuit
+    EXPORT biscuit-targets
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+)
+install(
+    DIRECTORY   "${PROJECT_SOURCE_DIR}/include/"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+)
+
+# Export targets to a script
+install(EXPORT biscuit-targets
+    FILE
+        biscuit-targets.cmake
+    NAMESPACE
+        biscuit::
+    DESTINATION
+        "${BISCUIT_INSTALL_CONFIGDIR}"
+)
+
+# Now create the config version script
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/biscuit-config-version.cmake"
+    VERSION
+        ${PROJECT_VERSION}
+    COMPATIBILITY
+        SameMajorVersion
+)
+
+configure_package_config_file(
+    "${PROJECT_SOURCE_DIR}/cmake/biscuit-config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/biscuit-config.cmake"
+
+    INSTALL_DESTINATION "${BISCUIT_INSTALL_CONFIGDIR}"
+)
+
+# Now install the config and version files.
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/biscuit-config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/biscuit-config-version.cmake"
+
+    DESTINATION "${BISCUIT_INSTALL_CONFIGDIR}"
+)
+
+# Export library from the build tree.
+export(EXPORT biscuit-targets
+    FILE
+        "${CMAKE_CURRENT_BINARY_DIR}/biscuit-targets.cmake"
+    NAMESPACE
+        biscuit::
+)
+export(PACKAGE biscuit)
