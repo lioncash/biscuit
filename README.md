@@ -21,6 +21,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | C         | 2.0     |
 | D         | 2.2     |
 | F         | 2.2     |
+| H         | 1.0 RC  |
 | K         | 1.0     |
 | M         | 2.0     |
 | N         | 1.1     |
