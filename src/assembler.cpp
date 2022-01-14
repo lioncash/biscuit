@@ -1978,19 +1978,19 @@ void Assembler::C_XOR(GPR rd, GPR rs) noexcept {
 // Privileged Instructions
 
 void Assembler::HFENCE_GVMA(GPR rs1, GPR rs2) noexcept {
-    m_buffer.Emit32(0xA2000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
+    EmitRType(m_buffer, 0b0110001, rs2, rs1, 0b000, x0, 0b1110011);
 }
 
 void Assembler::HFENCE_VVMA(GPR rs1, GPR rs2) noexcept {
-    m_buffer.Emit32(0x22000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
+    EmitRType(m_buffer, 0b0010001, rs2, rs1, 0b000, x0, 0b1110011);
 }
 
 void Assembler::HINVAL_GVMA(GPR rs1, GPR rs2) noexcept {
-    m_buffer.Emit32(0x66000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
+    EmitRType(m_buffer, 0b0110011, rs2, rs1, 0b000, x0, 0b1110011);
 }
 
 void Assembler::HINVAL_VVMA(GPR rs1, GPR rs2) noexcept {
-    m_buffer.Emit32(0x26000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
+    EmitRType(m_buffer, 0b0010011, rs2, rs1, 0b000, x0, 0b1110011);
 }
 
 void Assembler::MRET() noexcept {
@@ -2002,7 +2002,7 @@ void Assembler::SFENCE_INVAL_IR() noexcept {
 }
 
 void Assembler::SFENCE_VMA(GPR rs1, GPR rs2) noexcept {
-    m_buffer.Emit32(0x12000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
+    EmitRType(m_buffer, 0b0001001, rs2, rs1, 0b000, x0, 0b1110011);
 }
 
 void Assembler::SFENCE_W_INVAL() noexcept {
@@ -2010,7 +2010,7 @@ void Assembler::SFENCE_W_INVAL() noexcept {
 }
 
 void Assembler::SINVAL_VMA(GPR rs1, GPR rs2) noexcept {
-    m_buffer.Emit32(0x16000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
+    EmitRType(m_buffer, 0b0001011, rs2, rs1, 0b000, x0, 0b1110011);
 }
 
 void Assembler::SRET() noexcept {

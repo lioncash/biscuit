@@ -22,12 +22,12 @@ TEST_CASE("HFENCE.GVMA", "[rvpriv]") {
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
     as.HFENCE_GVMA(x0, x0);
-    REQUIRE(value == 0xA2000073U);
+    REQUIRE(value == 0x62000073U);
 
     as.RewindBuffer();
 
     as.HFENCE_GVMA(x15, x15);
-    REQUIRE(value == 0xA2F78073);
+    REQUIRE(value == 0x62F78073);
 }
 
 TEST_CASE("HINVAL.VVMA", "[rvpriv]") {
