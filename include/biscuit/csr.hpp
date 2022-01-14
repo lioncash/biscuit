@@ -26,9 +26,67 @@ enum class CSR : uint32_t {
     Cycle          = 0xC00, // Cycle counter for RDCYCLE instruction.
     Time           = 0xC01, // Timer for RDTIME instruction.
     InstRet        = 0xC02, // Instructions retired counter for RDINSTRET instruction.
+    HPMCounter3    = 0xC03, // Performance-monitoring counter.
+    HPMCounter4    = 0xC04, // Performance-monitoring counter.
+    HPMCounter5    = 0xC05, // Performance-monitoring counter.
+    HPMCounter6    = 0xC06, // Performance-monitoring counter.
+    HPMCounter7    = 0xC07, // Performance-monitoring counter.
+    HPMCounter8    = 0xC08, // Performance-monitoring counter.
+    HPMCounter9    = 0xC09, // Performance-monitoring counter.
+    HPMCounter10   = 0xC0A, // Performance-monitoring counter.
+    HPMCounter11   = 0xC0B, // Performance-monitoring counter.
+    HPMCounter12   = 0xC0C, // Performance-monitoring counter.
+    HPMCounter13   = 0xC0D, // Performance-monitoring counter.
+    HPMCounter14   = 0xC0E, // Performance-monitoring counter.
+    HPMCounter15   = 0xC0F, // Performance-monitoring counter.
+    HPMCounter16   = 0xC10, // Performance-monitoring counter.
+    HPMCounter17   = 0xC11, // Performance-monitoring counter.
+    HPMCounter18   = 0xC12, // Performance-monitoring counter.
+    HPMCounter19   = 0xC13, // Performance-monitoring counter.
+    HPMCounter20   = 0xC14, // Performance-monitoring counter.
+    HPMCounter21   = 0xC15, // Performance-monitoring counter.
+    HPMCounter22   = 0xC16, // Performance-monitoring counter.
+    HPMCounter23   = 0xC17, // Performance-monitoring counter.
+    HPMCounter24   = 0xC18, // Performance-monitoring counter.
+    HPMCounter25   = 0xC19, // Performance-monitoring counter.
+    HPMCounter26   = 0xC1A, // Performance-monitoring counter.
+    HPMCounter27   = 0xC1B, // Performance-monitoring counter.
+    HPMCounter28   = 0xC1C, // Performance-monitoring counter.
+    HPMCounter29   = 0xC1D, // Performance-monitoring counter.
+    HPMCounter30   = 0xC1E, // Performance-monitoring counter.
+    HPMCounter31   = 0xC1F, // Performance-monitoring counter.
     CycleH         = 0xC80, // Upper 32 bits of cycle, RV32I only.
     TimeH          = 0xC81, // Upper 32 bits of time, RV32I only.
     InstRetH       = 0xC82, // Upper 32 bits of instret, RV32I only.
+    HPMCounter3H   = 0xC83, // Upper 32 bits of HPMCounter3, RV32I only.
+    HPMCounter4H   = 0xC84, // Upper 32 bits of HPMCounter4, RV32I only.
+    HPMCounter5H   = 0xC85, // Upper 32 bits of HPMCounter5, RV32I only.
+    HPMCounter6H   = 0xC86, // Upper 32 bits of HPMCounter6, RV32I only.
+    HPMCounter7H   = 0xC87, // Upper 32 bits of HPMCounter7, RV32I only.
+    HPMCounter8H   = 0xC88, // Upper 32 bits of HPMCounter8, RV32I only.
+    HPMCounter9H   = 0xC89, // Upper 32 bits of HPMCounter9, RV32I only.
+    HPMCounter10H  = 0xC8A, // Upper 32 bits of HPMCounter10, RV32I only.
+    HPMCounter11H  = 0xC8B, // Upper 32 bits of HPMCounter11, RV32I only.
+    HPMCounter12H  = 0xC8C, // Upper 32 bits of HPMCounter12, RV32I only.
+    HPMCounter13H  = 0xC8D, // Upper 32 bits of HPMCounter13, RV32I only.
+    HPMCounter14H  = 0xC8E, // Upper 32 bits of HPMCounter14, RV32I only.
+    HPMCounter15H  = 0xC8F, // Upper 32 bits of HPMCounter15, RV32I only.
+    HPMCounter16H  = 0xC90, // Upper 32 bits of HPMCounter16, RV32I only.
+    HPMCounter17H  = 0xC91, // Upper 32 bits of HPMCounter17, RV32I only.
+    HPMCounter18H  = 0xC92, // Upper 32 bits of HPMCounter18, RV32I only.
+    HPMCounter19H  = 0xC93, // Upper 32 bits of HPMCounter19, RV32I only.
+    HPMCounter20H  = 0xC94, // Upper 32 bits of HPMCounter20, RV32I only.
+    HPMCounter21H  = 0xC95, // Upper 32 bits of HPMCounter21, RV32I only.
+    HPMCounter22H  = 0xC96, // Upper 32 bits of HPMCounter22, RV32I only.
+    HPMCounter23H  = 0xC97, // Upper 32 bits of HPMCounter23, RV32I only.
+    HPMCounter24H  = 0xC98, // Upper 32 bits of HPMCounter24, RV32I only.
+    HPMCounter25H  = 0xC99, // Upper 32 bits of HPMCounter25, RV32I only.
+    HPMCounter26H  = 0xC9A, // Upper 32 bits of HPMCounter26, RV32I only.
+    HPMCounter27H  = 0xC9B, // Upper 32 bits of HPMCounter27, RV32I only.
+    HPMCounter28H  = 0xC9C, // Upper 32 bits of HPMCounter28, RV32I only.
+    HPMCounter29H  = 0xC9D, // Upper 32 bits of HPMCounter29, RV32I only.
+    HPMCounter30H  = 0xC9E, // Upper 32 bits of HPMCounter30, RV32I only.
+    HPMCounter31H  = 0xC9F, // Upper 32 bits of HPMCounter31, RV32I only.
 
     // Supervisor-level CSRs
 
@@ -39,6 +97,8 @@ enum class CSR : uint32_t {
     STVec          = 0x105, // Supervisor trap handler base address
     SCounterEn     = 0x106, // Supervisor counter enable
 
+    SEnvCfg        = 0x10A, // Supervisor environment configuration register
+
     SScratch       = 0x140, // Scratch register for supervisor trap handlers
     SEPC           = 0x141, // Supervisor exception program counter
     SCause         = 0x142, // Supervisor trap cause
@@ -47,12 +107,50 @@ enum class CSR : uint32_t {
 
     SATP           = 0x180, // Supervisor address translation and protection
 
+    SContext       = 0x5A8, // Supervisor-mode context register
+
+    // Hypervisor-level CSRs
+
+    HStatus        = 0x600, // Hypervisor status register
+    HEDeleg        = 0x602, // Hypervisor exception delegation register
+    HIDeleg        = 0x603, // Hypervisor interrupt delegation register
+    HIE            = 0x604, // Hypervisor interrupt-enable register
+    HCounterEn     = 0x606, // Hypervisor counter enable
+    HGEIE          = 0x607, // Hypervisor guest external interrupt-enable register
+
+    HTVal          = 0x643, // Hypervisor bad guest physical address
+    HIP            = 0x644, // Hypervisor interrupt pending
+    HVIP           = 0x645, // Hypervisor virtual interrupt pending
+    HTInst         = 0x64A, // Hypervisor trap instruction (transformed)
+    HGEIP          = 0xE12, // Hypervisor guest external interrupt pending
+
+    HEnvCfg        = 0x60A, // Hypervisor environment configuration register
+    HEnvCfgH       = 0x61A, // Additional hypervisor environment configuration register, RV32 only
+
+    HGATP          = 0x680, // Hypervisor guest address translation and protection
+
+    HContext       = 0x6A8, // Hypervisor-mode context register
+
+    HTimeDelta     = 0x605, // Delta for VS/VU-mode timer
+    HTimeDeltaH    = 0x615, // Upper 32 bits of HTimeDelta, HSXLEN=32 only
+
+    VSStatus       = 0x200, // Virtual supervisor status register
+    VSIE           = 0x204, // Virtual supervisor interrupt-enable register
+    VSTVec         = 0x205, // Virtual supervisor trap handler base address
+    VSScratch      = 0x240, // Virtual supervisor scratch register
+    VSEPC          = 0x241, // Virtual supervisor exception program register
+    VSCause        = 0x242, // Virtual supervisor trap cause
+    VSTVal         = 0x243, // Virtual supervisor bad address or instruction
+    VSIP           = 0x244, // Virtual supervisor interrupt pending
+    VSATP          = 0x280, // Virtual supervisor address translation and protection
+
     // Machine-level CSRs
 
     MVendorID      = 0xF11, // Vendor ID
     MArchID        = 0xF12, // Architecture ID
     MImpID         = 0xF13, // Implementation ID
     MHartID        = 0xF14, // Hardware Thread ID
+    MConfigPtr     = 0xF15, // Pointer to configuration data structure
 
     MStatus        = 0x300, // Machine status register
     MISA           = 0x301, // ISA and extensions
@@ -61,17 +159,37 @@ enum class CSR : uint32_t {
     MIE            = 0x304, // Machine interrupt-enable register
     MRVec          = 0x305, // Machine trap-handler base address
     MCounterEn     = 0x306, // Machine counter enable
+    MStatusH       = 0x310, // Additional machine status register, RV32 only
 
     MScratch       = 0x340, // Scratch register for machine trap handlers
     MEPC           = 0x341, // Machine exception program counter
     MCause         = 0x342, // Machine trap cause
     MTVal          = 0x343, // Machine bad address or instruction
     MIP            = 0x344, // Machine interrupt pending
+    MTInst         = 0x34A, // Machine trap instruction (transformed)
+    MTVal2         = 0x34B, // Machine bad guest physical address
+
+    MEnvCfg        = 0x30A, // Machine environment configuration register
+    MEnvCfgH       = 0x31A, // Additional machine environment configuration register, RV32 only
+    MSecCfg        = 0x747, // Machine security configuration register
+    MSecCfgH       = 0x757, // Additional machine security configuration register, RV32 only
 
     PMPCfg0        = 0x3A0, // Physical memory protection configuration
-    PMPCfg1        = 0x3A1, // Physical memory protection configuration, RV32 only.
+    PMPCfg1        = 0x3A1, // Physical memory protection configuration, RV32 only
     PMPCfg2        = 0x3A2, // Physical memory protection configuration
-    PMPCfg3        = 0x3A3, // Physical memory protection configuration, RV32 only.
+    PMPCfg3        = 0x3A3, // Physical memory protection configuration, RV32 only
+    PMPCfg4        = 0x3A4, // Physical memory protection configuration
+    PMPCfg5        = 0x3A5, // Physical memory protection configuration, RV32 only
+    PMPCfg6        = 0x3A6, // Physical memory protection configuration
+    PMPCfg7        = 0x3A7, // Physical memory protection configuration, RV32 only
+    PMPCfg8        = 0x3A8, // Physical memory protection configuration
+    PMPCfg9        = 0x3A9, // Physical memory protection configuration, RV32 only
+    PMPCfg10       = 0x3AA, // Physical memory protection configuration
+    PMPCfg11       = 0x3AB, // Physical memory protection configuration, RV32 only
+    PMPCfg12       = 0x3AC, // Physical memory protection configuration
+    PMPCfg13       = 0x3AD, // Physical memory protection configuration, RV32 only
+    PMPCfg14       = 0x3AE, // Physical memory protection configuration
+    PMPCfg15       = 0x3AF, // Physical memory protection configuration, RV32 only
     PMPAddr0       = 0x3B0, // Physical memory protection address register
     PMPAddr1       = 0x3B1, // Physical memory protection address register
     PMPAddr2       = 0x3B2, // Physical memory protection address register
@@ -88,6 +206,54 @@ enum class CSR : uint32_t {
     PMPAddr13      = 0x3BD, // Physical memory protection address register
     PMPAddr14      = 0x3BE, // Physical memory protection address register
     PMPAddr15      = 0x3BF, // Physical memory protection address register
+    PMPAddr16      = 0x3C0, // Physical memory protection address register
+    PMPAddr17      = 0x3C1, // Physical memory protection address register
+    PMPAddr18      = 0x3C2, // Physical memory protection address register
+    PMPAddr19      = 0x3C3, // Physical memory protection address register
+    PMPAddr20      = 0x3C4, // Physical memory protection address register
+    PMPAddr21      = 0x3C5, // Physical memory protection address register
+    PMPAddr22      = 0x3C6, // Physical memory protection address register
+    PMPAddr23      = 0x3C7, // Physical memory protection address register
+    PMPAddr24      = 0x3C8, // Physical memory protection address register
+    PMPAddr25      = 0x3C9, // Physical memory protection address register
+    PMPAddr26      = 0x3CA, // Physical memory protection address register
+    PMPAddr27      = 0x3CB, // Physical memory protection address register
+    PMPAddr28      = 0x3CC, // Physical memory protection address register
+    PMPAddr29      = 0x3CD, // Physical memory protection address register
+    PMPAddr30      = 0x3CE, // Physical memory protection address register
+    PMPAddr31      = 0x3CF, // Physical memory protection address register
+    PMPAddr32      = 0x3D0, // Physical memory protection address register
+    PMPAddr33      = 0x3D1, // Physical memory protection address register
+    PMPAddr34      = 0x3D2, // Physical memory protection address register
+    PMPAddr35      = 0x3D3, // Physical memory protection address register
+    PMPAddr36      = 0x3D4, // Physical memory protection address register
+    PMPAddr37      = 0x3D5, // Physical memory protection address register
+    PMPAddr38      = 0x3D6, // Physical memory protection address register
+    PMPAddr39      = 0x3D7, // Physical memory protection address register
+    PMPAddr40      = 0x3D8, // Physical memory protection address register
+    PMPAddr41      = 0x3D9, // Physical memory protection address register
+    PMPAddr42      = 0x3DA, // Physical memory protection address register
+    PMPAddr43      = 0x3DB, // Physical memory protection address register
+    PMPAddr44      = 0x3DC, // Physical memory protection address register
+    PMPAddr45      = 0x3DD, // Physical memory protection address register
+    PMPAddr46      = 0x3DE, // Physical memory protection address register
+    PMPAddr47      = 0x3DF, // Physical memory protection address register
+    PMPAddr48      = 0x3E0, // Physical memory protection address register
+    PMPAddr49      = 0x3E1, // Physical memory protection address register
+    PMPAddr50      = 0x3E2, // Physical memory protection address register
+    PMPAddr51      = 0x3E3, // Physical memory protection address register
+    PMPAddr52      = 0x3E4, // Physical memory protection address register
+    PMPAddr53      = 0x3E5, // Physical memory protection address register
+    PMPAddr54      = 0x3E6, // Physical memory protection address register
+    PMPAddr55      = 0x3E7, // Physical memory protection address register
+    PMPAddr56      = 0x3E8, // Physical memory protection address register
+    PMPAddr57      = 0x3E9, // Physical memory protection address register
+    PMPAddr58      = 0x3EA, // Physical memory protection address register
+    PMPAddr59      = 0x3EB, // Physical memory protection address register
+    PMPAddr60      = 0x3EC, // Physical memory protection address register
+    PMPAddr61      = 0x3ED, // Physical memory protection address register
+    PMPAddr62      = 0x3EE, // Physical memory protection address register
+    PMPAddr63      = 0x3EF, // Physical memory protection address register
 
     MCycle         = 0xB00, // Machine cycle counter
     MInstRet       = 0xB02, // Machine instructions-retired counter
@@ -190,6 +356,7 @@ enum class CSR : uint32_t {
     TData1         = 0x7A1, // First Debug/Trace trigger data register
     TData2         = 0x7A2, // Second Debug/Trace trigger data register
     TData3         = 0x7A3, // Third Debug/Trace trigger data register
+    MContext       = 0x7A8, // Machine-mode context register
 
     DCSR           = 0x7B0, // Debug control and status register
     DPC            = 0x7B1, // Debug PC
