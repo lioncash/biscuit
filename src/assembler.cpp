@@ -2009,6 +2009,10 @@ void Assembler::HLV_HU(GPR rd, GPR rs) noexcept {
     EmitRType(m_buffer, 0b0110010, x1, rs, 0b100, rd, 0b1110011);
 }
 
+void Assembler::HLV_W(GPR rd, GPR rs) noexcept {
+    EmitRType(m_buffer, 0b0110100, x0, rs, 0b100, rd, 0b1110011);
+}
+
 void Assembler::HLVX_HU(GPR rd, GPR rs) noexcept {
     EmitRType(m_buffer, 0b0110010, x3, rs, 0b100, rd, 0b1110011);
 }
