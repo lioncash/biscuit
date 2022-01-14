@@ -42,3 +42,16 @@ TEST_CASE("CBO.INVAL", "[cmo]") {
     as.CBO_INVAL(x31);
     REQUIRE(value == 0x000FA00F);
 }
+
+TEST_CASE("CBO.ZERO", "[cmo]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.CBO_ZERO(x0);
+    REQUIRE(value == 0x0040200F);
+
+    as.RewindBuffer();
+
+    as.CBO_ZERO(x31);
+    REQUIRE(value == 0x004FA00F);
+}

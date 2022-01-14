@@ -1989,6 +1989,10 @@ void Assembler::CBO_INVAL(GPR rs) noexcept {
     EmitRType(m_buffer, 0b0000000, x0, rs, 0b010, x0, 0b0001111);
 }
 
+void Assembler::CBO_ZERO(GPR rs) noexcept {
+    EmitRType(m_buffer, 0b0000000, x4, rs, 0b010, x0, 0b0001111);
+}
+
 // Privileged Instructions
 
 void Assembler::HFENCE_GVMA(GPR rs1, GPR rs2) noexcept {
