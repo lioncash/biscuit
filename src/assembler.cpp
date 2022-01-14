@@ -2041,6 +2041,10 @@ void Assembler::HSV_H(GPR rs2, GPR rs1) noexcept {
     EmitRType(m_buffer, 0b0110011, rs2, rs1, 0b100, x0, 0b1110011);
 }
 
+void Assembler::HSV_W(GPR rs2, GPR rs1) noexcept {
+    EmitRType(m_buffer, 0b0110101, rs2, rs1, 0b100, x0, 0b1110011);
+}
+
 void Assembler::MRET() noexcept {
     m_buffer.Emit32(0x30200073);
 }
