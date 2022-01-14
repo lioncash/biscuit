@@ -593,6 +593,7 @@ public:
     void HLVX_HU(GPR rd, GPR rs) noexcept;
     void HLVX_WU(GPR rd, GPR rs) noexcept;
     void HSV_B(GPR rs2, GPR rs1) noexcept;
+    void HSV_H(GPR rs2, GPR rs1) noexcept;
     void MRET() noexcept;
     void SFENCE_INVAL_IR() noexcept;
     void SFENCE_VMA(GPR rs1, GPR rs2) noexcept;
