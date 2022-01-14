@@ -577,6 +577,10 @@ public:
     void C_UNDEF() noexcept;
     void C_XOR(GPR rd, GPR rs) noexcept;
 
+    // Cache Management Operation Extension Instructions
+
+    void CBO_CLEAN(GPR rs) noexcept;
+
     // Privileged Instructions
 
     void HFENCE_GVMA(GPR rs1, GPR rs2) noexcept;

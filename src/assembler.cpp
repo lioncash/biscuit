@@ -1975,6 +1975,12 @@ void Assembler::C_XOR(GPR rd, GPR rs) noexcept {
     EmitCompressedRegArith(m_buffer, 0b100011, rd, 0b01, rs, 0b01);
 }
 
+// Cache Management Operation Extension Instructions
+
+void Assembler::CBO_CLEAN(GPR rs) noexcept {
+    EmitRType(m_buffer, 0b0000000, x1, rs, 0b010, x0, 0b0001111);
+}
+
 // Privileged Instructions
 
 void Assembler::HFENCE_GVMA(GPR rs1, GPR rs2) noexcept {
