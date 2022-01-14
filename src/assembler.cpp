@@ -1985,6 +1985,10 @@ void Assembler::HFENCE_GVMA(GPR rs1, GPR rs2) noexcept {
     m_buffer.Emit32(0xA2000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
 }
 
+void Assembler::HINVAL_VVMA(GPR rs1, GPR rs2) noexcept {
+    m_buffer.Emit32(0x26000073U | (rs1.Index() << 15) | (rs2.Index() << 20));
+}
+
 void Assembler::MRET() noexcept {
     m_buffer.Emit32(0x30200073);
 }
