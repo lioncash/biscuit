@@ -585,6 +585,7 @@ public:
     void HINVAL_VVMA(GPR rs1, GPR rs2) noexcept;
     void HLV_B(GPR rd, GPR rs) noexcept;
     void HLV_BU(GPR rd, GPR rs) noexcept;
+    void HLV_D(GPR rd, GPR rs) noexcept;
     void HLV_H(GPR rd, GPR rs) noexcept;
     void HLV_HU(GPR rd, GPR rs) noexcept;
     void HLV_W(GPR rd, GPR rs) noexcept;
