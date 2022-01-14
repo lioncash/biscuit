@@ -580,6 +580,7 @@ public:
     // Cache Management Operation Extension Instructions
 
     void CBO_CLEAN(GPR rs) noexcept;
+    void CBO_FLUSH(GPR rs) noexcept;
 
     // Privileged Instructions
 
