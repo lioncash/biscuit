@@ -1920,7 +1920,8 @@ void Assembler::VS8R(Vec vs, GPR rs) noexcept {
 }
 
 void Assembler::VSETIVLI(GPR rd, uint32_t imm, SEW sew, LMUL lmul, VTA vta, VMA vma) noexcept {
-    imm &= 0b11111;
+    // Immediate must be able to fit in 5 bits.
+    BISCUIT_ASSERT(imm <= 31);
 
     // clang-format off
     const auto zimm = static_cast<uint32_t>(lmul) |
