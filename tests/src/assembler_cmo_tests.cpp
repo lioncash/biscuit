@@ -55,3 +55,21 @@ TEST_CASE("CBO.ZERO", "[cmo]") {
     as.CBO_ZERO(x31);
     REQUIRE(value == 0x004FA00F);
 }
+
+TEST_CASE("PREFETCH.I", "[cmo]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.PREFETCH_I(x0);
+    REQUIRE(value == 0x00006013);
+
+    as.RewindBuffer();
+
+    as.PREFETCH_I(x31, 2016);
+    REQUIRE(value == 0x7E0FE013);
+
+    as.RewindBuffer();
+
+    as.PREFETCH_I(x31, -2016);
+    REQUIRE(value == 0x820FE013);
+}
