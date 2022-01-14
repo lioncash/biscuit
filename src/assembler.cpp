@@ -2029,6 +2029,10 @@ void Assembler::HLVX_WU(GPR rd, GPR rs) noexcept {
     EmitRType(m_buffer, 0b0110100, x3, rs, 0b100, rd, 0b1110011);
 }
 
+void Assembler::HSV_B(GPR rs2, GPR rs1) noexcept {
+    EmitRType(m_buffer, 0b0110001, rs2, rs1, 0b100, x0, 0b1110011);
+}
+
 void Assembler::MRET() noexcept {
     m_buffer.Emit32(0x30200073);
 }
