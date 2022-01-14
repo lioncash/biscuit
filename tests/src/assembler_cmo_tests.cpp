@@ -73,3 +73,21 @@ TEST_CASE("PREFETCH.I", "[cmo]") {
     as.PREFETCH_I(x31, -2016);
     REQUIRE(value == 0x820FE013);
 }
+
+TEST_CASE("PREFETCH.R", "[cmo]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.PREFETCH_R(x0);
+    REQUIRE(value == 0x00106013);
+
+    as.RewindBuffer();
+
+    as.PREFETCH_R(x31, 2016);
+    REQUIRE(value == 0x7E1FE013);
+
+    as.RewindBuffer();
+
+    as.PREFETCH_R(x31, -2016);
+    REQUIRE(value == 0x821FE013);
+}

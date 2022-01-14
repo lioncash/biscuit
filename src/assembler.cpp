@@ -2001,6 +2001,14 @@ void Assembler::PREFETCH_I(GPR rs, int32_t offset) noexcept {
     EmitIType(m_buffer, static_cast<uint32_t>(offset), rs, 0b110, x0, 0b0010011);
 }
 
+void Assembler::PREFETCH_R(GPR rs, int32_t offset) noexcept {
+    // Offset must be able to fit in a 12-bit signed immediate and be
+    // cleanly divisible by 32 since the bottom 5 bits are encoded as zero.
+    BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
+    BISCUIT_ASSERT(offset % 32 == 0);
+    EmitIType(m_buffer, static_cast<uint32_t>(offset) | 1, rs, 0b110, x0, 0b0010011);
+}
+
 // Privileged Instructions
 
 void Assembler::HFENCE_GVMA(GPR rs1, GPR rs2) noexcept {

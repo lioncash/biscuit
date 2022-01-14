@@ -584,6 +584,7 @@ public:
     void CBO_INVAL(GPR rs) noexcept;
     void CBO_ZERO(GPR rs) noexcept;
     void PREFETCH_I(GPR rs, int32_t offset = 0) noexcept;
+    void PREFETCH_R(GPR rs, int32_t offset = 0) noexcept;
 
     // Privileged Instructions
 
