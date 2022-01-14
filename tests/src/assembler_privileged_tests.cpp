@@ -43,6 +43,19 @@ TEST_CASE("HINVAL.VVMA", "[rvpriv]") {
     REQUIRE(value == 0x26F78073);
 }
 
+TEST_CASE("HINVAL.GVMA", "[rvpriv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.HINVAL_GVMA(x0, x0);
+    REQUIRE(value == 0x66000073U);
+
+    as.RewindBuffer();
+
+    as.HINVAL_GVMA(x15, x15);
+    REQUIRE(value == 0x66F78073);
+}
+
 TEST_CASE("MRET", "[rvpriv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
