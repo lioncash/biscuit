@@ -121,6 +121,19 @@ TEST_CASE("HLV.W", "[rvpriv]") {
     REQUIRE(value == 0x680747F3);
 }
 
+TEST_CASE("HLV.WU", "[rvpriv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.HLV_WU(x0, x0);
+    REQUIRE(value == 0x68104073);
+
+    as.RewindBuffer();
+
+    as.HLV_WU(x15, x14);
+    REQUIRE(value == 0x681747F3);
+}
+
 TEST_CASE("HLVX.HU", "[rvpriv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

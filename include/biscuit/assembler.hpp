@@ -588,6 +588,7 @@ public:
     void HLV_H(GPR rd, GPR rs) noexcept;
     void HLV_HU(GPR rd, GPR rs) noexcept;
     void HLV_W(GPR rd, GPR rs) noexcept;
+    void HLV_WU(GPR rd, GPR rs) noexcept;
     void HLVX_HU(GPR rd, GPR rs) noexcept;
     void HLVX_WU(GPR rd, GPR rs) noexcept;
     void MRET() noexcept;
