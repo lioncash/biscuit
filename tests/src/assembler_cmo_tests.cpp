@@ -29,3 +29,16 @@ TEST_CASE("CBO.FLUSH", "[cmo]") {
     as.CBO_FLUSH(x31);
     REQUIRE(value == 0x002FA00F);
 }
+
+TEST_CASE("CBO.INVAL", "[cmo]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.CBO_INVAL(x0);
+    REQUIRE(value == 0x0000200F);
+
+    as.RewindBuffer();
+
+    as.CBO_INVAL(x31);
+    REQUIRE(value == 0x000FA00F);
+}

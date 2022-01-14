@@ -581,6 +581,7 @@ public:
 
     void CBO_CLEAN(GPR rs) noexcept;
     void CBO_FLUSH(GPR rs) noexcept;
+    void CBO_INVAL(GPR rs) noexcept;
 
     // Privileged Instructions
 
