@@ -953,7 +953,7 @@ void Assembler::AMOXOR_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
 void Assembler::LR_W(Ordering ordering, GPR rd, GPR rs) noexcept {
     EmitAtomic(m_buffer, 0b00010, ordering, x0, rs, 0b010, rd, 0b0101111);
 }
-void Assembler::SC_W(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept {
+void Assembler::SC_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
     EmitAtomic(m_buffer, 0b00011, ordering, rs2, rs1, 0b010, rd, 0b0101111);
 }
 
@@ -989,7 +989,7 @@ void Assembler::AMOXOR_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
 void Assembler::LR_D(Ordering ordering, GPR rd, GPR rs) noexcept {
     EmitAtomic(m_buffer, 0b00010, ordering, x0, rs, 0b011, rd, 0b0101111);
 }
-void Assembler::SC_D(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept {
+void Assembler::SC_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
     EmitAtomic(m_buffer, 0b00011, ordering, rs2, rs1, 0b011, rd, 0b0101111);
 }
 

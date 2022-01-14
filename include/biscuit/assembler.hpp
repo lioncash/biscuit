@@ -294,7 +294,7 @@ public:
     void AMOSWAP_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
     void AMOXOR_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
     void LR_W(Ordering ordering, GPR rd, GPR rs) noexcept;
-    void SC_W(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept;
+    void SC_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
 
     // RV64A Extension Instructions
 
@@ -308,7 +308,7 @@ public:
     void AMOSWAP_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
     void AMOXOR_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
     void LR_D(Ordering ordering, GPR rd, GPR rs) noexcept;
-    void SC_D(Ordering ordering, GPR rd, GPR rs1, GPR rs2) noexcept;
+    void SC_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
 
     // RV32F Extension Instructions
 
