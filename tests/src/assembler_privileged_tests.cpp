@@ -64,6 +64,14 @@ TEST_CASE("MRET", "[rvpriv]") {
     REQUIRE(value == 0x30200073);
 }
 
+TEST_CASE("SFENCE.INVAL.IR", "[rvpriv]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.SFENCE_INVAL_IR();
+    REQUIRE(value == 0x18100073);
+}
+
 TEST_CASE("SFENCE.VMA", "[rvpriv]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
