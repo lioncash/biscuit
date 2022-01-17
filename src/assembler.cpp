@@ -999,7 +999,7 @@ void Assembler::FADD_S(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000000, rs2, rs1, rmode, rd, 0b1010011);
 }
 void Assembler::FCLASS_S(GPR rd, FPR rs1) noexcept {
-    EmitRType(m_buffer, 0b1110000, f0, rs1, 0b0001, rd, 0b1010011);
+    EmitRType(m_buffer, 0b1110000, f0, rs1, 0b001, rd, 0b1010011);
 }
 void Assembler::FCVT_S_W(FPR rd, GPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b1101000, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
@@ -1107,7 +1107,7 @@ void Assembler::FADD_D(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000001, rs2, rs1, rmode, rd, 0b1010011);
 }
 void Assembler::FCLASS_D(GPR rd, FPR rs1) noexcept {
-    EmitRType(m_buffer, 0b1110001, f0, rs1, 0b0001, rd, 0b1010011);
+    EmitRType(m_buffer, 0b1110001, f0, rs1, 0b001, rd, 0b1010011);
 }
 void Assembler::FCVT_D_W(FPR rd, GPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b1101001, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
@@ -1221,7 +1221,7 @@ void Assembler::FADD_Q(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000011, rs2, rs1, rmode, rd, 0b1010011);
 }
 void Assembler::FCLASS_Q(GPR rd, FPR rs1) noexcept {
-    EmitRType(m_buffer, 0b1110011, f0, rs1, 0b0001, rd, 0b1010011);
+    EmitRType(m_buffer, 0b1110011, f0, rs1, 0b001, rd, 0b1010011);
 }
 void Assembler::FCVT_Q_W(FPR rd, GPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b1101011, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
@@ -1333,6 +1333,9 @@ void Assembler::FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode) noexcept {
 
 void Assembler::FADD_H(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000010, rs2, rs1, rmode, rd, 0b1010011);
+}
+void Assembler::FCLASS_H(GPR rd, FPR rs1) noexcept {
+    EmitRType(m_buffer, 0b1110010, f0, rs1, 0b001, rd, 0b1010011);
 }
 void Assembler::FCVT_D_H(FPR rd, GPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0100001, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
