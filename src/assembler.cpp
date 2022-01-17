@@ -881,6 +881,9 @@ void Assembler::RDTIMEH(GPR rd) noexcept {
 void Assembler::NTL_P1() noexcept {
     ADD(x0, x0, x2);
 }
+void Assembler::NTL_PALL() noexcept {
+    ADD(x0, x0, x3);
+}
 
 // RV32M Extension Instructions
 

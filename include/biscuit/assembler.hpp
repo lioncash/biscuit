@@ -266,6 +266,7 @@ public:
     // Zihintntl Extension Instructions
 
     void NTL_P1() noexcept;
+    void NTL_PALL() noexcept;
 
     // RV32M Extension Instructions
 
