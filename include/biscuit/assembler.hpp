@@ -445,6 +445,7 @@ public:
     void FCVT_S_H(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FDIV_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
     void FEQ_H(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLE_H(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FLH(FPR rd, int32_t offset, GPR rs) noexcept;
     void FLT_H(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FMADD_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
