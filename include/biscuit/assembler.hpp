@@ -450,6 +450,7 @@ public:
     void FMIN_H(FPR rd, FPR rs1, FPR rs2) noexcept;
     void FMSUB_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FMUL_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FMV_X_H(GPR rd, FPR rs1) noexcept;
     void FNMADD_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FNMSUB_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FSGNJ_H(FPR rd, FPR rs1, FPR rs2) noexcept;
