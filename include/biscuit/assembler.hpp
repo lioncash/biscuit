@@ -202,8 +202,8 @@ public:
     void SD(GPR rs2, int32_t imm, GPR rs1) noexcept;
 
     // NOTE: Perhaps we should coalesce this into the 32-bit variant?
-    //       Keeping them separated would allow asserts for catching
-    //       out of range shifts in the future.
+    //       Keeping them separated allows asserts for catching
+    //       out of range shifts.
     void SRAI64(GPR rd, GPR rs, uint32_t shift) noexcept;
     void SLLI64(GPR rd, GPR rs, uint32_t shift) noexcept;
     void SRLI64(GPR rd, GPR rs, uint32_t shift) noexcept;
