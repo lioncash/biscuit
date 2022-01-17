@@ -4,6 +4,14 @@
 
 using namespace biscuit;
 
+TEST_CASE("NTL.ALL", "[Zihintntl]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.NTL_ALL();
+    REQUIRE(value == 0x00500033);
+}
+
 TEST_CASE("NTL.S1", "[Zihintntl]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

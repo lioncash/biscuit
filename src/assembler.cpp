@@ -878,6 +878,9 @@ void Assembler::RDTIMEH(GPR rd) noexcept {
 
 // Zihintntl Extension Instructions
 
+void Assembler::NTL_ALL() noexcept {
+    ADD(x0, x0, x5);
+}
 void Assembler::NTL_S1() noexcept {
     ADD(x0, x0, x4);
 }
