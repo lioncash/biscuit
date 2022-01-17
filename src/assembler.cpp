@@ -1335,6 +1335,10 @@ void Assembler::FLH(FPR rd, int32_t offset, GPR rs) noexcept {
     BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
     EmitIType(m_buffer, static_cast<uint32_t>(offset), rs, 0b001, rd, 0b0000111);
 }
+void Assembler::FSH(FPR rs2, int32_t offset, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
+    EmitSType(m_buffer, static_cast<uint32_t>(offset), rs2, rs1, 0b001, 0b0100111);
+}
 
 // RVB Extension Instructions
 
