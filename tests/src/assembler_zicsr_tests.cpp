@@ -2,9 +2,9 @@
 
 #include <biscuit/assembler.hpp>
 
-TEST_CASE("CSRRC", "[Zicsr]") {
-    using namespace biscuit;
+using namespace biscuit;
 
+TEST_CASE("CSRRC", "[Zicsr]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
@@ -28,8 +28,6 @@ TEST_CASE("CSRRC", "[Zicsr]") {
 }
 
 TEST_CASE("CSRRCI", "[Zicsr]") {
-    using namespace biscuit;
-
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
@@ -48,8 +46,6 @@ TEST_CASE("CSRRCI", "[Zicsr]") {
 }
 
 TEST_CASE("CSRRS", "[Zicsr]") {
-    using namespace biscuit;
-
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
@@ -73,8 +69,6 @@ TEST_CASE("CSRRS", "[Zicsr]") {
 }
 
 TEST_CASE("CSRRSI", "[Zicsr]") {
-    using namespace biscuit;
-
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
@@ -93,8 +87,6 @@ TEST_CASE("CSRRSI", "[Zicsr]") {
 }
 
 TEST_CASE("CSRRW", "[Zicsr]") {
-    using namespace biscuit;
-
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
@@ -118,8 +110,6 @@ TEST_CASE("CSRRW", "[Zicsr]") {
 }
 
 TEST_CASE("CSRRWI", "[Zicsr]") {
-    using namespace biscuit;
-
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
