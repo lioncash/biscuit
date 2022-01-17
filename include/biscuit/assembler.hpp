@@ -443,6 +443,7 @@ public:
     void FNMADD_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FNMSUB_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FSH(FPR rs2, int32_t offset, GPR rs1) noexcept;
+    void FSUB_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
 
     // RVB Extension Instructions
 
