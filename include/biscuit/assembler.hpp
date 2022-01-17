@@ -437,6 +437,7 @@ public:
     // RV32Zfh Extension Instructions
 
     void FADD_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_S_H(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FDIV_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
     void FLH(FPR rd, int32_t offset, GPR rs) noexcept;
     void FMADD_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
