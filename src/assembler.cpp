@@ -1340,6 +1340,9 @@ void Assembler::FCVT_D_H(FPR rd, GPR rs1, RMode rmode) noexcept {
 void Assembler::FCVT_H_D(GPR rd, FPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0100010, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
+void Assembler::FCVT_H_Q(GPR rd, FPR rs1, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b0100010, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+}
 void Assembler::FCVT_H_S(GPR rd, FPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0100010, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
