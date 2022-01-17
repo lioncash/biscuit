@@ -334,6 +334,24 @@ TEST_CASE("FMIN.S", "[rv32f]") {
     REQUIRE(value == 0x29FF8FD3);
 }
 
+TEST_CASE("FMSUB.H", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FMSUB_H(f15, f31, f7, f26, RMode::RNE);
+    REQUIRE(value == 0xD47F87C7);
+
+    as.RewindBuffer();
+
+    as.FMSUB_H(f15, f31, f7, f26, RMode::RMM);
+    REQUIRE(value == 0xD47FC7C7);
+
+    as.RewindBuffer();
+
+    as.FMSUB_H(f15, f31, f7, f26, RMode::DYN);
+    REQUIRE(value == 0xD47FF7C7);
+}
+
 TEST_CASE("FMSUB.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
