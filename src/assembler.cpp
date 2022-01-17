@@ -1435,6 +1435,9 @@ void Assembler::FSUB_H(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
 void Assembler::FCVT_L_H(GPR rd, FPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b1100010, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
+void Assembler::FCVT_LU_H(GPR rd, FPR rs1, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b1100010, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+}
 
 // RVB Extension Instructions
 

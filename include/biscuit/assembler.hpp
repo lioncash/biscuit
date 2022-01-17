@@ -472,6 +472,7 @@ public:
     // RV64Zfh Extension Instructions
 
     void FCVT_L_H(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_LU_H(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
 
     // RVB Extension Instructions
 
