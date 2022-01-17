@@ -1398,6 +1398,9 @@ void Assembler::FMSUB_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept
 void Assembler::FMUL_H(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0001010, rs2, rs1, rmode, rd, 0b1010011);
 }
+void Assembler::FMV_H_X(FPR rd, GPR rs1) noexcept {
+    EmitRType(m_buffer, 0b1111010, f0, rs1, 0b000, rd, 0b1010011);
+}
 void Assembler::FMV_X_H(GPR rd, FPR rs1) noexcept {
     EmitRType(m_buffer, 0b1110010, f0, rs1, 0b000, rd, 0b1010011);
 }
