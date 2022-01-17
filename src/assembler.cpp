@@ -1355,6 +1355,9 @@ void Assembler::FCVT_S_H(FPR rd, GPR rs1, RMode rmode) noexcept {
 void Assembler::FDIV_H(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0001110, rs2, rs1, rmode, rd, 0b1010011);
 }
+void Assembler::FEQ_H(GPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1010010, rs2, rs1, 0b010, rd, 0b1010011);
+}
 void Assembler::FLH(FPR rd, int32_t offset, GPR rs) noexcept {
     BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
     EmitIType(m_buffer, static_cast<uint32_t>(offset), rs, 0b001, rd, 0b0000111);

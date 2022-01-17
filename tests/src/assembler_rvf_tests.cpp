@@ -341,6 +341,19 @@ TEST_CASE("FDIV.S", "[rv32f]") {
     REQUIRE(value == 0x19A3FFD3);
 }
 
+TEST_CASE("FEQ.H", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FEQ_H(x31, f7, f26);
+    REQUIRE(value == 0xA5A3AFD3);
+
+    as.RewindBuffer();
+
+    as.FEQ_H(x31, f26, f7);
+    REQUIRE(value == 0xA47D2FD3);
+}
+
 TEST_CASE("FEQ.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
