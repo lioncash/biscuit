@@ -473,6 +473,7 @@ public:
 
     void FCVT_L_H(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_LU_H(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_H_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
 
     // RVB Extension Instructions
 
