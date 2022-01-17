@@ -446,6 +446,7 @@ public:
     void FNMSUB_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FSGNJ_H(FPR rd, FPR rs1, FPR rs2) noexcept;
     void FSGNJN_H(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FSGNJX_H(FPR rd, FPR rs1, FPR rs2) noexcept;
     void FSH(FPR rs2, int32_t offset, GPR rs1) noexcept;
     void FSQRT_H(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FSUB_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
