@@ -344,6 +344,19 @@ TEST_CASE("FMADD.S", "[rv32f]") {
     REQUIRE(value == 0xD07FF7C3);
 }
 
+TEST_CASE("FMAX.H", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FMAX_H(f31, f7, f26);
+    REQUIRE(value == 0x2DA39FD3);
+
+    as.RewindBuffer();
+
+    as.FMAX_H(f31, f31, f31);
+    REQUIRE(value == 0x2DFF9FD3);
+}
+
 TEST_CASE("FMAX.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

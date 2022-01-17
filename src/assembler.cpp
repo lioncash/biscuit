@@ -1344,6 +1344,9 @@ void Assembler::FLH(FPR rd, int32_t offset, GPR rs) noexcept {
 void Assembler::FMADD_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
     EmitR4Type(m_buffer, rs3, 0b10, rs2, rs1, rmode, rd, 0b1000011);
 }
+void Assembler::FMAX_H(FPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010110, rs2, rs1, 0b001, rd, 0b1010011);
+}
 void Assembler::FMIN_H(FPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010110, rs2, rs1, 0b000, rd, 0b1010011);
 }
