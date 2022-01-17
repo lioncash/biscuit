@@ -438,6 +438,7 @@ public:
 
     void FADD_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
     void FCVT_D_H(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_Q_H(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_S_H(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FDIV_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
     void FLH(FPR rd, int32_t offset, GPR rs) noexcept;
