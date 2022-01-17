@@ -38,6 +38,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | Zicboz    | 1.0     |
 | Zicsr     | 2.0     |
 | Zifencei  | 2.0     |
+| Zihintntl | 0.2     |
 
 Note that usually only extensions considered ratified will be implemented
 as non-ratified documents are considerably more likely to have
