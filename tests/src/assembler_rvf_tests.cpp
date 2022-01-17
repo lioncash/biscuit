@@ -4,6 +4,24 @@
 
 using namespace biscuit;
 
+TEST_CASE("FADD.H", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FADD_H(f31, f7, f26, RMode::RNE);
+    REQUIRE(value == 0x05A38FD3);
+
+    as.RewindBuffer();
+
+    as.FADD_H(f31, f7, f26, RMode::RMM);
+    REQUIRE(value == 0x05A3CFD3);
+
+    as.RewindBuffer();
+
+    as.FADD_H(f31, f7, f26, RMode::DYN);
+    REQUIRE(value == 0x05A3FFD3);
+}
+
 TEST_CASE("FADD.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

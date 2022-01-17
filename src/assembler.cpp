@@ -1331,6 +1331,9 @@ void Assembler::FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode) noexcept {
 
 // RV32Zfh Extension Instructions
 
+void Assembler::FADD_H(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b0000010, rs2, rs1, rmode, rd, 0b1010011);
+}
 void Assembler::FLH(FPR rd, int32_t offset, GPR rs) noexcept {
     BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
     EmitIType(m_buffer, static_cast<uint32_t>(offset), rs, 0b001, rd, 0b0000111);
