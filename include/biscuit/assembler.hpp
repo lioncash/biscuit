@@ -265,6 +265,10 @@ public:
 
     // Zihintntl Extension Instructions
 
+    void C_NTL_ALL() noexcept;
+    void C_NTL_S1() noexcept;
+    void C_NTL_P1() noexcept;
+    void C_NTL_PALL() noexcept;
     void NTL_ALL() noexcept;
     void NTL_S1() noexcept;
     void NTL_P1() noexcept;

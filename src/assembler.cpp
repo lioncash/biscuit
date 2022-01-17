@@ -878,6 +878,18 @@ void Assembler::RDTIMEH(GPR rd) noexcept {
 
 // Zihintntl Extension Instructions
 
+void Assembler::C_NTL_ALL() noexcept {
+    C_ADD(x0, x5);
+}
+void Assembler::C_NTL_S1() noexcept {
+    C_ADD(x0, x4);
+}
+void Assembler::C_NTL_P1() noexcept {
+    C_ADD(x0, x2);
+}
+void Assembler::C_NTL_PALL() noexcept {
+    C_ADD(x0, x3);
+}
 void Assembler::NTL_ALL() noexcept {
     ADD(x0, x0, x5);
 }
@@ -1695,7 +1707,6 @@ void Assembler::BSETI(GPR rd, GPR rs, uint32_t bit) noexcept {
 // RVC Extension Instructions
 
 void Assembler::C_ADD(GPR rd, GPR rs) noexcept {
-    BISCUIT_ASSERT(rd != x0);
     BISCUIT_ASSERT(rs != x0);
     m_buffer.Emit16(0x9002 | (rd.Index() << 7) | (rs.Index() << 2));
 }
