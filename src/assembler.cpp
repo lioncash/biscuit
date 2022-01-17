@@ -876,6 +876,12 @@ void Assembler::RDTIMEH(GPR rd) noexcept {
     CSRRS(rd, CSR::TimeH, x0);
 }
 
+// Zihintntl Extension Instructions
+
+void Assembler::NTL_P1() noexcept {
+    ADD(x0, x0, x2);
+}
+
 // RV32M Extension Instructions
 
 void Assembler::DIV(GPR rd, GPR rs1, GPR rs2) noexcept {

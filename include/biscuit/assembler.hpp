@@ -263,6 +263,10 @@ public:
     void RDTIME(GPR rd) noexcept;
     void RDTIMEH(GPR rd) noexcept;
 
+    // Zihintntl Extension Instructions
+
+    void NTL_P1() noexcept;
+
     // RV32M Extension Instructions
 
     void DIV(GPR rd, GPR rs1, GPR rs2) noexcept;
