@@ -597,6 +597,24 @@ TEST_CASE("FSH", "[rv32f]") {
     REQUIRE(value == 0xFFF79FA7);
 }
 
+TEST_CASE("FSQRT.H", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FSQRT_H(f31, f7, RMode::RNE);
+    REQUIRE(value == 0x5C038FD3);
+
+    as.RewindBuffer();
+
+    as.FSQRT_H(f31, f7, RMode::RMM);
+    REQUIRE(value == 0x5C03CFD3);
+
+    as.RewindBuffer();
+
+    as.FSQRT_H(f31, f7, RMode::DYN);
+    REQUIRE(value == 0x5C03FFD3);
+}
+
 TEST_CASE("FSQRT.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

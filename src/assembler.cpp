@@ -1360,6 +1360,9 @@ void Assembler::FSH(FPR rs2, int32_t offset, GPR rs1) noexcept {
     BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
     EmitSType(m_buffer, static_cast<uint32_t>(offset), rs2, rs1, 0b001, 0b0100111);
 }
+void Assembler::FSQRT_H(FPR rd, FPR rs1, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b0101110, f0, rs1, rmode, rd, 0b1010011);
+}
 void Assembler::FSUB_H(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000110, rs2, rs1, rmode, rd, 0b1010011);
 }
