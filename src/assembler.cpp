@@ -1341,6 +1341,9 @@ void Assembler::FMADD_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept
 void Assembler::FMSUB_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
     EmitR4Type(m_buffer, rs3, 0b10, rs2, rs1, rmode, rd, 0b1000111);
 }
+void Assembler::FNMSUB_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode) noexcept {
+    EmitR4Type(m_buffer, rs3, 0b10, rs2, rs1, rmode, rd, 0b1001011);
+}
 void Assembler::FSH(FPR rs2, int32_t offset, GPR rs1) noexcept {
     BISCUIT_ASSERT(IsValidSigned12BitImm(offset));
     EmitSType(m_buffer, static_cast<uint32_t>(offset), rs2, rs1, 0b001, 0b0100111);

@@ -432,6 +432,24 @@ TEST_CASE("FNMADD.S", "[rv32f]") {
     REQUIRE(value == 0xD07FF7CF);
 }
 
+TEST_CASE("FNMSUB.H", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FNMSUB_H(f15, f31, f7, f26, RMode::RNE);
+    REQUIRE(value == 0xD47F87CB);
+
+    as.RewindBuffer();
+
+    as.FNMSUB_H(f15, f31, f7, f26, RMode::RMM);
+    REQUIRE(value == 0xD47FC7CB);
+
+    as.RewindBuffer();
+
+    as.FNMSUB_H(f15, f31, f7, f26, RMode::DYN);
+    REQUIRE(value == 0xD47FF7CB);
+}
+
 TEST_CASE("FNMSUB.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
