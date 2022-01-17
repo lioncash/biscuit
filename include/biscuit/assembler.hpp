@@ -434,6 +434,10 @@ public:
     void FCVT_Q_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
 
+    // RV32Zfh Extension Instructions
+
+    void FLH(FPR rd, int32_t offset, GPR rs) noexcept;
+
     // RVB Extension Instructions
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;

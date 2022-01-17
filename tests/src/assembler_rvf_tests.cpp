@@ -223,6 +223,24 @@ TEST_CASE("FLE.S", "[rv32f]") {
     REQUIRE(value == 0xA07D0FD3);
 }
 
+TEST_CASE("FLH", "[rv32f]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FLH(f15, 1024, x31);
+    REQUIRE(value == 0x400F9787);
+
+    as.RewindBuffer();
+
+    as.FLH(f15, 1536, x31);
+    REQUIRE(value == 0x600F9787);
+
+    as.RewindBuffer();
+
+    as.FLH(f15, -1, x31);
+    REQUIRE(value == 0xFFFF9787);
+}
+
 TEST_CASE("FLT.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
