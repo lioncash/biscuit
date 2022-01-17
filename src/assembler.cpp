@@ -1430,6 +1430,12 @@ void Assembler::FSUB_H(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0000110, rs2, rs1, rmode, rd, 0b1010011);
 }
 
+// RV64Zfh Extension Instructions
+
+void Assembler::FCVT_L_H(GPR rd, FPR rs1, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b1100010, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+}
+
 // RVB Extension Instructions
 
 void Assembler::ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {

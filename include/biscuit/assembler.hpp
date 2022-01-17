@@ -469,6 +469,10 @@ public:
     void FSQRT_H(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FSUB_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
 
+    // RV64Zfh Extension Instructions
+
+    void FCVT_L_H(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+
     // RVB Extension Instructions
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;
