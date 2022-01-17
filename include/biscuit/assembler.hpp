@@ -438,14 +438,14 @@ public:
 
     void FADD_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
     void FCLASS_H(GPR rd, FPR rs1) noexcept;
-    void FCVT_D_H(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
-    void FCVT_H_D(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
-    void FCVT_H_Q(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
-    void FCVT_H_S(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_D_H(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_H_D(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_H_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_H_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_H_W(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_H_WU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
-    void FCVT_Q_H(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
-    void FCVT_S_H(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_Q_H(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_S_H(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_W_H(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_WU_H(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FDIV_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;

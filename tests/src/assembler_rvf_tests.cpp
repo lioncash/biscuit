@@ -70,17 +70,17 @@ TEST_CASE("FCVT.D.H", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.FCVT_D_H(f31, x7, RMode::RNE);
+    as.FCVT_D_H(f31, f7, RMode::RNE);
     REQUIRE(value == 0x42238FD3);
 
     as.RewindBuffer();
 
-    as.FCVT_D_H(f31, x7, RMode::RMM);
+    as.FCVT_D_H(f31, f7, RMode::RMM);
     REQUIRE(value == 0x4223CFD3);
 
     as.RewindBuffer();
 
-    as.FCVT_D_H(f31, x7, RMode::DYN);
+    as.FCVT_D_H(f31, f7, RMode::DYN);
     REQUIRE(value == 0x4223FFD3);
 }
 
@@ -88,17 +88,17 @@ TEST_CASE("FCVT.H.D", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.FCVT_H_D(x31, f7, RMode::RNE);
+    as.FCVT_H_D(f31, f7, RMode::RNE);
     REQUIRE(value == 0x44138FD3);
 
     as.RewindBuffer();
 
-    as.FCVT_H_D(x31, f7, RMode::RMM);
+    as.FCVT_H_D(f31, f7, RMode::RMM);
     REQUIRE(value == 0x4413CFD3);
 
     as.RewindBuffer();
 
-    as.FCVT_H_D(x31, f7, RMode::DYN);
+    as.FCVT_H_D(f31, f7, RMode::DYN);
     REQUIRE(value == 0x4413FFD3);
 }
 
@@ -106,17 +106,17 @@ TEST_CASE("FCVT.H.Q", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.FCVT_H_Q(x31, f7, RMode::RNE);
+    as.FCVT_H_Q(f31, f7, RMode::RNE);
     REQUIRE(value == 0x44338FD3);
 
     as.RewindBuffer();
 
-    as.FCVT_H_Q(x31, f7, RMode::RMM);
+    as.FCVT_H_Q(f31, f7, RMode::RMM);
     REQUIRE(value == 0x4433CFD3);
 
     as.RewindBuffer();
 
-    as.FCVT_H_Q(x31, f7, RMode::DYN);
+    as.FCVT_H_Q(f31, f7, RMode::DYN);
     REQUIRE(value == 0x4433FFD3);
 }
 
@@ -124,17 +124,17 @@ TEST_CASE("FCVT.H.S", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.FCVT_H_S(x31, f7, RMode::RNE);
+    as.FCVT_H_S(f31, f7, RMode::RNE);
     REQUIRE(value == 0x44038FD3);
 
     as.RewindBuffer();
 
-    as.FCVT_H_S(x31, f7, RMode::RMM);
+    as.FCVT_H_S(f31, f7, RMode::RMM);
     REQUIRE(value == 0x4403CFD3);
 
     as.RewindBuffer();
 
-    as.FCVT_H_S(x31, f7, RMode::DYN);
+    as.FCVT_H_S(f31, f7, RMode::DYN);
     REQUIRE(value == 0x4403FFD3);
 }
 
@@ -142,17 +142,17 @@ TEST_CASE("FCVT.Q.H", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.FCVT_Q_H(f31, x7, RMode::RNE);
+    as.FCVT_Q_H(f31, f7, RMode::RNE);
     REQUIRE(value == 0x46238FD3);
 
     as.RewindBuffer();
 
-    as.FCVT_Q_H(f31, x7, RMode::RMM);
+    as.FCVT_Q_H(f31, f7, RMode::RMM);
     REQUIRE(value == 0x4623CFD3);
 
     as.RewindBuffer();
 
-    as.FCVT_Q_H(f31, x7, RMode::DYN);
+    as.FCVT_Q_H(f31, f7, RMode::DYN);
     REQUIRE(value == 0x4623FFD3);
 }
 
@@ -160,17 +160,17 @@ TEST_CASE("FCVT.S.H", "[rv32f]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
 
-    as.FCVT_S_H(f31, x7, RMode::RNE);
+    as.FCVT_S_H(f31, f7, RMode::RNE);
     REQUIRE(value == 0x40238FD3);
 
     as.RewindBuffer();
 
-    as.FCVT_S_H(f31, x7, RMode::RMM);
+    as.FCVT_S_H(f31, f7, RMode::RMM);
     REQUIRE(value == 0x4023CFD3);
 
     as.RewindBuffer();
 
-    as.FCVT_S_H(f31, x7, RMode::DYN);
+    as.FCVT_S_H(f31, f7, RMode::DYN);
     REQUIRE(value == 0x4023FFD3);
 }
 

@@ -1337,16 +1337,16 @@ void Assembler::FADD_H(FPR rd, FPR rs1, FPR rs2, RMode rmode) noexcept {
 void Assembler::FCLASS_H(GPR rd, FPR rs1) noexcept {
     EmitRType(m_buffer, 0b1110010, f0, rs1, 0b001, rd, 0b1010011);
 }
-void Assembler::FCVT_D_H(FPR rd, GPR rs1, RMode rmode) noexcept {
+void Assembler::FCVT_D_H(FPR rd, FPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0100001, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
-void Assembler::FCVT_H_D(GPR rd, FPR rs1, RMode rmode) noexcept {
+void Assembler::FCVT_H_D(FPR rd, FPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0100010, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
-void Assembler::FCVT_H_Q(GPR rd, FPR rs1, RMode rmode) noexcept {
+void Assembler::FCVT_H_Q(FPR rd, FPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0100010, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
-void Assembler::FCVT_H_S(GPR rd, FPR rs1, RMode rmode) noexcept {
+void Assembler::FCVT_H_S(FPR rd, FPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0100010, f0, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_H_W(FPR rd, GPR rs1, RMode rmode) noexcept {
@@ -1355,10 +1355,10 @@ void Assembler::FCVT_H_W(FPR rd, GPR rs1, RMode rmode) noexcept {
 void Assembler::FCVT_H_WU(FPR rd, GPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b1101010, f1, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
-void Assembler::FCVT_Q_H(FPR rd, GPR rs1, RMode rmode) noexcept {
+void Assembler::FCVT_Q_H(FPR rd, FPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0100011, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
-void Assembler::FCVT_S_H(FPR rd, GPR rs1, RMode rmode) noexcept {
+void Assembler::FCVT_S_H(FPR rd, FPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0100000, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_W_H(GPR rd, FPR rs1, RMode rmode) noexcept {
