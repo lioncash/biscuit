@@ -445,6 +445,7 @@ public:
     void FCVT_Q_H(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_S_H(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_W_H(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_WU_H(GPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FDIV_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
     void FEQ_H(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FLE_H(GPR rd, FPR rs1, FPR rs2) noexcept;
