@@ -440,6 +440,7 @@ public:
     void FLH(FPR rd, int32_t offset, GPR rs) noexcept;
     void FMADD_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FMSUB_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
+    void FMUL_H(FPR rd, FPR rs1, FPR rs2, RMode rmode = RMode::DYN) noexcept;
     void FNMADD_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FNMSUB_H(FPR rd, FPR rs1, FPR rs2, FPR rs3, RMode rmode = RMode::DYN) noexcept;
     void FSH(FPR rs2, int32_t offset, GPR rs1) noexcept;
