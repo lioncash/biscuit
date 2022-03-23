@@ -85,10 +85,31 @@ public:
         return GetOffsetAddress(GetCursorOffset());
     }
 
+    /// Retrieves the cursor pointer
+    [[nodiscard]] uint8_t* GetCursorPointer() noexcept {
+        return GetOffsetPointer(GetCursorOffset());
+    }
+
+    /// Retrieves the cursor pointer
+    [[nodiscard]] const uint8_t* GetCursorPointer() const noexcept {
+        return GetOffsetPointer(GetCursorOffset());
+    }
+
     /// Retrieves the address of an arbitrary offset within the buffer.
     [[nodiscard]] uintptr_t GetOffsetAddress(ptrdiff_t offset) const noexcept {
-        BISCUIT_ASSERT(offset >= 0 && offset <= m_cursor - m_buffer);
-        return reinterpret_cast<uintptr_t>(m_buffer + offset);
+        return reinterpret_cast<uintptr_t>(GetOffsetPointer(offset));
+    }
+
+    /// Retrieves the pointer to an arbitrary location within the buffer.
+    [[nodiscard]] uint8_t* GetOffsetPointer(ptrdiff_t offset) noexcept {
+        BISCUIT_ASSERT(offset >= 0 && offset <= GetCursorOffset());
+        return m_buffer + offset;
+    }
+
+    /// Retrieves the pointer to an arbitrary location within the buffer.
+    [[nodiscard]] const uint8_t* GetOffsetPointer(ptrdiff_t offset) const noexcept {
+        BISCUIT_ASSERT(offset >= 0 && offset <= GetCursorOffset());
+        return m_buffer + offset;
     }
 
     /**

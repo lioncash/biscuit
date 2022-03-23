@@ -72,6 +72,26 @@ public:
         m_buffer.RewindCursor(offset);
     }
 
+    /// Retrieves the cursor pointer for the underlying code buffer.
+    [[nodiscard]] uint8_t* GetCursorPointer() noexcept {
+        return m_buffer.GetCursorPointer();
+    }
+
+    /// Retrieves the cursor for the underlying code buffer.
+    [[nodiscard]] const uint8_t* GetCursorPointer() const noexcept {
+        return m_buffer.GetCursorPointer();
+    }
+
+    /// Retrieves the pointer to an arbitrary location within the underlying code buffer.
+    [[nodiscard]] uint8_t* GetBufferPointer(ptrdiff_t offset) noexcept {
+        return m_buffer.GetOffsetPointer(offset);
+    }
+
+    /// Retrieves the pointer to an arbitrary location within the underlying code buffer.
+    [[nodiscard]] const uint8_t* GetBufferPointer(ptrdiff_t offset) const noexcept {
+        return m_buffer.GetOffsetPointer(offset);
+    }
+
     /**
      * Binds a label to the current offset within the code buffer
      *
