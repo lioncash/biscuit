@@ -259,6 +259,14 @@ void EmitCompressedWideImmediate(CodeBuffer& buffer, uint32_t funct3, uint32_t i
 }
 } // Anonymous namespace
 
+Assembler::Assembler(size_t capacity)
+    : m_buffer(capacity) {}
+
+Assembler::Assembler(uint8_t* buffer, size_t capacity)
+    : m_buffer(buffer, capacity) {}
+
+Assembler::~Assembler() = default;
+
 CodeBuffer Assembler::SwapCodeBuffer(CodeBuffer&& buffer) noexcept {
     return std::exchange(m_buffer, std::move(buffer));
 }

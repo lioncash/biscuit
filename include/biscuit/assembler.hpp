@@ -28,8 +28,7 @@ public:
      *                 If no capacity is specified, then the underlying buffer
      *                 will be 4KB in size.
      */
-    [[nodiscard]] explicit Assembler(size_t capacity = CodeBuffer::default_capacity)
-        : m_buffer(capacity) {}
+    [[nodiscard]] explicit Assembler(size_t capacity = CodeBuffer::default_capacity);
 
     /**
      * Constructor
@@ -43,8 +42,7 @@ public:
      * @note The caller is responsible for managing the lifetime of the given memory.
      *       CodeBuffer will *not* free the memory once it goes out of scope.
      */
-    [[nodiscard]] explicit Assembler(uint8_t* buffer, size_t capacity)
-        : m_buffer(buffer, capacity) {}
+    [[nodiscard]] explicit Assembler(uint8_t* buffer, size_t capacity);
 
     // Copy constructor and assignment.
     Assembler(const Assembler&) = delete;
@@ -55,7 +53,7 @@ public:
     Assembler& operator=(Assembler&&) = default;
 
     // Destructor
-    virtual ~Assembler() = default;
+    virtual ~Assembler();
 
     /**
      * Allows swapping out the code buffer used by the assembler.
