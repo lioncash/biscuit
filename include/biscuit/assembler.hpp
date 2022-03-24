@@ -58,6 +58,15 @@ public:
     virtual ~Assembler() = default;
 
     /**
+     * Allows swapping out the code buffer used by the assembler.
+     *
+     * @param buffer The new buffer for the assembler to emit code into.
+     *
+     * @returns The old buffer that the assembler made use of.
+     */
+    CodeBuffer SwapCodeBuffer(CodeBuffer&& buffer) noexcept;
+
+    /**
      * Allows rewinding of the code buffer cursor.
      *
      * @param offset The offset to rewind the cursor by.

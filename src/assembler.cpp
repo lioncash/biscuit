@@ -2,6 +2,7 @@
 #include <biscuit/assembler.hpp>
 
 #include <cstring>
+#include <utility>
 
 namespace biscuit {
 namespace {
@@ -257,6 +258,10 @@ void EmitCompressedWideImmediate(CodeBuffer& buffer, uint32_t funct3, uint32_t i
     buffer.Emit16(((funct3 & 0b111) << 13) | ((imm & 0xFF) << 5) | (rd_sanitized << 2) | (op & 0b11));
 }
 } // Anonymous namespace
+
+CodeBuffer Assembler::SwapCodeBuffer(CodeBuffer&& buffer) noexcept {
+    return std::exchange(m_buffer, std::move(buffer));
+}
 
 void Assembler::Bind(Label* label) {
     BindToOffset(label, m_buffer.GetCursorOffset());
