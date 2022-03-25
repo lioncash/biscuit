@@ -2,6 +2,7 @@
 #include <biscuit/code_buffer.hpp>
 
 #include <cstring>
+#include <utility>
 
 namespace biscuit {
 
@@ -18,6 +19,23 @@ CodeBuffer::CodeBuffer(size_t capacity)
 CodeBuffer::CodeBuffer(uint8_t* buffer, size_t capacity)
     : m_buffer{buffer}, m_cursor{buffer}, m_capacity{capacity} {
     BISCUIT_ASSERT(buffer != nullptr);
+}
+
+CodeBuffer::CodeBuffer(CodeBuffer&& other) noexcept
+    : m_buffer{std::exchange(other.m_buffer, nullptr)}
+    , m_cursor{std::exchange(other.m_cursor, nullptr)}
+    , m_capacity{std::exchange(other.m_capacity, size_t{0})}
+    , m_is_managed{std::exchange(other.m_is_managed, false)} {}
+
+CodeBuffer& CodeBuffer::operator=(CodeBuffer&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    m_buffer = std::exchange(other.m_buffer, nullptr);
+    m_cursor = std::exchange(other.m_cursor, nullptr);
+    m_capacity = std::exchange(other.m_capacity, size_t{0});
+    m_is_managed = std::exchange(other.m_is_managed, false);
+    return *this;
 }
 
 CodeBuffer::~CodeBuffer() noexcept {
