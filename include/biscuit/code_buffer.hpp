@@ -54,7 +54,7 @@ public:
      *
      * If a custom memory buffer is not given to the code buffer,
      * then the code buffer will automatically free any memory
-     * it has allocated in order to store code into it.
+     * it had allocated in order to be able to emit code.
      */
     ~CodeBuffer() noexcept;
 
