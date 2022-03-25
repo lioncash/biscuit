@@ -31,10 +31,11 @@ CodeBuffer& CodeBuffer::operator=(CodeBuffer&& other) noexcept {
     if (this == &other) {
         return *this;
     }
-    m_buffer = std::exchange(other.m_buffer, nullptr);
-    m_cursor = std::exchange(other.m_cursor, nullptr);
-    m_capacity = std::exchange(other.m_capacity, size_t{0});
-    m_is_managed = std::exchange(other.m_is_managed, false);
+
+    std::swap(m_buffer, other.m_buffer);
+    std::swap(m_cursor, other.m_cursor);
+    std::swap(m_capacity, other.m_capacity);
+    std::swap(m_is_managed, other.m_is_managed);
     return *this;
 }
 
