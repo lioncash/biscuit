@@ -128,6 +128,8 @@ constexpr GPR x31{31};
 
 // Symbolic General-purpose Register Names
 
+constexpr GPR zero{x0};
+
 constexpr GPR ra{x1};
 constexpr GPR sp{x2};
 constexpr GPR gp{x3};
