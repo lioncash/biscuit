@@ -550,10 +550,6 @@ void Assembler::LHU(GPR rd, int32_t imm, GPR rs) noexcept {
     EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b101, rd, 0b0000011);
 }
 
-void Assembler::LI(GPR rd, int32_t imm) noexcept {
-    LI(rd, static_cast<uint32_t>(imm));
-}
-
 void Assembler::LI(GPR rd, uint32_t imm) noexcept {
     const auto lower = imm & 0xFFF;
     const auto upper = (imm & 0xFFFFF000) >> 12;
