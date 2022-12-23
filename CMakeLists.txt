@@ -3,6 +3,8 @@ project(biscuit VERSION 0.8.1)
 
 include(CTest)
 
+option(BISCUIT_CODE_BUFFER_MMAP "Use mmap for handling code buffers instead of new" OFF)
+
 # Source directories
 add_subdirectory(src)
 

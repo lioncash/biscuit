@@ -267,6 +267,10 @@ Assembler::Assembler(uint8_t* buffer, size_t capacity)
 
 Assembler::~Assembler() = default;
 
+CodeBuffer& Assembler::GetCodeBuffer() {
+    return m_buffer;
+}
+
 CodeBuffer Assembler::SwapCodeBuffer(CodeBuffer&& buffer) noexcept {
     return std::exchange(m_buffer, std::move(buffer));
 }

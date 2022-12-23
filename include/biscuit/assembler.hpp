@@ -55,6 +55,9 @@ public:
     // Destructor
     virtual ~Assembler();
 
+    /// Gets the underlying code buffer being managed by this assembler.
+    CodeBuffer& GetCodeBuffer();
+
     /**
      * Allows swapping out the code buffer used by the assembler.
      *

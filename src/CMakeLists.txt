@@ -83,6 +83,13 @@ elseif (("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") OR ("${CMAKE_CXX_COMPILER_I
     )
 endif()
 
+if (BISCUIT_CODE_BUFFER_MMAP)
+    target_compile_definitions(biscuit
+    PRIVATE
+        -DBISCUIT_CODE_BUFFER_MMAP
+    )
+endif()
+
 # Install target
 
 include(GNUInstallDirs)

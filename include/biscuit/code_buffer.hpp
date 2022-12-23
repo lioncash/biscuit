@@ -179,6 +179,12 @@ public:
         Emit(value);
     }
 
+    /// Sets the internal code buffer to be executable
+    void SetExecutable();
+
+    /// Sets the internal code buffer to be writable
+    void SetWritable();
+
 private:
     void EnsureBufferRange() const noexcept {
         BISCUIT_ASSERT(m_cursor >= m_buffer && m_cursor <= m_buffer + m_capacity);
