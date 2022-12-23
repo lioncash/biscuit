@@ -179,10 +179,22 @@ public:
         Emit(value);
     }
 
-    /// Sets the internal code buffer to be executable
+    /**
+     * Sets the internal code buffer to be executable.
+     *
+     * @note This will make the contained region of memory non-writable
+     *       to satisfy operating under W^X contexts. To make the
+     *       region writable again, use SetWritable().
+     */
     void SetExecutable();
 
-    /// Sets the internal code buffer to be writable
+    /**
+     * Sets the internal code buffer to be writable
+     *
+     * @note This will make the contained region of memory non-executable
+     *       to satisfy operating under W^X contexts. To make the region
+     *       executable again, use SetExecutable().
+     */
     void SetWritable();
 
 private:
