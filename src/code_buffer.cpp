@@ -57,7 +57,11 @@ CodeBuffer::~CodeBuffer() noexcept {
         return;
     }
 
+#ifdef BISCUIT_CODE_BUFFER_MMAP
+    munmap(m_buffer, m_capacity);
+#else
     delete[] m_buffer;
+#endif
 }
 
 void CodeBuffer::Grow(size_t new_capacity) {
