@@ -6,6 +6,7 @@ add_library(biscuit
     assembler_crypto.cpp
     assembler_vector.cpp
     code_buffer.cpp
+    cpuinfo.cpp
 
     # Headers
     "${PROJECT_SOURCE_DIR}/include/biscuit/assembler.hpp"
@@ -16,6 +17,7 @@ add_library(biscuit
     "${PROJECT_SOURCE_DIR}/include/biscuit/label.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/registers.hpp"
     "${PROJECT_SOURCE_DIR}/include/biscuit/vector.hpp"
+    "${PROJECT_SOURCE_DIR}/include/biscuit/cpuinfo.hpp"
 )
 add_library(biscuit::biscuit ALIAS biscuit)
 
