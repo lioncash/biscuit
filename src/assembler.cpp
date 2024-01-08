@@ -776,6 +776,15 @@ void Assembler::SUBW(GPR rd, GPR lhs, GPR rhs) noexcept {
     EmitRType(m_buffer, 0b0100000, rhs, lhs, 0b000, rd, 0b0111011);
 }
 
+// Zawrs Extension Instructions
+
+void Assembler::WRS_NTO() noexcept {
+    EmitIType(m_buffer, 0b01101, x0, 0, x0, 0b1110011);
+}
+void Assembler::WRS_STO() noexcept {
+    EmitIType(m_buffer, 0b11101, x0, 0, x0, 0b1110011);
+}
+
 // Zicond Extension Instructions
 
 void Assembler::CZERO_EQZ(GPR rd, GPR value, GPR condition) noexcept {

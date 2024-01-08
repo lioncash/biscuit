@@ -31,6 +31,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | S         | 1.12    |
 | V         | 1.0     |
 | Sstc      | 0.5.4   |
+| Zawrs     | 1.01    |
 | Zfh       | 1.0     |
 | Zfhmin    | 1.0     |
 | Zicbom    | 1.0     |
