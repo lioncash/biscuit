@@ -105,6 +105,15 @@ enum class CSR : uint32_t {
     STVal          = 0x143, // Supervisor bad address or instruction
     SIP            = 0x144, // Supervisor interrupt pending.
 
+    SISelect       = 0x150, // Supervisor indirect register select
+    SIReg          = 0x151, // Supervisor indirect register alias
+
+    StopEI         = 0x15C, // Supervisor top external interrupt (only with an IMSIC)
+    StopI          = 0xDB0, // Supervisor top interrupt
+
+    SIEH           = 0x114, // Upper 32 bits of sie
+    SIPH           = 0x154, // Upper 32 bits of sip
+
     STimeCmp       = 0x14D, // Supervisor timer register
     STimeCmpH      = 0x15D, // Supervisor timer register, RV32 only
 
@@ -120,10 +129,22 @@ enum class CSR : uint32_t {
     HIE            = 0x604, // Hypervisor interrupt-enable register
     HCounterEn     = 0x606, // Hypervisor counter enable
     HGEIE          = 0x607, // Hypervisor guest external interrupt-enable register
+    HVIEN          = 0x608, // Hypervisor virtual interrupt enables
+    HVICTL         = 0x609, // Hypervisor virtual interrupt control
+
+    HIDelegH       = 0x613, // Upper 32 bits of hideleg
+    HVIENH         = 0x618, // Upper 32 bits of hvien
+    HVIPH          = 0x655, // Upper 32 bits of hvip
+    HVIPrio1H      = 0x656, // Upper 32 bits of hviprio1
+    HVIPrio2H      = 0x657, // Upper 32 bits of hviprio2
+    VSIEH          = 0x214, // Upper 32 bits of vsie
+    VSIPH          = 0x254, // Upper 32 bits of vsiph
 
     HTVal          = 0x643, // Hypervisor bad guest physical address
     HIP            = 0x644, // Hypervisor interrupt pending
     HVIP           = 0x645, // Hypervisor virtual interrupt pending
+    HVIPrio1       = 0x646, // Hypervisor VS-level interrupt priorities
+    HVIPrio2       = 0x647, // Hypervisor VS-level interrupt priorities
     HTInst         = 0x64A, // Hypervisor trap instruction (transformed)
     HGEIP          = 0xE12, // Hypervisor guest external interrupt pending
 
@@ -146,6 +167,12 @@ enum class CSR : uint32_t {
     VSTVal         = 0x243, // Virtual supervisor bad address or instruction
     VSIP           = 0x244, // Virtual supervisor interrupt pending
 
+    VSISelect      = 0x250, // Virtual supervisor indirect register select
+    VSIReg         = 0x251, // Virtual supervisor indirect register alias
+
+    VStopEI        = 0x25C, // Virtual supervisor top external interrupt (only with an IMSIC)
+    VStopI         = 0xEB0, // Virtual supervisor top interrupt
+
     VSTimeCmp      = 0x24D, // Virtual supervisor timer register
     VSTimeCmpH     = 0x25D, // Virtual supervisor timer register, RV32 only
 
@@ -166,7 +193,15 @@ enum class CSR : uint32_t {
     MIE            = 0x304, // Machine interrupt-enable register
     MRVec          = 0x305, // Machine trap-handler base address
     MCounterEn     = 0x306, // Machine counter enable
+    MVIEN          = 0x308, // Machine virtual interrupt enables
+    MVIP           = 0x309, // Machine virtual interrupt-pending bits
     MStatusH       = 0x310, // Additional machine status register, RV32 only
+
+    MIDelegH       = 0x313, // Upper 32 bits of of mideleg (only with S-mode)
+    MIEH           = 0x314, // Upper 32 bits of mie
+    MVIENH         = 0x318, // Upper 32 bits of mvien (only with S-mode)
+    MVIPH          = 0x319, // Upper 32 bits of mvip (only with S-mode)
+    MIPH           = 0x354, // Upper 32 bits of mip
 
     MScratch       = 0x340, // Scratch register for machine trap handlers
     MEPC           = 0x341, // Machine exception program counter
@@ -175,6 +210,12 @@ enum class CSR : uint32_t {
     MIP            = 0x344, // Machine interrupt pending
     MTInst         = 0x34A, // Machine trap instruction (transformed)
     MTVal2         = 0x34B, // Machine bad guest physical address
+
+    MISelect       = 0x350, // Machine indirect register select
+    MIReg          = 0x351, // Machine indirect register alias
+
+    MTopEI         = 0x35C, // Machine top external interrupt (only with an IMSIC)
+    MTopI          = 0xFB0, // Machine top interrupt
 
     MEnvCfg        = 0x30A, // Machine environment configuration register
     MEnvCfgH       = 0x31A, // Additional machine environment configuration register, RV32 only
