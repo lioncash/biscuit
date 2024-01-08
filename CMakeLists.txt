@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(biscuit VERSION 0.9.1)
+project(biscuit VERSION 0.10.0)
 
 include(CTest)
 

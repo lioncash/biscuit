@@ -246,6 +246,10 @@ public:
     void SRLW(GPR rd, GPR lhs, GPR rhs) noexcept;
     void SUBW(GPR rd, GPR lhs, GPR rhs) noexcept;
 
+    // Zicond Extension Instructions
+    void CZERO_EQZ(GPR rd, GPR value, GPR condition) noexcept;
+    void CZERO_NEZ(GPR rd, GPR value, GPR condition) noexcept;
+
     // Zicsr Extension Instructions
 
     void CSRRC(GPR rd, CSR csr, GPR rs) noexcept;
