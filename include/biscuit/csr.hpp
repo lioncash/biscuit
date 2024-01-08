@@ -370,6 +370,11 @@ enum class CSR : uint32_t {
 
     MCountInhibit  = 0x320, // Machine counter-inhibit register
 
+    MCycleCfg      = 0x321, // Privilege mode filtering for cycle counter
+    MCycleCfgH     = 0x721, // Privilege mode filtering for cycle counter (RV32)
+    MInstRetCfg    = 0x322, // Privilege mode filtering for instret counters
+    MInstRetCfgH   = 0x722, // Privilege mode filtering for instret counters (RV32)
+
     MHPMEvent3     = 0x323, // Machine performance-monitoring event selector
     MHPMEvent4     = 0x324, // Machine performance-monitoring event selector
     MHPMEvent5     = 0x325, // Machine performance-monitoring event selector
