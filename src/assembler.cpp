@@ -785,6 +785,21 @@ void Assembler::WRS_STO() noexcept {
     EmitIType(m_buffer, 0b11101, x0, 0, x0, 0b1110011);
 }
 
+// Zacas Extension Instructions
+
+void Assembler::AMOCAS_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
+    EmitAtomic(m_buffer, 0b00101, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+}
+void Assembler::AMOCAS_Q(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
+    // Both rd and rs2 indicate a register pair, so they need to be even-numbered.
+    BISCUIT_ASSERT((rd.Index() % 2) == 0);
+    BISCUIT_ASSERT((rs2.Index() % 2) == 0);
+    EmitAtomic(m_buffer, 0b00101, ordering, rs2, rs1, 0b100, rd, 0b0101111);
+}
+void Assembler::AMOCAS_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
+    EmitAtomic(m_buffer, 0b00101, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+}
+
 // Zicond Extension Instructions
 
 void Assembler::CZERO_EQZ(GPR rd, GPR value, GPR condition) noexcept {

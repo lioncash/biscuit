@@ -250,6 +250,20 @@ public:
     void WRS_NTO() noexcept;
     void WRS_STO() noexcept;
 
+    // Zacas Extension Instructions
+    //
+    // NOTE: If targeting RV32 and using AMOCAS.D, rd and rs2 must be even-numbered
+    //       registers, since they both indicate a register pair.
+    //
+    //       On RV64, even and odd numbered registers can be used,
+    //
+    //       On both RV32 and RV64, AMOCAS.Q requires rd and rs2 to be even-numbered
+    //       since it also treats them like their own register pairs.
+
+    void AMOCAS_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOCAS_Q(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void AMOCAS_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+
     // Zicond Extension Instructions
     void CZERO_EQZ(GPR rd, GPR value, GPR condition) noexcept;
     void CZERO_NEZ(GPR rd, GPR value, GPR condition) noexcept;
