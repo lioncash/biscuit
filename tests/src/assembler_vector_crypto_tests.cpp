@@ -107,3 +107,29 @@ TEST_CASE("VCPOP.V", "[Zvbb]") {
     as.VCPOP(v20, v12, VecMask::No);
     REQUIRE(value == 0x4AC72A57);
 }
+
+TEST_CASE("VROL.VV", "[Zvbb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VROL(v20, v12, v10, VecMask::Yes);
+    REQUIRE(value == 0x54C50A57);
+
+    as.RewindBuffer();
+
+    as.VROL(v20, v12, v10, VecMask::No);
+    REQUIRE(value == 0x56C50A57);
+}
+
+TEST_CASE("VROL.VX", "[Zvbb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VROL(v20, v12, x10, VecMask::Yes);
+    REQUIRE(value == 0x54C54A57);
+
+    as.RewindBuffer();
+
+    as.VROL(v20, v12, x10, VecMask::No);
+    REQUIRE(value == 0x56C54A57);
+}

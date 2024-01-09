@@ -1977,4 +1977,11 @@ void Assembler::VCPOP(Vec vd, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b010010, mask, vs2, Vec{0b01110}, vd);
 }
 
+void Assembler::VROL(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b010101, mask, vs2, vs1, vd);
+}
+void Assembler::VROL(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b010101, mask, vs2, rs1, vd);
+}
+
 } // namespace biscuit
