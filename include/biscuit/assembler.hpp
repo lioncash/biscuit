@@ -1321,6 +1321,9 @@ public:
     void VGHSH(Vec vd, Vec vs2, Vec vs1) noexcept;
     void VGMUL(Vec vd, Vec vs2) noexcept;
 
+    void VAESDF_VV(Vec vd, Vec vs2) noexcept;
+    void VAESDF_VS(Vec vd, Vec vs2) noexcept;
+
 private:
     // Binds a label to a given offset.
     void BindToOffset(Label* label, Label::LocationOffset offset);

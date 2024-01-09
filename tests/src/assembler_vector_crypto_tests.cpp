@@ -299,3 +299,19 @@ TEST_CASE("VGMUL.VV", "[Zvkg]") {
     as.VGMUL(v20, v12);
     REQUIRE(value == 0xA2C8AA77);
 }
+
+TEST_CASE("VAESDF.VV", "[Zvkned]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VAESDF_VV(v20, v12);
+    REQUIRE(value == 0xA2C0AA77);
+}
+
+TEST_CASE("VAESDF.VS", "[Zvkned]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VAESDF_VS(v20, v12);
+    REQUIRE(value == 0xA6C0AA77);
+}

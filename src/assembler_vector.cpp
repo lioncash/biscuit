@@ -200,6 +200,10 @@ void EmitVectorOPMVV(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, V
     EmitVectorOPMVVImpl(buffer, funct6, vm, vs2, vs1, vd, 0b1010111);
 }
 
+void EmitVectorOPMVVP(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, Vec vs1, Vec vd) noexcept {
+    EmitVectorOPMVVImpl(buffer, funct6, vm, vs2, vs1, vd, 0b1110111);
+}
+
 void EmitVectorOPMVX(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, GPR rs1, Vec vd) noexcept {
     // clang-format off
     const auto value = (funct6 << 26) |
@@ -2027,10 +2031,17 @@ void Assembler::VCLMULH(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
 }
 
 void Assembler::VGHSH(Vec vd, Vec vs2, Vec vs1) noexcept {
-    EmitVectorOPMVVImpl(m_buffer, 0b101100, VecMask::No, vs2, vs1, vd, 0b1110111);
+    EmitVectorOPMVVP(m_buffer, 0b101100, VecMask::No, vs2, vs1, vd);
 }
 void Assembler::VGMUL(Vec vd, Vec vs2) noexcept {
-    EmitVectorOPMVVImpl(m_buffer, 0b101000, VecMask::No, vs2, Vec{0b10001}, vd, 0b1110111);
+    EmitVectorOPMVVP(m_buffer, 0b101000, VecMask::No, vs2, Vec{0b10001}, vd);
+}
+
+void Assembler::VAESDF_VV(Vec vd, Vec vs2) noexcept {
+    EmitVectorOPMVVP(m_buffer, 0b101000, VecMask::No, vs2, Vec{0b00001}, vd);
+}
+void Assembler::VAESDF_VS(Vec vd, Vec vs2) noexcept {
+    EmitVectorOPMVVP(m_buffer, 0b101001, VecMask::No, vs2, Vec{0b00001}, vd);
 }
 
 } // namespace biscuit
