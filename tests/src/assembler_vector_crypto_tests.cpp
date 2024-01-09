@@ -468,3 +468,11 @@ TEST_CASE("VSM4R.VS", "[Zvksed]") {
     as.VSM4R_VS(v20, v12);
     REQUIRE(value == 0xA6C82A77);
 }
+
+TEST_CASE("VSM3ME.VV", "[Zvksh]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSM3ME(v20, v12, v10);
+    REQUIRE(value == 0x82C52A77);
+}

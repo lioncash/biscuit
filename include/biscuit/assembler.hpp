@@ -1346,6 +1346,8 @@ public:
     void VSM4R_VV(Vec vd, Vec vs2) noexcept;
     void VSM4R_VS(Vec vd, Vec vs2) noexcept;
 
+    void VSM3ME(Vec vd, Vec vs2, Vec vs1) noexcept;
+
 private:
     // Binds a label to a given offset.
     void BindToOffset(Label* label, Label::LocationOffset offset);
