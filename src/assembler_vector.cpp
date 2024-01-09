@@ -2014,4 +2014,11 @@ void Assembler::VCLMUL(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPMVX(m_buffer, 0b001100, mask, vs2, rs1, vd);
 }
 
+void Assembler::VCLMULH(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b001101, mask, vs2, vs1, vd);
+}
+void Assembler::VCLMULH(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPMVX(m_buffer, 0b001101, mask, vs2, rs1, vd);
+}
+
 } // namespace biscuit

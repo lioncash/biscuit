@@ -257,3 +257,29 @@ TEST_CASE("VCLMUL.VX", "[Zvbc]") {
     as.VCLMUL(v20, v12, x10, VecMask::No);
     REQUIRE(value == 0x32C56A57);
 }
+
+TEST_CASE("VCLMULH.VV", "[Zvbc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VCLMULH(v20, v12, v10, VecMask::Yes);
+    REQUIRE(value == 0x34C52A57);
+
+    as.RewindBuffer();
+
+    as.VCLMULH(v20, v12, v10, VecMask::No);
+    REQUIRE(value == 0x36C52A57);
+}
+
+TEST_CASE("VCLMULH.VX", "[Zvbc]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VCLMULH(v20, v12, x10, VecMask::Yes);
+    REQUIRE(value == 0x34C56A57);
+
+    as.RewindBuffer();
+
+    as.VCLMULH(v20, v12, x10, VecMask::No);
+    REQUIRE(value == 0x36C56A57);
+}
