@@ -1297,6 +1297,9 @@ public:
     void VBREV8(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VREV8(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
+    void VCLZ(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VCTZ(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
+
 private:
     // Binds a label to a given offset.
     void BindToOffset(Label* label, Label::LocationOffset offset);
