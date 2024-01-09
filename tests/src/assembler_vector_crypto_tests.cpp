@@ -405,3 +405,11 @@ TEST_CASE("VAESKF2.VI", "[Zvkned]") {
     as.VAESKF2(v20, v12, 8);
     REQUIRE(value == 0xAAC42A77);
 }
+
+TEST_CASE("VAESZ.VS", "[Zvkned]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VAESZ(v20, v12);
+    REQUIRE(value == 0xA6C3AA77);
+}

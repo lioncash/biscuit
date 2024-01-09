@@ -2093,4 +2093,8 @@ void Assembler::VAESKF2(Vec vd, Vec vs2, uint32_t uimm) noexcept {
     EmitVectorOPMVVP(m_buffer, 0b101010, VecMask::No, vs2, Vec{uimm}, vd);
 }
 
+void Assembler::VAESZ(Vec vd, Vec vs2) noexcept {
+    EmitVectorOPMVVP(m_buffer, 0b101001, VecMask::No, vs2, Vec{0b00111}, vd);
+}
+
 } // namespace biscuit
