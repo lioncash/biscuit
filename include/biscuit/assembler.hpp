@@ -1295,6 +1295,7 @@ public:
 
     void VBREV(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VBREV8(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VREV8(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
 private:
     // Binds a label to a given offset.

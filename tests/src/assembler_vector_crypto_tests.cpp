@@ -55,3 +55,16 @@ TEST_CASE("VBREV8.V", "[Zvbb]") {
     as.VBREV8(v20, v12, VecMask::No);
     REQUIRE(value == 0x4AC42A57);
 }
+
+TEST_CASE("VREV8.V", "[Zvbb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VREV8(v20, v12, VecMask::Yes);
+    REQUIRE(value == 0x48C4AA57);
+
+    as.RewindBuffer();
+
+    as.VREV8(v20, v12, VecMask::No);
+    REQUIRE(value == 0x4AC4AA57);
+}
