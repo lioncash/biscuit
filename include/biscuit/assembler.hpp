@@ -1293,6 +1293,8 @@ public:
     void VANDN(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VANDN(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VBREV(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
+
 private:
     // Binds a label to a given offset.
     void BindToOffset(Label* label, Label::LocationOffset offset);
