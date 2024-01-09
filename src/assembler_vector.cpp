@@ -2100,5 +2100,11 @@ void Assembler::VAESZ(Vec vd, Vec vs2) noexcept {
 void Assembler::VSHA2MS(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVVP(m_buffer, 0b101101, VecMask::No, vs2, vs1, vd);
 }
+void Assembler::VSHA2CH(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVVP(m_buffer, 0b101110, VecMask::No, vs2, vs1, vd);
+}
+void Assembler::VSHA2CL(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVVP(m_buffer, 0b101111, VecMask::No, vs2, vs1, vd);
+}
 
 } // namespace biscuit

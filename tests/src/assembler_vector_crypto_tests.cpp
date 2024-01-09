@@ -421,3 +421,19 @@ TEST_CASE("VSHA2MS.VV", "[Zvknhb]") {
     as.VSHA2MS(v20, v12, v10);
     REQUIRE(value == 0xB6C52A77);
 }
+
+TEST_CASE("VSHA2CH.VV", "[Zvknhb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSHA2CH(v20, v12, v10);
+    REQUIRE(value == 0xBAC52A77);
+}
+
+TEST_CASE("VSHA2CL.VV", "[Zvknhb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VSHA2CL(v20, v12, v10);
+    REQUIRE(value == 0xBEC52A77);
+}

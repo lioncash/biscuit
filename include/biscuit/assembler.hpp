@@ -1339,6 +1339,8 @@ public:
     void VAESZ(Vec vd, Vec vs2) noexcept;
 
     void VSHA2MS(Vec vd, Vec vs2, Vec vs1) noexcept;
+    void VSHA2CH(Vec vd, Vec vs2, Vec vs1) noexcept;
+    void VSHA2CL(Vec vd, Vec vs2, Vec vs1) noexcept;
 
 private:
     // Binds a label to a given offset.
