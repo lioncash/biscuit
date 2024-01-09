@@ -331,3 +331,19 @@ TEST_CASE("VAESDM.VS", "[Zvkned]") {
     as.VAESDM_VS(v20, v12);
     REQUIRE(value == 0xA6C02A77);
 }
+
+TEST_CASE("VAESEF.VV", "[Zvkned]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VAESEF_VV(v20, v12);
+    REQUIRE(value == 0xA2C1AA77);
+}
+
+TEST_CASE("VAESEF.VS", "[Zvkned]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VAESEF_VS(v20, v12);
+    REQUIRE(value == 0xA6C1AA77);
+}
