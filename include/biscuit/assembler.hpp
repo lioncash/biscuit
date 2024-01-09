@@ -538,6 +538,12 @@ public:
     void FCVT_H_L(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FCVT_H_LU(FPR rd, GPR rs1, RMode rmode = RMode::DYN) noexcept;
 
+    // Zfa Extension Instructions
+
+    void FLI_D(FPR rd, double value) noexcept;
+    void FLI_H(FPR rd, double value) noexcept;
+    void FLI_S(FPR rd, double value) noexcept;
+
     // RVB Extension Instructions
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;

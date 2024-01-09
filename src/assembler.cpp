@@ -1,6 +1,8 @@
 #include <biscuit/assert.hpp>
 #include <biscuit/assembler.hpp>
 
+#include <algorithm>
+#include <array>
 #include <cstring>
 #include <utility>
 
@@ -1516,6 +1518,65 @@ void Assembler::FCVT_H_L(FPR rd, GPR rs1, RMode rmode) noexcept {
 }
 void Assembler::FCVT_H_LU(FPR rd, GPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b1101010, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+}
+
+// Zfa Extension Instructions
+
+static void FLIImpl(CodeBuffer& buffer, uint32_t funct7, FPR rd, double value) noexcept {
+    static constexpr std::array fli_table{
+        std::pair{0xBFF0000000000000ULL, 0U},   // -1.0
+        std::pair{0x0010000000000000ULL, 1U},   // Minimum positive normal
+        std::pair{0x3EF0000000000000ULL, 2U},   // 1.0 * 2^-16
+        std::pair{0x3F00000000000000ULL, 3U},   // 1.0 * 2^-15
+        std::pair{0x3F70000000000000ULL, 4U},   // 1.0 * 2^-8
+        std::pair{0x3F80000000000000ULL, 5U},   // 1.0 * 2^-7
+        std::pair{0x3FB0000000000000ULL, 6U},   // 1.0 * 2^-4
+        std::pair{0x3FC0000000000000ULL, 7U},   // 1.0 * 2^-3
+        std::pair{0x3FD0000000000000ULL, 8U},   // 0.25
+        std::pair{0x3FD4000000000000ULL, 9U},   // 0.3125
+        std::pair{0x3FD8000000000000ULL, 10U},  // 0.375
+        std::pair{0x3FDC000000000000ULL, 11U},  // 0.4375
+        std::pair{0x3FE0000000000000ULL, 12U},  // 0.5
+        std::pair{0x3FE4000000000000ULL, 13U},  // 0.625
+        std::pair{0x3FE8000000000000ULL, 14U},  // 0.75
+        std::pair{0x3FEC000000000000ULL, 15U},  // 0.875
+        std::pair{0x3FF0000000000000ULL, 16U},  // 1.0
+        std::pair{0x3FF4000000000000ULL, 17U},  // 1.25
+        std::pair{0x3FF8000000000000ULL, 18U},  // 1.5
+        std::pair{0x3FFC000000000000ULL, 19U},  // 1.75
+        std::pair{0x4000000000000000ULL, 20U},  // 2.0
+        std::pair{0x4004000000000000ULL, 21U},  // 2.5
+        std::pair{0x4008000000000000ULL, 22U},  // 3
+        std::pair{0x4010000000000000ULL, 23U},  // 4
+        std::pair{0x4020000000000000ULL, 24U},  // 8
+        std::pair{0x4030000000000000ULL, 25U},  // 16
+        std::pair{0x4060000000000000ULL, 26U},  // 2^7
+        std::pair{0x4070000000000000ULL, 27U},  // 2^8
+        std::pair{0x40E0000000000000ULL, 28U},  // 2^15
+        std::pair{0x40F0000000000000ULL, 29U},  // 2^16
+        std::pair{0x7FF0000000000000ULL, 30U},  // +inf
+        std::pair{0x7FF8000000000000ULL, 31U},  // Canonical NaN
+    };
+
+    uint64_t ivalue{};
+    std::memcpy(&ivalue, &value, sizeof(uint64_t));
+
+    const auto iter = std::find_if(fli_table.cbegin(), fli_table.cend(), [ivalue](const auto& entry) {
+        return entry.first == ivalue;
+    });
+    BISCUIT_ASSERT(iter != fli_table.cend());
+
+    EmitRType(buffer, funct7, f1, GPR{iter->second}, 0b000, rd, 0b1010011);
+}
+
+void Assembler::FLI_D(FPR rd, double value) noexcept {
+    FLIImpl(m_buffer, 0b1111001, rd, value);
+}
+void Assembler::FLI_H(FPR rd, double value) noexcept {
+    FLIImpl(m_buffer, 0b1111010, rd, value);
+}
+void Assembler::FLI_S(FPR rd, double value) noexcept {
+    FLIImpl(m_buffer, 0b1111000, rd, value);
 }
 
 // RVB Extension Instructions

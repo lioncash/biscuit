@@ -18,6 +18,7 @@ add_executable(${PROJECT_NAME}
     src/assembler_vector_crypto_tests.cpp
     src/assembler_zacas_tests.cpp
     src/assembler_zawrs_tests.cpp
+    src/assembler_zfa_tests.cpp
     src/assembler_zicond_tests.cpp
     src/assembler_zicsr_tests.cpp
     src/assembler_zihintntl_tests.cpp
