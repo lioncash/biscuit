@@ -2112,4 +2112,11 @@ void Assembler::VSM4K(Vec vd, Vec vs2, uint32_t uimm) noexcept {
     EmitVectorOPMVVP(m_buffer, 0b100001, VecMask::No, vs2, Vec{uimm}, vd);
 }
 
+void Assembler::VSM4R_VV(Vec vd, Vec vs2) noexcept {
+    EmitVectorOPMVVP(m_buffer, 0b101000, VecMask::No, vs2, Vec{0b10000}, vd);
+}
+void Assembler::VSM4R_VS(Vec vd, Vec vs2) noexcept {
+    EmitVectorOPMVVP(m_buffer, 0b101001, VecMask::No, vs2, Vec{0b10000}, vd);
+}
+
 } // namespace biscuit
