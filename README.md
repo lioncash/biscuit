@@ -41,7 +41,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | Zicond    | 1.0.1   |
 | Zicsr     | 2.0     |
 | Zifencei  | 2.0     |
-| Zihintntl | 0.2     |
+| Zihintntl | 1.0     |
 | Zvbb      | 1.0     |
 | Zvbc      | 1.0     |
 | Zvkn      | 1.0     |
