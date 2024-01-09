@@ -437,3 +437,18 @@ TEST_CASE("VSHA2CL.VV", "[Zvknhb]") {
     as.VSHA2CL(v20, v12, v10);
     REQUIRE(value == 0xBEC52A77);
 }
+
+TEST_CASE("VSM4K.VI", "[Zvksed]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    for (uint32_t i = 0; i <= 7; i++) {
+        as.VSM4K(v20, v12, i);
+
+        const auto op_base = 0x86C02A77U;
+        const auto verify = op_base | (i << 15);
+        REQUIRE(value == verify);
+
+        as.RewindBuffer();
+    }
+}

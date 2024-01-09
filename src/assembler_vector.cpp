@@ -2107,4 +2107,9 @@ void Assembler::VSHA2CL(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVVP(m_buffer, 0b101111, VecMask::No, vs2, vs1, vd);
 }
 
+void Assembler::VSM4K(Vec vd, Vec vs2, uint32_t uimm) noexcept {
+    BISCUIT_ASSERT(uimm <= 7);
+    EmitVectorOPMVVP(m_buffer, 0b100001, VecMask::No, vs2, Vec{uimm}, vd);
+}
+
 } // namespace biscuit

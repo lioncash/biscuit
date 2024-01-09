@@ -1342,6 +1342,8 @@ public:
     void VSHA2CH(Vec vd, Vec vs2, Vec vs1) noexcept;
     void VSHA2CL(Vec vd, Vec vs2, Vec vs1) noexcept;
 
+    void VSM4K(Vec vd, Vec vs2, uint32_t uimm) noexcept;
+
 private:
     // Binds a label to a given offset.
     void BindToOffset(Label* label, Label::LocationOffset offset);
