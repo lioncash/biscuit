@@ -1973,5 +1973,8 @@ void Assembler::VCLZ(Vec vd, Vec vs2, VecMask mask) noexcept {
 void Assembler::VCTZ(Vec vd, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b010010, mask, vs2, Vec{0b01101}, vd);
 }
+void Assembler::VCPOP(Vec vd, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPMVV(m_buffer, 0b010010, mask, vs2, Vec{0b01110}, vd);
+}
 
 } // namespace biscuit

@@ -94,3 +94,16 @@ TEST_CASE("VCTZ.V", "[Zvbb]") {
     as.VCTZ(v20, v12, VecMask::No);
     REQUIRE(value == 0x4AC6AA57);
 }
+
+TEST_CASE("VCPOP.V", "[Zvbb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VCPOP(v20, v12, VecMask::Yes);
+    REQUIRE(value == 0x48C72A57);
+
+    as.RewindBuffer();
+
+    as.VCPOP(v20, v12, VecMask::No);
+    REQUIRE(value == 0x4AC72A57);
+}

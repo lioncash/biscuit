@@ -1299,6 +1299,7 @@ public:
 
     void VCLZ(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VCTZ(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VCPOP(Vec vd, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
 private:
     // Binds a label to a given offset.
