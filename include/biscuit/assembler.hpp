@@ -1288,6 +1288,11 @@ public:
     void VSETVL(GPR rd, GPR rs1, GPR rs2) noexcept;
     void VSETVLI(GPR rd, GPR rs, SEW sew, LMUL lmul = LMUL::M1, VTA vta = VTA::No, VMA vma = VMA::No) noexcept;
 
+    // Vector Cryptography Instructions
+
+    void VANDN(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
+    void VANDN(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+
 private:
     // Binds a label to a given offset.
     void BindToOffset(Label* label, Label::LocationOffset offset);

@@ -1948,4 +1948,13 @@ void Assembler::VSETVLI(GPR rd, GPR rs, SEW sew, LMUL lmul, VTA vta, VMA vma) no
     m_buffer.Emit32(0x00007057U | (zimm << 20) | (rs.Index() << 15) | (rd.Index() << 7));
 }
 
+// Vector Cryptography Instructions
+
+void Assembler::VANDN(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b000001, mask, vs2, vs1, vd);
+}
+void Assembler::VANDN(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b000001, mask, vs2, rs1, vd);
+}
+
 } // namespace biscuit
