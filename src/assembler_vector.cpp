@@ -2119,6 +2119,10 @@ void Assembler::VSM4R_VS(Vec vd, Vec vs2) noexcept {
     EmitVectorOPMVVP(m_buffer, 0b101001, VecMask::No, vs2, Vec{0b10000}, vd);
 }
 
+void Assembler::VSM3C(Vec vd, Vec vs2, uint32_t uimm) noexcept {
+    BISCUIT_ASSERT(uimm <= 31);
+    EmitVectorOPMVVP(m_buffer, 0b101011, VecMask::No, vs2, Vec{uimm}, vd);
+}
 void Assembler::VSM3ME(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVVP(m_buffer, 0b100000, VecMask::No, vs2, vs1, vd);
 }

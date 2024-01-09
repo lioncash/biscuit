@@ -469,6 +469,21 @@ TEST_CASE("VSM4R.VS", "[Zvksed]") {
     REQUIRE(value == 0xA6C82A77);
 }
 
+TEST_CASE("VSM3C.VI", "[Zvksh]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    for (uint32_t i = 0; i <= 31; i++) {
+        as.VSM3C(v20, v12, i);
+
+        const auto op_base = 0xAEC02A77U;
+        const auto verify = op_base | (i << 15);
+        REQUIRE(value == verify);
+
+        as.RewindBuffer();
+    }
+}
+
 TEST_CASE("VSM3ME.VV", "[Zvksh]") {
     uint32_t value = 0;
     Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));

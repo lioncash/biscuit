@@ -1346,6 +1346,7 @@ public:
     void VSM4R_VV(Vec vd, Vec vs2) noexcept;
     void VSM4R_VS(Vec vd, Vec vs2) noexcept;
 
+    void VSM3C(Vec vd, Vec vs2, uint32_t uimm) noexcept;
     void VSM3ME(Vec vd, Vec vs2, Vec vs1) noexcept;
 
 private:
