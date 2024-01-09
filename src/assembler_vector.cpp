@@ -1984,4 +1984,17 @@ void Assembler::VROL(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPIVX(m_buffer, 0b010101, mask, vs2, rs1, vd);
 }
 
+void Assembler::VROR(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
+    EmitVectorOPIVV(m_buffer, 0b010100, mask, vs2, vs1, vd);
+}
+void Assembler::VROR(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
+    EmitVectorOPIVX(m_buffer, 0b010100, mask, vs2, rs1, vd);
+}
+void Assembler::VROR(Vec vd, Vec vs2, uint32_t uimm, VecMask mask) noexcept {
+    BISCUIT_ASSERT(uimm <= 63);
+
+    const auto funct6 = 0b010100 | ((uimm & 0b100000) >> 5);
+    EmitVectorOPIVIImpl(m_buffer, funct6, mask, vs2, uimm, vd);
+}
+
 } // namespace biscuit

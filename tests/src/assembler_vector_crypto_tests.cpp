@@ -133,3 +133,52 @@ TEST_CASE("VROL.VX", "[Zvbb]") {
     as.VROL(v20, v12, x10, VecMask::No);
     REQUIRE(value == 0x56C54A57);
 }
+
+TEST_CASE("VROR.VV", "[Zvbb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VROR(v20, v12, v10, VecMask::Yes);
+    REQUIRE(value == 0x50C50A57);
+
+    as.RewindBuffer();
+
+    as.VROR(v20, v12, v10, VecMask::No);
+    REQUIRE(value == 0x52C50A57);
+}
+
+TEST_CASE("VROR.VX", "[Zvbb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VROR(v20, v12, x10, VecMask::Yes);
+    REQUIRE(value == 0x50C54A57);
+
+    as.RewindBuffer();
+
+    as.VROR(v20, v12, x10, VecMask::No);
+    REQUIRE(value == 0x52C54A57);
+}
+
+TEST_CASE("VROR.VI", "[Zvbb]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VROR(v20, v12, 63, VecMask::Yes);
+    REQUIRE(value == 0x54CFBA57);
+
+    as.RewindBuffer();
+
+    as.VROR(v20, v12, 31, VecMask::Yes);
+    REQUIRE(value == 0x50CFBA57);
+
+    as.RewindBuffer();
+
+    as.VROR(v20, v12, 63, VecMask::No);
+    REQUIRE(value == 0x56CFBA57);
+
+    as.RewindBuffer();
+
+    as.VROR(v20, v12, 31, VecMask::No);
+    REQUIRE(value == 0x52CFBA57);
+}
