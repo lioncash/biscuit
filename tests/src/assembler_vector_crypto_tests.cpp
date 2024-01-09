@@ -283,3 +283,19 @@ TEST_CASE("VCLMULH.VX", "[Zvbc]") {
     as.VCLMULH(v20, v12, x10, VecMask::No);
     REQUIRE(value == 0x36C56A57);
 }
+
+TEST_CASE("VGHSH.VV", "[Zvkg]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VGHSH(v20, v12, v10);
+    REQUIRE(value == 0xB2C52A77);
+}
+
+TEST_CASE("VGMUL.VV", "[Zvkg]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.VGMUL(v20, v12);
+    REQUIRE(value == 0xA2C8AA77);
+}

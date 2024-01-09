@@ -182,7 +182,8 @@ void EmitVectorOPIVX(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, G
     buffer.Emit32(value | 0b1010111);
 }
 
-void EmitVectorOPMVV(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, Vec vs1, Vec vd) noexcept {
+void EmitVectorOPMVVImpl(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, Vec vs1, Vec vd,
+                         uint32_t op) noexcept {
     // clang-format off
     const auto value = (funct6 << 26) |
                        (static_cast<uint32_t>(vm) << 25) |
@@ -192,7 +193,11 @@ void EmitVectorOPMVV(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, V
                        (vd.Index() << 7);
     // clang-format on
 
-    buffer.Emit32(value | 0b1010111);
+    buffer.Emit32(value | op);
+}
+
+void EmitVectorOPMVV(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, Vec vs1, Vec vd) noexcept {
+    EmitVectorOPMVVImpl(buffer, funct6, vm, vs2, vs1, vd, 0b1010111);
 }
 
 void EmitVectorOPMVX(CodeBuffer& buffer, uint32_t funct6, VecMask vm, Vec vs2, GPR rs1, Vec vd) noexcept {
@@ -2019,6 +2024,13 @@ void Assembler::VCLMULH(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
 }
 void Assembler::VCLMULH(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPMVX(m_buffer, 0b001101, mask, vs2, rs1, vd);
+}
+
+void Assembler::VGHSH(Vec vd, Vec vs2, Vec vs1) noexcept {
+    EmitVectorOPMVVImpl(m_buffer, 0b101100, VecMask::No, vs2, vs1, vd, 0b1110111);
+}
+void Assembler::VGMUL(Vec vd, Vec vs2) noexcept {
+    EmitVectorOPMVVImpl(m_buffer, 0b101000, VecMask::No, vs2, Vec{0b10001}, vd, 0b1110111);
 }
 
 } // namespace biscuit
