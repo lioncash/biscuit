@@ -363,3 +363,45 @@ TEST_CASE("VAESEM.VS", "[Zvkned]") {
     as.VAESEM_VS(v20, v12);
     REQUIRE(value == 0xA6C12A77);
 }
+
+TEST_CASE("VAESKF1.VI", "[Zvkned]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    // Test mapping of out of range indices
+    for (const uint32_t idx : {0U, 11U, 12U, 13U, 14U, 15U}) {
+        as.VAESKF1(v20, v12, idx);
+
+        const auto op_base = 0x8AC02A77U;
+        const auto inverted_b3 = idx ^ 0b1000;
+        const auto verify = op_base | (inverted_b3 << 15);
+
+        REQUIRE(value == verify);
+
+        as.RewindBuffer();
+    }
+
+   as.VAESKF1(v20, v12, 8);
+   REQUIRE(value == 0x8AC42A77);
+}
+
+TEST_CASE("VAESKF2.VI", "[Zvkned]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    // Test mapping of out of range indices
+    for (const uint32_t idx : {0U, 1U, 15U}) {
+        as.VAESKF2(v20, v12, idx);
+
+        const auto op_base = 0xAAC02A77;
+        const auto inverted_b3 = idx ^ 0b1000;
+        const auto verify = op_base | (inverted_b3 << 15);
+
+        REQUIRE(value == verify);
+
+        as.RewindBuffer();
+    }
+
+    as.VAESKF2(v20, v12, 8);
+    REQUIRE(value == 0xAAC42A77);
+}

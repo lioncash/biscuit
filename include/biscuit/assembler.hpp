@@ -1333,6 +1333,9 @@ public:
     void VAESEM_VV(Vec vd, Vec vs2) noexcept;
     void VAESEM_VS(Vec vd, Vec vs2) noexcept;
 
+    void VAESKF1(Vec vd, Vec vs2, uint32_t uimm) noexcept;
+    void VAESKF2(Vec vd, Vec vs2, uint32_t uimm) noexcept;
+
 private:
     // Binds a label to a given offset.
     void BindToOffset(Label* label, Label::LocationOffset offset);

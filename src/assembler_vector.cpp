@@ -2065,4 +2065,32 @@ void Assembler::VAESEM_VS(Vec vd, Vec vs2) noexcept {
     EmitVectorOPMVVP(m_buffer, 0b101001, VecMask::No, vs2, Vec{0b00010}, vd);
 }
 
+// Little bit of weirdness (at first glance) for these is that the round
+// number immediate has valid ranges:
+//
+// - [1, 10] for VAESKF1
+// - [2, 14] for VAESKF2
+//
+// Any out of range values (0, 11-15) for VAESKF1, (0-1, 15) for VAESKF2
+// will be re-encoded into a valid range by inverting bit uimm[3]
+
+void Assembler::VAESKF1(Vec vd, Vec vs2, uint32_t uimm) noexcept {
+    BISCUIT_ASSERT(uimm <= 15);
+
+    if (uimm == 0 || uimm > 10) {
+        uimm ^= 0b1000;
+    }
+
+    EmitVectorOPMVVP(m_buffer, 0b100010, VecMask::No, vs2, Vec{uimm}, vd);
+}
+void Assembler::VAESKF2(Vec vd, Vec vs2, uint32_t uimm) noexcept {
+    BISCUIT_ASSERT(uimm <= 15);
+
+    if (uimm < 2 || uimm > 14) {
+        uimm ^= 0b1000;
+    }
+
+    EmitVectorOPMVVP(m_buffer, 0b101010, VecMask::No, vs2, Vec{uimm}, vd);
+}
+
 } // namespace biscuit
