@@ -648,6 +648,14 @@ void Assembler::CM_POP(PushPopList reg_list, int32_t stack_adj) noexcept {
     BISCUIT_ASSERT(stack_adj > 0);
     EmitCMPPType(m_buffer, 0b101110, 0b10, reg_list, stack_adj, 0b10);
 }
+void Assembler::CM_POPRET(PushPopList reg_list, int32_t stack_adj) noexcept {
+    BISCUIT_ASSERT(stack_adj > 0);
+    EmitCMPPType(m_buffer, 0b101111, 0b10, reg_list, stack_adj, 0b10);
+}
+void Assembler::CM_POPRETZ(PushPopList reg_list, int32_t stack_adj) noexcept {
+    BISCUIT_ASSERT(stack_adj > 0);
+    EmitCMPPType(m_buffer, 0b101111, 0b00, reg_list, stack_adj, 0b10);
+}
 void Assembler::CM_PUSH(PushPopList reg_list, int32_t stack_adj) noexcept {
     BISCUIT_ASSERT(stack_adj < 0);
     EmitCMPPType(m_buffer, 0b101110, 0b00, reg_list, stack_adj, 0b10);

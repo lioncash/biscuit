@@ -747,6 +747,8 @@ public:
     void CM_MVSA01(GPR r1s, GPR r2s) noexcept;
 
     void CM_POP(PushPopList reg_list, int32_t stack_adj) noexcept;
+    void CM_POPRET(PushPopList reg_list, int32_t stack_adj) noexcept;
+    void CM_POPRETZ(PushPopList reg_list, int32_t stack_adj) noexcept;
     void CM_PUSH(PushPopList reg_list, int32_t stack_adj) noexcept;
 
     void CM_JALT(uint32_t index) noexcept;
