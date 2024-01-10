@@ -306,3 +306,11 @@ TEST_CASE("FROUNDNX.S", "[Zfa]") {
     as.FROUNDNX_S(f31, f7, RMode::DYN);
     REQUIRE(value == 0x4053FFD3);
 }
+
+TEST_CASE("FCVTMOD.W.D", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FCVTMOD_W_D(x31, f7);
+    REQUIRE(value == 0xC2839FD3);
+}

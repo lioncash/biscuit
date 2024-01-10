@@ -564,6 +564,8 @@ public:
     void FROUNDNX_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
     void FROUNDNX_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
 
+    void FCVTMOD_W_D(GPR rd, FPR rs1) noexcept;
+
     // RVB Extension Instructions
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;
