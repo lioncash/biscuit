@@ -23,41 +23,19 @@ public:
         return m_index;
     }
 
-    /// Determines whether or not this register is a general-purpose register.
-    [[nodiscard]] constexpr bool IsGPR() const noexcept {
-        return m_type == Type::GPR;
-    }
-
-    /// Determines whether or not this register is a floating-point register.
-    [[nodiscard]] constexpr bool IsFPR() const noexcept {
-        return m_type == Type::FPR;
-    }
-
-    /// Determines whether or not this register is a vector register.
-    [[nodiscard]] constexpr bool IsVector() const noexcept {
-        return m_type == Type::Vector;
-    }
-
 protected:
-    enum class Type {
-        GPR,    // General purpose register
-        FPR,    // Floating-point register
-        Vector, // Vector register
-    };
-
-    constexpr Register(uint32_t index, Type type) noexcept
-        : m_index{index}, m_type{type} {}
+    constexpr Register(uint32_t index) noexcept
+        : m_index{index} {}
 
 private:
     uint32_t m_index{};
-    Type m_type{};
 };
 
 /// General purpose register.
 class GPR final : public Register {
 public:
-    constexpr GPR() noexcept : Register{0, Type::GPR} {}
-    constexpr explicit GPR(uint32_t index) noexcept : Register{index, Type::GPR} {}
+    constexpr GPR() noexcept : Register{0} {}
+    constexpr explicit GPR(uint32_t index) noexcept : Register{index} {}
 
     friend constexpr bool operator==(GPR lhs, GPR rhs) noexcept {
         return lhs.Index() == rhs.Index();
@@ -70,8 +48,8 @@ public:
 /// Floating point register.
 class FPR final : public Register {
 public:
-    constexpr FPR() noexcept : Register{0, Type::FPR} {}
-    constexpr explicit FPR(uint32_t index) noexcept : Register{index, Type::FPR} {}
+    constexpr FPR() noexcept : Register{0} {}
+    constexpr explicit FPR(uint32_t index) noexcept : Register{index} {}
 
     friend constexpr bool operator==(FPR lhs, FPR rhs) noexcept {
         return lhs.Index() == rhs.Index();
@@ -84,8 +62,8 @@ public:
 /// Vector register.
 class Vec final : public Register {
 public:
-    constexpr Vec() noexcept : Register{0, Type::Vector} {}
-    constexpr explicit Vec(uint32_t index) noexcept : Register{index, Type::Vector} {}
+    constexpr Vec() noexcept : Register{0} {}
+    constexpr explicit Vec(uint32_t index) noexcept : Register{index} {}
 
     friend constexpr bool operator==(Vec lhs, Vec rhs) noexcept {
         return lhs.Index() == rhs.Index();
