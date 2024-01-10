@@ -303,6 +303,11 @@ enum class CSR : uint32_t {
     PMPAddr62      = 0x3EE, // Physical memory protection address register
     PMPAddr63      = 0x3EF, // Physical memory protection address register
 
+    MNScratch      = 0x740, // Resumable NMI scratch register
+    MNEPC          = 0x741, // Resumable NMI program counter
+    MNCause        = 0x742, // Resumable NMI cause
+    MNStatus       = 0x744, // Resumable NMI status
+
     MCycle         = 0xB00, // Machine cycle counter
     MInstRet       = 0xB02, // Machine instructions-retired counter
     MHPMCounter3   = 0xB03, // Machine performance-monitoring counter
