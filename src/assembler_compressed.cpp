@@ -558,6 +558,12 @@ void Assembler::C_SH(GPR rs2, uint32_t uimm, GPR rs1) noexcept {
     EmitCSHType(m_buffer, 0b100011, rs1, uimm, rs2, 0b00);
 }
 
+void Assembler::C_SEXT_B(GPR rd) noexcept {
+    EmitCUType(m_buffer, 0b100111, rd, 0b11001, 0b01);
+}
+void Assembler::C_SEXT_H(GPR rd) noexcept {
+    EmitCUType(m_buffer, 0b100111, rd, 0b11011, 0b01);
+}
 void Assembler::C_ZEXT_B(GPR rd) noexcept {
     EmitCUType(m_buffer, 0b100111, rd, 0b11000, 0b01);
 }

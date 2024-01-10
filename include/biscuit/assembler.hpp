@@ -734,6 +734,8 @@ public:
     void C_SB(GPR rs2, uint32_t uimm, GPR rs1) noexcept;
     void C_SH(GPR rs2, uint32_t uimm, GPR rs1) noexcept;
 
+    void C_SEXT_B(GPR rd) noexcept;
+    void C_SEXT_H(GPR rd) noexcept;
     void C_ZEXT_B(GPR rd) noexcept;
     void C_ZEXT_H(GPR rd) noexcept;
     void C_ZEXT_W(GPR rd) noexcept;
