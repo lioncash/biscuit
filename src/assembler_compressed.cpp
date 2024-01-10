@@ -84,7 +84,8 @@ void EmitCompressedWideImmediate(CodeBuffer& buffer, uint32_t funct3, uint32_t i
                   (rd_sanitized << 2) | (op & 0b11));
 }
 
-void EmitCLBType(CodeBuffer& buffer, uint32_t funct6, GPR rs, uint32_t uimm, GPR rd, uint32_t op) {
+void EmitCLBType(CodeBuffer& buffer, uint32_t funct6, GPR rs, uint32_t uimm, GPR rd,
+                 uint32_t op, uint32_t b6) {
     BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
     BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
     BISCUIT_ASSERT(uimm <= 3);
@@ -92,7 +93,17 @@ void EmitCLBType(CodeBuffer& buffer, uint32_t funct6, GPR rs, uint32_t uimm, GPR
     const auto rd_san = CompressedRegTo3BitEncoding(rd);
     const auto rs_san = CompressedRegTo3BitEncoding(rs);
 
-    buffer.Emit16((funct6 << 10) |  (rs_san << 7) | (uimm << 5) | (rd_san << 2) | op);
+    buffer.Emit16((funct6 << 10) |  (rs_san << 7) | (b6 << 6) | (uimm << 5) | (rd_san << 2) | op);
+}
+
+void EmitCLHType(CodeBuffer& buffer, uint32_t funct6, GPR rs, uint32_t uimm, GPR rd,
+                 uint32_t op, uint32_t b6) {
+    BISCUIT_ASSERT((uimm % 2) == 0);
+    BISCUIT_ASSERT(uimm <= 2);
+
+    // Only have 1 bit of encoding space for the immediate.
+    const uint32_t uimm_fixed = uimm >> 1;
+    EmitCLBType(buffer, funct6, rs, uimm_fixed, rd, op, b6);
 }
 } // Anonymous namespace
 
@@ -513,7 +524,13 @@ void Assembler::C_LBU(GPR rd, uint32_t uimm, GPR rs) noexcept {
     // C.LBU swaps the ordering of the immediate.
     const auto uimm_fixed = ((uimm & 1) << 0b01) | ((uimm & 0b10) >> 1);
 
-    EmitCLBType(m_buffer, 0b100000, rs, uimm_fixed, rd, 0b00);
+    EmitCLBType(m_buffer, 0b100000, rs, uimm_fixed, rd, 0b00, 0);
+}
+void Assembler::C_LH(GPR rd, uint32_t uimm, GPR rs) noexcept {
+    EmitCLHType(m_buffer, 0b100001, rs, uimm, rd, 0b00, 1);
+}
+void Assembler::C_LHU(GPR rd, uint32_t uimm, GPR rs) noexcept {
+    EmitCLHType(m_buffer, 0b100001, rs, uimm, rd, 0b00, 0);
 }
 
 } // namespace biscuit

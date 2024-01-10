@@ -729,6 +729,8 @@ public:
     // Zc Extension Instructions
 
     void C_LBU(GPR rd, uint32_t uimm, GPR rs) noexcept;
+    void C_LH(GPR rd, uint32_t uimm, GPR rs) noexcept;
+    void C_LHU(GPR rd, uint32_t uimm, GPR rs) noexcept;
 
     // Cache Management Operation Extension Instructions
 
