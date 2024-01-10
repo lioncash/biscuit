@@ -554,6 +554,11 @@ public:
     void FMAXM_Q(FPR rd, FPR rs1, FPR rs2) noexcept;
     void FMAXM_S(FPR rd, FPR rs1, FPR rs2) noexcept;
 
+    void FROUND_D(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FROUND_H(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FROUND_Q(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+    void FROUND_S(FPR rd, FPR rs1, RMode rmode = RMode::DYN) noexcept;
+
     // RVB Extension Instructions
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;
