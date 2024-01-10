@@ -544,6 +544,11 @@ public:
     void FLI_H(FPR rd, double value) noexcept;
     void FLI_S(FPR rd, double value) noexcept;
 
+    void FMINM_D(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FMINM_H(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FMINM_Q(FPR rd, FPR rs1, FPR rs2) noexcept;
+    void FMINM_S(FPR rd, FPR rs1, FPR rs2) noexcept;
+
     // RVB Extension Instructions
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;

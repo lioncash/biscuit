@@ -98,3 +98,35 @@ TEST_CASE("FLI.S", "[Zfa]") {
         as.RewindBuffer();
     }
 }
+
+TEST_CASE("FMINM.D", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+     as.FMINM_D(f20, f12, f10);
+     REQUIRE(value == 0x2AA62A53);
+}
+
+TEST_CASE("FMINM.H", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+     as.FMINM_H(f20, f12, f10);
+     REQUIRE(value == 0x2CA62A53);
+}
+
+TEST_CASE("FMINM.Q", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+     as.FMINM_Q(f20, f12, f10);
+     REQUIRE(value == 0x2EA62A53);
+}
+
+TEST_CASE("FMINM.S", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+     as.FMINM_S(f20, f12, f10);
+     REQUIRE(value == 0x28A62A53);
+}

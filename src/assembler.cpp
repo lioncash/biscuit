@@ -1579,6 +1579,19 @@ void Assembler::FLI_S(FPR rd, double value) noexcept {
     FLIImpl(m_buffer, 0b1111000, rd, value);
 }
 
+void Assembler::FMINM_D(FPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010101, rs2, rs1, 0b010, rd, 0b1010011);
+}
+void Assembler::FMINM_H(FPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010110, rs2, rs1, 0b010, rd, 0b1010011);
+}
+void Assembler::FMINM_Q(FPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010111, rs2, rs1, 0b010, rd, 0b1010011);
+}
+void Assembler::FMINM_S(FPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b010, rd, 0b1010011);
+}
+
 // RVB Extension Instructions
 
 void Assembler::ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {
