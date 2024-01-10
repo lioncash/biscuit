@@ -3,6 +3,7 @@
 #include <biscuit/assert.hpp>
 
 #include <climits>
+#include <compare>
 #include <cstdint>
 #include <type_traits>
 
@@ -23,6 +24,9 @@ public:
         return m_index;
     }
 
+    friend constexpr bool operator==(Register, Register) = default;
+    friend constexpr auto operator<=>(Register, Register) = default;
+
 protected:
     constexpr Register(uint32_t index) noexcept
         : m_index{index} {}
@@ -37,12 +41,8 @@ public:
     constexpr GPR() noexcept : Register{0} {}
     constexpr explicit GPR(uint32_t index) noexcept : Register{index} {}
 
-    friend constexpr bool operator==(GPR lhs, GPR rhs) noexcept {
-        return lhs.Index() == rhs.Index();
-    }
-    friend constexpr bool operator!=(GPR lhs, GPR rhs) noexcept {
-        return !operator==(lhs, rhs);
-    }
+    friend constexpr bool operator==(GPR, GPR) = default;
+    friend constexpr auto operator<=>(GPR, GPR) = default;
 };
 
 /// Floating point register.
@@ -51,12 +51,8 @@ public:
     constexpr FPR() noexcept : Register{0} {}
     constexpr explicit FPR(uint32_t index) noexcept : Register{index} {}
 
-    friend constexpr bool operator==(FPR lhs, FPR rhs) noexcept {
-        return lhs.Index() == rhs.Index();
-    }
-    friend constexpr bool operator!=(FPR lhs, FPR rhs) noexcept {
-        return !operator==(lhs, rhs);
-    }
+    friend constexpr bool operator==(FPR, FPR) = default;
+    friend constexpr auto operator<=>(FPR, FPR) = default;
 };
 
 /// Vector register.
@@ -65,12 +61,8 @@ public:
     constexpr Vec() noexcept : Register{0} {}
     constexpr explicit Vec(uint32_t index) noexcept : Register{index} {}
 
-    friend constexpr bool operator==(Vec lhs, Vec rhs) noexcept {
-        return lhs.Index() == rhs.Index();
-    }
-    friend constexpr bool operator!=(Vec lhs, Vec rhs) noexcept {
-        return !operator==(lhs, rhs);
-    }
+    friend constexpr bool operator==(Vec, Vec) = default;
+    friend constexpr auto operator<=>(Vec, Vec) = default;
 };
 
 // General-purpose Registers
@@ -309,7 +301,7 @@ private:
 
     // Aside from ra, it's only valid for s0-s11 to show up the register list ranges.
     [[nodiscard]] static constexpr bool IsSRegister(const GPR& gpr) {
-        return gpr == s0 || gpr == s1 || (gpr.Index() >= s2.Index() && gpr.Index() <= s11.Index());
+        return gpr == s0 || gpr == s1 || (gpr >= s2 && gpr <= s11);
     }
 
     uint32_t m_bitmask = 0;
