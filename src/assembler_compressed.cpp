@@ -114,6 +114,13 @@ void EmitCSBType(CodeBuffer& buffer, uint32_t funct6, GPR rs, uint32_t uimm, GPR
 void EmitCSHType(CodeBuffer& buffer, uint32_t funct6, GPR rs, uint32_t uimm, GPR rd, uint32_t op) {
     EmitCLHType(buffer, funct6, rs, uimm, rd, op, 0);
 }
+
+void EmitCUType(CodeBuffer& buffer, uint32_t funct6, GPR rd, uint32_t funct5, uint32_t op) {
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
+    const auto rd_san = CompressedRegTo3BitEncoding(rd);
+
+    buffer.Emit16((funct6 << 10) | (rd_san << 7) | (funct5 << 2) | op);
+}
 } // Anonymous namespace
 
 void Assembler::C_ADD(GPR rd, GPR rs) noexcept {
@@ -549,6 +556,16 @@ void Assembler::C_SB(GPR rs2, uint32_t uimm, GPR rs1) noexcept {
 }
 void Assembler::C_SH(GPR rs2, uint32_t uimm, GPR rs1) noexcept {
     EmitCSHType(m_buffer, 0b100011, rs1, uimm, rs2, 0b00);
+}
+
+void Assembler::C_ZEXT_B(GPR rd) noexcept {
+    EmitCUType(m_buffer, 0b100111, rd, 0b11000, 0b01);
+}
+void Assembler::C_ZEXT_H(GPR rd) noexcept {
+    EmitCUType(m_buffer, 0b100111, rd, 0b11010, 0b01);
+}
+void Assembler::C_ZEXT_W(GPR rd) noexcept {
+    EmitCUType(m_buffer, 0b100111, rd, 0b11100, 0b01);
 }
 
 } // namespace biscuit
