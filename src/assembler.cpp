@@ -1618,6 +1618,19 @@ void Assembler::FROUND_S(FPR rd, FPR rs1, RMode rmode) noexcept {
     EmitRType(m_buffer, 0b0100000, f4, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 
+void Assembler::FROUNDNX_D(FPR rd, FPR rs1, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b0100001, f5, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+}
+void Assembler::FROUNDNX_H(FPR rd, FPR rs1, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b0100010, f5, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+}
+void Assembler::FROUNDNX_Q(FPR rd, FPR rs1, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b0100011, f5, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+}
+void Assembler::FROUNDNX_S(FPR rd, FPR rs1, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b0100000, f5, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
+}
+
 // RVB Extension Instructions
 
 void Assembler::ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {

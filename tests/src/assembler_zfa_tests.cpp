@@ -234,3 +234,75 @@ TEST_CASE("FROUND.S", "[Zfa]") {
     as.FROUND_S(f31, f7, RMode::DYN);
     REQUIRE(value == 0x4043FFD3);
 }
+
+TEST_CASE("FROUNDNX.D", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FROUNDNX_D(f31, f7, RMode::RNE);
+    REQUIRE(value == 0x42538FD3);
+
+    as.RewindBuffer();
+
+    as.FROUNDNX_D(f31, f7, RMode::RMM);
+    REQUIRE(value == 0x4253CFD3);
+
+    as.RewindBuffer();
+
+    as.FROUNDNX_D(f31, f7, RMode::DYN);
+    REQUIRE(value == 0x4253FFD3);
+}
+
+TEST_CASE("FROUNDNX.H", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FROUNDNX_H(f31, f7, RMode::RNE);
+    REQUIRE(value == 0x44538FD3);
+
+    as.RewindBuffer();
+
+    as.FROUNDNX_H(f31, f7, RMode::RMM);
+    REQUIRE(value == 0x4453CFD3);
+
+    as.RewindBuffer();
+
+    as.FROUNDNX_H(f31, f7, RMode::DYN);
+    REQUIRE(value == 0x4453FFD3);
+}
+
+TEST_CASE("FROUNDNX.Q", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FROUNDNX_Q(f31, f7, RMode::RNE);
+    REQUIRE(value == 0x46538FD3);
+
+    as.RewindBuffer();
+
+    as.FROUNDNX_Q(f31, f7, RMode::RMM);
+    REQUIRE(value == 0x4653CFD3);
+
+    as.RewindBuffer();
+
+    as.FROUNDNX_Q(f31, f7, RMode::DYN);
+    REQUIRE(value == 0x4653FFD3);
+}
+
+TEST_CASE("FROUNDNX.S", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FROUNDNX_S(f31, f7, RMode::RNE);
+    REQUIRE(value == 0x40538FD3);
+
+    as.RewindBuffer();
+
+    as.FROUNDNX_S(f31, f7, RMode::RMM);
+    REQUIRE(value == 0x4053CFD3);
+
+    as.RewindBuffer();
+
+    as.FROUNDNX_S(f31, f7, RMode::DYN);
+    REQUIRE(value == 0x4053FFD3);
+}
