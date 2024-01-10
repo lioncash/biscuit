@@ -2,6 +2,8 @@
 
 #include <biscuit/assembler.hpp>
 
+#include <array>
+
 using namespace biscuit;
 
 TEST_CASE("C.LBU", "[Zc]") {
