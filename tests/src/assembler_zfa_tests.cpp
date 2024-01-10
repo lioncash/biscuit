@@ -346,3 +346,67 @@ TEST_CASE("FMVP.Q.X", "[Zfa]") {
     as.FMVP_Q_X(f31, x7, x8);
     REQUIRE(value == 0xB6838FD3);
 }
+
+TEST_CASE("FLEQ.D", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FLEQ_D(x31, f7, f15);
+    REQUIRE(value == 0xA2F3CFD3);
+}
+
+TEST_CASE("FLTQ.D", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FLTQ_D(x31, f7, f15);
+    REQUIRE(value == 0xA2F3DFD3);
+}
+
+TEST_CASE("FLEQ.H", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FLEQ_H(x31, f7, f15);
+    REQUIRE(value == 0xA4F3CFD3);
+}
+
+TEST_CASE("FLTQ.H", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FLTQ_H(x31, f7, f15);
+    REQUIRE(value == 0xA4F3DFD3);
+}
+
+TEST_CASE("FLEQ.Q", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FLEQ_Q(x31, f7, f15);
+    REQUIRE(value == 0xA6F3CFD3);
+}
+
+TEST_CASE("FLTQ.Q", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FLTQ_Q(x31, f7, f15);
+    REQUIRE(value == 0xA6F3DFD3);
+}
+
+TEST_CASE("FLEQ.S", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FLEQ_S(x31, f7, f15);
+    REQUIRE(value == 0xA0F3CFD3);
+}
+
+TEST_CASE("FLTQ.S", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FLTQ_S(x31, f7, f15);
+    REQUIRE(value == 0xA0F3DFD3);
+}

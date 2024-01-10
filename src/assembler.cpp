@@ -1648,6 +1648,34 @@ void Assembler::FMVP_Q_X(FPR rd, GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b1011011, rs2, rs1, 0b000, rd, 0b1010011);
 }
 
+void Assembler::FLEQ_D(GPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1010001, rs2, rs1, 0b100, rd, 0b1010011);
+}
+void Assembler::FLTQ_D(GPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1010001, rs2, rs1, 0b101, rd, 0b1010011);
+}
+
+void Assembler::FLEQ_H(GPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1010010, rs2, rs1, 0b100, rd, 0b1010011);
+}
+void Assembler::FLTQ_H(GPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1010010, rs2, rs1, 0b101, rd, 0b1010011);
+}
+
+void Assembler::FLEQ_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1010011, rs2, rs1, 0b100, rd, 0b1010011);
+}
+void Assembler::FLTQ_Q(GPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1010011, rs2, rs1, 0b101, rd, 0b1010011);
+}
+
+void Assembler::FLEQ_S(GPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1010000, rs2, rs1, 0b100, rd, 0b1010011);
+}
+void Assembler::FLTQ_S(GPR rd, FPR rs1, FPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1010000, rs2, rs1, 0b101, rd, 0b1010011);
+}
+
 // RVB Extension Instructions
 
 void Assembler::ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {

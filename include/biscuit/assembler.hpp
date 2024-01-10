@@ -571,6 +571,18 @@ public:
     void FMVP_D_X(FPR rd, GPR rs1, GPR rs2) noexcept;
     void FMVP_Q_X(FPR rd, GPR rs1, GPR rs2) noexcept;
 
+    void FLEQ_D(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLTQ_D(GPR rd, FPR rs1, FPR rs2) noexcept;
+
+    void FLEQ_H(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLTQ_H(GPR rd, FPR rs1, FPR rs2) noexcept;
+
+    void FLEQ_Q(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLTQ_Q(GPR rd, FPR rs1, FPR rs2) noexcept;
+
+    void FLEQ_S(GPR rd, FPR rs1, FPR rs2) noexcept;
+    void FLTQ_S(GPR rd, FPR rs1, FPR rs2) noexcept;
+
     // RVB Extension Instructions
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;
