@@ -574,6 +574,9 @@ void Assembler::C_ZEXT_W(GPR rd) noexcept {
     EmitCUType(m_buffer, 0b100111, rd, 0b11100, 0b01);
 }
 
+void Assembler::C_MUL(GPR rsd, GPR rs2) noexcept {
+    EmitCompressedRegArith(m_buffer, 0b100111, rsd, 0b10, rs2, 0b01);
+}
 void Assembler::C_NOT(GPR rd) noexcept {
     EmitCUType(m_buffer, 0b100111, rd, 0b11101, 0b01);
 }

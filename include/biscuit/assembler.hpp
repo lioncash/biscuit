@@ -740,6 +740,7 @@ public:
     void C_ZEXT_H(GPR rd) noexcept;
     void C_ZEXT_W(GPR rd) noexcept;
 
+    void C_MUL(GPR rsd, GPR rs2) noexcept;
     void C_NOT(GPR rd) noexcept;
 
     // Cache Management Operation Extension Instructions
