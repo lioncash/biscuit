@@ -1,6 +1,9 @@
 #include <biscuit/assert.hpp>
 #include <biscuit/assembler.hpp>
 
+#include <array>
+#include <cmath>
+
 #include "assembler_util.hpp"
 
 // RVC Extension Instructions
@@ -139,6 +142,31 @@ void EmitCMMVType(CodeBuffer& buffer, uint32_t funct6, GPR r1s, uint32_t funct2,
     const auto r2s_san = r2s.Index() & 0b111;
 
     buffer.Emit16((funct6 << 10) | (r1s_san << 7) | (funct2 << 5) | (r2s_san << 2) | op);
+}
+
+void EmitCMPPType(CodeBuffer& buffer, uint32_t funct6, uint32_t funct2, PushPopList reglist,
+                  int32_t stack_adj, uint32_t op) {
+    BISCUIT_ASSERT(stack_adj % 16 == 0);
+
+    // NOTE: RV64 only. We need to generify this for RV32 as well.
+    static constexpr std::array stack_adj_bases_rv64{
+        0U, 0U, 0U, 0U, 16U, 16U, 32U, 32U,
+        48U, 48U, 64U, 64U, 80U, 80U, 96U, 112U
+    };
+
+    const auto bitmask = reglist.GetBitmask();
+    const auto stack_adj_base = stack_adj_bases_rv64[bitmask];
+    const auto stack_adj_u = static_cast<uint32_t>(std::abs(stack_adj));
+    const auto spimm = (stack_adj_u - stack_adj_base) / 16U;
+
+    // We can only encode up to three differenct values as the upper spimm bits.
+    // Ensure we catch any cases where we end up going outside of them.
+    BISCUIT_ASSERT(stack_adj_u == stack_adj_base ||
+                   stack_adj_u == stack_adj_base + 16 ||
+                   stack_adj_u == stack_adj_base + 32 ||
+                   stack_adj_u == stack_adj_base + 48);
+
+    buffer.Emit16((funct6 << 10) | (funct2 << 8) | (bitmask << 4) | (spimm << 2) | op);
 }
 } // Anonymous namespace
 
@@ -614,6 +642,15 @@ void Assembler::CM_MVA01S(GPR r1s, GPR r2s) noexcept {
 }
 void Assembler::CM_MVSA01(GPR r1s, GPR r2s) noexcept {
     EmitCMMVType(m_buffer, 0b101011, r1s, 0b01, r2s, 0b10);
+}
+
+void Assembler::CM_POP(PushPopList reg_list, int32_t stack_adj) noexcept {
+    BISCUIT_ASSERT(stack_adj > 0);
+    EmitCMPPType(m_buffer, 0b101110, 0b10, reg_list, stack_adj, 0b10);
+}
+void Assembler::CM_PUSH(PushPopList reg_list, int32_t stack_adj) noexcept {
+    BISCUIT_ASSERT(stack_adj < 0);
+    EmitCMPPType(m_buffer, 0b101110, 0b00, reg_list, stack_adj, 0b10);
 }
 
 } // namespace biscuit

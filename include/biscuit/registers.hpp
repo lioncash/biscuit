@@ -1,6 +1,10 @@
 #pragma once
 
+#include <biscuit/assert.hpp>
+
+#include <climits>
 #include <cstdint>
+#include <type_traits>
 
 namespace biscuit {
 
@@ -272,5 +276,65 @@ constexpr Vec v28{28};
 constexpr Vec v29{29};
 constexpr Vec v30{30};
 constexpr Vec v31{31};
+
+// Register utilities
+
+// Used with compressed stack management instructions
+// (cm.push, cm.pop, etc) for building up a register list to encode.
+//
+// Also enforces that only valid registers are used in the lists.
+class PushPopList final {
+public:
+    // Represents an inclusive range ([start, end]) of registers.
+    struct Range final {
+        constexpr Range() : start{UINT32_MAX}, end{UINT32_MAX} {}
+        constexpr Range(GPR start_end) noexcept : start{start_end}, end{start_end} {
+            // This particular constructor is used for the case of rlist=5
+            // where only ra and s0 get stored. 
+            BISCUIT_ASSERT(start_end == s0);
+        }
+        constexpr Range(GPR start_, GPR end_) noexcept : start{start_}, end{end_} {
+            BISCUIT_ASSERT(start_ == s0);
+            BISCUIT_ASSERT(IsSRegister(end_));
+
+            // See the Zc spec. The only way for s10 to be used is to also include s11.
+            BISCUIT_ASSERT(end_ != s10);
+        }
+
+        GPR start;
+        GPR end;
+    };
+
+    constexpr PushPopList(const GPR& ra_reg, const Range& range = {}) noexcept
+        : m_bitmask{BuildBitmask(range)} {
+        BISCUIT_ASSERT(ra_reg == ra);
+    }
+
+    // Gets the built-up bitmask of passed in registers
+    [[nodiscard]] constexpr uint32_t GetBitmask() const noexcept {
+        return m_bitmask;
+    }
+
+private:
+    constexpr uint32_t BuildBitmask(const Range& range) noexcept {
+        if (range.end.Index() == UINT32_MAX) {
+            return 4U;
+        }
+        if (range.end == s11) {
+            return 15U;
+        }
+        if (range.end == s0 || range.end == s1) {
+            return range.end.Index() - 3U;
+        }
+        return range.end.Index() - 11U;
+    }
+
+    // Aside from ra, it's only valid for s0-s11 to show up the register list ranges.
+    [[nodiscard]] static constexpr bool IsSRegister(const GPR& gpr) {
+        return gpr == s0 || gpr == s1 || (gpr.Index() >= s2.Index() && gpr.Index() <= s11.Index());
+    }
+
+    uint32_t m_bitmask = 0;
+};
 
 } // namespace biscuit
