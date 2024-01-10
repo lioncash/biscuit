@@ -574,4 +574,8 @@ void Assembler::C_ZEXT_W(GPR rd) noexcept {
     EmitCUType(m_buffer, 0b100111, rd, 0b11100, 0b01);
 }
 
+void Assembler::C_NOT(GPR rd) noexcept {
+    EmitCUType(m_buffer, 0b100111, rd, 0b11101, 0b01);
+}
+
 } // namespace biscuit
