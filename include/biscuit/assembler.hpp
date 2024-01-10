@@ -566,6 +566,11 @@ public:
 
     void FCVTMOD_W_D(GPR rd, FPR rs1) noexcept;
 
+    void FMVH_X_D(GPR rd, FPR rs1) noexcept;
+    void FMVH_X_Q(GPR rd, FPR rs1) noexcept;
+    void FMVP_D_X(FPR rd, GPR rs1, GPR rs2) noexcept;
+    void FMVP_Q_X(FPR rd, GPR rs1, GPR rs2) noexcept;
+
     // RVB Extension Instructions
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;

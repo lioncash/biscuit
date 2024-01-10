@@ -314,3 +314,35 @@ TEST_CASE("FCVTMOD.W.D", "[Zfa]") {
     as.FCVTMOD_W_D(x31, f7);
     REQUIRE(value == 0xC2839FD3);
 }
+
+TEST_CASE("FMVH.X.D", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FMVH_X_D(x31, f7);
+    REQUIRE(value == 0xE2138FD3);
+}
+
+TEST_CASE("FMVH.X.Q", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FMVH_X_Q(x31, f7);
+    REQUIRE(value == 0xE6138FD3);
+}
+
+TEST_CASE("FMVP.D.X", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FMVP_D_X(f31, x7, x8);
+    REQUIRE(value == 0xB2838FD3);
+}
+
+TEST_CASE("FMVP.Q.X", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+    as.FMVP_Q_X(f31, x7, x8);
+    REQUIRE(value == 0xB6838FD3);
+}

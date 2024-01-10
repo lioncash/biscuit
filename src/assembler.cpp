@@ -1635,6 +1635,19 @@ void Assembler::FCVTMOD_W_D(GPR rd, FPR rs1) noexcept {
     EmitRType(m_buffer, 0b1100001, f8, rs1, static_cast<uint32_t>(RMode::RTZ), rd, 0b1010011);
 }
 
+void Assembler::FMVH_X_D(GPR rd, FPR rs1) noexcept {
+    EmitRType(m_buffer, 0b1110001, f1, rs1, 0b000, rd, 0b1010011);
+}
+void Assembler::FMVH_X_Q(GPR rd, FPR rs1) noexcept {
+    EmitRType(m_buffer, 0b1110011, f1, rs1, 0b000, rd, 0b1010011);
+}
+void Assembler::FMVP_D_X(FPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1011001, rs2, rs1, 0b000, rd, 0b1010011);
+}
+void Assembler::FMVP_Q_X(FPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b1011011, rs2, rs1, 0b000, rd, 0b1010011);
+}
+
 // RVB Extension Instructions
 
 void Assembler::ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {
