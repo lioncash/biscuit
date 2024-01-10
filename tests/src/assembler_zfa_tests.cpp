@@ -130,3 +130,35 @@ TEST_CASE("FMINM.S", "[Zfa]") {
      as.FMINM_S(f20, f12, f10);
      REQUIRE(value == 0x28A62A53);
 }
+
+TEST_CASE("FMAXM.D", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+     as.FMAXM_D(f20, f12, f10);
+     REQUIRE(value == 0x2AA63A53);
+}
+
+TEST_CASE("FMAXM.H", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+     as.FMAXM_H(f20, f12, f10);
+     REQUIRE(value == 0x2CA63A53);
+}
+
+TEST_CASE("FMAXM.Q", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+     as.FMAXM_Q(f20, f12, f10);
+     REQUIRE(value == 0x2EA63A53);
+}
+
+TEST_CASE("FMAXM.S", "[Zfa]") {
+    uint32_t value = 0;
+    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+
+     as.FMAXM_S(f20, f12, f10);
+     REQUIRE(value == 0x28A63A53);
+}
