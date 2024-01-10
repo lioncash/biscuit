@@ -105,6 +105,15 @@ void EmitCLHType(CodeBuffer& buffer, uint32_t funct6, GPR rs, uint32_t uimm, GPR
     const uint32_t uimm_fixed = uimm >> 1;
     EmitCLBType(buffer, funct6, rs, uimm_fixed, rd, op, b6);
 }
+
+// These have the same layout as the equivalent loads, we just essentially alias
+// the name of those to provide better intent at the call site.
+void EmitCSBType(CodeBuffer& buffer, uint32_t funct6, GPR rs, uint32_t uimm, GPR rd, uint32_t op) {
+    EmitCLBType(buffer, funct6, rs, uimm, rd, op, 0);
+}
+void EmitCSHType(CodeBuffer& buffer, uint32_t funct6, GPR rs, uint32_t uimm, GPR rd, uint32_t op) {
+    EmitCLHType(buffer, funct6, rs, uimm, rd, op, 0);
+}
 } // Anonymous namespace
 
 void Assembler::C_ADD(GPR rd, GPR rs) noexcept {
@@ -522,7 +531,7 @@ void Assembler::C_XOR(GPR rd, GPR rs) noexcept {
 
 void Assembler::C_LBU(GPR rd, uint32_t uimm, GPR rs) noexcept {
     // C.LBU swaps the ordering of the immediate.
-    const auto uimm_fixed = ((uimm & 1) << 0b01) | ((uimm & 0b10) >> 1);
+    const auto uimm_fixed = ((uimm & 0b01) << 1) | ((uimm & 0b10) >> 1);
 
     EmitCLBType(m_buffer, 0b100000, rs, uimm_fixed, rd, 0b00, 0);
 }
@@ -531,6 +540,15 @@ void Assembler::C_LH(GPR rd, uint32_t uimm, GPR rs) noexcept {
 }
 void Assembler::C_LHU(GPR rd, uint32_t uimm, GPR rs) noexcept {
     EmitCLHType(m_buffer, 0b100001, rs, uimm, rd, 0b00, 0);
+}
+void Assembler::C_SB(GPR rs2, uint32_t uimm, GPR rs1) noexcept {
+    // C.SB swaps the ordering of the immediate.
+    const auto uimm_fixed = ((uimm & 0b01) << 1) | ((uimm & 0b10) >> 1);
+
+    EmitCSBType(m_buffer, 0b100010, rs1, uimm_fixed, rs2, 0b00);
+}
+void Assembler::C_SH(GPR rs2, uint32_t uimm, GPR rs1) noexcept {
+    EmitCSHType(m_buffer, 0b100011, rs1, uimm, rs2, 0b00);
 }
 
 } // namespace biscuit

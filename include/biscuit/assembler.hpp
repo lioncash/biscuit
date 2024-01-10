@@ -731,6 +731,8 @@ public:
     void C_LBU(GPR rd, uint32_t uimm, GPR rs) noexcept;
     void C_LH(GPR rd, uint32_t uimm, GPR rs) noexcept;
     void C_LHU(GPR rd, uint32_t uimm, GPR rs) noexcept;
+    void C_SB(GPR rs2, uint32_t uimm, GPR rs1) noexcept;
+    void C_SH(GPR rs2, uint32_t uimm, GPR rs1) noexcept;
 
     // Cache Management Operation Extension Instructions
 
