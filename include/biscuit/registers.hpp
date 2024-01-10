@@ -28,7 +28,7 @@ public:
     friend constexpr auto operator<=>(Register, Register) = default;
 
 protected:
-    constexpr Register(uint32_t index) noexcept
+    constexpr explicit Register(uint32_t index) noexcept
         : m_index{index} {}
 
 private:
