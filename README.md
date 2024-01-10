@@ -33,6 +33,9 @@ Includes both 32-bit and 64-bit instructions in the following:
 | Sstc      | 0.5.4   |
 | Zacas     | 1.0     |
 | Zawrs     | 1.01    |
+| Zcb       | 1.0.4   |
+| Zcmp      | 1.0.4   |
+| Zcmt      | 1.0.4   |
 | Zfa       | 1.0     |
 | Zfh       | 1.0     |
 | Zfhmin    | 1.0     |
