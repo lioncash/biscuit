@@ -121,6 +121,10 @@ void EmitCUType(CodeBuffer& buffer, uint32_t funct6, GPR rd, uint32_t funct5, ui
 
     buffer.Emit16((funct6 << 10) | (rd_san << 7) | (funct5 << 2) | op);
 }
+
+void EmitCMJTType(CodeBuffer& buffer, uint32_t funct6, uint32_t index, uint32_t op) {
+    buffer.Emit16((funct6 << 10) | (index << 2) | op);
+}
 } // Anonymous namespace
 
 void Assembler::C_ADD(GPR rd, GPR rs) noexcept {
@@ -579,6 +583,15 @@ void Assembler::C_MUL(GPR rsd, GPR rs2) noexcept {
 }
 void Assembler::C_NOT(GPR rd) noexcept {
     EmitCUType(m_buffer, 0b100111, rd, 0b11101, 0b01);
+}
+
+void Assembler::CM_JALT(uint32_t index) noexcept {
+    BISCUIT_ASSERT(index >= 32 && index <= 255);
+    EmitCMJTType(m_buffer, 0b101000, index, 0b10);
+}
+void Assembler::CM_JT(uint32_t index) noexcept {
+    BISCUIT_ASSERT(index <= 31);
+    EmitCMJTType(m_buffer, 0b101000, index, 0b10);
 }
 
 } // namespace biscuit

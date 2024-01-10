@@ -743,6 +743,9 @@ public:
     void C_MUL(GPR rsd, GPR rs2) noexcept;
     void C_NOT(GPR rd) noexcept;
 
+    void CM_JALT(uint32_t index) noexcept;
+    void CM_JT(uint32_t index) noexcept;
+
     // Cache Management Operation Extension Instructions
 
     void CBO_CLEAN(GPR rs) noexcept;
