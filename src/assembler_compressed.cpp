@@ -125,6 +125,21 @@ void EmitCUType(CodeBuffer& buffer, uint32_t funct6, GPR rd, uint32_t funct5, ui
 void EmitCMJTType(CodeBuffer& buffer, uint32_t funct6, uint32_t index, uint32_t op) {
     buffer.Emit16((funct6 << 10) | (index << 2) | op);
 }
+
+void EmitCMMVType(CodeBuffer& buffer, uint32_t funct6, GPR r1s, uint32_t funct2, GPR r2s, uint32_t op) {
+    const auto is_valid_s_register = [](GPR reg) {
+        return reg == s0 || reg == s1 || (reg.Index() >= s2.Index() && reg.Index() <= s7.Index());
+    };
+
+    BISCUIT_ASSERT(r1s != r2s);
+    BISCUIT_ASSERT(is_valid_s_register(r1s));
+    BISCUIT_ASSERT(is_valid_s_register(r2s));
+
+    const auto r1s_san = r1s.Index() & 0b111;
+    const auto r2s_san = r2s.Index() & 0b111;
+
+    buffer.Emit16((funct6 << 10) | (r1s_san << 7) | (funct2 << 5) | (r2s_san << 2) | op);
+}
 } // Anonymous namespace
 
 void Assembler::C_ADD(GPR rd, GPR rs) noexcept {
@@ -592,6 +607,13 @@ void Assembler::CM_JALT(uint32_t index) noexcept {
 void Assembler::CM_JT(uint32_t index) noexcept {
     BISCUIT_ASSERT(index <= 31);
     EmitCMJTType(m_buffer, 0b101000, index, 0b10);
+}
+
+void Assembler::CM_MVA01S(GPR r1s, GPR r2s) noexcept {
+    EmitCMMVType(m_buffer, 0b101011, r1s, 0b11, r2s, 0b10);
+}
+void Assembler::CM_MVSA01(GPR r1s, GPR r2s) noexcept {
+    EmitCMMVType(m_buffer, 0b101011, r1s, 0b01, r2s, 0b10);
 }
 
 } // namespace biscuit

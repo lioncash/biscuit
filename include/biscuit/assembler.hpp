@@ -743,6 +743,9 @@ public:
     void C_MUL(GPR rsd, GPR rs2) noexcept;
     void C_NOT(GPR rd) noexcept;
 
+    void CM_MVA01S(GPR r1s, GPR r2s) noexcept;
+    void CM_MVSA01(GPR r1s, GPR r2s) noexcept;
+
     void CM_JALT(uint32_t index) noexcept;
     void CM_JT(uint32_t index) noexcept;
 
