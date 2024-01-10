@@ -726,6 +726,10 @@ public:
     void C_UNDEF() noexcept;
     void C_XOR(GPR rd, GPR rs) noexcept;
 
+    // Zc Extension Instructions
+
+    void C_LBU(GPR rd, uint32_t uimm, GPR rs) noexcept;
+
     // Cache Management Operation Extension Instructions
 
     void CBO_CLEAN(GPR rs) noexcept;

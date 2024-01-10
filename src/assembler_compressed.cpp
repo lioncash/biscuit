@@ -83,6 +83,17 @@ void EmitCompressedWideImmediate(CodeBuffer& buffer, uint32_t funct3, uint32_t i
     buffer.Emit16(((funct3 & 0b111) << 13) | ((imm & 0xFF) << 5) |
                   (rd_sanitized << 2) | (op & 0b11));
 }
+
+void EmitCLBType(CodeBuffer& buffer, uint32_t funct6, GPR rs, uint32_t uimm, GPR rd, uint32_t op) {
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rs));
+    BISCUIT_ASSERT(IsValid3BitCompressedReg(rd));
+    BISCUIT_ASSERT(uimm <= 3);
+
+    const auto rd_san = CompressedRegTo3BitEncoding(rd);
+    const auto rs_san = CompressedRegTo3BitEncoding(rs);
+
+    buffer.Emit16((funct6 << 10) |  (rs_san << 7) | (uimm << 5) | (rd_san << 2) | op);
+}
 } // Anonymous namespace
 
 void Assembler::C_ADD(GPR rd, GPR rs) noexcept {
@@ -494,6 +505,15 @@ void Assembler::C_UNDEF() noexcept {
 
 void Assembler::C_XOR(GPR rd, GPR rs) noexcept {
     EmitCompressedRegArith(m_buffer, 0b100011, rd, 0b01, rs, 0b01);
+}
+
+// Zc Extension Instructions
+
+void Assembler::C_LBU(GPR rd, uint32_t uimm, GPR rs) noexcept {
+    // C.LBU swaps the ordering of the immediate.
+    const auto uimm_fixed = ((uimm & 1) << 0b01) | ((uimm & 0b10) >> 1);
+
+    EmitCLBType(m_buffer, 0b100000, rs, uimm_fixed, rd, 0b00);
 }
 
 } // namespace biscuit
