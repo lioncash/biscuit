@@ -2,10 +2,8 @@
 
 #include <biscuit/assert.hpp>
 
-#include <climits>
 #include <compare>
 #include <cstdint>
-#include <type_traits>
 
 namespace biscuit {
 
