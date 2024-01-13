@@ -275,7 +275,7 @@ public:
         GPR end;
     };
 
-    constexpr PushPopList(const GPR& ra_reg, const Range& range = {}) noexcept
+    constexpr PushPopList(GPR ra_reg, const Range& range = {}) noexcept
         : m_bitmask{BuildBitmask(range)} {
         BISCUIT_ASSERT(ra_reg == ra);
     }
@@ -300,7 +300,7 @@ private:
     }
 
     // Aside from ra, it's only valid for s0-s11 to show up the register list ranges.
-    [[nodiscard]] static constexpr bool IsSRegister(const GPR& gpr) {
+    [[nodiscard]] static constexpr bool IsSRegister(const GPR gpr) {
         return gpr == s0 || gpr == s1 || (gpr >= s2 && gpr <= s11);
     }
 
