@@ -257,12 +257,16 @@ class PushPopList final {
 public:
     // Represents an inclusive range ([start, end]) of registers.
     struct Range final {
+        // Signifies an empty range. Normally this doesn't need to explicitly
+        // be created. Default parameters will usually take care of it.
         constexpr Range() : start{UINT32_MAX}, end{UINT32_MAX} {}
+
+        // This particular constructor is used for the case of rlist=5
+        // where only ra and s0 get stored.
         constexpr Range(GPR start_end) noexcept : start{start_end}, end{start_end} {
-            // This particular constructor is used for the case of rlist=5
-            // where only ra and s0 get stored. 
             BISCUIT_ASSERT(start_end == s0);
         }
+
         constexpr Range(GPR start_, GPR end_) noexcept : start{start_}, end{end_} {
             BISCUIT_ASSERT(start_ == s0);
             BISCUIT_ASSERT(IsSRegister(end_));
