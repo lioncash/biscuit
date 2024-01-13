@@ -286,7 +286,7 @@ public:
     }
 
 private:
-    constexpr uint32_t BuildBitmask(const Range& range) noexcept {
+    [[nodiscard]] static constexpr uint32_t BuildBitmask(const Range& range) noexcept {
         if (range.end.Index() == UINT32_MAX) {
             return 4U;
         }
