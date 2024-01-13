@@ -304,7 +304,7 @@ private:
     }
 
     // Aside from ra, it's only valid for s0-s11 to show up the register list ranges.
-    [[nodiscard]] static constexpr bool IsSRegister(const GPR gpr) {
+    [[nodiscard]] static constexpr bool IsSRegister(const GPR gpr) noexcept {
         return gpr == s0 || gpr == s1 || (gpr >= s2 && gpr <= s11);
     }
 
