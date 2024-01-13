@@ -1432,6 +1432,9 @@ public:
     void VFNCVTBF16_F_F_W(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
     void VFWCVTBF16_F_F_V(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
 
+    void VFWMACCBF16(Vec vd, FPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+    void VFWMACCBF16(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
+
 private:
     // Binds a label to a given offset.
     void BindToOffset(Label* label, Label::LocationOffset offset);

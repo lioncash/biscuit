@@ -2136,4 +2136,11 @@ void Assembler::VFWCVTBF16_F_F_V(Vec vd, Vec vs, VecMask mask) noexcept {
     EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v13, vd);
 }
 
+void Assembler::VFWMACCBF16(Vec vd, FPR rs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPFVF(m_buffer, 0b111011, mask, vs2, rs1, vd);
+}
+void Assembler::VFWMACCBF16(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b111011, mask, vs2, vs1, vd);
+}
+
 } // namespace biscuit
