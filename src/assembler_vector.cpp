@@ -2127,4 +2127,13 @@ void Assembler::VSM3ME(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVVP(m_buffer, 0b100000, VecMask::No, vs2, vs1, vd);
 }
 
+// Zvfbfmin, Zvfbfwma Extension Instructions
+
+void Assembler::VFNCVTBF16_F_F_W(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v29, vd);
+}
+void Assembler::VFWCVTBF16_F_F_V(Vec vd, Vec vs, VecMask mask) noexcept {
+    EmitVectorOPFVV(m_buffer, 0b010010, mask, vs, v13, vd);
+}
+
 } // namespace biscuit

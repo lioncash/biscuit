@@ -583,7 +583,7 @@ public:
     void FLEQ_S(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FLTQ_S(GPR rd, FPR rs1, FPR rs2) noexcept;
 
-    // Zfbfmin, Zvfbfmin, Zvfbfwma Extension Instructions
+    // Zfbfmin Extension Instructions
 
     void FCVT_BF16_S(FPR rd, FPR rs, RMode rmode = RMode::DYN) noexcept;
     void FCVT_S_BF16(FPR rd, FPR rs, RMode rmode = RMode::DYN) noexcept;
@@ -1426,6 +1426,11 @@ public:
 
     void VSM3C(Vec vd, Vec vs2, uint32_t uimm) noexcept;
     void VSM3ME(Vec vd, Vec vs2, Vec vs1) noexcept;
+
+    // Zvfbfmin, Zvfbfwma Extension Instructions
+
+    void VFNCVTBF16_F_F_W(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VFWCVTBF16_F_F_V(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
 
 private:
     // Binds a label to a given offset.
