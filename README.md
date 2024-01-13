@@ -37,6 +37,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | Zcmp      | 1.0.4   |
 | Zcmt      | 1.0.4   |
 | Zfa       | 1.0     |
+| Zfbfmin   | 1.0 rc2 |
 | Zfh       | 1.0     |
 | Zfhmin    | 1.0     |
 | Zicbom    | 1.0     |
@@ -48,6 +49,8 @@ Includes both 32-bit and 64-bit instructions in the following:
 | Zihintntl | 1.0     |
 | Zvbb      | 1.0     |
 | Zvbc      | 1.0     |
+| Zvfbfmin  | 1.0 rc2 |
+| Zvfbfwma  | 1.0 rc2 |
 | Zvkn      | 1.0     |
 
 Note that usually only extensions considered ratified will be implemented
