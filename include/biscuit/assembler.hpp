@@ -583,6 +583,11 @@ public:
     void FLEQ_S(GPR rd, FPR rs1, FPR rs2) noexcept;
     void FLTQ_S(GPR rd, FPR rs1, FPR rs2) noexcept;
 
+    // Zfbfmin, Zvfbfmin, Zvfbfwma Extension Instructions
+
+    void FCVT_BF16_S(FPR rd, FPR rs, RMode rmode = RMode::DYN) noexcept;
+    void FCVT_S_BF16(FPR rd, FPR rs, RMode rmode = RMode::DYN) noexcept;
+
     // RVB Extension Instructions
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;

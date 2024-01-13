@@ -621,4 +621,14 @@ void Assembler::FLTQ_S(GPR rd, FPR rs1, FPR rs2) noexcept {
     EmitRType(m_buffer, 0b1010000, rs2, rs1, 0b101, rd, 0b1010011);
 }
 
+// Zfbfmin, Zvfbfmin, Zvfbfwma Extension Instructions
+
+void Assembler::FCVT_BF16_S(FPR rd, FPR rs, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b0100010, f8, rs, static_cast<uint32_t>(rmode), rd, 0b1010011);
+}
+
+void Assembler::FCVT_S_BF16(FPR rd, FPR rs, RMode rmode) noexcept {
+    EmitRType(m_buffer, 0b0100000, f6, rs, static_cast<uint32_t>(rmode), rd, 0b1010011);
+}
+
 } // namespace biscuit
