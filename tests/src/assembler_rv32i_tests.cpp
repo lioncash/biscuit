@@ -339,16 +339,65 @@ TEST_CASE("LI", "[rv32i]") {
         REQUIRE(vals[1] == val_2);
     };
 
-    // Immediates that fit within -2048 to 2047 should only emit an ADDI
-    as.LI(x1, -1);
-    compare_vals(0xFFF00093, 0x00000000);
+    ///////// Single ADDI cases
 
+    as.LI(x1, 0);
+    // addi x1, x0, 0
+    compare_vals(0x00000093, 0x00000000);
     as.RewindBuffer();
     vals = {};
 
-    // Immediates larger than the above should generate both a LUI followed by an ADDI
+    as.LI(x1, -1);
+    // addi x1, x0, -1
+    compare_vals(0xFFF00093, 0x00000000);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI(x1, 42);
+    // addi x1, x0, 42
+    compare_vals(0x02A00093, 0x000000000);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI(x1, 0x7ff);
+    // addi x1, x0, 2047
+    compare_vals(0x7FF00093, 0x00000000);
+    as.RewindBuffer();
+    vals = {};
+
+    ///////// Single LUI cases
+
+    as.LI(x1, 0x2A000);
+    // lui x1, 42
+    compare_vals(0x0002A0B7, 0x00000000);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI(x1, ~0xFFF);
+    // lui x1, -1
+    compare_vals(0xFFFFF0B7, 0x00000000);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI(x1, INT32_MIN);
+    // lui x1, -524288
+    compare_vals(0x800000B7, 0x00000000);
+    as.RewindBuffer();
+    vals = {};
+
+    ///////// Full LUI+ADDI cases
+
     as.LI(x1, 0x11111111);
+    // lui x1, 69905
+    // addi x1, x1, 273
     compare_vals(0x111110B7, 0x11108093);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI(x1, INT32_MAX);
+    // lui x1, -524288
+    // addi x1, x1, -1
+    compare_vals(0x800000B7, 0xFFF08093);
 }
 
 TEST_CASE("LUI", "[rv32i]") {

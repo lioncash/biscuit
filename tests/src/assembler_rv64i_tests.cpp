@@ -1,5 +1,6 @@
 #include <catch/catch.hpp>
 
+#include <array>
 #include <biscuit/assembler.hpp>
 
 using namespace biscuit;
@@ -74,6 +75,149 @@ TEST_CASE("LD", "[rv64i]") {
 
     as.LD(x15, -1, x31);
     REQUIRE(value == 0xFFFFB783);
+}
+
+TEST_CASE("LI64", "[rv64i]") {
+    // Up to 8 instructions can be generated
+    std::array<uint32_t, 8> vals{};
+    Assembler as(reinterpret_cast<uint8_t*>(vals.data()), sizeof(vals));
+
+    const auto compare_vals = [&vals]<typename... Args>(const Args&... args) {
+        static_assert(sizeof...(args) <= vals.size());
+
+        size_t i = 0;
+        for (const auto arg : {args...}) {
+            REQUIRE(vals[i] == arg);
+            i++;
+        }
+    };
+
+    ///////// Single ADDIW cases
+
+    as.LI64(x1, 0);
+    // addiw x1, x0, 0
+    compare_vals(0x0000009BU, 0x00000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI64(x1, -1);
+    // addiw x1, x0, -1
+    compare_vals(0xFFF0009BU, 0x00000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI64(x1, 42);
+    // addiw x1, x0, 42
+    compare_vals(0x02A0009BU, 0x000000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI64(x1, 0x7ff);
+    // addiw x1, x0, 2047
+    compare_vals(0x7FF0009BU, 0x00000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    ///////// Single LUI cases
+
+    as.LI64(x1, 0x2A000);
+    // lui x1, 42
+    compare_vals(0x0002A0B7U, 0x00000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI64(x1, ~0xFFF);
+    // lui x1, -1
+    compare_vals(0xFFFFF0B7U, 0x00000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI64(x1, INT32_MIN);
+    // lui x1, -524288
+    compare_vals(0x800000B7U, 0x00000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    ///////// LUI+ADDIW cases
+
+    as.LI64(x1, 0x11111111);
+    // lui x1, 69905
+    // addiw x1, x1, 273
+    compare_vals(0x111110B7U, 0x1110809BU, 0x00000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI64(x1, INT32_MAX);
+    // lui x1, -524288
+    // addiw x1, x1, -1
+    compare_vals(0x800000B7U, 0xFFF0809BU, 0x00000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    ///////// ADDIW+SLLI cases
+
+    as.LI64(x1, 0x7FF0000000ULL);
+    // addiw x1, x0, 2047
+    // slli x1, x1, 28
+    compare_vals(0x7FF0009BU, 0x01C09093U, 0x000000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    as.LI64(x1, 0xABC00000ULL);
+    // addiw x1, x0, 687
+    // slli x1, x1, 22
+    compare_vals(0x2AF0009BU, 0x01609093U, 0x000000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    ///////// LUI+ADDIW+SLLI cases
+
+    as.LI64(x1, 0x7FFFFFFF0000ULL);
+    // lui x1, -524288
+    // addiw x1, x1, -1
+    // slli x1, x1, 16
+    compare_vals(0x800000B7U, 0xFFF0809BU, 0x01009093U, 0x000000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    ///////// LUI+ADDIW+SLLI+ADDI cases
+
+    as.LI64(x1, 0x7FFFFFFF0123);
+    // lui x1, -524288
+    // addiw x1, x1, -1
+    // slli x1, x1, 16
+    // addi x1, x1, 291
+    compare_vals(0x800000B7U, 0xfff0809BU, 0x01009093U, 0x12308093U,
+                 0x000000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    ///////// ADDIW+SLLI+ADDI+SLLI+ADDI cases
+
+    as.LI64(x1, 0x8000000080000001ULL);
+    // addiw x1, x0, -1
+    // slli x1, x1, 32
+    // addi x1, x1, 1
+    // slli x1, x1, 31
+    // addi x1, x1, 1
+    compare_vals(0xFFF0009BU, 0x02009093U, 0x00108093U, 0x01F09093U,
+                 0x00108093U, 0x000000000U);
+    as.RewindBuffer();
+    vals = {};
+
+    ///////// Full LUI+ADDIW+SLLI+ADDI+SLLI+ADDI+SLLI+ADDI cases
+
+    as.LI64(x1, 0x80808000808080F1ULL);
+    // lui x1, -16
+    // addiw x1, x1, 257
+    // slli x1, x1, 16
+    // addi x1, x1, 1
+    // slli x1, x1, 16
+    // addi x1, x1, 257
+    // slli x1, x1, 15
+    // addi x1, x1, 241
+    compare_vals(0xFFFF00B7U, 0x1010809BU, 0x01009093U, 0x00108093U,
+                 0x01009093U, 0x10108093U, 0x00F09093U, 0x0F108093U);
 }
 
 TEST_CASE("SD", "[rv64i]") {

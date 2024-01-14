@@ -178,6 +178,7 @@ public:
     void LH(GPR rd, int32_t imm, GPR rs) noexcept;
     void LHU(GPR rd, int32_t imm, GPR rs) noexcept;
     void LI(GPR rd, uint32_t imm) noexcept;
+    void LI64(GPR rd, uint64_t imm) noexcept;
     void LUI(GPR rd, uint32_t imm) noexcept;
     void LW(GPR rd, int32_t imm, GPR rs) noexcept;
 
