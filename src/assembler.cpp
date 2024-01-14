@@ -1,6 +1,7 @@
 #include <biscuit/assert.hpp>
 #include <biscuit/assembler.hpp>
 
+#include <bit>
 #include <cstring>
 
 #include "assembler_util.hpp"
@@ -303,30 +304,66 @@ void Assembler::LHU(GPR rd, int32_t imm, GPR rs) noexcept {
 }
 
 void Assembler::LI(GPR rd, uint32_t imm) noexcept {
-    const auto lower = imm & 0xFFF;
-    const auto upper = (imm & 0xFFFFF000) >> 12;
-    const auto simm = static_cast<int32_t>(imm);
+    // Depending on imm, the following instructions are emitted.
+    // hi20 == 0              -> ADDI
+    // lo12 == 0 && hi20 != 0 -> LUI
+    // otherwise              -> LUI+ADDI
 
-    // If the immediate can fit within 12 bits, we only need to emit an ADDI.
-    if (IsValidSigned12BitImm(simm)) {
-        ADDI(rd, x0, static_cast<int32_t>(lower));
-    } else {
-        const bool needs_increment = (lower & 0x800) != 0;
-        const auto upper_imm = needs_increment ? upper + 1 : upper;
+    // Add 0x800 to cancel out the signed extension of ADDI.
+    const auto hi20 = (imm + 0x800) >> 12 & 0xFFFFF;
+    const auto lo12 = static_cast<int32_t>(imm) & 0xFFF;
+    GPR rs1 = zero;
 
-        // Note that we add 1 to the upper portion of the immediate if the lower
-        // immediate's most significant bit is set. This is necessary, as ADDI
-        // sign-extends its 12-bit immediate before performing addition.
-        //
-        // In the event of the sign-extension, this means that we'll be adding
-        // an equivalent of "lower - 4096" to the upper immediate.
-        //
-        // We add 1 to the upper part of the immediate. the upper part's least
-        // significant bit is bit 12. Adding 1 to this bit is equivalent to adding
-        // 4096, which counteracts the sign-extension, preserving the value.
+    if (hi20 != 0) {
+        LUI(rd, hi20);
+        rs1 = rd;
+    }
 
-        LUI(rd, upper_imm);
-        ADDI(rd, rd, static_cast<int32_t>(lower));
+    if (lo12 != 0 || hi20 == 0) {
+        ADDI(rd, rs1, lo12);
+    }
+}
+
+void Assembler::LI64(GPR rd, uint64_t imm) noexcept {
+    // For 64-bit imm, a sequence of up to 8 instructions (i.e. LUI+ADDIW+SLLI+
+    // ADDI+SLLI+ADDI+SLLI+ADDI) is emitted.
+    // In the following, imm is processed from LSB to MSB while instruction emission
+    // is performed from MSB to LSB by calling LI64() recursively. In each recursion,
+    // the lowest 12 bits are removed from imm and the optimal shift amount is
+    // calculated. Then, the remaining part of imm is processed recursively and
+    // LI() get called as soon as it fits into 32 bits.
+
+    if (static_cast<uint64_t>(static_cast<int64_t>(imm << 32) >> 32) == imm) {
+        // Depending on imm, the following instructions are emitted.
+        // hi20 == 0              -> ADDIW
+        // lo12 == 0 && hi20 != 0 -> LUI
+        // otherwise              -> LUI+ADDIW
+
+        // Add 0x800 to cancel out the signed extension of ADDIW.
+        const auto hi20 = (static_cast<uint32_t>(imm) + 0x800) >> 12 & 0xFFFFF;
+        const auto lo12 = static_cast<int32_t>(imm) & 0xFFF;
+        GPR rs1 = zero;
+
+        if (hi20 != 0) {
+            LUI(rd, hi20);
+            rs1 = rd;
+        }
+
+        if (lo12 != 0 || hi20 == 0) {
+            ADDIW(rd, rs1, lo12);
+        }
+        return;
+    }
+
+    const auto lo12 = static_cast<int32_t>(static_cast<int64_t>(imm << 52) >> 52);
+    // Add 0x800 to cancel out the signed extension of ADDI.
+    uint64_t hi52 = (imm + 0x800) >> 12;
+    const uint32_t shift = 12 + static_cast<uint32_t>(std::countr_zero(hi52));
+    hi52 = static_cast<uint64_t>((static_cast<int64_t>(hi52 >> (shift - 12)) << shift) >> shift);
+    LI64(rd, hi52);
+    SLLI64(rd, rd, shift);
+    if (lo12 != 0) {
+        ADDI(rd, rd, lo12);
     }
 }
 
