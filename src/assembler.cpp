@@ -3,6 +3,7 @@
 
 #include <bit>
 #include <cstring>
+#include <utility>
 
 #include "assembler_util.hpp"
 
