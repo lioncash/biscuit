@@ -86,7 +86,7 @@ TEST_CASE("HLV.BU", "[rvpriv]") {
 
 TEST_CASE("HLV.D", "[rvpriv]") {
     uint32_t value = 0;
-    auto as = MakeAssembler32(value);
+    auto as = MakeAssembler64(value);
 
     as.HLV_D(x0, x0);
     REQUIRE(value == 0x6C004073);
@@ -138,7 +138,7 @@ TEST_CASE("HLV.W", "[rvpriv]") {
 
 TEST_CASE("HLV.WU", "[rvpriv]") {
     uint32_t value = 0;
-    auto as = MakeAssembler32(value);
+    auto as = MakeAssembler64(value);
 
     as.HLV_WU(x0, x0);
     REQUIRE(value == 0x68104073);
@@ -190,7 +190,7 @@ TEST_CASE("HSV.B", "[rvpriv]") {
 
 TEST_CASE("HSV.D", "[rvpriv]") {
     uint32_t value = 0;
-    auto as = MakeAssembler32(value);
+    auto as = MakeAssembler64(value);
 
     as.HSV_D(x0, x0);
     REQUIRE(value == 0x6E004073);

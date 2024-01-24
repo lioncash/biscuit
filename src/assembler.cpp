@@ -1221,6 +1221,7 @@ void Assembler::HLV_BU(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::HLV_D(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0110110, x0, rs, 0b100, rd, 0b1110011);
 }
 
@@ -1237,6 +1238,7 @@ void Assembler::HLV_W(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::HLV_WU(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0110100, x1, rs, 0b100, rd, 0b1110011);
 }
 
@@ -1253,6 +1255,7 @@ void Assembler::HSV_B(GPR rs2, GPR rs1) noexcept {
 }
 
 void Assembler::HSV_D(GPR rs2, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0110111, rs2, rs1, 0b100, x0, 0b1110011);
 }
 
