@@ -2,11 +2,13 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("AMOADD.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOADD_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x0077BFAF);
@@ -29,7 +31,7 @@ TEST_CASE("AMOADD.D", "[rv64a]") {
 
 TEST_CASE("AMOADD.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AMOADD_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x0077AFAF);
@@ -52,7 +54,7 @@ TEST_CASE("AMOADD.W", "[rv32a]") {
 
 TEST_CASE("AMOAND.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOAND_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x6077BFAF);
@@ -75,7 +77,7 @@ TEST_CASE("AMOAND.D", "[rv64a]") {
 
 TEST_CASE("AMOAND.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AMOAND_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x6077AFAF);
@@ -98,7 +100,7 @@ TEST_CASE("AMOAND.W", "[rv32a]") {
 
 TEST_CASE("AMOMAX.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOMAX_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0xA077BFAF);
@@ -121,7 +123,7 @@ TEST_CASE("AMOMAX.D", "[rv64a]") {
 
 TEST_CASE("AMOMAX.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AMOMAX_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0xA077AFAF);
@@ -144,7 +146,7 @@ TEST_CASE("AMOMAX.W", "[rv32a]") {
 
 TEST_CASE("AMOMAXU.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOMAXU_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0xE077BFAF);
@@ -167,7 +169,7 @@ TEST_CASE("AMOMAXU.D", "[rv64a]") {
 
 TEST_CASE("AMOMAXU.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AMOMAXU_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0xE077AFAF);
@@ -190,7 +192,7 @@ TEST_CASE("AMOMAXU.W", "[rv32a]") {
 
 TEST_CASE("AMOMIN.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOMIN_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x8077BFAF);
@@ -213,7 +215,7 @@ TEST_CASE("AMOMIN.D", "[rv64a]") {
 
 TEST_CASE("AMOMIN.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AMOMIN_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x8077AFAF);
@@ -236,7 +238,7 @@ TEST_CASE("AMOMIN.W", "[rv32a]") {
 
 TEST_CASE("AMOMINU.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOMINU_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0xC077BFAF);
@@ -259,7 +261,7 @@ TEST_CASE("AMOMINU.D", "[rv64a]") {
 
 TEST_CASE("AMOMINU.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AMOMINU_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0xC077AFAF);
@@ -282,7 +284,7 @@ TEST_CASE("AMOMINU.W", "[rv32a]") {
 
 TEST_CASE("AMOOR.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOOR_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x4077BFAF);
@@ -305,7 +307,7 @@ TEST_CASE("AMOOR.D", "[rv64a]") {
 
 TEST_CASE("AMOOR.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AMOOR_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x4077AFAF);
@@ -328,7 +330,7 @@ TEST_CASE("AMOOR.W", "[rv32a]") {
 
 TEST_CASE("AMOSWAP.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOSWAP_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x0877BFAF);
@@ -351,7 +353,7 @@ TEST_CASE("AMOSWAP.D", "[rv64a]") {
 
 TEST_CASE("AMOSWAP.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AMOSWAP_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x0877AFAF);
@@ -374,7 +376,7 @@ TEST_CASE("AMOSWAP.W", "[rv32a]") {
 
 TEST_CASE("AMOXOR.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOXOR_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x2077BFAF);
@@ -397,7 +399,7 @@ TEST_CASE("AMOXOR.D", "[rv64a]") {
 
 TEST_CASE("AMOXOR.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AMOXOR_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x2077AFAF);
@@ -420,7 +422,7 @@ TEST_CASE("AMOXOR.W", "[rv32a]") {
 
 TEST_CASE("LR.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.LR_D(Ordering::None, x31, x15);
     REQUIRE(value == 0x1007BFAF);
@@ -443,7 +445,7 @@ TEST_CASE("LR.D", "[rv64a]") {
 
 TEST_CASE("LR.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.LR_W(Ordering::None, x31, x15);
     REQUIRE(value == 0x1007AFAF);
@@ -466,7 +468,7 @@ TEST_CASE("LR.W", "[rv32a]") {
 
 TEST_CASE("SC.D", "[rv64a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SC_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x1877BFAF);
@@ -489,7 +491,7 @@ TEST_CASE("SC.D", "[rv64a]") {
 
 TEST_CASE("SC.W", "[rv32a]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SC_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x1877AFAF);

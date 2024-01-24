@@ -1,6 +1,8 @@
 #include <biscuit/assert.hpp>
 #include <biscuit/assembler.hpp>
 
+#include "assembler_util.hpp"
+
 namespace biscuit {
 namespace {
 void EmitAES32Instruction(CodeBuffer& buffer, uint32_t op, GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
@@ -30,48 +32,59 @@ void EmitSM3Instruction(CodeBuffer& buffer, uint32_t op, GPR rd, GPR rs) noexcep
 } // Anonymous namespace
 
 void Assembler::AES32DSI(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitAES32Instruction(m_buffer, 0x2A000033, rd, rs1, rs2, bs);
 }
 
 void Assembler::AES32DSMI(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitAES32Instruction(m_buffer, 0x2E000033, rd, rs1, rs2, bs);
 }
 
 void Assembler::AES32ESI(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitAES32Instruction(m_buffer, 0x22000033, rd, rs1, rs2, bs);
 }
 
 void Assembler::AES32ESMI(GPR rd, GPR rs1, GPR rs2, uint32_t bs) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitAES32Instruction(m_buffer, 0x26000033, rd, rs1, rs2, bs);
 }
 
 void Assembler::AES64DS(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitAES64Instruction(m_buffer, 0x3A000033, rd, rs1, rs2);
 }
 
 void Assembler::AES64DSM(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitAES64Instruction(m_buffer, 0x3E000033, rd, rs1, rs2);
 }
 
 void Assembler::AES64ES(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitAES64Instruction(m_buffer, 0x32000033, rd, rs1, rs2);
 }
 
 void Assembler::AES64ESM(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitAES64Instruction(m_buffer, 0x36000033, rd, rs1, rs2);
 }
 
 void Assembler::AES64IM(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitAES64Instruction(m_buffer, 0x30001013, rd, rs, x0);
 }
 
 void Assembler::AES64KS1I(GPR rd, GPR rs, uint32_t rnum) noexcept {
-    // RVK spec states that 0xB to 0xF are reserved.
+    // RVK spec states that rnums 0xB to 0xF are reserved.
+    BISCUIT_ASSERT(IsRV64(m_features));
     BISCUIT_ASSERT(rnum <= 0xA);
     EmitAES64Instruction(m_buffer, 0x31001013, rd, rs, GPR{rnum});
 }
 
 void Assembler::AES64KS2(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitAES64Instruction(m_buffer, 0x7E000033, rd, rs1, rs2);
 }
 
@@ -92,42 +105,52 @@ void Assembler::SHA256SUM1(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::SHA512SIG0(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitSHAInstruction(m_buffer, 0x10601013, rd, rs, x0);
 }
 
 void Assembler::SHA512SIG0H(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitSHAInstruction(m_buffer, 0x5C000033, rd, rs1, rs2);
 }
 
 void Assembler::SHA512SIG0L(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitSHAInstruction(m_buffer, 0x54000033, rd, rs1, rs2);
 }
 
 void Assembler::SHA512SIG1(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitSHAInstruction(m_buffer, 0x10701013, rd, rs, x0);
 }
 
 void Assembler::SHA512SIG1H(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitSHAInstruction(m_buffer, 0x5E000033, rd, rs1, rs2);
 }
 
 void Assembler::SHA512SIG1L(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitSHAInstruction(m_buffer, 0x56000033, rd, rs1, rs2);
 }
 
 void Assembler::SHA512SUM0(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitSHAInstruction(m_buffer, 0x10401013, rd, rs, x0);
 }
 
 void Assembler::SHA512SUM0R(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitSHAInstruction(m_buffer, 0x50000033, rd, rs1, rs2);
 }
 
 void Assembler::SHA512SUM1(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitSHAInstruction(m_buffer, 0x10501013, rd, rs, x0);
 }
 
 void Assembler::SHA512SUM1R(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitSHAInstruction(m_buffer, 0x52000033, rd, rs1, rs2);
 }
 

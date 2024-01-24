@@ -204,4 +204,21 @@ inline void EmitFENCE(CodeBuffer& buffer, uint32_t fm, FenceOrder pred, FenceOrd
     // clang-format on
 }
 
+// Internal helpers for siloing away particular comparisons for behavior.
+constexpr bool IsRV32(ArchFeature feature) {
+    return feature == ArchFeature::RV32;
+}
+constexpr bool IsRV64(ArchFeature feature) {
+    return feature == ArchFeature::RV64;
+}
+constexpr bool IsRV128(ArchFeature feature) {
+    return feature == ArchFeature::RV128;
+}
+constexpr bool IsRV32OrRV64(ArchFeature feature) {
+    return IsRV32(feature) || IsRV64(feature);
+}
+constexpr bool IsRV64OrRV128(ArchFeature feature) {
+    return IsRV64(feature) || IsRV128(feature);
+}
+
 } // namespace biscuit

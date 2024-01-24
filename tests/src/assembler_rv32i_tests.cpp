@@ -3,11 +3,13 @@
 #include <array>
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("ADD", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.ADD(x7, x15, x31);
     REQUIRE(value == 0x01F783B3);
@@ -25,7 +27,7 @@ TEST_CASE("ADD", "[rv32i]") {
 
 TEST_CASE("ADDI", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.ADDI(x15, x31, 1024);
     REQUIRE(value == 0x400F8793);
@@ -43,7 +45,7 @@ TEST_CASE("ADDI", "[rv32i]") {
 
 TEST_CASE("AND", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AND(x7, x15, x31);
     REQUIRE(value == 0x01F7F3B3);
@@ -61,7 +63,7 @@ TEST_CASE("AND", "[rv32i]") {
 
 TEST_CASE("ANDI", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.ANDI(x15, x31, 1024);
     REQUIRE(value == 0x400FF793);
@@ -79,7 +81,7 @@ TEST_CASE("ANDI", "[rv32i]") {
 
 TEST_CASE("AUIPC", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AUIPC(x31, -1);
     REQUIRE(value == 0xFFFFFF97);
@@ -97,7 +99,7 @@ TEST_CASE("AUIPC", "[rv32i]") {
 
 TEST_CASE("BEQ", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.BEQ(x15, x31, 2000);
     REQUIRE(value == 0x7DF78863);
@@ -110,7 +112,7 @@ TEST_CASE("BEQ", "[rv32i]") {
 
 TEST_CASE("BGE", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.BGE(x15, x31, 2000);
     REQUIRE(value == 0x7DF7D863);
@@ -123,7 +125,7 @@ TEST_CASE("BGE", "[rv32i]") {
 
 TEST_CASE("BGEU", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.BGEU(x15, x31, 2000);
     REQUIRE(value == 0x7DF7F863);
@@ -136,7 +138,7 @@ TEST_CASE("BGEU", "[rv32i]") {
 
 TEST_CASE("BNE", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.BNE(x15, x31, 2000);
     REQUIRE(value == 0x7DF79863);
@@ -149,7 +151,7 @@ TEST_CASE("BNE", "[rv32i]") {
 
 TEST_CASE("BLT", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.BLT(x15, x31, 2000);
     REQUIRE(value == 0x7DF7C863);
@@ -162,7 +164,7 @@ TEST_CASE("BLT", "[rv32i]") {
 
 TEST_CASE("BLTU", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.BLTU(x15, x31, 2000);
     REQUIRE(value == 0x7DF7E863);
@@ -175,7 +177,7 @@ TEST_CASE("BLTU", "[rv32i]") {
 
 TEST_CASE("CALL", "[rv32i]") {
     std::array<uint32_t, 2> vals{};
-    Assembler as(reinterpret_cast<uint8_t*>(vals.data()), sizeof(vals));
+    auto as = MakeAssembler32(vals);
 
     const auto compare_vals = [&vals](uint32_t val_1, uint32_t val_2) {
         REQUIRE(vals[0] == val_1);
@@ -188,7 +190,7 @@ TEST_CASE("CALL", "[rv32i]") {
 
 TEST_CASE("EBREAK", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.EBREAK();
     REQUIRE(value == 0x00100073);
@@ -196,17 +198,15 @@ TEST_CASE("EBREAK", "[rv32i]") {
 
 TEST_CASE("ECALL", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.ECALL();
     REQUIRE(value == 0x00000073);
 }
 
 TEST_CASE("FENCE", "[rv32i]") {
-    using namespace biscuit;
-
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FENCE(FenceOrder::IORW, FenceOrder::IORW);
     REQUIRE(value == 0x0FF0000F);
@@ -224,7 +224,7 @@ TEST_CASE("FENCE", "[rv32i]") {
 
 TEST_CASE("JAL", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.JAL(x31, 0xFFFFFFFF);
     REQUIRE(value == 0xFFFFFFEF);
@@ -242,7 +242,7 @@ TEST_CASE("JAL", "[rv32i]") {
 
 TEST_CASE("JALR", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.JALR(x15, 1024, x31);
     REQUIRE(value == 0x400F87E7);
@@ -260,7 +260,7 @@ TEST_CASE("JALR", "[rv32i]") {
 
 TEST_CASE("LB", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.LB(x15, 1024, x31);
     REQUIRE(value == 0x400F8783);
@@ -278,7 +278,7 @@ TEST_CASE("LB", "[rv32i]") {
 
 TEST_CASE("LBU", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.LBU(x15, 1024, x31);
     REQUIRE(value == 0x400FC783);
@@ -296,7 +296,7 @@ TEST_CASE("LBU", "[rv32i]") {
 
 TEST_CASE("LH", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.LH(x15, 1024, x31);
     REQUIRE(value == 0x400F9783);
@@ -314,7 +314,7 @@ TEST_CASE("LH", "[rv32i]") {
 
 TEST_CASE("LHU", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.LHU(x15, 1024, x31);
     REQUIRE(value == 0x400FD783);
@@ -332,7 +332,7 @@ TEST_CASE("LHU", "[rv32i]") {
 
 TEST_CASE("LI", "[rv32i]") {
     std::array<uint32_t, 2> vals{};
-    Assembler as(reinterpret_cast<uint8_t*>(vals.data()), sizeof(vals));
+    auto as = MakeAssembler32(vals);
 
     const auto compare_vals = [&vals](uint32_t val_1, uint32_t val_2) {
         REQUIRE(vals[0] == val_1);
@@ -402,7 +402,7 @@ TEST_CASE("LI", "[rv32i]") {
 
 TEST_CASE("LUI", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.LUI(x10, 0xFFFFFFFF);
     REQUIRE(value == 0xFFFFF537);
@@ -420,7 +420,7 @@ TEST_CASE("LUI", "[rv32i]") {
 
 TEST_CASE("LW", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.LW(x15, 1024, x31);
     REQUIRE(value == 0x400FA783);
@@ -438,7 +438,7 @@ TEST_CASE("LW", "[rv32i]") {
 
 TEST_CASE("OR", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.OR(x7, x15, x31);
     REQUIRE(value == 0x01F7E3B3);
@@ -456,7 +456,7 @@ TEST_CASE("OR", "[rv32i]") {
 
 TEST_CASE("ORI", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.ORI(x15, x31, 1024);
     REQUIRE(value == 0x400FE793);
@@ -474,7 +474,7 @@ TEST_CASE("ORI", "[rv32i]") {
 
 TEST_CASE("PAUSE", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.PAUSE();
     REQUIRE(value == 0x0100000F);
@@ -482,7 +482,7 @@ TEST_CASE("PAUSE", "[rv32i]") {
 
 TEST_CASE("SB", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SB(x31, 1024, x15);
     REQUIRE(value == 0x41F78023);
@@ -500,7 +500,7 @@ TEST_CASE("SB", "[rv32i]") {
 
 TEST_CASE("SH", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SH(x31, 1024, x15);
     REQUIRE(value == 0x41F79023);
@@ -518,7 +518,7 @@ TEST_CASE("SH", "[rv32i]") {
 
 TEST_CASE("SLL", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SLL(x7, x15, x31);
     REQUIRE(value == 0x01F793B3);
@@ -536,7 +536,7 @@ TEST_CASE("SLL", "[rv32i]") {
 
 TEST_CASE("SLLI", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SLLI(x31, x15, 10);
     REQUIRE(value == 0x00A79F93);
@@ -554,7 +554,7 @@ TEST_CASE("SLLI", "[rv32i]") {
 
 TEST_CASE("SLT", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SLT(x7, x15, x31);
     REQUIRE(value == 0x01F7A3B3);
@@ -572,7 +572,7 @@ TEST_CASE("SLT", "[rv32i]") {
 
 TEST_CASE("SLTI", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SLTI(x15, x31, 1024);
     REQUIRE(value == 0x400FA793);
@@ -590,7 +590,7 @@ TEST_CASE("SLTI", "[rv32i]") {
 
 TEST_CASE("SLTIU", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SLTIU(x15, x31, 1024);
     REQUIRE(value == 0x400FB793);
@@ -608,7 +608,7 @@ TEST_CASE("SLTIU", "[rv32i]") {
 
 TEST_CASE("SLTU", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SLTU(x7, x15, x31);
     REQUIRE(value == 0x01F7B3B3);
@@ -626,7 +626,7 @@ TEST_CASE("SLTU", "[rv32i]") {
 
 TEST_CASE("SRA", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SRA(x7, x15, x31);
     REQUIRE(value == 0x41F7D3B3);
@@ -644,7 +644,7 @@ TEST_CASE("SRA", "[rv32i]") {
 
 TEST_CASE("SRAI", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SRAI(x31, x15, 10);
     REQUIRE(value == 0x40A7DF93);
@@ -662,7 +662,7 @@ TEST_CASE("SRAI", "[rv32i]") {
 
 TEST_CASE("SRL", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SRL(x7, x15, x31);
     REQUIRE(value == 0x01F7D3B3);
@@ -680,7 +680,7 @@ TEST_CASE("SRL", "[rv32i]") {
 
 TEST_CASE("SRLI", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SRLI(x31, x15, 10);
     REQUIRE(value == 0x00A7DF93);
@@ -698,7 +698,7 @@ TEST_CASE("SRLI", "[rv32i]") {
 
 TEST_CASE("SUB", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SUB(x7, x15, x31);
     REQUIRE(value == 0x41F783B3);
@@ -716,7 +716,7 @@ TEST_CASE("SUB", "[rv32i]") {
 
 TEST_CASE("SW", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SW(x31, 1024, x15);
     REQUIRE(value == 0x41F7A023);
@@ -734,7 +734,7 @@ TEST_CASE("SW", "[rv32i]") {
 
 TEST_CASE("XOR", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.XOR(x7, x15, x31);
     REQUIRE(value == 0x01F7C3B3);
@@ -752,7 +752,7 @@ TEST_CASE("XOR", "[rv32i]") {
 
 TEST_CASE("XORI", "[rv32i]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.XORI(x15, x31, 1024);
     REQUIRE(value == 0x400FC793);

@@ -1,14 +1,15 @@
 #include <catch/catch.hpp>
 
 #include <array>
-
 #include <biscuit/assembler.hpp>
+
+#include "assembler_test_utils.hpp"
 
 using namespace biscuit;
 
 TEST_CASE("Branch to Self", "[branch]") {
     uint32_t data;
-    Assembler as(reinterpret_cast<uint8_t*>(&data), sizeof(data));
+    auto as = MakeAssembler32(data);
 
     // Simple branch to self with a jump instruction.
     {
@@ -51,7 +52,7 @@ TEST_CASE("Branch to Self", "[branch]") {
 
 TEST_CASE("Branch with Instructions Between", "[branch]") {
     std::array<uint32_t, 20> data{};
-    Assembler as(reinterpret_cast<uint8_t*>(&data), sizeof(data));
+    auto as = MakeAssembler32(data);
 
     // Simple branch backward
     {

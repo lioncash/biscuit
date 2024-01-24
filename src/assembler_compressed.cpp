@@ -25,6 +25,7 @@ void EmitCompressedBranch(CodeBuffer& buffer, uint32_t funct3, int32_t offset, G
 // funct3 | imm | op
 void EmitCompressedJump(CodeBuffer& buffer, uint32_t funct3, int32_t offset, uint32_t op) {
     BISCUIT_ASSERT(IsValidCJTypeImm(offset));
+    BISCUIT_ASSERT((offset % 2) == 0);
 
     buffer.Emit16(TransformToCJTypeImm(static_cast<uint32_t>(offset)) |
                   ((funct3 & 0b111) << 13) | (op & 0b11));
@@ -145,17 +146,21 @@ void EmitCMMVType(CodeBuffer& buffer, uint32_t funct6, GPR r1s, uint32_t funct2,
 }
 
 void EmitCMPPType(CodeBuffer& buffer, uint32_t funct6, uint32_t funct2, PushPopList reglist,
-                  int32_t stack_adj, uint32_t op) {
+                  int32_t stack_adj, uint32_t op, ArchFeature feature) {
     BISCUIT_ASSERT(stack_adj % 16 == 0);
 
-    // NOTE: RV64 only. We need to generify this for RV32 as well.
+    static constexpr std::array stack_adj_bases_rv32{
+        0U, 0U, 0U, 0U, 16U, 16U, 16U, 16U,
+        32U, 32U, 32U, 32U, 48U, 48U, 48U, 64U,
+    };
     static constexpr std::array stack_adj_bases_rv64{
         0U, 0U, 0U, 0U, 16U, 16U, 32U, 32U,
         48U, 48U, 64U, 64U, 80U, 80U, 96U, 112U
     };
 
     const auto bitmask = reglist.GetBitmask();
-    const auto stack_adj_base = stack_adj_bases_rv64[bitmask];
+    const auto stack_adj_base = IsRV64(feature) ? stack_adj_bases_rv64[bitmask]
+                                                : stack_adj_bases_rv32[bitmask];
     const auto stack_adj_u = static_cast<uint32_t>(std::abs(stack_adj));
     const auto spimm = (stack_adj_u - stack_adj_base) / 16U;
 
@@ -182,6 +187,7 @@ void Assembler::C_ADDI(GPR rd, int32_t imm) noexcept {
 }
 
 void Assembler::C_ADDIW(GPR rd, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     BISCUIT_ASSERT(IsValidSigned6BitImm(imm));
     EmitCompressedImmediate(m_buffer, 0b001, static_cast<uint32_t>(imm), rd, 0b01);
 }
@@ -202,6 +208,7 @@ void Assembler::C_ADDI4SPN(GPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::C_ADDW(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     EmitCompressedRegArith(m_buffer, 0b100111, rd, 0b01, rs, 0b01);
 }
 
@@ -259,6 +266,7 @@ void Assembler::C_EBREAK() noexcept {
 }
 
 void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV32OrRV64(m_features));
     BISCUIT_ASSERT(imm <= 248);
     BISCUIT_ASSERT(imm % 8 == 0);
 
@@ -266,6 +274,7 @@ void Assembler::C_FLD(FPR rd, uint32_t imm, GPR rs) noexcept {
 }
 
 void Assembler::C_FLDSP(FPR rd, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(IsRV32OrRV64(m_features));
     BISCUIT_ASSERT(imm <= 504);
     BISCUIT_ASSERT(imm % 8 == 0);
 
@@ -279,6 +288,7 @@ void Assembler::C_FLDSP(FPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     BISCUIT_ASSERT(imm <= 124);
     BISCUIT_ASSERT(imm % 4 == 0);
 
@@ -288,6 +298,7 @@ void Assembler::C_FLW(FPR rd, uint32_t imm, GPR rs) noexcept {
 }
 
 void Assembler::C_FLWSP(FPR rd, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     BISCUIT_ASSERT(imm <= 252);
     BISCUIT_ASSERT(imm % 4 == 0);
 
@@ -301,6 +312,7 @@ void Assembler::C_FLWSP(FPR rd, uint32_t imm) noexcept {
 }
 
 void Assembler::C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsRV32OrRV64(m_features));
     BISCUIT_ASSERT(imm <= 248);
     BISCUIT_ASSERT(imm % 8 == 0);
 
@@ -308,6 +320,7 @@ void Assembler::C_FSD(FPR rs2, uint32_t imm, GPR rs1) noexcept {
 }
 
 void Assembler::C_FSDSP(FPR rs, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(IsRV32OrRV64(m_features));
     BISCUIT_ASSERT(imm <= 504);
     BISCUIT_ASSERT(imm % 8 == 0);
 
@@ -334,16 +347,22 @@ void Assembler::C_JAL(Label* label) noexcept {
 }
 
 void Assembler::C_JAL(int32_t offset) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitCompressedJump(m_buffer, 0b001, offset, 0b01);
 }
 
 void Assembler::C_FSW(FPR rs2, uint32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
+    BISCUIT_ASSERT(imm <= 124);
+    BISCUIT_ASSERT(imm % 4 == 0);
+
     imm &= 0x7C;
     const auto new_imm = ((imm & 0b0100) << 5) | (imm & 0x78);
     EmitCompressedStore(m_buffer, 0b111, new_imm, rs1, rs2, 0b00);
 }
 
 void Assembler::C_FSWSP(FPR rs, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     BISCUIT_ASSERT(imm <= 252);
     BISCUIT_ASSERT(imm % 4 == 0);
 
@@ -366,6 +385,7 @@ void Assembler::C_JR(GPR rs) noexcept {
 }
 
 void Assembler::C_LD(GPR rd, uint32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     BISCUIT_ASSERT(imm <= 248);
     BISCUIT_ASSERT(imm % 8 == 0);
 
@@ -373,6 +393,7 @@ void Assembler::C_LD(GPR rd, uint32_t imm, GPR rs) noexcept {
 }
 
 void Assembler::C_LDSP(GPR rd, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     BISCUIT_ASSERT(rd != x0);
     BISCUIT_ASSERT(imm <= 504);
     BISCUIT_ASSERT(imm % 8 == 0);
@@ -392,6 +413,7 @@ void Assembler::C_LI(GPR rd, int32_t imm) noexcept {
 }
 
 void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV128(m_features));
     BISCUIT_ASSERT(imm <= 496);
     BISCUIT_ASSERT(imm % 16 == 0);
 
@@ -401,6 +423,7 @@ void Assembler::C_LQ(GPR rd, uint32_t imm, GPR rs) noexcept {
 }
 
 void Assembler::C_LQSP(GPR rd, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(IsRV128(m_features));
     BISCUIT_ASSERT(rd != x0);
     BISCUIT_ASSERT(imm <= 1008);
     BISCUIT_ASSERT(imm % 16 == 0);
@@ -460,6 +483,7 @@ void Assembler::C_OR(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     BISCUIT_ASSERT(imm <= 248);
     BISCUIT_ASSERT(imm % 8 == 0);
 
@@ -467,6 +491,7 @@ void Assembler::C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
 }
 
 void Assembler::C_SDSP(GPR rs, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     BISCUIT_ASSERT(imm <= 504);
     BISCUIT_ASSERT(imm % 8 == 0);
 
@@ -484,6 +509,7 @@ void Assembler::C_SLLI(GPR rd, uint32_t shift) noexcept {
 
     // RV128C encodes a 64-bit shift with an encoding of 0.
     if (shift == 64) {
+        BISCUIT_ASSERT(IsRV128(m_features));
         shift = 0;
     }
 
@@ -492,6 +518,7 @@ void Assembler::C_SLLI(GPR rd, uint32_t shift) noexcept {
 }
 
 void Assembler::C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsRV128(m_features));
     BISCUIT_ASSERT(imm <= 496);
     BISCUIT_ASSERT(imm % 16 == 0);
 
@@ -501,6 +528,7 @@ void Assembler::C_SQ(GPR rs2, uint32_t imm, GPR rs1) noexcept {
 }
 
 void Assembler::C_SQSP(GPR rs, uint32_t imm) noexcept {
+    BISCUIT_ASSERT(IsRV128(m_features));
     BISCUIT_ASSERT(imm <= 1008);
     BISCUIT_ASSERT(imm % 16 == 0);
 
@@ -518,6 +546,7 @@ void Assembler::C_SRAI(GPR rd, uint32_t shift) noexcept {
 
     // RV128C encodes a 64-bit shift with an encoding of 0.
     if (shift == 64) {
+        BISCUIT_ASSERT(IsRV128(m_features));
         shift = 0;
     }
 
@@ -534,6 +563,7 @@ void Assembler::C_SRLI(GPR rd, uint32_t shift) noexcept {
 
     // RV128C encodes a 64-bit shift with an encoding of 0.
     if (shift == 64) {
+        BISCUIT_ASSERT(IsRV128(m_features));
         shift = 0;
     }
 
@@ -549,6 +579,7 @@ void Assembler::C_SUB(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::C_SUBW(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     EmitCompressedRegArith(m_buffer, 0b100111, rd, 0b00, rs, 0b01);
 }
 
@@ -618,6 +649,7 @@ void Assembler::C_ZEXT_H(GPR rd) noexcept {
     EmitCUType(m_buffer, 0b100111, rd, 0b11010, 0b01);
 }
 void Assembler::C_ZEXT_W(GPR rd) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitCUType(m_buffer, 0b100111, rd, 0b11100, 0b01);
 }
 
@@ -646,19 +678,19 @@ void Assembler::CM_MVSA01(GPR r1s, GPR r2s) noexcept {
 
 void Assembler::CM_POP(PushPopList reg_list, int32_t stack_adj) noexcept {
     BISCUIT_ASSERT(stack_adj > 0);
-    EmitCMPPType(m_buffer, 0b101110, 0b10, reg_list, stack_adj, 0b10);
+    EmitCMPPType(m_buffer, 0b101110, 0b10, reg_list, stack_adj, 0b10, m_features);
 }
 void Assembler::CM_POPRET(PushPopList reg_list, int32_t stack_adj) noexcept {
     BISCUIT_ASSERT(stack_adj > 0);
-    EmitCMPPType(m_buffer, 0b101111, 0b10, reg_list, stack_adj, 0b10);
+    EmitCMPPType(m_buffer, 0b101111, 0b10, reg_list, stack_adj, 0b10, m_features);
 }
 void Assembler::CM_POPRETZ(PushPopList reg_list, int32_t stack_adj) noexcept {
     BISCUIT_ASSERT(stack_adj > 0);
-    EmitCMPPType(m_buffer, 0b101111, 0b00, reg_list, stack_adj, 0b10);
+    EmitCMPPType(m_buffer, 0b101111, 0b00, reg_list, stack_adj, 0b10, m_features);
 }
 void Assembler::CM_PUSH(PushPopList reg_list, int32_t stack_adj) noexcept {
     BISCUIT_ASSERT(stack_adj < 0);
-    EmitCMPPType(m_buffer, 0b101110, 0b00, reg_list, stack_adj, 0b10);
+    EmitCMPPType(m_buffer, 0b101110, 0b00, reg_list, stack_adj, 0b10, m_features);
 }
 
 } // namespace biscuit

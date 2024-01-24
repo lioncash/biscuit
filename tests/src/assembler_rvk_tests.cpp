@@ -2,11 +2,13 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("AES32DSI", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AES32DSI(x31, x31, x31, 0b11);
     REQUIRE(value == 0xEBFF8FB3);
@@ -19,7 +21,7 @@ TEST_CASE("AES32DSI", "[rvk]") {
 
 TEST_CASE("AES32DSMI", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AES32DSMI(x31, x31, x31, 0b11);
     REQUIRE(value == 0xEFFF8FB3);
@@ -32,7 +34,7 @@ TEST_CASE("AES32DSMI", "[rvk]") {
 
 TEST_CASE("AES32ESI", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AES32ESI(x31, x31, x31, 0b11);
     REQUIRE(value == 0xE3FF8FB3);
@@ -45,7 +47,7 @@ TEST_CASE("AES32ESI", "[rvk]") {
 
 TEST_CASE("AES32ESMI", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.AES32ESMI(x31, x31, x31, 0b11);
     REQUIRE(value == 0xE7FF8FB3);
@@ -58,7 +60,7 @@ TEST_CASE("AES32ESMI", "[rvk]") {
 
 TEST_CASE("AES64DS", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AES64DS(x31, x31, x31);
     REQUIRE(value == 0x3BFF8FB3);
@@ -71,7 +73,7 @@ TEST_CASE("AES64DS", "[rvk]") {
 
 TEST_CASE("AES64DSM", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AES64DSM(x31, x31, x31);
     REQUIRE(value == 0x3FFF8FB3);
@@ -84,7 +86,7 @@ TEST_CASE("AES64DSM", "[rvk]") {
 
 TEST_CASE("AES64ES", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AES64ES(x31, x31, x31);
     REQUIRE(value == 0x33FF8FB3);
@@ -97,7 +99,7 @@ TEST_CASE("AES64ES", "[rvk]") {
 
 TEST_CASE("AES64ESM", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AES64ESM(x31, x31, x31);
     REQUIRE(value == 0x37FF8FB3);
@@ -110,7 +112,7 @@ TEST_CASE("AES64ESM", "[rvk]") {
 
 TEST_CASE("AES64IM", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AES64IM(x31, x31);
     REQUIRE(value == 0x300F9F93);
@@ -123,7 +125,7 @@ TEST_CASE("AES64IM", "[rvk]") {
 
 TEST_CASE("AES64KS1I", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AES64KS1I(x31, x31, 0xA);
     REQUIRE(value == 0x31AF9F93);
@@ -136,7 +138,7 @@ TEST_CASE("AES64KS1I", "[rvk]") {
 
 TEST_CASE("AES64KS2", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AES64KS2(x31, x31, x31);
     REQUIRE(value == 0x7FFF8FB3);
@@ -149,7 +151,7 @@ TEST_CASE("AES64KS2", "[rvk]") {
 
 TEST_CASE("SHA256SIG0", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SHA256SIG0(x31, x31);
     REQUIRE(value == 0x102F9F93);
@@ -162,7 +164,7 @@ TEST_CASE("SHA256SIG0", "[rvk]") {
 
 TEST_CASE("SHA256SIG1", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SHA256SIG1(x31, x31);
     REQUIRE(value == 0x103F9F93);
@@ -175,7 +177,7 @@ TEST_CASE("SHA256SIG1", "[rvk]") {
 
 TEST_CASE("SHA256SUM0", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SHA256SUM0(x31, x31);
     REQUIRE(value == 0x100F9F93);
@@ -188,7 +190,7 @@ TEST_CASE("SHA256SUM0", "[rvk]") {
 
 TEST_CASE("SHA256SUM1", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SHA256SUM1(x31, x31);
     REQUIRE(value == 0x101F9F93);
@@ -201,7 +203,7 @@ TEST_CASE("SHA256SUM1", "[rvk]") {
 
 TEST_CASE("SHA512SIG0", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SHA512SIG0(x31, x31);
     REQUIRE(value == 0x106F9F93);
@@ -214,7 +216,7 @@ TEST_CASE("SHA512SIG0", "[rvk]") {
 
 TEST_CASE("SHA512SIG0H", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SHA512SIG0H(x31, x31, x31);
     REQUIRE(value == 0x5DFF8FB3);
@@ -227,7 +229,7 @@ TEST_CASE("SHA512SIG0H", "[rvk]") {
 
 TEST_CASE("SHA512SIG0L", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SHA512SIG0L(x31, x31, x31);
     REQUIRE(value == 0x55FF8FB3);
@@ -240,7 +242,7 @@ TEST_CASE("SHA512SIG0L", "[rvk]") {
 
 TEST_CASE("SHA512SIG1", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SHA512SIG1(x31, x31);
     REQUIRE(value == 0x107F9F93);
@@ -253,7 +255,7 @@ TEST_CASE("SHA512SIG1", "[rvk]") {
 
 TEST_CASE("SHA512SIG1H", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SHA512SIG1H(x31, x31, x31);
     REQUIRE(value == 0x5FFF8FB3);
@@ -266,7 +268,7 @@ TEST_CASE("SHA512SIG1H", "[rvk]") {
 
 TEST_CASE("SHA512SIG1L", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SHA512SIG1L(x31, x31, x31);
     REQUIRE(value == 0x57FF8FB3);
@@ -279,7 +281,7 @@ TEST_CASE("SHA512SIG1L", "[rvk]") {
 
 TEST_CASE("SHA512SUM0", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SHA512SUM0(x31, x31);
     REQUIRE(value == 0x104F9F93);
@@ -292,7 +294,7 @@ TEST_CASE("SHA512SUM0", "[rvk]") {
 
 TEST_CASE("SHA512SUM0R", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SHA512SUM0R(x31, x31, x31);
     REQUIRE(value == 0x51FF8FB3);
@@ -305,7 +307,7 @@ TEST_CASE("SHA512SUM0R", "[rvk]") {
 
 TEST_CASE("SHA512SUM1", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SHA512SUM1(x31, x31);
     REQUIRE(value == 0x105F9F93);
@@ -318,7 +320,7 @@ TEST_CASE("SHA512SUM1", "[rvk]") {
 
 TEST_CASE("SHA512SUM1R", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SHA512SUM1R(x31, x31, x31);
     REQUIRE(value == 0x53FF8FB3);
@@ -331,7 +333,7 @@ TEST_CASE("SHA512SUM1R", "[rvk]") {
 
 TEST_CASE("SM3P0", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SM3P0(x31, x31);
     REQUIRE(value == 0x108F9F93);
@@ -344,7 +346,7 @@ TEST_CASE("SM3P0", "[rvk]") {
 
 TEST_CASE("SM3P1", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SM3P1(x31, x31);
     REQUIRE(value == 0x109F9F93);
@@ -357,7 +359,7 @@ TEST_CASE("SM3P1", "[rvk]") {
 
 TEST_CASE("SM4ED", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SM4ED(x31, x31, x31, 0b11);
     REQUIRE(value == 0xF1FF8FB3);
@@ -370,7 +372,7 @@ TEST_CASE("SM4ED", "[rvk]") {
 
 TEST_CASE("SM4KS", "[rvk]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.SM4KS(x31, x31, x31, 0b11);
     REQUIRE(value == 0xF5FF8FB3);

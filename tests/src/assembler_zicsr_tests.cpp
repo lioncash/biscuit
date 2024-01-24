@@ -2,11 +2,13 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("CSRRC", "[Zicsr]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CSRRC(x31, CSR::Cycle, x15);
     REQUIRE(value == 0xC007BFF3);
@@ -29,7 +31,7 @@ TEST_CASE("CSRRC", "[Zicsr]") {
 
 TEST_CASE("CSRRCI", "[Zicsr]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CSRRCI(x31, CSR::Cycle, 0);
     REQUIRE(value == 0xC0007FF3);
@@ -47,7 +49,7 @@ TEST_CASE("CSRRCI", "[Zicsr]") {
 
 TEST_CASE("CSRRS", "[Zicsr]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CSRRS(x31, CSR::Cycle, x15);
     REQUIRE(value == 0xC007AFF3);
@@ -70,7 +72,7 @@ TEST_CASE("CSRRS", "[Zicsr]") {
 
 TEST_CASE("CSRRSI", "[Zicsr]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CSRRSI(x31, CSR::Cycle, 0);
     REQUIRE(value == 0xC0006FF3);
@@ -88,7 +90,7 @@ TEST_CASE("CSRRSI", "[Zicsr]") {
 
 TEST_CASE("CSRRW", "[Zicsr]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CSRRW(x31, CSR::Cycle, x15);
     REQUIRE(value == 0xC0079FF3);
@@ -111,7 +113,7 @@ TEST_CASE("CSRRW", "[Zicsr]") {
 
 TEST_CASE("CSRRWI", "[Zicsr]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CSRRWI(x31, CSR::Cycle, 0);
     REQUIRE(value == 0xC0005FF3);

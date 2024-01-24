@@ -12,6 +12,22 @@
 namespace biscuit {
 
 /**
+ * Defines the set of features that a particular assembler instance
+ * would like to assemble for.
+ *
+ * This allows for assertions and extra logic checking to be done.
+ *
+ * It can also affect various behaviors as well. e.g. LI, shifts, etc
+ * will take these into account to adjust for emission on different
+ * environments transparently.
+ */
+enum class ArchFeature : uint32_t {
+    RV32,  //< 32-bit RISC-V
+    RV64,  //< 64-bit RISC-V
+    RV128, //< 128-bit RISC-V
+};
+
+/**
  * Code generator for RISC-V code.
  *
  * User code may inherit from this in order to make use of
@@ -27,6 +43,8 @@ public:
      * @param capacity The capacity for the underlying code buffer in bytes.
      *                 If no capacity is specified, then the underlying buffer
      *                 will be 4KB in size.
+     *
+     * @note Will assume to be assembling for RV64 unless changed.
      */
     [[nodiscard]] explicit Assembler(size_t capacity = CodeBuffer::default_capacity);
 
@@ -35,6 +53,7 @@ public:
      *
      * @param buffer   A non-null pointer to an allocated buffer of size `capacity`.
      * @param capacity The capacity of the memory pointed to by `buffer`.
+     * @param features Architectural features to make the assembler aware of.
      *
      * @pre The given memory buffer must not be null.
      * @pre The given memory buffer must be at minimum `capacity` bytes in size.
@@ -42,7 +61,8 @@ public:
      * @note The caller is responsible for managing the lifetime of the given memory.
      *       CodeBuffer will *not* free the memory once it goes out of scope.
      */
-    [[nodiscard]] explicit Assembler(uint8_t* buffer, size_t capacity);
+    [[nodiscard]] explicit Assembler(uint8_t* buffer, size_t capacity,
+                                     ArchFeature features = ArchFeature::RV64);
 
     // Copy constructor and assignment.
     Assembler(const Assembler&) = delete;
@@ -54,6 +74,16 @@ public:
 
     // Destructor
     virtual ~Assembler();
+
+    /**
+     * Tells the assembler what features to take into account.
+     *
+     * Will alter how some code is emitted and also enforce asserts suitable
+     * for those particular features.
+     */
+    void SetArchFeatures(ArchFeature features) noexcept {
+        m_features = features;
+    }
 
     /// Gets the underlying code buffer being managed by this assembler.
     CodeBuffer& GetCodeBuffer();
@@ -177,8 +207,7 @@ public:
     void LBU(GPR rd, int32_t imm, GPR rs) noexcept;
     void LH(GPR rd, int32_t imm, GPR rs) noexcept;
     void LHU(GPR rd, int32_t imm, GPR rs) noexcept;
-    void LI(GPR rd, uint32_t imm) noexcept;
-    void LI64(GPR rd, uint64_t imm) noexcept;
+    void LI(GPR rd, uint64_t imm) noexcept;
     void LUI(GPR rd, uint32_t imm) noexcept;
     void LW(GPR rd, int32_t imm, GPR rs) noexcept;
 
@@ -230,13 +259,6 @@ public:
     void LD(GPR rd, int32_t imm, GPR rs) noexcept;
     void LWU(GPR rd, int32_t imm, GPR rs) noexcept;
     void SD(GPR rs2, int32_t imm, GPR rs1) noexcept;
-
-    // NOTE: Perhaps we should coalesce this into the 32-bit variant?
-    //       Keeping them separated allows asserts for catching
-    //       out of range shifts.
-    void SRAI64(GPR rd, GPR rs, uint32_t shift) noexcept;
-    void SLLI64(GPR rd, GPR rs, uint32_t shift) noexcept;
-    void SRLI64(GPR rd, GPR rs, uint32_t shift) noexcept;
 
     void SLLIW(GPR rd, GPR rs, uint32_t shift) noexcept;
     void SRAIW(GPR rd, GPR rs, uint32_t shift) noexcept;
@@ -589,7 +611,7 @@ public:
     void FCVT_BF16_S(FPR rd, FPR rs, RMode rmode = RMode::DYN) noexcept;
     void FCVT_S_BF16(FPR rd, FPR rs, RMode rmode = RMode::DYN) noexcept;
 
-    // RVB Extension Instructions
+    // RVB Extension Instructions (plus scalar crypto bit operations)
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ANDN(GPR rd, GPR rs1, GPR rs2) noexcept;
@@ -599,6 +621,7 @@ public:
     void BEXTI(GPR rd, GPR rs, uint32_t bit) noexcept;
     void BINV(GPR rd, GPR rs1, GPR rs2) noexcept;
     void BINVI(GPR rd, GPR rs, uint32_t bit) noexcept;
+    void BREV8(GPR rd, GPR rs) noexcept;
     void BSET(GPR rd, GPR rs1, GPR rs2) noexcept;
     void BSETI(GPR rd, GPR rs, uint32_t bit) noexcept;
     void CLMUL(GPR rd, GPR rs1, GPR rs2) noexcept;
@@ -619,9 +642,7 @@ public:
     void PACK(GPR rd, GPR rs1, GPR rs2) noexcept;
     void PACKH(GPR rd, GPR rs1, GPR rs2) noexcept;
     void PACKW(GPR rd, GPR rs1, GPR rs2) noexcept;
-    void REV8_32(GPR rd, GPR rs) noexcept;
-    void REV8_64(GPR rd, GPR rs) noexcept;
-    void REV_B(GPR rd, GPR rs) noexcept;
+    void REV8(GPR rd, GPR rs) noexcept;
     void ROL(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ROLW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ROR(GPR rd, GPR rs1, GPR rs2) noexcept;
@@ -639,10 +660,9 @@ public:
     void SLLIUW(GPR rd, GPR rs, uint32_t shift_amount) noexcept;
     void UNZIP(GPR rd, GPR rs) noexcept;
     void XNOR(GPR rd, GPR rs1, GPR rs2) noexcept;
-    void XPERMB(GPR rd, GPR rs1, GPR rs2) noexcept;
-    void XPERMN(GPR rd, GPR rs1, GPR rs2) noexcept;
-    void ZEXTH_32(GPR rd, GPR rs) noexcept;
-    void ZEXTH_64(GPR rd, GPR rs) noexcept;
+    void XPERM4(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void XPERM8(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void ZEXTH(GPR rd, GPR rs) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
     void ZIP(GPR rd, GPR rs) noexcept;
 
@@ -1449,6 +1469,7 @@ private:
     void ResolveLabelOffsets(Label* label);
 
     CodeBuffer m_buffer;
+    ArchFeature m_features = ArchFeature::RV64;
 };
 
 } // namespace biscuit
