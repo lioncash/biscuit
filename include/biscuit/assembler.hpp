@@ -611,7 +611,7 @@ public:
     void FCVT_BF16_S(FPR rd, FPR rs, RMode rmode = RMode::DYN) noexcept;
     void FCVT_S_BF16(FPR rd, FPR rs, RMode rmode = RMode::DYN) noexcept;
 
-    // RVB Extension Instructions
+    // RVB Extension Instructions (plus scalar crypto bit operations)
 
     void ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ANDN(GPR rd, GPR rs1, GPR rs2) noexcept;
@@ -621,6 +621,7 @@ public:
     void BEXTI(GPR rd, GPR rs, uint32_t bit) noexcept;
     void BINV(GPR rd, GPR rs1, GPR rs2) noexcept;
     void BINVI(GPR rd, GPR rs, uint32_t bit) noexcept;
+    void BREV8(GPR rd, GPR rs) noexcept;
     void BSET(GPR rd, GPR rs1, GPR rs2) noexcept;
     void BSETI(GPR rd, GPR rs, uint32_t bit) noexcept;
     void CLMUL(GPR rd, GPR rs1, GPR rs2) noexcept;
@@ -641,9 +642,7 @@ public:
     void PACK(GPR rd, GPR rs1, GPR rs2) noexcept;
     void PACKH(GPR rd, GPR rs1, GPR rs2) noexcept;
     void PACKW(GPR rd, GPR rs1, GPR rs2) noexcept;
-    void REV8_32(GPR rd, GPR rs) noexcept;
-    void REV8_64(GPR rd, GPR rs) noexcept;
-    void REV_B(GPR rd, GPR rs) noexcept;
+    void REV8(GPR rd, GPR rs) noexcept;
     void ROL(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ROLW(GPR rd, GPR rs1, GPR rs2) noexcept;
     void ROR(GPR rd, GPR rs1, GPR rs2) noexcept;
@@ -661,10 +660,9 @@ public:
     void SLLIUW(GPR rd, GPR rs, uint32_t shift_amount) noexcept;
     void UNZIP(GPR rd, GPR rs) noexcept;
     void XNOR(GPR rd, GPR rs1, GPR rs2) noexcept;
-    void XPERMB(GPR rd, GPR rs1, GPR rs2) noexcept;
-    void XPERMN(GPR rd, GPR rs1, GPR rs2) noexcept;
-    void ZEXTH_32(GPR rd, GPR rs) noexcept;
-    void ZEXTH_64(GPR rd, GPR rs) noexcept;
+    void XPERM4(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void XPERM8(GPR rd, GPR rs1, GPR rs2) noexcept;
+    void ZEXTH(GPR rd, GPR rs) noexcept;
     void ZEXTW(GPR rd, GPR rs) noexcept;
     void ZIP(GPR rd, GPR rs) noexcept;
 

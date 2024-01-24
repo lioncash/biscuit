@@ -889,6 +889,7 @@ void Assembler::SC_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
 // RVB Extension Instructions
 
 void Assembler::ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0000100, rs2, rs1, 0b000, rd, 0b0111011);
 }
 
@@ -901,7 +902,12 @@ void Assembler::BCLR(GPR rd, GPR rs1, GPR rs2) noexcept {
 }
 
 void Assembler::BCLRI(GPR rd, GPR rs, uint32_t bit) noexcept {
-    BISCUIT_ASSERT(bit <= 63);
+    if (IsRV32(m_features)) {
+        BISCUIT_ASSERT(bit <= 31);
+    } else {
+        BISCUIT_ASSERT(bit <= 63);
+    }
+
     const auto imm = (0b010010U << 6) | bit;
     EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0010011);
 }
@@ -911,7 +917,12 @@ void Assembler::BEXT(GPR rd, GPR rs1, GPR rs2) noexcept {
 }
 
 void Assembler::BEXTI(GPR rd, GPR rs, uint32_t bit) noexcept {
-    BISCUIT_ASSERT(bit <= 63);
+    if (IsRV32(m_features)) {
+        BISCUIT_ASSERT(bit <= 31);
+    } else {
+        BISCUIT_ASSERT(bit <= 63);
+    }
+
     const auto imm = (0b010010U << 6) | bit;
     EmitIType(m_buffer, imm, rs, 0b101, rd, 0b0010011);
 }
@@ -921,9 +932,33 @@ void Assembler::BINV(GPR rd, GPR rs1, GPR rs2) noexcept {
 }
 
 void Assembler::BINVI(GPR rd, GPR rs, uint32_t bit) noexcept {
-    BISCUIT_ASSERT(bit <= 63);
+    if (IsRV32(m_features)) {
+        BISCUIT_ASSERT(bit <= 31);
+    } else {
+        BISCUIT_ASSERT(bit <= 63);
+    }
+
     const auto imm = (0b011010U << 6) | bit;
     EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0010011);
+}
+
+void Assembler::BREV8(GPR rd, GPR rs) noexcept {
+    EmitIType(m_buffer, 0b011010000111, rs, 0b101, rd, 0b0010011);
+}
+
+void Assembler::BSET(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b001, rd, 0b0110011);
+}
+
+void Assembler::BSETI(GPR rd, GPR rs, uint32_t bit) noexcept {
+    if (IsRV32(m_features)) {
+        BISCUIT_ASSERT(bit <= 31);
+    } else {
+        BISCUIT_ASSERT(bit <= 63);
+    }
+
+    const auto imm = (0b001010U << 6) | bit;
+    EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0110011);
 }
 
 void Assembler::CLMUL(GPR rd, GPR rs1, GPR rs2) noexcept {
@@ -943,6 +978,7 @@ void Assembler::CLZ(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::CLZW(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitIType(m_buffer, 0b011000000000, rs, 0b001, rd, 0b0011011);
 }
 
@@ -951,6 +987,7 @@ void Assembler::CPOP(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::CPOPW(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitIType(m_buffer, 0b011000000010, rs, 0b001, rd, 0b0011011);
 }
 
@@ -959,6 +996,7 @@ void Assembler::CTZ(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::CTZW(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitIType(m_buffer, 0b011000000001, rs, 0b001, rd, 0b0011011);
 }
 
@@ -995,19 +1033,16 @@ void Assembler::PACKH(GPR rd, GPR rs1, GPR rs2) noexcept {
 }
 
 void Assembler::PACKW(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0000100, rs2, rs1, 0b100, rd, 0b0111011);
 }
 
-void Assembler::REV8_32(GPR rd, GPR rs) noexcept {
-    EmitIType(m_buffer, 0b011010011000, rs, 0b101, rd, 0b0010011);
-}
-
-void Assembler::REV8_64(GPR rd, GPR rs) noexcept {
-    EmitIType(m_buffer, 0b011010111000, rs, 0b101, rd, 0b0010011);
-}
-
-void Assembler::REV_B(GPR rd, GPR rs) noexcept {
-    EmitIType(m_buffer, 0b011010000111, rs, 0b101, rd, 0b0010011);
+void Assembler::REV8(GPR rd, GPR rs) noexcept {
+    if (IsRV32(m_features)) {
+        EmitIType(m_buffer, 0b011010011000, rs, 0b101, rd, 0b0010011);
+    } else {
+        EmitIType(m_buffer, 0b011010111000, rs, 0b101, rd, 0b0010011);
+    }
 }
 
 void Assembler::ROL(GPR rd, GPR rs1, GPR rs2) noexcept {
@@ -1015,6 +1050,7 @@ void Assembler::ROL(GPR rd, GPR rs1, GPR rs2) noexcept {
 }
 
 void Assembler::ROLW(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0110000, rs2, rs1, 0b001, rd, 0b0111011);
 }
 
@@ -1029,12 +1065,14 @@ void Assembler::RORI(GPR rd, GPR rs, uint32_t rotate_amount) noexcept {
 }
 
 void Assembler::RORIW(GPR rd, GPR rs, uint32_t rotate_amount) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     BISCUIT_ASSERT(rotate_amount <= 63);
     const auto imm = (0b011000U << 6) | rotate_amount;
     EmitIType(m_buffer, imm, rs, 0b101, rd, 0b0011011);
 }
 
 void Assembler::RORW(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0110000, rs2, rs1, 0b101, rd, 0b0111011);
 }
 
@@ -1051,6 +1089,7 @@ void Assembler::SH1ADD(GPR rd, GPR rs1, GPR rs2) noexcept {
 }
 
 void Assembler::SH1ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0010000, rs2, rs1, 0b010, rd, 0b0111011);
 }
 
@@ -1059,6 +1098,7 @@ void Assembler::SH2ADD(GPR rd, GPR rs1, GPR rs2) noexcept {
 }
 
 void Assembler::SH2ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0010000, rs2, rs1, 0b100, rd, 0b0111011);
 }
 
@@ -1067,16 +1107,19 @@ void Assembler::SH3ADD(GPR rd, GPR rs1, GPR rs2) noexcept {
 }
 
 void Assembler::SH3ADDUW(GPR rd, GPR rs1, GPR rs2) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0010000, rs2, rs1, 0b110, rd, 0b0111011);
 }
 
 void Assembler::SLLIUW(GPR rd, GPR rs, uint32_t shift_amount) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     BISCUIT_ASSERT(shift_amount <= 63);
     const auto imm = (0b000010U << 6) | shift_amount;
     EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0011011);
 }
 
 void Assembler::UNZIP(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitIType(m_buffer, 0b000010011111, rs, 0b101, rd, 0b0010011);
 }
 
@@ -1084,20 +1127,20 @@ void Assembler::XNOR(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b0100000, rs2, rs1, 0b100, rd, 0b0110011);
 }
 
-void Assembler::XPERMB(GPR rd, GPR rs1, GPR rs2) noexcept {
-    EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b100, rd, 0b0110011);
-}
-
-void Assembler::XPERMN(GPR rd, GPR rs1, GPR rs2) noexcept {
+void Assembler::XPERM4(GPR rd, GPR rs1, GPR rs2) noexcept {
     EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b010, rd, 0b0110011);
 }
 
-void Assembler::ZEXTH_32(GPR rd, GPR rs) noexcept {
-    EmitIType(m_buffer, 0b000010000000, rs, 0b100, rd, 0b0110011);
+void Assembler::XPERM8(GPR rd, GPR rs1, GPR rs2) noexcept {
+    EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b100, rd, 0b0110011);
 }
 
-void Assembler::ZEXTH_64(GPR rd, GPR rs) noexcept {
-    EmitIType(m_buffer, 0b000010000000, rs, 0b100, rd, 0b0111011);
+void Assembler::ZEXTH(GPR rd, GPR rs) noexcept {
+    if (IsRV32(m_features)) {
+        EmitIType(m_buffer, 0b000010000000, rs, 0b100, rd, 0b0110011);
+    } else {
+        EmitIType(m_buffer, 0b000010000000, rs, 0b100, rd, 0b0111011);
+    }
 }
 
 void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
@@ -1105,17 +1148,8 @@ void Assembler::ZEXTW(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::ZIP(GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV32(m_features));
     EmitIType(m_buffer, 0b000010011110, rs, 0b001, rd, 0b0010011);
-}
-
-void Assembler::BSET(GPR rd, GPR rs1, GPR rs2) noexcept {
-    EmitRType(m_buffer, 0b0010100, rs2, rs1, 0b001, rd, 0b0110011);
-}
-
-void Assembler::BSETI(GPR rd, GPR rs, uint32_t bit) noexcept {
-    BISCUIT_ASSERT(bit <= 63);
-    const auto imm = (0b001010U << 6) | bit;
-    EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0110011);
 }
 
 // Cache Management Operation Extension Instructions

@@ -8,7 +8,7 @@ using namespace biscuit;
 
 TEST_CASE("AES32DSI", "[rvk]") {
     uint32_t value = 0;
-    auto as = MakeAssembler64(value);
+    auto as = MakeAssembler32(value);
 
     as.AES32DSI(x31, x31, x31, 0b11);
     REQUIRE(value == 0xEBFF8FB3);
@@ -21,7 +21,7 @@ TEST_CASE("AES32DSI", "[rvk]") {
 
 TEST_CASE("AES32DSMI", "[rvk]") {
     uint32_t value = 0;
-    auto as = MakeAssembler64(value);
+    auto as = MakeAssembler32(value);
 
     as.AES32DSMI(x31, x31, x31, 0b11);
     REQUIRE(value == 0xEFFF8FB3);
@@ -34,7 +34,7 @@ TEST_CASE("AES32DSMI", "[rvk]") {
 
 TEST_CASE("AES32ESI", "[rvk]") {
     uint32_t value = 0;
-    auto as = MakeAssembler64(value);
+    auto as = MakeAssembler32(value);
 
     as.AES32ESI(x31, x31, x31, 0b11);
     REQUIRE(value == 0xE3FF8FB3);
@@ -47,7 +47,7 @@ TEST_CASE("AES32ESI", "[rvk]") {
 
 TEST_CASE("AES32ESMI", "[rvk]") {
     uint32_t value = 0;
-    auto as = MakeAssembler64(value);
+    auto as = MakeAssembler32(value);
 
     as.AES32ESMI(x31, x31, x31, 0b11);
     REQUIRE(value == 0xE7FF8FB3);
@@ -216,7 +216,7 @@ TEST_CASE("SHA512SIG0", "[rvk]") {
 
 TEST_CASE("SHA512SIG0H", "[rvk]") {
     uint32_t value = 0;
-    auto as = MakeAssembler64(value);
+    auto as = MakeAssembler32(value);
 
     as.SHA512SIG0H(x31, x31, x31);
     REQUIRE(value == 0x5DFF8FB3);
@@ -229,7 +229,7 @@ TEST_CASE("SHA512SIG0H", "[rvk]") {
 
 TEST_CASE("SHA512SIG0L", "[rvk]") {
     uint32_t value = 0;
-    auto as = MakeAssembler64(value);
+    auto as = MakeAssembler32(value);
 
     as.SHA512SIG0L(x31, x31, x31);
     REQUIRE(value == 0x55FF8FB3);
@@ -255,7 +255,7 @@ TEST_CASE("SHA512SIG1", "[rvk]") {
 
 TEST_CASE("SHA512SIG1H", "[rvk]") {
     uint32_t value = 0;
-    auto as = MakeAssembler64(value);
+    auto as = MakeAssembler32(value);
 
     as.SHA512SIG1H(x31, x31, x31);
     REQUIRE(value == 0x5FFF8FB3);
@@ -268,7 +268,7 @@ TEST_CASE("SHA512SIG1H", "[rvk]") {
 
 TEST_CASE("SHA512SIG1L", "[rvk]") {
     uint32_t value = 0;
-    auto as = MakeAssembler64(value);
+    auto as = MakeAssembler32(value);
 
     as.SHA512SIG1L(x31, x31, x31);
     REQUIRE(value == 0x57FF8FB3);
@@ -294,7 +294,7 @@ TEST_CASE("SHA512SUM0", "[rvk]") {
 
 TEST_CASE("SHA512SUM0R", "[rvk]") {
     uint32_t value = 0;
-    auto as = MakeAssembler64(value);
+    auto as = MakeAssembler32(value);
 
     as.SHA512SUM0R(x31, x31, x31);
     REQUIRE(value == 0x51FF8FB3);
@@ -320,7 +320,7 @@ TEST_CASE("SHA512SUM1", "[rvk]") {
 
 TEST_CASE("SHA512SUM1R", "[rvk]") {
     uint32_t value = 0;
-    auto as = MakeAssembler64(value);
+    auto as = MakeAssembler32(value);
 
     as.SHA512SUM1R(x31, x31, x31);
     REQUIRE(value == 0x53FF8FB3);

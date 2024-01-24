@@ -46,6 +46,34 @@ TEST_CASE("BCLRI", "[rvb]") {
 
     as.RewindBuffer();
 
+    as.BCLRI(x31, x7, 15);
+    REQUIRE(value == 0x48F39F93);
+
+    as.RewindBuffer();
+
+    as.BCLRI(x31, x7, 31);
+    REQUIRE(value == 0x49F39F93);
+}
+
+TEST_CASE("BCLRI (RV64)", "[rvb]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler64(value);
+
+    as.BCLRI(x31, x7, 0);
+    REQUIRE(value == 0x48039F93);
+
+    as.RewindBuffer();
+
+    as.BCLRI(x31, x7, 15);
+    REQUIRE(value == 0x48F39F93);
+
+    as.RewindBuffer();
+
+    as.BCLRI(x31, x7, 31);
+    REQUIRE(value == 0x49F39F93);
+
+    as.RewindBuffer();
+
     as.BCLRI(x31, x7, 63);
     REQUIRE(value == 0x4BF39F93);
 }
@@ -64,6 +92,34 @@ TEST_CASE("BEXTI", "[rvb]") {
 
     as.BEXTI(x31, x7, 0);
     REQUIRE(value == 0x4803DF93);
+
+    as.RewindBuffer();
+
+    as.BEXTI(x31, x7, 15);
+    REQUIRE(value == 0x48F3DF93);
+
+    as.RewindBuffer();
+
+    as.BEXTI(x31, x7, 31);
+    REQUIRE(value == 0x49F3DF93);
+}
+
+TEST_CASE("BEXTI (RV64)", "[rvb]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler64(value);
+
+    as.BEXTI(x31, x7, 0);
+    REQUIRE(value == 0x4803DF93);
+
+    as.RewindBuffer();
+
+    as.BEXTI(x31, x7, 15);
+    REQUIRE(value == 0x48F3DF93);
+
+    as.RewindBuffer();
+
+    as.BEXTI(x31, x7, 31);
+    REQUIRE(value == 0x49F3DF93);
 
     as.RewindBuffer();
 
@@ -88,8 +144,49 @@ TEST_CASE("BINVI", "[rvb]") {
 
     as.RewindBuffer();
 
+    as.BINVI(x31, x7, 15);
+    REQUIRE(value == 0x68F39F93);
+
+    as.RewindBuffer();
+
+    as.BINVI(x31, x7, 31);
+    REQUIRE(value == 0x69F39F93);
+}
+
+TEST_CASE("BINVI (RV64)", "[rvb]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler64(value);
+
+    as.BINVI(x31, x7, 0);
+    REQUIRE(value == 0x68039F93);
+
+    as.RewindBuffer();
+
+    as.BINVI(x31, x7, 15);
+    REQUIRE(value == 0x68F39F93);
+
+    as.RewindBuffer();
+
+    as.BINVI(x31, x7, 31);
+    REQUIRE(value == 0x69F39F93);
+
+    as.RewindBuffer();
+
     as.BINVI(x31, x7, 63);
     REQUIRE(value == 0x6BF39F93);
+}
+
+TEST_CASE("BREV8", "[rvb]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler32(value);
+
+    as.BREV8(x31, x31);
+    REQUIRE(value == 0x687FDF93);
+
+    as.RewindBuffer();
+
+    as.BREV8(x1, x2);
+    REQUIRE(value == 0x68715093);
 }
 
 TEST_CASE("BSET", "[rvb]") {
@@ -106,6 +203,34 @@ TEST_CASE("BSETI", "[rvb]") {
 
     as.BSETI(x31, x7, 0);
     REQUIRE(value == 0x28039FB3);
+
+    as.RewindBuffer();
+
+    as.BSETI(x31, x7, 15);
+    REQUIRE(value == 0x28F39FB3);
+
+    as.RewindBuffer();
+
+    as.BSETI(x31, x7, 31);
+    REQUIRE(value == 0x29F39FB3);
+}
+
+TEST_CASE("BSETI (RV64)", "[rvb]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler64(value);
+
+    as.BSETI(x31, x7, 0);
+    REQUIRE(value == 0x28039FB3);
+
+    as.RewindBuffer();
+
+    as.BSETI(x31, x7, 15);
+    REQUIRE(value == 0x28F39FB3);
+
+    as.RewindBuffer();
+
+    as.BSETI(x31, x7, 31);
+    REQUIRE(value == 0x29F39FB3);
 
     as.RewindBuffer();
 
@@ -251,7 +376,7 @@ TEST_CASE("PACKH", "[rvb]") {
 
 TEST_CASE("PACKW", "[rvb]") {
     uint32_t value = 0;
-    auto as = MakeAssembler32(value);
+    auto as = MakeAssembler64(value);
 
     as.PACKW(x31, x7, x2);
     REQUIRE(value == 0x0823CFBB);
@@ -261,26 +386,16 @@ TEST_CASE("REV8", "[rvb]") {
     uint32_t value = 0;
     auto as = MakeAssembler32(value);
 
-    as.REV8_32(x31, x7);
+    as.REV8(x31, x7);
     REQUIRE(value == 0x6983DF93);
-
-    as.RewindBuffer();
-
-    as.REV8_64(x31, x7);
-    REQUIRE(value == 0x6B83DF93);
 }
 
-TEST_CASE("REV.B", "[rvb]") {
+TEST_CASE("REV8 (RV64)", "[rvb]") {
     uint32_t value = 0;
-    auto as = MakeAssembler32(value);
+    auto as = MakeAssembler64(value);
 
-    as.REV_B(x31, x31);
-    REQUIRE(value == 0x687FDF93);
-
-    as.RewindBuffer();
-
-    as.REV_B(x1, x2);
-    REQUIRE(value == 0x68715093);
+    as.REV8(x31, x7);
+    REQUIRE(value == 0x6B83DF93);
 }
 
 TEST_CASE("ROL", "[rvb]") {
@@ -439,42 +554,45 @@ TEST_CASE("XNOR", "[rvb]") {
     REQUIRE(value == 0x40F3CFB3);
 }
 
-TEST_CASE("XPERMB", "[rvb]") {
+TEST_CASE("XPERM4", "[rvb]") {
     uint32_t value = 0;
     auto as = MakeAssembler32(value);
 
-    as.XPERMB(x31, x31, x31);
-    REQUIRE(value == 0x29FFCFB3);
-
-    as.RewindBuffer();
-
-    as.XPERMB(x1, x2, x3);
-    REQUIRE(value == 0x283140B3);
-}
-
-TEST_CASE("XPERMN", "[rvb]") {
-    uint32_t value = 0;
-    auto as = MakeAssembler32(value);
-
-    as.XPERMN(x31, x31, x31);
+    as.XPERM4(x31, x31, x31);
     REQUIRE(value == 0x29FFAFB3);
 
     as.RewindBuffer();
 
-    as.XPERMN(x1, x2, x3);
+    as.XPERM4(x1, x2, x3);
     REQUIRE(value == 0x283120B3);
+}
+
+TEST_CASE("XPERM8", "[rvb]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler32(value);
+
+    as.XPERM8(x31, x31, x31);
+    REQUIRE(value == 0x29FFCFB3);
+
+    as.RewindBuffer();
+
+    as.XPERM8(x1, x2, x3);
+    REQUIRE(value == 0x283140B3);
 }
 
 TEST_CASE("ZEXT.H", "[rvb]") {
     uint32_t value = 0;
     auto as = MakeAssembler32(value);
 
-    as.ZEXTH_32(x31, x7);
+    as.ZEXTH(x31, x7);
     REQUIRE(value == 0x0803CFB3);
+}
 
-    as.RewindBuffer();
+TEST_CASE("ZEXT.H (RV64)", "[rvb]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler64(value);
 
-    as.ZEXTH_64(x31, x7);
+    as.ZEXTH(x31, x7);
     REQUIRE(value == 0x0803CFBB);
 }
 
