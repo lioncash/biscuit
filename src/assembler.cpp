@@ -500,24 +500,29 @@ void Assembler::XORI(GPR rd, GPR rs, uint32_t imm) noexcept {
 // RV64I Instructions
 
 void Assembler::ADDIW(GPR rd, GPR rs, int32_t imm) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b000, rd, 0b0011011);
 }
 
 void Assembler::ADDW(GPR rd, GPR lhs, GPR rhs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0000000, rhs, lhs, 0b000, rd, 0b0111011);
 }
 
 void Assembler::LD(GPR rd, int32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
     EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b011, rd, 0b0000011);
 }
 
 void Assembler::LWU(GPR rd, int32_t imm, GPR rs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
     EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b110, rd, 0b0000011);
 }
 
 void Assembler::SD(GPR rs2, int32_t imm, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
     EmitSType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b011, 0b0100011);
 }
@@ -536,29 +541,36 @@ void Assembler::SRLI64(GPR rd, GPR rs, uint32_t shift) noexcept {
 }
 
 void Assembler::SLLIW(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     BISCUIT_ASSERT(shift <= 31);
     EmitIType(m_buffer, shift & 0x1F, rs, 0b001, rd, 0b0011011);
 }
 void Assembler::SRAIW(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     BISCUIT_ASSERT(shift <= 31);
     EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0011011);
 }
 void Assembler::SRLIW(GPR rd, GPR rs, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     BISCUIT_ASSERT(shift <= 31);
     EmitIType(m_buffer, shift & 0x1F, rs, 0b101, rd, 0b0011011);
 }
 
 void Assembler::SLLW(GPR rd, GPR lhs, GPR rhs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0000000, rhs, lhs, 0b001, rd, 0b0111011);
 }
 void Assembler::SRAW(GPR rd, GPR lhs, GPR rhs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0100000, rhs, lhs, 0b101, rd, 0b0111011);
 }
 void Assembler::SRLW(GPR rd, GPR lhs, GPR rhs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0000000, rhs, lhs, 0b101, rd, 0b0111011);
 }
 
 void Assembler::SUBW(GPR rd, GPR lhs, GPR rhs) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b0100000, rhs, lhs, 0b000, rd, 0b0111011);
 }
 
