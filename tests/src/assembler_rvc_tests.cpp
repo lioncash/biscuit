@@ -2,11 +2,13 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("C.ADD", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_ADD(x31, x31);
     REQUIRE(value == 0x9FFE);
@@ -19,7 +21,7 @@ TEST_CASE("C.ADD", "[rvc]") {
 
 TEST_CASE("C.ADDI", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_ADDI(x15, -1);
     REQUIRE(value == 0x17FD);
@@ -37,7 +39,7 @@ TEST_CASE("C.ADDI", "[rvc]") {
 
 TEST_CASE("C.ADDIW", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_ADDIW(x15, -1);
     REQUIRE(value == 0x37FD);
@@ -55,7 +57,7 @@ TEST_CASE("C.ADDIW", "[rvc]") {
 
 TEST_CASE("C.ADDI4SPN", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_ADDI4SPN(x15, 252);
     REQUIRE(value == 0x19FC);
@@ -73,7 +75,7 @@ TEST_CASE("C.ADDI4SPN", "[rvc]") {
 
 TEST_CASE("C.ADDI16SP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_ADDI16SP(16);
     REQUIRE(value == 0x6141);
@@ -86,7 +88,7 @@ TEST_CASE("C.ADDI16SP", "[rvc]") {
 
 TEST_CASE("C.ADDW", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_ADDW(x15, x15);
     REQUIRE(value == 0x9FBD);
@@ -99,7 +101,7 @@ TEST_CASE("C.ADDW", "[rvc]") {
 
 TEST_CASE("C.AND", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_AND(x15, x15);
     REQUIRE(value == 0x8FFD);
@@ -112,7 +114,7 @@ TEST_CASE("C.AND", "[rvc]") {
 
 TEST_CASE("C.ANDI", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_ANDI(x15, 16);
     REQUIRE(value == 0x8BC1);
@@ -125,7 +127,7 @@ TEST_CASE("C.ANDI", "[rvc]") {
 
 TEST_CASE("C.EBREAK", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_EBREAK();
     REQUIRE(value == 0x9002);
@@ -133,7 +135,7 @@ TEST_CASE("C.EBREAK", "[rvc]") {
 
 TEST_CASE("C.FLD", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_FLD(f15, 8, x15);
     REQUIRE(value == 0x279C);
@@ -146,7 +148,7 @@ TEST_CASE("C.FLD", "[rvc]") {
 
 TEST_CASE("C.FLDSP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_FLDSP(f15, 8);
     REQUIRE(value == 0x27A2);
@@ -159,7 +161,7 @@ TEST_CASE("C.FLDSP", "[rvc]") {
 
 TEST_CASE("C.FLW", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_FLW(f15, 16, x15);
     REQUIRE(value == 0x6B9C);
@@ -172,7 +174,7 @@ TEST_CASE("C.FLW", "[rvc]") {
 
 TEST_CASE("C.FLWSP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_FLWSP(f15, 16);
     REQUIRE(value == 0x67C2);
@@ -185,7 +187,7 @@ TEST_CASE("C.FLWSP", "[rvc]") {
 
 TEST_CASE("C.FSD", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_FSD(f15, 8, x15);
     REQUIRE(value == 0xA79C);
@@ -198,7 +200,7 @@ TEST_CASE("C.FSD", "[rvc]") {
 
 TEST_CASE("C.FSDSP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_FSDSP(f15, 8);
     REQUIRE(value == 0xA43E);
@@ -211,7 +213,7 @@ TEST_CASE("C.FSDSP", "[rvc]") {
 
 TEST_CASE("C.FSW", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_FSW(f15, 16, x15);
     REQUIRE(value == 0xEB9C);
@@ -224,7 +226,7 @@ TEST_CASE("C.FSW", "[rvc]") {
 
 TEST_CASE("C.FSWSP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_FSWSP(f15, 16);
     REQUIRE(value == 0xE83E);
@@ -237,7 +239,7 @@ TEST_CASE("C.FSWSP", "[rvc]") {
 
 TEST_CASE("C.JALR", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_JALR(x31);
     REQUIRE(value == 0x9F82);
@@ -250,7 +252,7 @@ TEST_CASE("C.JALR", "[rvc]") {
 
 TEST_CASE("C.JR", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_JR(x31);
     REQUIRE(value == 0x8F82);
@@ -263,7 +265,7 @@ TEST_CASE("C.JR", "[rvc]") {
 
 TEST_CASE("C.LD", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_LD(x15, 8, x15);
     REQUIRE(value == 0x679C);
@@ -276,7 +278,7 @@ TEST_CASE("C.LD", "[rvc]") {
 
 TEST_CASE("C.LDSP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_LDSP(x15, 8);
     REQUIRE(value == 0x67A2);
@@ -289,7 +291,7 @@ TEST_CASE("C.LDSP", "[rvc]") {
 
 TEST_CASE("C.LI", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_LI(x15, -1);
     REQUIRE(value == 0x57FD);
@@ -307,7 +309,7 @@ TEST_CASE("C.LI", "[rvc]") {
 
 TEST_CASE("C.LQ", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler128(value);
 
     as.C_LQ(x15, 16, x15);
     REQUIRE(value == 0x2B9C);
@@ -320,7 +322,7 @@ TEST_CASE("C.LQ", "[rvc]") {
 
 TEST_CASE("C.LQSP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler128(value);
 
     as.C_LQSP(x15, 16);
     REQUIRE(value == 0x27C2);
@@ -333,7 +335,7 @@ TEST_CASE("C.LQSP", "[rvc]") {
 
 TEST_CASE("C.LUI", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_LUI(x15, 0x3F000);
     REQUIRE(value == 0x77FD);
@@ -346,7 +348,7 @@ TEST_CASE("C.LUI", "[rvc]") {
 
 TEST_CASE("C.LW", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_LW(x15, 16, x15);
     REQUIRE(value == 0x4B9C);
@@ -359,7 +361,7 @@ TEST_CASE("C.LW", "[rvc]") {
 
 TEST_CASE("C.LWSP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_LWSP(x15, 16);
     REQUIRE(value == 0x47C2);
@@ -372,7 +374,7 @@ TEST_CASE("C.LWSP", "[rvc]") {
 
 TEST_CASE("C.MV", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_MV(x31, x31);
     REQUIRE(value == 0x8FFE);
@@ -385,7 +387,7 @@ TEST_CASE("C.MV", "[rvc]") {
 
 TEST_CASE("C.NOP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_NOP();
     REQUIRE(value == 0x0001);
@@ -393,7 +395,7 @@ TEST_CASE("C.NOP", "[rvc]") {
 
 TEST_CASE("C.OR", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_OR(x15, x15);
     REQUIRE(value == 0x8FDD);
@@ -406,7 +408,7 @@ TEST_CASE("C.OR", "[rvc]") {
 
 TEST_CASE("C.SD", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_SD(x15, 8, x15);
     REQUIRE(value == 0xE79C);
@@ -419,7 +421,7 @@ TEST_CASE("C.SD", "[rvc]") {
 
 TEST_CASE("C.SDSP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_SDSP(x15, 8);
     REQUIRE(value == 0xE43E);
@@ -432,7 +434,7 @@ TEST_CASE("C.SDSP", "[rvc]") {
 
 TEST_CASE("C.SLLI", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_SLLI(x15, 15);
     REQUIRE(value == 0x07BE);
@@ -445,7 +447,7 @@ TEST_CASE("C.SLLI", "[rvc]") {
 
 TEST_CASE("C.SQ", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler128(value);
 
     as.C_SQ(x15, 16, x15);
     REQUIRE(value == 0xAB9C);
@@ -458,7 +460,7 @@ TEST_CASE("C.SQ", "[rvc]") {
 
 TEST_CASE("C.SQSP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler128(value);
 
     as.C_SQSP(x15, 16);
     REQUIRE(value == 0xA83E);
@@ -471,7 +473,7 @@ TEST_CASE("C.SQSP", "[rvc]") {
 
 TEST_CASE("C.SRAI", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_SRAI(x15, 16);
     REQUIRE(value == 0x87C1);
@@ -484,7 +486,7 @@ TEST_CASE("C.SRAI", "[rvc]") {
 
 TEST_CASE("C.SRLI", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_SRLI(x15, 16);
     REQUIRE(value == 0x83C1);
@@ -497,7 +499,7 @@ TEST_CASE("C.SRLI", "[rvc]") {
 
 TEST_CASE("C.SUB", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_SUB(x15, x15);
     REQUIRE(value == 0x8F9D);
@@ -510,7 +512,7 @@ TEST_CASE("C.SUB", "[rvc]") {
 
 TEST_CASE("C.SUBW", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_SUBW(x15, x15);
     REQUIRE(value == 0x9F9D);
@@ -523,7 +525,7 @@ TEST_CASE("C.SUBW", "[rvc]") {
 
 TEST_CASE("C.SW", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_SW(x15, 16, x15);
     REQUIRE(value == 0xCB9C);
@@ -536,7 +538,7 @@ TEST_CASE("C.SW", "[rvc]") {
 
 TEST_CASE("C.SWSP", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_SWSP(x15, 16);
     REQUIRE(value == 0xC83E);
@@ -549,7 +551,7 @@ TEST_CASE("C.SWSP", "[rvc]") {
 
 TEST_CASE("C.UNDEF", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_UNDEF();
     REQUIRE(value == 0);
@@ -557,7 +559,7 @@ TEST_CASE("C.UNDEF", "[rvc]") {
 
 TEST_CASE("C.XOR", "[rvc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.C_XOR(x15, x15);
     REQUIRE(value == 0x8FBD);

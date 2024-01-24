@@ -12,8 +12,8 @@ namespace biscuit {
 Assembler::Assembler(size_t capacity)
     : m_buffer(capacity) {}
 
-Assembler::Assembler(uint8_t* buffer, size_t capacity)
-    : m_buffer(buffer, capacity) {}
+Assembler::Assembler(uint8_t* buffer, size_t capacity, ArchFeature features)
+    : m_buffer(buffer, capacity), m_features{features} {}
 
 Assembler::~Assembler() = default;
 

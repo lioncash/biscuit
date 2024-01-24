@@ -2,11 +2,13 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("HFENCE.VVMA", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HFENCE_VVMA(x0, x0);
     REQUIRE(value == 0x22000073);
@@ -19,7 +21,7 @@ TEST_CASE("HFENCE.VVMA", "[rvpriv]") {
 
 TEST_CASE("HFENCE.GVMA", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HFENCE_GVMA(x0, x0);
     REQUIRE(value == 0x62000073);
@@ -32,7 +34,7 @@ TEST_CASE("HFENCE.GVMA", "[rvpriv]") {
 
 TEST_CASE("HINVAL.VVMA", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HINVAL_VVMA(x0, x0);
     REQUIRE(value == 0x26000073);
@@ -45,7 +47,7 @@ TEST_CASE("HINVAL.VVMA", "[rvpriv]") {
 
 TEST_CASE("HINVAL.GVMA", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HINVAL_GVMA(x0, x0);
     REQUIRE(value == 0x66000073);
@@ -58,7 +60,7 @@ TEST_CASE("HINVAL.GVMA", "[rvpriv]") {
 
 TEST_CASE("HLV.B", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HLV_B(x0, x0);
     REQUIRE(value == 0x60004073);
@@ -71,7 +73,7 @@ TEST_CASE("HLV.B", "[rvpriv]") {
 
 TEST_CASE("HLV.BU", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HLV_BU(x0, x0);
     REQUIRE(value == 0x60104073);
@@ -84,7 +86,7 @@ TEST_CASE("HLV.BU", "[rvpriv]") {
 
 TEST_CASE("HLV.D", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HLV_D(x0, x0);
     REQUIRE(value == 0x6C004073);
@@ -97,7 +99,7 @@ TEST_CASE("HLV.D", "[rvpriv]") {
 
 TEST_CASE("HLV.H", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HLV_H(x0, x0);
     REQUIRE(value == 0x64004073);
@@ -110,7 +112,7 @@ TEST_CASE("HLV.H", "[rvpriv]") {
 
 TEST_CASE("HLV.HU", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HLV_HU(x0, x0);
     REQUIRE(value == 0x64104073);
@@ -123,7 +125,7 @@ TEST_CASE("HLV.HU", "[rvpriv]") {
 
 TEST_CASE("HLV.W", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HLV_W(x0, x0);
     REQUIRE(value == 0x68004073);
@@ -136,7 +138,7 @@ TEST_CASE("HLV.W", "[rvpriv]") {
 
 TEST_CASE("HLV.WU", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HLV_WU(x0, x0);
     REQUIRE(value == 0x68104073);
@@ -149,7 +151,7 @@ TEST_CASE("HLV.WU", "[rvpriv]") {
 
 TEST_CASE("HLVX.HU", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HLVX_HU(x0, x0);
     REQUIRE(value == 0x64304073);
@@ -162,7 +164,7 @@ TEST_CASE("HLVX.HU", "[rvpriv]") {
 
 TEST_CASE("HLVX.WU", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HLVX_WU(x0, x0);
     REQUIRE(value == 0x68304073);
@@ -175,7 +177,7 @@ TEST_CASE("HLVX.WU", "[rvpriv]") {
 
 TEST_CASE("HSV.B", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HSV_B(x0, x0);
     REQUIRE(value == 0x62004073);
@@ -188,7 +190,7 @@ TEST_CASE("HSV.B", "[rvpriv]") {
 
 TEST_CASE("HSV.D", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HSV_D(x0, x0);
     REQUIRE(value == 0x6E004073);
@@ -201,7 +203,7 @@ TEST_CASE("HSV.D", "[rvpriv]") {
 
 TEST_CASE("HSV.H", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HSV_H(x0, x0);
     REQUIRE(value == 0x66004073);
@@ -214,7 +216,7 @@ TEST_CASE("HSV.H", "[rvpriv]") {
 
 TEST_CASE("HSV.W", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.HSV_W(x0, x0);
     REQUIRE(value == 0x6A004073);
@@ -227,7 +229,7 @@ TEST_CASE("HSV.W", "[rvpriv]") {
 
 TEST_CASE("MRET", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.MRET();
     REQUIRE(value == 0x30200073);
@@ -235,7 +237,7 @@ TEST_CASE("MRET", "[rvpriv]") {
 
 TEST_CASE("SFENCE.INVAL.IR", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SFENCE_INVAL_IR();
     REQUIRE(value == 0x18100073);
@@ -243,7 +245,7 @@ TEST_CASE("SFENCE.INVAL.IR", "[rvpriv]") {
 
 TEST_CASE("SFENCE.VMA", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SFENCE_VMA(x0, x0);
     REQUIRE(value == 0x12000073);
@@ -256,7 +258,7 @@ TEST_CASE("SFENCE.VMA", "[rvpriv]") {
 
 TEST_CASE("SFENCE.W.INVAL", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SFENCE_W_INVAL();
     REQUIRE(value == 0x18000073);
@@ -264,7 +266,7 @@ TEST_CASE("SFENCE.W.INVAL", "[rvpriv]") {
 
 TEST_CASE("SINVAL.VMA", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SINVAL_VMA(x0, x0);
     REQUIRE(value == 0x16000073);
@@ -277,7 +279,7 @@ TEST_CASE("SINVAL.VMA", "[rvpriv]") {
 
 TEST_CASE("SRET", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.SRET();
     REQUIRE(value == 0x10200073);
@@ -285,7 +287,7 @@ TEST_CASE("SRET", "[rvpriv]") {
 
 TEST_CASE("URET", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.URET();
     REQUIRE(value == 0x00200073);
@@ -293,7 +295,7 @@ TEST_CASE("URET", "[rvpriv]") {
 
 TEST_CASE("WFI", "[rvpriv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.WFI();
     REQUIRE(value == 0x10500073);

@@ -2,11 +2,13 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("AMOCAS.D", "[Zacas]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOCAS_D(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x2877BFAF);
@@ -29,7 +31,7 @@ TEST_CASE("AMOCAS.D", "[Zacas]") {
 
 TEST_CASE("AMOCAS.Q", "[Zacas]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOCAS_Q(Ordering::None, x30, x6, x15);
     REQUIRE(value == 0x2867CF2F);
@@ -52,7 +54,7 @@ TEST_CASE("AMOCAS.Q", "[Zacas]") {
 
 TEST_CASE("AMOCAS.W", "[Zacas]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.AMOCAS_W(Ordering::None, x31, x7, x15);
     REQUIRE(value == 0x2877AFAF);

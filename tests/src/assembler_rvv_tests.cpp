@@ -2,11 +2,13 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("VAADD.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VAADD(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x26862257);
@@ -19,7 +21,7 @@ TEST_CASE("VAADD.VV", "[rvv]") {
 
 TEST_CASE("VAADD.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VAADD(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x2685E257);
@@ -32,7 +34,7 @@ TEST_CASE("VAADD.VX", "[rvv]") {
 
 TEST_CASE("VAADDU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VAADDU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x22862257);
@@ -45,7 +47,7 @@ TEST_CASE("VAADDU.VV", "[rvv]") {
 
 TEST_CASE("VAADDU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VAADDU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x2285E257);
@@ -58,7 +60,7 @@ TEST_CASE("VAADDU.VX", "[rvv]") {
 
 TEST_CASE("VADC.VVM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VADC(v4, v8, v12);
     REQUIRE(value == 0x40860257);
@@ -66,7 +68,7 @@ TEST_CASE("VADC.VVM", "[rvv]") {
 
 TEST_CASE("VADC.VXM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VADC(v4, v8, x11);
     REQUIRE(value == 0x4085C257);
@@ -74,7 +76,7 @@ TEST_CASE("VADC.VXM", "[rvv]") {
 
 TEST_CASE("VADC.VIM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VADC(v4, v8, 15);
     REQUIRE(value == 0x4087B257);
@@ -87,7 +89,7 @@ TEST_CASE("VADC.VIM", "[rvv]") {
 
 TEST_CASE("VADD.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VADD(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x02860257);
@@ -100,7 +102,7 @@ TEST_CASE("VADD.VV", "[rvv]") {
 
 TEST_CASE("VADD.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VADD(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x0285C257);
@@ -113,7 +115,7 @@ TEST_CASE("VADD.VX", "[rvv]") {
 
 TEST_CASE("VADD.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VADD(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x0287B257);
@@ -136,7 +138,7 @@ TEST_CASE("VADD.VI", "[rvv]") {
 
 TEST_CASE("VAND.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VAND(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x26860257);
@@ -149,7 +151,7 @@ TEST_CASE("VAND.VV", "[rvv]") {
 
 TEST_CASE("VAND.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VAND(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x2685C257);
@@ -162,7 +164,7 @@ TEST_CASE("VAND.VX", "[rvv]") {
 
 TEST_CASE("VAND.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VAND(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x2687B257);
@@ -185,7 +187,7 @@ TEST_CASE("VAND.VI", "[rvv]") {
 
 TEST_CASE("VASUB.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VASUB(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x2E862257);
@@ -198,7 +200,7 @@ TEST_CASE("VASUB.VV", "[rvv]") {
 
 TEST_CASE("VASUB.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VASUB(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x2E85E257);
@@ -211,7 +213,7 @@ TEST_CASE("VASUB.VX", "[rvv]") {
 
 TEST_CASE("VASUBU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VASUBU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x2A862257);
@@ -224,7 +226,7 @@ TEST_CASE("VASUBU.VV", "[rvv]") {
 
 TEST_CASE("VASUBU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VASUBU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x2A85E257);
@@ -237,7 +239,7 @@ TEST_CASE("VASUBU.VX", "[rvv]") {
 
 TEST_CASE("VCOMPRESS.VM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VCOMPRESS(v4, v8, v12);
     REQUIRE(value == 0x5E862257);
@@ -245,7 +247,7 @@ TEST_CASE("VCOMPRESS.VM", "[rvv]") {
 
 TEST_CASE("VDIV.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VDIV(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x86862257);
@@ -258,7 +260,7 @@ TEST_CASE("VDIV.VV", "[rvv]") {
 
 TEST_CASE("VDIV.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VDIV(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x8685E257);
@@ -271,7 +273,7 @@ TEST_CASE("VDIV.VX", "[rvv]") {
 
 TEST_CASE("VDIVU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VDIVU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x82862257);
@@ -284,7 +286,7 @@ TEST_CASE("VDIVU.VV", "[rvv]") {
 
 TEST_CASE("VDIVU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VDIVU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x8285E257);
@@ -297,7 +299,7 @@ TEST_CASE("VDIVU.VX", "[rvv]") {
 
 TEST_CASE("VFADD.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFADD(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x02861257);
@@ -310,7 +312,7 @@ TEST_CASE("VFADD.VV", "[rvv]") {
 
 TEST_CASE("VFADD.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFADD(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x02865257);
@@ -323,7 +325,7 @@ TEST_CASE("VFADD.VF", "[rvv]") {
 
 TEST_CASE("VFCLASS.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFCLASS(v4, v8, VecMask::No);
     REQUIRE(value == 0x4E881257);
@@ -336,7 +338,7 @@ TEST_CASE("VFCLASS.V", "[rvv]") {
 
 TEST_CASE("VFCVT.F.X.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFCVT_F_X(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A819257);
@@ -349,7 +351,7 @@ TEST_CASE("VFCVT.F.X.V", "[rvv]") {
 
 TEST_CASE("VFCVT.F.XU.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFCVT_F_XU(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A811257);
@@ -362,7 +364,7 @@ TEST_CASE("VFCVT.F.XU.V", "[rvv]") {
 
 TEST_CASE("VFCVT.RTZ.X.F.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFCVT_RTZ_X_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A839257);
@@ -375,7 +377,7 @@ TEST_CASE("VFCVT.RTZ.X.F.V", "[rvv]") {
 
 TEST_CASE("VFCVT.RTZ.XU.F.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFCVT_RTZ_XU_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A831257);
@@ -388,7 +390,7 @@ TEST_CASE("VFCVT.RTZ.XU.F.V", "[rvv]") {
 
 TEST_CASE("VFCVT.X.F.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFCVT_X_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A809257);
@@ -401,7 +403,7 @@ TEST_CASE("VFCVT.X.F.V", "[rvv]") {
 
 TEST_CASE("VFCVT.XU.F.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFCVT_XU_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A801257);
@@ -414,7 +416,7 @@ TEST_CASE("VFCVT.XU.F.V", "[rvv]") {
 
 TEST_CASE("VFNCVT.F.F.W", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNCVT_F_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A8A1257);
@@ -427,7 +429,7 @@ TEST_CASE("VFNCVT.F.F.W", "[rvv]") {
 
 TEST_CASE("VFNCVT.F.X.W", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNCVT_F_X(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A899257);
@@ -440,7 +442,7 @@ TEST_CASE("VFNCVT.F.X.W", "[rvv]") {
 
 TEST_CASE("VFNCVT.F.XU.W", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNCVT_F_XU(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A891257);
@@ -453,7 +455,7 @@ TEST_CASE("VFNCVT.F.XU.W", "[rvv]") {
 
 TEST_CASE("VFNCVT.ROD.F.F.W", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNCVT_ROD_F_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A8A9257);
@@ -466,7 +468,7 @@ TEST_CASE("VFNCVT.ROD.F.F.W", "[rvv]") {
 
 TEST_CASE("VFNCVT.RTZ.X.F.W", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNCVT_RTZ_X_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A8B9257);
@@ -479,7 +481,7 @@ TEST_CASE("VFNCVT.RTZ.X.F.W", "[rvv]") {
 
 TEST_CASE("VFNCVT.RTZ.XU.F.W", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNCVT_RTZ_XU_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A8B1257);
@@ -492,7 +494,7 @@ TEST_CASE("VFNCVT.RTZ.XU.F.W", "[rvv]") {
 
 TEST_CASE("VFNCVT.X.F.W", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNCVT_X_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A889257);
@@ -505,7 +507,7 @@ TEST_CASE("VFNCVT.X.F.W", "[rvv]") {
 
 TEST_CASE("VFNCVT.XU.F.W", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNCVT_XU_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A881257);
@@ -518,7 +520,7 @@ TEST_CASE("VFNCVT.XU.F.W", "[rvv]") {
 
 TEST_CASE("VFWCVT.F.F.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWCVT_F_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A861257);
@@ -531,7 +533,7 @@ TEST_CASE("VFWCVT.F.F.V", "[rvv]") {
 
 TEST_CASE("VFWCVT.F.X.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWCVT_F_X(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A859257);
@@ -544,7 +546,7 @@ TEST_CASE("VFWCVT.F.X.V", "[rvv]") {
 
 TEST_CASE("VFWCVT.F.XU.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWCVT_F_XU(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A851257);
@@ -557,7 +559,7 @@ TEST_CASE("VFWCVT.F.XU.V", "[rvv]") {
 
 TEST_CASE("VFWCVT.RTZ.X.F.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWCVT_RTZ_X_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A879257);
@@ -570,7 +572,7 @@ TEST_CASE("VFWCVT.RTZ.X.F.V", "[rvv]") {
 
 TEST_CASE("VFWCVT.RTZ.XU.F.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWCVT_RTZ_XU_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A871257);
@@ -583,7 +585,7 @@ TEST_CASE("VFWCVT.RTZ.XU.F.V", "[rvv]") {
 
 TEST_CASE("VFWCVT.X.F.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWCVT_X_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A849257);
@@ -596,7 +598,7 @@ TEST_CASE("VFWCVT.X.F.V", "[rvv]") {
 
 TEST_CASE("VFWCVT.XU.F.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWCVT_XU_F(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A841257);
@@ -609,7 +611,7 @@ TEST_CASE("VFWCVT.XU.F.V", "[rvv]") {
 
 TEST_CASE("VFDIV.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFDIV(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x82861257);
@@ -622,7 +624,7 @@ TEST_CASE("VFDIV.VV", "[rvv]") {
 
 TEST_CASE("VFDIV.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFDIV(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x82865257);
@@ -635,7 +637,7 @@ TEST_CASE("VFDIV.VF", "[rvv]") {
 
 TEST_CASE("VFRDIV.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFRDIV(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x86865257);
@@ -648,7 +650,7 @@ TEST_CASE("VFRDIV.VF", "[rvv]") {
 
 TEST_CASE("VFIRST.M", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFIRST(x10, v12, VecMask::No);
     REQUIRE(value == 0x42C8A557);
@@ -661,7 +663,7 @@ TEST_CASE("VFIRST.M", "[rvv]") {
 
 TEST_CASE("VFREDMAX.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFREDMAX(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x1E861257);
@@ -674,7 +676,7 @@ TEST_CASE("VFREDMAX.VS", "[rvv]") {
 
 TEST_CASE("VFREDMIN.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFREDMIN(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x16861257);
@@ -687,7 +689,7 @@ TEST_CASE("VFREDMIN.VS", "[rvv]") {
 
 TEST_CASE("VFREDSUM.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFREDSUM(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x06861257);
@@ -700,7 +702,7 @@ TEST_CASE("VFREDSUM.VS", "[rvv]") {
 
 TEST_CASE("VFREDOSUM.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFREDOSUM(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x0E861257);
@@ -713,7 +715,7 @@ TEST_CASE("VFREDOSUM.VS", "[rvv]") {
 
 TEST_CASE("VFMACC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMACC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xB2861257);
@@ -726,7 +728,7 @@ TEST_CASE("VFMACC.VV", "[rvv]") {
 
 TEST_CASE("VFMACC.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMACC(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xB2865257);
@@ -739,7 +741,7 @@ TEST_CASE("VFMACC.VF", "[rvv]") {
 
 TEST_CASE("VFMADD.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMADD(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xA2861257);
@@ -752,7 +754,7 @@ TEST_CASE("VFMADD.VV", "[rvv]") {
 
 TEST_CASE("VFMADD.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMADD(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xA2865257);
@@ -765,7 +767,7 @@ TEST_CASE("VFMADD.VF", "[rvv]") {
 
 TEST_CASE("VFMAX.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMAX(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x1A861257);
@@ -778,7 +780,7 @@ TEST_CASE("VFMAX.VV", "[rvv]") {
 
 TEST_CASE("VFMAX.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMAX(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x1A865257);
@@ -791,7 +793,7 @@ TEST_CASE("VFMAX.VF", "[rvv]") {
 
 TEST_CASE("VFMERGE.VFM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMERGE(v4, v8, f12);
     REQUIRE(value == 0x5C865257);
@@ -799,7 +801,7 @@ TEST_CASE("VFMERGE.VFM", "[rvv]") {
 
 TEST_CASE("VFMIN.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMIN(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x12861257);
@@ -812,7 +814,7 @@ TEST_CASE("VFMIN.VV", "[rvv]") {
 
 TEST_CASE("VFMIN.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMIN(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x12865257);
@@ -825,7 +827,7 @@ TEST_CASE("VFMIN.VF", "[rvv]") {
 
 TEST_CASE("VFMSAC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMSAC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xBA861257);
@@ -838,7 +840,7 @@ TEST_CASE("VFMSAC.VV", "[rvv]") {
 
 TEST_CASE("VFMSAC.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMSAC(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xBA865257);
@@ -851,7 +853,7 @@ TEST_CASE("VFMSAC.VF", "[rvv]") {
 
 TEST_CASE("VFMSUB.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMSUB(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xAA861257);
@@ -864,7 +866,7 @@ TEST_CASE("VFMSUB.VV", "[rvv]") {
 
 TEST_CASE("VFMSUB.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMSUB(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xAA865257);
@@ -877,7 +879,7 @@ TEST_CASE("VFMSUB.VF", "[rvv]") {
 
 TEST_CASE("VFMUL.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMUL(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x92861257);
@@ -890,7 +892,7 @@ TEST_CASE("VFMUL.VV", "[rvv]") {
 
 TEST_CASE("VFMUL.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMUL(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x92865257);
@@ -903,7 +905,7 @@ TEST_CASE("VFMUL.VF", "[rvv]") {
 
 TEST_CASE("VFMV.F.S", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMV_FS(f10, v8);
     REQUIRE(value == 0x42801557);
@@ -911,7 +913,7 @@ TEST_CASE("VFMV.F.S", "[rvv]") {
 
 TEST_CASE("VFMV.S.F", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMV_SF(v4, f11);
     REQUIRE(value == 0x4205D257);
@@ -919,7 +921,7 @@ TEST_CASE("VFMV.S.F", "[rvv]") {
 
 TEST_CASE("VFMV.V.F", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFMV(v4, f11);
     REQUIRE(value == 0x5E05D257);
@@ -927,7 +929,7 @@ TEST_CASE("VFMV.V.F", "[rvv]") {
 
 TEST_CASE("VFNMACC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNMACC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xB6861257);
@@ -940,7 +942,7 @@ TEST_CASE("VFNMACC.VV", "[rvv]") {
 
 TEST_CASE("VFNMACC.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNMACC(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xB6865257);
@@ -953,7 +955,7 @@ TEST_CASE("VFNMACC.VF", "[rvv]") {
 
 TEST_CASE("VFNMADD.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNMADD(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xA6861257);
@@ -966,7 +968,7 @@ TEST_CASE("VFNMADD.VV", "[rvv]") {
 
 TEST_CASE("VFNMADD.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNMADD(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xA6865257);
@@ -979,7 +981,7 @@ TEST_CASE("VFNMADD.VF", "[rvv]") {
 
 TEST_CASE("VFNMSAC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNMSAC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xBE861257);
@@ -992,7 +994,7 @@ TEST_CASE("VFNMSAC.VV", "[rvv]") {
 
 TEST_CASE("VFNMSAC.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNMSAC(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xBE865257);
@@ -1005,7 +1007,7 @@ TEST_CASE("VFNMSAC.VF", "[rvv]") {
 
 TEST_CASE("VFNMSUB.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNMSUB(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xAE861257);
@@ -1018,7 +1020,7 @@ TEST_CASE("VFNMSUB.VV", "[rvv]") {
 
 TEST_CASE("VFNMSUB.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFNMSUB(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xAE865257);
@@ -1031,7 +1033,7 @@ TEST_CASE("VFNMSUB.VF", "[rvv]") {
 
 TEST_CASE("VFREC7.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFREC7(v4, v8, VecMask::No);
     REQUIRE(value == 0x4E829257);
@@ -1044,7 +1046,7 @@ TEST_CASE("VFREC7.V", "[rvv]") {
 
 TEST_CASE("VFSGNJ.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSGNJ(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x22861257);
@@ -1057,7 +1059,7 @@ TEST_CASE("VFSGNJ.VV", "[rvv]") {
 
 TEST_CASE("VFSGNJ.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSGNJ(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x22865257);
@@ -1070,7 +1072,7 @@ TEST_CASE("VFSGNJ.VF", "[rvv]") {
 
 TEST_CASE("VFSGNJN.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSGNJN(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x26861257);
@@ -1083,7 +1085,7 @@ TEST_CASE("VFSGNJN.VV", "[rvv]") {
 
 TEST_CASE("VFSGNJN.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSGNJN(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x26865257);
@@ -1096,7 +1098,7 @@ TEST_CASE("VFSGNJN.VF", "[rvv]") {
 
 TEST_CASE("VFSGNJX.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSGNJX(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x2A861257);
@@ -1109,7 +1111,7 @@ TEST_CASE("VFSGNJX.VV", "[rvv]") {
 
 TEST_CASE("VFSGNJX.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSGNJX(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x2A865257);
@@ -1122,7 +1124,7 @@ TEST_CASE("VFSGNJX.VF", "[rvv]") {
 
 TEST_CASE("VFSQRT.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSQRT(v4, v8, VecMask::No);
     REQUIRE(value == 0x4E801257);
@@ -1135,7 +1137,7 @@ TEST_CASE("VFSQRT.V", "[rvv]") {
 
 TEST_CASE("VFRSQRT7.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFRSQRT7(v4, v8, VecMask::No);
     REQUIRE(value == 0x4E821257);
@@ -1148,7 +1150,7 @@ TEST_CASE("VFRSQRT7.V", "[rvv]") {
 
 TEST_CASE("VFSLIDE1DOWN.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSLIDE1DOWN(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x3E865257);
@@ -1161,7 +1163,7 @@ TEST_CASE("VFSLIDE1DOWN.VF", "[rvv]") {
 
 TEST_CASE("VFSLIDE1UP.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSLIDE1UP(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x3A865257);
@@ -1174,7 +1176,7 @@ TEST_CASE("VFSLIDE1UP.VF", "[rvv]") {
 
 TEST_CASE("VFSUB.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSUB(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x0A861257);
@@ -1187,7 +1189,7 @@ TEST_CASE("VFSUB.VV", "[rvv]") {
 
 TEST_CASE("VFSUB.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFSUB(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x0A865257);
@@ -1200,7 +1202,7 @@ TEST_CASE("VFSUB.VF", "[rvv]") {
 
 TEST_CASE("VFRSUB.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFRSUB(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x9E865257);
@@ -1213,7 +1215,7 @@ TEST_CASE("VFRSUB.VF", "[rvv]") {
 
 TEST_CASE("VFWADD.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWADD(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xC2861257);
@@ -1226,7 +1228,7 @@ TEST_CASE("VFWADD.VV", "[rvv]") {
 
 TEST_CASE("VFWADD.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWADD(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0xC2865257);
@@ -1239,7 +1241,7 @@ TEST_CASE("VFWADD.VF", "[rvv]") {
 
 TEST_CASE("VFWADD.WV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWADDW(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xD2861257);
@@ -1252,7 +1254,7 @@ TEST_CASE("VFWADD.WV", "[rvv]") {
 
 TEST_CASE("VFWADD.WF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWADDW(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0xD2865257);
@@ -1265,7 +1267,7 @@ TEST_CASE("VFWADD.WF", "[rvv]") {
 
 TEST_CASE("VFWMACC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWMACC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xF2861257);
@@ -1278,7 +1280,7 @@ TEST_CASE("VFWMACC.VV", "[rvv]") {
 
 TEST_CASE("VFWMACC.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWMACC(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xF2865257);
@@ -1291,7 +1293,7 @@ TEST_CASE("VFWMACC.VF", "[rvv]") {
 
 TEST_CASE("VFWMUL.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWMUL(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xE2861257);
@@ -1304,7 +1306,7 @@ TEST_CASE("VFWMUL.VV", "[rvv]") {
 
 TEST_CASE("VFWMUL.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWMUL(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0xE2865257);
@@ -1317,7 +1319,7 @@ TEST_CASE("VFWMUL.VF", "[rvv]") {
 
 TEST_CASE("VFWNMACC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWNMACC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xF6861257);
@@ -1330,7 +1332,7 @@ TEST_CASE("VFWNMACC.VV", "[rvv]") {
 
 TEST_CASE("VFWNMACC.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWNMACC(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xF6865257);
@@ -1343,7 +1345,7 @@ TEST_CASE("VFWNMACC.VF", "[rvv]") {
 
 TEST_CASE("VFWNMSAC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWNMSAC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xFE861257);
@@ -1356,7 +1358,7 @@ TEST_CASE("VFWNMSAC.VV", "[rvv]") {
 
 TEST_CASE("VFWNMSAC.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWNMSAC(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xFE865257);
@@ -1369,7 +1371,7 @@ TEST_CASE("VFWNMSAC.VF", "[rvv]") {
 
 TEST_CASE("VFWREDSUM.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWREDSUM(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xC6861257);
@@ -1382,7 +1384,7 @@ TEST_CASE("VFWREDSUM.VS", "[rvv]") {
 
 TEST_CASE("VFWREDOSUM.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWREDOSUM(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xCE861257);
@@ -1395,7 +1397,7 @@ TEST_CASE("VFWREDOSUM.VS", "[rvv]") {
 
 TEST_CASE("VFWMSAC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWMSAC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xFA861257);
@@ -1408,7 +1410,7 @@ TEST_CASE("VFWMSAC.VV", "[rvv]") {
 
 TEST_CASE("VFWMSAC.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWMSAC(v4, f12, v8, VecMask::No);
     REQUIRE(value == 0xFA865257);
@@ -1421,7 +1423,7 @@ TEST_CASE("VFWMSAC.VF", "[rvv]") {
 
 TEST_CASE("VFWSUB.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWSUB(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xCA861257);
@@ -1434,7 +1436,7 @@ TEST_CASE("VFWSUB.VV", "[rvv]") {
 
 TEST_CASE("VFWSUB.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWSUB(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0xCA865257);
@@ -1447,7 +1449,7 @@ TEST_CASE("VFWSUB.VF", "[rvv]") {
 
 TEST_CASE("VFWSUB.WV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWSUBW(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xDA861257);
@@ -1460,7 +1462,7 @@ TEST_CASE("VFWSUB.WV", "[rvv]") {
 
 TEST_CASE("VFWSUB.WF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VFWSUBW(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0xDA865257);
@@ -1473,7 +1475,7 @@ TEST_CASE("VFWSUB.WF", "[rvv]") {
 
 TEST_CASE("VID.M", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VID(v4, VecMask::No);
     REQUIRE(value == 0x5208A257);
@@ -1486,7 +1488,7 @@ TEST_CASE("VID.M", "[rvv]") {
 
 TEST_CASE("VIOTA.M", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VIOTA(v4, v8, VecMask::No);
     REQUIRE(value == 0x52882257);
@@ -1499,7 +1501,7 @@ TEST_CASE("VIOTA.M", "[rvv]") {
 
 TEST_CASE("VMACC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMACC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xB6862257);
@@ -1512,7 +1514,7 @@ TEST_CASE("VMACC.VV", "[rvv]") {
 
 TEST_CASE("VMACC.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMACC(v4, x11, v8, VecMask::No);
     REQUIRE(value == 0xB685E257);
@@ -1525,7 +1527,7 @@ TEST_CASE("VMACC.VX", "[rvv]") {
 
 TEST_CASE("VMADC.VV(M)", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMADC(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x46860257);
@@ -1538,7 +1540,7 @@ TEST_CASE("VMADC.VV(M)", "[rvv]") {
 
 TEST_CASE("VMADC.VX(M)", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMADC(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x4685C257);
@@ -1551,7 +1553,7 @@ TEST_CASE("VMADC.VX(M)", "[rvv]") {
 
 TEST_CASE("VMADC.VI(M)", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMADC(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x4687B257);
@@ -1574,7 +1576,7 @@ TEST_CASE("VMADC.VI(M)", "[rvv]") {
 
 TEST_CASE("VMADD.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMADD(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xA6862257);
@@ -1587,7 +1589,7 @@ TEST_CASE("VMADD.VV", "[rvv]") {
 
 TEST_CASE("VMADD.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMADD(v4, x11, v8, VecMask::No);
     REQUIRE(value == 0xA685E257);
@@ -1600,7 +1602,7 @@ TEST_CASE("VMADD.VX", "[rvv]") {
 
 TEST_CASE("VMAND.MM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMAND(v4, v8, v12);
     REQUIRE(value == 0x66862257);
@@ -1608,7 +1610,7 @@ TEST_CASE("VMAND.MM", "[rvv]") {
 
 TEST_CASE("VMANDNOT.MM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMANDNOT(v4, v8, v12);
     REQUIRE(value == 0x62862257);
@@ -1616,7 +1618,7 @@ TEST_CASE("VMANDNOT.MM", "[rvv]") {
 
 TEST_CASE("VMFEQ.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMFEQ(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x62861257);
@@ -1629,7 +1631,7 @@ TEST_CASE("VMFEQ.VV", "[rvv]") {
 
 TEST_CASE("VMFEQ.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMFEQ(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x62865257);
@@ -1642,7 +1644,7 @@ TEST_CASE("VMFEQ.VF", "[rvv]") {
 
 TEST_CASE("VMFGE.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMFGE(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x7E865257);
@@ -1655,7 +1657,7 @@ TEST_CASE("VMFGE.VF", "[rvv]") {
 
 TEST_CASE("VMFGT.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMFGT(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x76865257);
@@ -1668,7 +1670,7 @@ TEST_CASE("VMFGT.VF", "[rvv]") {
 
 TEST_CASE("VMFLE.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMFLE(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x66861257);
@@ -1681,7 +1683,7 @@ TEST_CASE("VMFLE.VV", "[rvv]") {
 
 TEST_CASE("VMFLE.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMFLE(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x66865257);
@@ -1694,7 +1696,7 @@ TEST_CASE("VMFLE.VF", "[rvv]") {
 
 TEST_CASE("VMFLT.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMFLT(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x6E861257);
@@ -1707,7 +1709,7 @@ TEST_CASE("VMFLT.VV", "[rvv]") {
 
 TEST_CASE("VMFLT.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMFLT(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x6E865257);
@@ -1720,7 +1722,7 @@ TEST_CASE("VMFLT.VF", "[rvv]") {
 
 TEST_CASE("VMFNE.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMFNE(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x72861257);
@@ -1733,7 +1735,7 @@ TEST_CASE("VMFNE.VV", "[rvv]") {
 
 TEST_CASE("VMFNE.VF", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMFNE(v4, v8, f12, VecMask::No);
     REQUIRE(value == 0x72865257);
@@ -1746,7 +1748,7 @@ TEST_CASE("VMFNE.VF", "[rvv]") {
 
 TEST_CASE("VMNAND.MM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMNAND(v4, v8, v12);
     REQUIRE(value == 0x76862257);
@@ -1754,7 +1756,7 @@ TEST_CASE("VMNAND.MM", "[rvv]") {
 
 TEST_CASE("VMNOR.MM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMNOR(v4, v8, v12);
     REQUIRE(value == 0x7A862257);
@@ -1762,7 +1764,7 @@ TEST_CASE("VMNOR.MM", "[rvv]") {
 
 TEST_CASE("VMOR.MM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMOR(v4, v8, v12);
     REQUIRE(value == 0x6A862257);
@@ -1770,7 +1772,7 @@ TEST_CASE("VMOR.MM", "[rvv]") {
 
 TEST_CASE("VMORNOT.MM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMORNOT(v4, v8, v12);
     REQUIRE(value == 0x72862257);
@@ -1778,7 +1780,7 @@ TEST_CASE("VMORNOT.MM", "[rvv]") {
 
 TEST_CASE("VMXNOR.MM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMXNOR(v4, v8, v12);
     REQUIRE(value == 0x7E862257);
@@ -1786,7 +1788,7 @@ TEST_CASE("VMXNOR.MM", "[rvv]") {
 
 TEST_CASE("VMXOR.MM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMXOR(v4, v8, v12);
     REQUIRE(value == 0x6E862257);
@@ -1794,7 +1796,7 @@ TEST_CASE("VMXOR.MM", "[rvv]") {
 
 TEST_CASE("VMAX.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMAX(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x1E860257);
@@ -1807,7 +1809,7 @@ TEST_CASE("VMAX.VV", "[rvv]") {
 
 TEST_CASE("VMAX.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMAX(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x1E85C257);
@@ -1820,7 +1822,7 @@ TEST_CASE("VMAX.VX", "[rvv]") {
 
 TEST_CASE("VMAXU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMAXU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x1A860257);
@@ -1833,7 +1835,7 @@ TEST_CASE("VMAXU.VV", "[rvv]") {
 
 TEST_CASE("VMAXU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMAXU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x1A85C257);
@@ -1846,7 +1848,7 @@ TEST_CASE("VMAXU.VX", "[rvv]") {
 
 TEST_CASE("VMERGE.VVM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMERGE(v4, v8, v12);
     REQUIRE(value == 0x5C860257);
@@ -1854,7 +1856,7 @@ TEST_CASE("VMERGE.VVM", "[rvv]") {
 
 TEST_CASE("VMERGE.VXM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMERGE(v4, v8, x11);
     REQUIRE(value == 0x5C85C257);
@@ -1862,7 +1864,7 @@ TEST_CASE("VMERGE.VXM", "[rvv]") {
 
 TEST_CASE("VMERGE.VIM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMERGE(v4, v8, 15);
     REQUIRE(value == 0x5C87B257);
@@ -1875,7 +1877,7 @@ TEST_CASE("VMERGE.VIM", "[rvv]") {
 
 TEST_CASE("VMIN.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMIN(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x16860257);
@@ -1888,7 +1890,7 @@ TEST_CASE("VMIN.VV", "[rvv]") {
 
 TEST_CASE("VMIN.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMIN(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x1685C257);
@@ -1901,7 +1903,7 @@ TEST_CASE("VMIN.VX", "[rvv]") {
 
 TEST_CASE("VMINU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMINU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x12860257);
@@ -1914,7 +1916,7 @@ TEST_CASE("VMINU.VV", "[rvv]") {
 
 TEST_CASE("VMINU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMINU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x1285C257);
@@ -1927,7 +1929,7 @@ TEST_CASE("VMINU.VX", "[rvv]") {
 
 TEST_CASE("VMSBC.VV(M)", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSBC(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x4E860257);
@@ -1940,7 +1942,7 @@ TEST_CASE("VMSBC.VV(M)", "[rvv]") {
 
 TEST_CASE("VMSBC.VX(M)", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSBC(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x4E85C257);
@@ -1953,7 +1955,7 @@ TEST_CASE("VMSBC.VX(M)", "[rvv]") {
 
 TEST_CASE("VMSBF.M", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSBF(v4, v8, VecMask::No);
     REQUIRE(value == 0x5280A257);
@@ -1966,7 +1968,7 @@ TEST_CASE("VMSBF.M", "[rvv]") {
 
 TEST_CASE("VMSIF.M", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSIF(v4, v8, VecMask::No);
     REQUIRE(value == 0x5281A257);
@@ -1979,7 +1981,7 @@ TEST_CASE("VMSIF.M", "[rvv]") {
 
 TEST_CASE("VMSOF.M", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSOF(v4, v8, VecMask::No);
     REQUIRE(value == 0x52812257);
@@ -1992,7 +1994,7 @@ TEST_CASE("VMSOF.M", "[rvv]") {
 
 TEST_CASE("VMSEQ.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSEQ(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x62860257);
@@ -2005,7 +2007,7 @@ TEST_CASE("VMSEQ.VV", "[rvv]") {
 
 TEST_CASE("VMSEQ.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSEQ(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x6285C257);
@@ -2018,7 +2020,7 @@ TEST_CASE("VMSEQ.VX", "[rvv]") {
 
 TEST_CASE("VMSEQ.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSEQ(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x6287B257);
@@ -2041,7 +2043,7 @@ TEST_CASE("VMSEQ.VI", "[rvv]") {
 
 TEST_CASE("VMSGT.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSGT(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x7E85C257);
@@ -2054,7 +2056,7 @@ TEST_CASE("VMSGT.VX", "[rvv]") {
 
 TEST_CASE("VMSGT.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSGT(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x7E87B257);
@@ -2077,7 +2079,7 @@ TEST_CASE("VMSGT.VI", "[rvv]") {
 
 TEST_CASE("VMSGTU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSGTU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x7A85C257);
@@ -2090,7 +2092,7 @@ TEST_CASE("VMSGTU.VX", "[rvv]") {
 
 TEST_CASE("VMSGTU.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSGTU(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x7A87B257);
@@ -2113,7 +2115,7 @@ TEST_CASE("VMSGTU.VI", "[rvv]") {
 
 TEST_CASE("VMSLE.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSLE(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x76860257);
@@ -2126,7 +2128,7 @@ TEST_CASE("VMSLE.VV", "[rvv]") {
 
 TEST_CASE("VMSLE.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSLE(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x7685C257);
@@ -2139,7 +2141,7 @@ TEST_CASE("VMSLE.VX", "[rvv]") {
 
 TEST_CASE("VMSLE.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSLE(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x7687B257);
@@ -2162,7 +2164,7 @@ TEST_CASE("VMSLE.VI", "[rvv]") {
 
 TEST_CASE("VMSLEU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSLEU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x72860257);
@@ -2175,7 +2177,7 @@ TEST_CASE("VMSLEU.VV", "[rvv]") {
 
 TEST_CASE("VMSLEU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSLEU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x7285C257);
@@ -2188,7 +2190,7 @@ TEST_CASE("VMSLEU.VX", "[rvv]") {
 
 TEST_CASE("VMSLEU.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSLEU(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x7287B257);
@@ -2211,7 +2213,7 @@ TEST_CASE("VMSLEU.VI", "[rvv]") {
 
 TEST_CASE("VMSLT.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSLT(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x6E860257);
@@ -2224,7 +2226,7 @@ TEST_CASE("VMSLT.VV", "[rvv]") {
 
 TEST_CASE("VMSLT.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSLT(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x6E85C257);
@@ -2237,7 +2239,7 @@ TEST_CASE("VMSLT.VX", "[rvv]") {
 
 TEST_CASE("VMSLTU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSLTU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x6A860257);
@@ -2250,7 +2252,7 @@ TEST_CASE("VMSLTU.VV", "[rvv]") {
 
 TEST_CASE("VMSLTU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSLTU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x6A85C257);
@@ -2263,7 +2265,7 @@ TEST_CASE("VMSLTU.VX", "[rvv]") {
 
 TEST_CASE("VMSNE.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSNE(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x66860257);
@@ -2276,7 +2278,7 @@ TEST_CASE("VMSNE.VV", "[rvv]") {
 
 TEST_CASE("VMSNE.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSNE(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x6685C257);
@@ -2289,7 +2291,7 @@ TEST_CASE("VMSNE.VX", "[rvv]") {
 
 TEST_CASE("VMSNE.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMSNE(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x6687B257);
@@ -2312,7 +2314,7 @@ TEST_CASE("VMSNE.VI", "[rvv]") {
 
 TEST_CASE("VMUL.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMUL(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x96862257);
@@ -2325,7 +2327,7 @@ TEST_CASE("VMUL.VV", "[rvv]") {
 
 TEST_CASE("VMUL.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMUL(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x9685E257);
@@ -2338,7 +2340,7 @@ TEST_CASE("VMUL.VX", "[rvv]") {
 
 TEST_CASE("VMULH.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMULH(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x9E862257);
@@ -2351,7 +2353,7 @@ TEST_CASE("VMULH.VV", "[rvv]") {
 
 TEST_CASE("VMULH.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMULH(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x9E85E257);
@@ -2364,7 +2366,7 @@ TEST_CASE("VMULH.VX", "[rvv]") {
 
 TEST_CASE("VMULHSU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMULHSU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x9A862257);
@@ -2377,7 +2379,7 @@ TEST_CASE("VMULHSU.VV", "[rvv]") {
 
 TEST_CASE("VMULHSU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMULHSU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x9A85E257);
@@ -2390,7 +2392,7 @@ TEST_CASE("VMULHSU.VX", "[rvv]") {
 
 TEST_CASE("VMULHU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMULHU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x92862257);
@@ -2403,7 +2405,7 @@ TEST_CASE("VMULHU.VV", "[rvv]") {
 
 TEST_CASE("VMULHU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMULHU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x9285E257);
@@ -2416,7 +2418,7 @@ TEST_CASE("VMULHU.VX", "[rvv]") {
 
 TEST_CASE("VMV.S.X", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMV_SX(v4, x10);
     REQUIRE(value == 0x42056257);
@@ -2424,7 +2426,7 @@ TEST_CASE("VMV.S.X", "[rvv]") {
 
 TEST_CASE("VMV.X.S", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMV_XS(x10, v12);
     REQUIRE(value == 0x42C02557);
@@ -2432,7 +2434,7 @@ TEST_CASE("VMV.X.S", "[rvv]") {
 
 TEST_CASE("VMV.V.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMV(v8, v12);
     REQUIRE(value == 0x5E060457);
@@ -2440,7 +2442,7 @@ TEST_CASE("VMV.V.V", "[rvv]") {
 
 TEST_CASE("VMV.V.X", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMV(v8, x11);
     REQUIRE(value == 0x5E05C457);
@@ -2448,7 +2450,7 @@ TEST_CASE("VMV.V.X", "[rvv]") {
 
 TEST_CASE("VMV.V.I", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMV(v8, 15);
     REQUIRE(value == 0x5E07B457);
@@ -2461,7 +2463,7 @@ TEST_CASE("VMV.V.I", "[rvv]") {
 
 TEST_CASE("VMV1R.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMV1R(v1, v2);
     REQUIRE(value == 0x9E2030D7);
@@ -2469,7 +2471,7 @@ TEST_CASE("VMV1R.V", "[rvv]") {
 
 TEST_CASE("VMV2R.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMV2R(v2, v4);
     REQUIRE(value == 0x9E40B157);
@@ -2477,7 +2479,7 @@ TEST_CASE("VMV2R.V", "[rvv]") {
 
 TEST_CASE("VMV4R.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMV4R(v4, v8);
     REQUIRE(value == 0x9E81B257);
@@ -2485,7 +2487,7 @@ TEST_CASE("VMV4R.V", "[rvv]") {
 
 TEST_CASE("VMV8R.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VMV8R(v0, v8);
     REQUIRE(value == 0x9E83B057);
@@ -2493,7 +2495,7 @@ TEST_CASE("VMV8R.V", "[rvv]") {
 
 TEST_CASE("VNCLIP.WV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNCLIP(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xBE860257);
@@ -2506,7 +2508,7 @@ TEST_CASE("VNCLIP.WV", "[rvv]") {
 
 TEST_CASE("VNCLIP.WX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNCLIP(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xBE85C257);
@@ -2519,7 +2521,7 @@ TEST_CASE("VNCLIP.WX", "[rvv]") {
 
 TEST_CASE("VNCLIP.WI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNCLIP(v4, v8, 1, VecMask::No);
     REQUIRE(value == 0xBE80B257);
@@ -2542,7 +2544,7 @@ TEST_CASE("VNCLIP.WI", "[rvv]") {
 
 TEST_CASE("VNCLIPU.WV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNCLIPU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xBA860257);
@@ -2555,7 +2557,7 @@ TEST_CASE("VNCLIPU.WV", "[rvv]") {
 
 TEST_CASE("VNCLIPU.WX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNCLIPU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xBA85C257);
@@ -2568,7 +2570,7 @@ TEST_CASE("VNCLIPU.WX", "[rvv]") {
 
 TEST_CASE("VNCLIPU.WI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNCLIPU(v4, v8, 1, VecMask::No);
     REQUIRE(value == 0xBA80B257);
@@ -2591,7 +2593,7 @@ TEST_CASE("VNCLIPU.WI", "[rvv]") {
 
 TEST_CASE("VNMSAC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNMSAC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xBE862257);
@@ -2604,7 +2606,7 @@ TEST_CASE("VNMSAC.VV", "[rvv]") {
 
 TEST_CASE("VNMSAC.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNMSAC(v4, x11, v8, VecMask::No);
     REQUIRE(value == 0xBE85E257);
@@ -2617,7 +2619,7 @@ TEST_CASE("VNMSAC.VX", "[rvv]") {
 
 TEST_CASE("VNMSUB.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNMSUB(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xAE862257);
@@ -2630,7 +2632,7 @@ TEST_CASE("VNMSUB.VV", "[rvv]") {
 
 TEST_CASE("VNMSUB.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNMSUB(v4, x11, v8, VecMask::No);
     REQUIRE(value == 0xAE85E257);
@@ -2643,7 +2645,7 @@ TEST_CASE("VNMSUB.VX", "[rvv]") {
 
 TEST_CASE("VNSRA.WV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNSRA(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xB6860257);
@@ -2656,7 +2658,7 @@ TEST_CASE("VNSRA.WV", "[rvv]") {
 
 TEST_CASE("VNSRA.WX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNSRA(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xB685C257);
@@ -2669,7 +2671,7 @@ TEST_CASE("VNSRA.WX", "[rvv]") {
 
 TEST_CASE("VNSRA.WI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNSRA(v4, v8, 1, VecMask::No);
     REQUIRE(value == 0xB680B257);
@@ -2692,7 +2694,7 @@ TEST_CASE("VNSRA.WI", "[rvv]") {
 
 TEST_CASE("VNSRL.WV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNSRL(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xB2860257);
@@ -2705,7 +2707,7 @@ TEST_CASE("VNSRL.WV", "[rvv]") {
 
 TEST_CASE("VNSRL.WX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNSRL(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xB285C257);
@@ -2718,7 +2720,7 @@ TEST_CASE("VNSRL.WX", "[rvv]") {
 
 TEST_CASE("VNSRL.WI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VNSRL(v4, v8, 1, VecMask::No);
     REQUIRE(value == 0xB280B257);
@@ -2741,7 +2743,7 @@ TEST_CASE("VNSRL.WI", "[rvv]") {
 
 TEST_CASE("VOR.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VOR(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x2A860257);
@@ -2754,7 +2756,7 @@ TEST_CASE("VOR.VV", "[rvv]") {
 
 TEST_CASE("VOR.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VOR(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x2A85C257);
@@ -2767,7 +2769,7 @@ TEST_CASE("VOR.VX", "[rvv]") {
 
 TEST_CASE("VOR.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VOR(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x2A87B257);
@@ -2790,7 +2792,7 @@ TEST_CASE("VOR.VI", "[rvv]") {
 
 TEST_CASE("VPOPC.M", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VPOPC(x10, v12, VecMask::No);
     REQUIRE(value == 0x42C82557);
@@ -2803,7 +2805,7 @@ TEST_CASE("VPOPC.M", "[rvv]") {
 
 TEST_CASE("VREDAND.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREDAND(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x06862257);
@@ -2816,7 +2818,7 @@ TEST_CASE("VREDAND.VS", "[rvv]") {
 
 TEST_CASE("VREDMAX.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREDMAX(v4, v8, v8, VecMask::No);
     REQUIRE(value == 0x1E842257);
@@ -2829,7 +2831,7 @@ TEST_CASE("VREDMAX.VS", "[rvv]") {
 
 TEST_CASE("VREDMAXU.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREDMAXU(v4, v8, v8, VecMask::No);
     REQUIRE(value == 0x1A842257);
@@ -2842,7 +2844,7 @@ TEST_CASE("VREDMAXU.VS", "[rvv]") {
 
 TEST_CASE("VREDMIN.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREDMIN(v4, v8, v8, VecMask::No);
     REQUIRE(value == 0x16842257);
@@ -2855,7 +2857,7 @@ TEST_CASE("VREDMIN.VS", "[rvv]") {
 
 TEST_CASE("VREDMINU.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREDMINU(v4, v8, v8, VecMask::No);
     REQUIRE(value == 0x12842257);
@@ -2868,7 +2870,7 @@ TEST_CASE("VREDMINU.VS", "[rvv]") {
 
 TEST_CASE("VREDOR.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREDOR(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x0A862257);
@@ -2881,7 +2883,7 @@ TEST_CASE("VREDOR.VS", "[rvv]") {
 
 TEST_CASE("VREDSUM.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREDSUM(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x02862257);
@@ -2894,7 +2896,7 @@ TEST_CASE("VREDSUM.VS", "[rvv]") {
 
 TEST_CASE("VREDXOR.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREDXOR(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x0E862257);
@@ -2907,7 +2909,7 @@ TEST_CASE("VREDXOR.VS", "[rvv]") {
 
 TEST_CASE("VREM.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREM(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x8E862257);
@@ -2920,7 +2922,7 @@ TEST_CASE("VREM.VV", "[rvv]") {
 
 TEST_CASE("VREM.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREM(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x8E85E257);
@@ -2933,7 +2935,7 @@ TEST_CASE("VREM.VX", "[rvv]") {
 
 TEST_CASE("VREMU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREMU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x8A862257);
@@ -2946,7 +2948,7 @@ TEST_CASE("VREMU.VV", "[rvv]") {
 
 TEST_CASE("VREMU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VREMU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x8A85E257);
@@ -2959,7 +2961,7 @@ TEST_CASE("VREMU.VX", "[rvv]") {
 
 TEST_CASE("VRGATHER.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VRGATHER(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x32860257);
@@ -2972,7 +2974,7 @@ TEST_CASE("VRGATHER.VV", "[rvv]") {
 
 TEST_CASE("VRGATHER.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VRGATHER(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x3285C257);
@@ -2985,7 +2987,7 @@ TEST_CASE("VRGATHER.VX", "[rvv]") {
 
 TEST_CASE("VRGATHER.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VRGATHER(v4, v8, 0, VecMask::No);
     REQUIRE(value == 0x32803257);
@@ -3008,7 +3010,7 @@ TEST_CASE("VRGATHER.VI", "[rvv]") {
 
 TEST_CASE("VRGATHEREI16.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VRGATHEREI16(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x3A860257);
@@ -3021,7 +3023,7 @@ TEST_CASE("VRGATHEREI16.VV", "[rvv]") {
 
 TEST_CASE("VRSUB.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VRSUB(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x0E85C257);
@@ -3034,7 +3036,7 @@ TEST_CASE("VRSUB.VX", "[rvv]") {
 
 TEST_CASE("VRSUB.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VRSUB(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x0E87B257);
@@ -3057,7 +3059,7 @@ TEST_CASE("VRSUB.VI", "[rvv]") {
 
 TEST_CASE("VSADD.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSADD(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x86860257);
@@ -3070,7 +3072,7 @@ TEST_CASE("VSADD.VV", "[rvv]") {
 
 TEST_CASE("VSADD.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSADD(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x8685C257);
@@ -3083,7 +3085,7 @@ TEST_CASE("VSADD.VX", "[rvv]") {
 
 TEST_CASE("VSADD.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSADD(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x8687B257);
@@ -3106,7 +3108,7 @@ TEST_CASE("VSADD.VI", "[rvv]") {
 
 TEST_CASE("VSADDU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSADDU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x82860257);
@@ -3119,7 +3121,7 @@ TEST_CASE("VSADDU.VV", "[rvv]") {
 
 TEST_CASE("VSADDU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSADDU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x8285C257);
@@ -3132,7 +3134,7 @@ TEST_CASE("VSADDU.VX", "[rvv]") {
 
 TEST_CASE("VSADDU.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSADDU(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x8287B257);
@@ -3155,7 +3157,7 @@ TEST_CASE("VSADDU.VI", "[rvv]") {
 
 TEST_CASE("VSBC.VVM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSBC(v4, v8, v12);
     REQUIRE(value == 0x48860257);
@@ -3163,7 +3165,7 @@ TEST_CASE("VSBC.VVM", "[rvv]") {
 
 TEST_CASE("VSBC.VXM", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSBC(v4, v8, x11);
     REQUIRE(value == 0x4885C257);
@@ -3171,7 +3173,7 @@ TEST_CASE("VSBC.VXM", "[rvv]") {
 
 TEST_CASE("VSEXT.VF2", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSEXTVF2(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A83A257);
@@ -3184,7 +3186,7 @@ TEST_CASE("VSEXT.VF2", "[rvv]") {
 
 TEST_CASE("VSEXT.VF4", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSEXTVF4(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A82A257);
@@ -3197,7 +3199,7 @@ TEST_CASE("VSEXT.VF4", "[rvv]") {
 
 TEST_CASE("VSEXT.VF8", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSEXTVF8(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A81A257);
@@ -3210,7 +3212,7 @@ TEST_CASE("VSEXT.VF8", "[rvv]") {
 
 TEST_CASE("VSLIDE1DOWN.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSLIDE1DOWN(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x3E85E257);
@@ -3223,7 +3225,7 @@ TEST_CASE("VSLIDE1DOWN.VX", "[rvv]") {
 
 TEST_CASE("VSLIDEDOWN.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSLIDEDOWN(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x3E85C257);
@@ -3236,7 +3238,7 @@ TEST_CASE("VSLIDEDOWN.VX", "[rvv]") {
 
 TEST_CASE("VSLIDEDOWN.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSLIDEDOWN(v4, v8, 0, VecMask::No);
     REQUIRE(value == 0x3E803257);
@@ -3259,7 +3261,7 @@ TEST_CASE("VSLIDEDOWN.VI", "[rvv]") {
 
 TEST_CASE("VSLIDE1UP.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSLIDE1UP(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x3A85E257);
@@ -3272,7 +3274,7 @@ TEST_CASE("VSLIDE1UP.VX", "[rvv]") {
 
 TEST_CASE("VSLIDEUP.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSLIDEUP(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x3A85C257);
@@ -3285,7 +3287,7 @@ TEST_CASE("VSLIDEUP.VX", "[rvv]") {
 
 TEST_CASE("VSLIDEUP.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSLIDEUP(v4, v8, 0, VecMask::No);
     REQUIRE(value == 0x3A803257);
@@ -3308,7 +3310,7 @@ TEST_CASE("VSLIDEUP.VI", "[rvv]") {
 
 TEST_CASE("VSLL.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSLL(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x96860257);
@@ -3321,7 +3323,7 @@ TEST_CASE("VSLL.VV", "[rvv]") {
 
 TEST_CASE("VSLL.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSLL(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x9685C257);
@@ -3334,7 +3336,7 @@ TEST_CASE("VSLL.VX", "[rvv]") {
 
 TEST_CASE("VSLL.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSLL(v4, v8, 1, VecMask::No);
     REQUIRE(value == 0x9680B257);
@@ -3357,7 +3359,7 @@ TEST_CASE("VSLL.VI", "[rvv]") {
 
 TEST_CASE("VSMUL.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSMUL(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x9E860257);
@@ -3370,7 +3372,7 @@ TEST_CASE("VSMUL.VV", "[rvv]") {
 
 TEST_CASE("VSMUL.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSMUL(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x9E85C257);
@@ -3383,7 +3385,7 @@ TEST_CASE("VSMUL.VX", "[rvv]") {
 
 TEST_CASE("VSRA.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSRA(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xA6860257);
@@ -3396,7 +3398,7 @@ TEST_CASE("VSRA.VV", "[rvv]") {
 
 TEST_CASE("VSRA.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSRA(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xA685C257);
@@ -3409,7 +3411,7 @@ TEST_CASE("VSRA.VX", "[rvv]") {
 
 TEST_CASE("VSRA.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSRA(v4, v8, 1, VecMask::No);
     REQUIRE(value == 0xA680B257);
@@ -3432,7 +3434,7 @@ TEST_CASE("VSRA.VI", "[rvv]") {
 
 TEST_CASE("VSRL.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSRL(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xA2860257);
@@ -3445,7 +3447,7 @@ TEST_CASE("VSRL.VV", "[rvv]") {
 
 TEST_CASE("VSRL.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSRL(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xA285C257);
@@ -3458,7 +3460,7 @@ TEST_CASE("VSRL.VX", "[rvv]") {
 
 TEST_CASE("VSRL.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSRL(v4, v8, 1, VecMask::No);
     REQUIRE(value == 0xA280B257);
@@ -3481,7 +3483,7 @@ TEST_CASE("VSRL.VI", "[rvv]") {
 
 TEST_CASE("VSSRA.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSRA(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xAE860257);
@@ -3494,7 +3496,7 @@ TEST_CASE("VSSRA.VV", "[rvv]") {
 
 TEST_CASE("VSSRA.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSRA(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xAE85C257);
@@ -3507,7 +3509,7 @@ TEST_CASE("VSSRA.VX", "[rvv]") {
 
 TEST_CASE("VSSRA.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSRA(v4, v8, 1, VecMask::No);
     REQUIRE(value == 0xAE80B257);
@@ -3530,7 +3532,7 @@ TEST_CASE("VSSRA.VI", "[rvv]") {
 
 TEST_CASE("VSSRL.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSRL(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xAA860257);
@@ -3543,7 +3545,7 @@ TEST_CASE("VSSRL.VV", "[rvv]") {
 
 TEST_CASE("VSSRL.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSRL(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xAA85C257);
@@ -3556,7 +3558,7 @@ TEST_CASE("VSSRL.VX", "[rvv]") {
 
 TEST_CASE("VSSRL.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSRL(v4, v8, 1, VecMask::No);
     REQUIRE(value == 0xAA80B257);
@@ -3579,7 +3581,7 @@ TEST_CASE("VSSRL.VI", "[rvv]") {
 
 TEST_CASE("VSSUB.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSUB(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x8E860257);
@@ -3592,7 +3594,7 @@ TEST_CASE("VSSUB.VV", "[rvv]") {
 
 TEST_CASE("VSSUB.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSUB(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x8E85C257);
@@ -3605,7 +3607,7 @@ TEST_CASE("VSSUB.VX", "[rvv]") {
 
 TEST_CASE("VSSUBU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSUBU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x8A860257);
@@ -3618,7 +3620,7 @@ TEST_CASE("VSSUBU.VV", "[rvv]") {
 
 TEST_CASE("VSSUBU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSUBU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x8A85C257);
@@ -3631,7 +3633,7 @@ TEST_CASE("VSSUBU.VX", "[rvv]") {
 
 TEST_CASE("VSUB.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSUB(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x0A860257);
@@ -3644,7 +3646,7 @@ TEST_CASE("VSUB.VV", "[rvv]") {
 
 TEST_CASE("VSUB.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSUB(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x0A85C257);
@@ -3657,7 +3659,7 @@ TEST_CASE("VSUB.VX", "[rvv]") {
 
 TEST_CASE("VWADD.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWADD(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xC6862257);
@@ -3670,7 +3672,7 @@ TEST_CASE("VWADD.VV", "[rvv]") {
 
 TEST_CASE("VWADD.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWADD(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xC685E257);
@@ -3683,7 +3685,7 @@ TEST_CASE("VWADD.VX", "[rvv]") {
 
 TEST_CASE("VWADD.WV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWADDW(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xD6862257);
@@ -3696,7 +3698,7 @@ TEST_CASE("VWADD.WV", "[rvv]") {
 
 TEST_CASE("VWADD.WX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWADDW(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xD685E257);
@@ -3709,7 +3711,7 @@ TEST_CASE("VWADD.WX", "[rvv]") {
 
 TEST_CASE("VWADDU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWADDU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xC2862257);
@@ -3722,7 +3724,7 @@ TEST_CASE("VWADDU.VV", "[rvv]") {
 
 TEST_CASE("VWADDU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWADDU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xC285E257);
@@ -3735,7 +3737,7 @@ TEST_CASE("VWADDU.VX", "[rvv]") {
 
 TEST_CASE("VWADDU.WV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWADDUW(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xD2862257);
@@ -3748,7 +3750,7 @@ TEST_CASE("VWADDU.WV", "[rvv]") {
 
 TEST_CASE("VWADDU.WX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWADDUW(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xD285E257);
@@ -3761,7 +3763,7 @@ TEST_CASE("VWADDU.WX", "[rvv]") {
 
 TEST_CASE("VWMACC.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMACC(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xF6862257);
@@ -3774,7 +3776,7 @@ TEST_CASE("VWMACC.VV", "[rvv]") {
 
 TEST_CASE("VWMACC.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMACC(v4, x11, v8, VecMask::No);
     REQUIRE(value == 0xF685E257);
@@ -3787,7 +3789,7 @@ TEST_CASE("VWMACC.VX", "[rvv]") {
 
 TEST_CASE("VWMACCSU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMACCSU(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xFE862257);
@@ -3800,7 +3802,7 @@ TEST_CASE("VWMACCSU.VV", "[rvv]") {
 
 TEST_CASE("VWMACCSU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMACCSU(v4, x11, v8, VecMask::No);
     REQUIRE(value == 0xFE85E257);
@@ -3813,7 +3815,7 @@ TEST_CASE("VWMACCSU.VX", "[rvv]") {
 
 TEST_CASE("VWMACCU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMACCU(v4, v12, v8, VecMask::No);
     REQUIRE(value == 0xF2862257);
@@ -3826,7 +3828,7 @@ TEST_CASE("VWMACCU.VV", "[rvv]") {
 
 TEST_CASE("VWMACCU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMACCU(v4, x11, v8, VecMask::No);
     REQUIRE(value == 0xF285E257);
@@ -3839,7 +3841,7 @@ TEST_CASE("VWMACCU.VX", "[rvv]") {
 
 TEST_CASE("VWMACCUS.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMACCUS(v4, x11, v8, VecMask::No);
     REQUIRE(value == 0xFA85E257);
@@ -3852,7 +3854,7 @@ TEST_CASE("VWMACCUS.VX", "[rvv]") {
 
 TEST_CASE("VWMUL.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMUL(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xEE862257);
@@ -3865,7 +3867,7 @@ TEST_CASE("VWMUL.VV", "[rvv]") {
 
 TEST_CASE("VWMUL.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMUL(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xEE85E257);
@@ -3878,7 +3880,7 @@ TEST_CASE("VWMUL.VX", "[rvv]") {
 
 TEST_CASE("VWMULSU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMULSU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xEA862257);
@@ -3891,7 +3893,7 @@ TEST_CASE("VWMULSU.VV", "[rvv]") {
 
 TEST_CASE("VWMULSU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMULSU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xEA85E257);
@@ -3904,7 +3906,7 @@ TEST_CASE("VWMULSU.VX", "[rvv]") {
 
 TEST_CASE("VWMULU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMULU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xE2862257);
@@ -3917,7 +3919,7 @@ TEST_CASE("VWMULU.VV", "[rvv]") {
 
 TEST_CASE("VWMULU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWMULU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xE285E257);
@@ -3930,7 +3932,7 @@ TEST_CASE("VWMULU.VX", "[rvv]") {
 
 TEST_CASE("VWREDSUM.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWREDSUM(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xC6860257);
@@ -3943,7 +3945,7 @@ TEST_CASE("VWREDSUM.VS", "[rvv]") {
 
 TEST_CASE("VWREDSUMU.VS", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWREDSUMU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xC2860257);
@@ -3956,7 +3958,7 @@ TEST_CASE("VWREDSUMU.VS", "[rvv]") {
 
 TEST_CASE("VWSUB.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWSUB(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xCE862257);
@@ -3969,7 +3971,7 @@ TEST_CASE("VWSUB.VV", "[rvv]") {
 
 TEST_CASE("VWSUB.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWSUB(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xCE85E257);
@@ -3982,7 +3984,7 @@ TEST_CASE("VWSUB.VX", "[rvv]") {
 
 TEST_CASE("VWSUB.WV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWSUBW(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xDE862257);
@@ -3995,7 +3997,7 @@ TEST_CASE("VWSUB.WV", "[rvv]") {
 
 TEST_CASE("VWSUB.WX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWSUBW(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xDE85E257);
@@ -4008,7 +4010,7 @@ TEST_CASE("VWSUB.WX", "[rvv]") {
 
 TEST_CASE("VWSUBU.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWSUBU(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xCA862257);
@@ -4021,7 +4023,7 @@ TEST_CASE("VWSUBU.VV", "[rvv]") {
 
 TEST_CASE("VWSUBU.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWSUBU(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xCA85E257);
@@ -4034,7 +4036,7 @@ TEST_CASE("VWSUBU.VX", "[rvv]") {
 
 TEST_CASE("VWSUBU.WV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWSUBUW(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0xDA862257);
@@ -4047,7 +4049,7 @@ TEST_CASE("VWSUBU.WV", "[rvv]") {
 
 TEST_CASE("VWSUBU.WX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VWSUBUW(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0xDA85E257);
@@ -4060,7 +4062,7 @@ TEST_CASE("VWSUBU.WX", "[rvv]") {
 
 TEST_CASE("VXOR.VV", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VXOR(v4, v8, v12, VecMask::No);
     REQUIRE(value == 0x2E860257);
@@ -4073,7 +4075,7 @@ TEST_CASE("VXOR.VV", "[rvv]") {
 
 TEST_CASE("VXOR.VX", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VXOR(v4, v8, x11, VecMask::No);
     REQUIRE(value == 0x2E85C257);
@@ -4086,7 +4088,7 @@ TEST_CASE("VXOR.VX", "[rvv]") {
 
 TEST_CASE("VXOR.VI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VXOR(v4, v8, 15, VecMask::No);
     REQUIRE(value == 0x2E87B257);
@@ -4109,7 +4111,7 @@ TEST_CASE("VXOR.VI", "[rvv]") {
 
 TEST_CASE("VZEXT.VF2", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VZEXTVF2(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A832257);
@@ -4122,7 +4124,7 @@ TEST_CASE("VZEXT.VF2", "[rvv]") {
 
 TEST_CASE("VZEXT.VF4", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VZEXTVF4(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A822257);
@@ -4135,7 +4137,7 @@ TEST_CASE("VZEXT.VF4", "[rvv]") {
 
 TEST_CASE("VZEXT.VF8", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VZEXTVF8(v4, v8, VecMask::No);
     REQUIRE(value == 0x4A812257);
@@ -4148,7 +4150,7 @@ TEST_CASE("VZEXT.VF8", "[rvv]") {
 
 TEST_CASE("VLE8.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLE8(v0, x11, VecMask::No);
     REQUIRE(value == 0x02058007);
@@ -4161,7 +4163,7 @@ TEST_CASE("VLE8.V", "[rvv]") {
 
 TEST_CASE("VLE16.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLE16(v0, x11, VecMask::No);
     REQUIRE(value == 0x0205D007);
@@ -4174,7 +4176,7 @@ TEST_CASE("VLE16.V", "[rvv]") {
 
 TEST_CASE("VLE32.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLE32(v0, x11, VecMask::No);
     REQUIRE(value == 0x0205E007);
@@ -4187,7 +4189,7 @@ TEST_CASE("VLE32.V", "[rvv]") {
 
 TEST_CASE("VLE64.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLE64(v0, x11, VecMask::No);
     REQUIRE(value == 0x0205F007);
@@ -4200,7 +4202,7 @@ TEST_CASE("VLE64.V", "[rvv]") {
 
 TEST_CASE("VLM.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLM(v0, x11);
     REQUIRE(value == 0x02B58007);
@@ -4208,7 +4210,7 @@ TEST_CASE("VLM.V", "[rvv]") {
 
 TEST_CASE("VLSE8.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLSE8(v4, x10, x11, VecMask::No);
     REQUIRE(value == 0x0AB50207);
@@ -4221,7 +4223,7 @@ TEST_CASE("VLSE8.V", "[rvv]") {
 
 TEST_CASE("VLSE16.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLSE16(v4, x10, x11, VecMask::No);
     REQUIRE(value == 0x0AB55207);
@@ -4234,7 +4236,7 @@ TEST_CASE("VLSE16.V", "[rvv]") {
 
 TEST_CASE("VLSE32.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLSE32(v4, x10, x11, VecMask::No);
     REQUIRE(value == 0x0AB56207);
@@ -4247,7 +4249,7 @@ TEST_CASE("VLSE32.V", "[rvv]") {
 
 TEST_CASE("VLSE64.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLSE64(v4, x10, x11, VecMask::No);
     REQUIRE(value == 0x0AB57207);
@@ -4260,7 +4262,7 @@ TEST_CASE("VLSE64.V", "[rvv]") {
 
 TEST_CASE("VLOXEI8.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLOXEI8(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x0EC50207);
@@ -4273,7 +4275,7 @@ TEST_CASE("VLOXEI8.V", "[rvv]") {
 
 TEST_CASE("VLOXEI16.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLOXEI16(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x0EC55207);
@@ -4286,7 +4288,7 @@ TEST_CASE("VLOXEI16.V", "[rvv]") {
 
 TEST_CASE("VLOXEI32.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLOXEI32(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x0EC56207);
@@ -4299,7 +4301,7 @@ TEST_CASE("VLOXEI32.V", "[rvv]") {
 
 TEST_CASE("VLOXEI64.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLOXEI64(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x0EC57207);
@@ -4312,7 +4314,7 @@ TEST_CASE("VLOXEI64.V", "[rvv]") {
 
 TEST_CASE("VLUXEI8.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLUXEI8(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x06C50207);
@@ -4325,7 +4327,7 @@ TEST_CASE("VLUXEI8.V", "[rvv]") {
 
 TEST_CASE("VLUXEI16.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLUXEI16(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x06C55207);
@@ -4338,7 +4340,7 @@ TEST_CASE("VLUXEI16.V", "[rvv]") {
 
 TEST_CASE("VLUXEI32.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLUXEI32(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x06C56207);
@@ -4351,7 +4353,7 @@ TEST_CASE("VLUXEI32.V", "[rvv]") {
 
 TEST_CASE("VLUXEI64.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLUXEI64(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x06C57207);
@@ -4364,7 +4366,7 @@ TEST_CASE("VLUXEI64.V", "[rvv]") {
 
 TEST_CASE("VLE8FF.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLE8FF(v4, x10, VecMask::No);
     REQUIRE(value == 0x03050207);
@@ -4377,7 +4379,7 @@ TEST_CASE("VLE8FF.V", "[rvv]") {
 
 TEST_CASE("VLE16FF.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLE16FF(v4, x10, VecMask::No);
     REQUIRE(value == 0x03055207);
@@ -4390,7 +4392,7 @@ TEST_CASE("VLE16FF.V", "[rvv]") {
 
 TEST_CASE("VLE32FF.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLE32FF(v4, x10, VecMask::No);
     REQUIRE(value == 0x03056207);
@@ -4403,7 +4405,7 @@ TEST_CASE("VLE32FF.V", "[rvv]") {
 
 TEST_CASE("VLE64FF.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLE64FF(v4, x10, VecMask::No);
     REQUIRE(value == 0x03057207);
@@ -4416,7 +4418,7 @@ TEST_CASE("VLE64FF.V", "[rvv]") {
 
 TEST_CASE("8-bit segmented unit-stride loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLSEGE8(i, v4, x10, VecMask::No);
@@ -4433,7 +4435,7 @@ TEST_CASE("8-bit segmented unit-stride loads", "[rvv]") {
 
 TEST_CASE("16-bit segmented unit-stride loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLSEGE16(i, v4, x10, VecMask::No);
@@ -4450,7 +4452,7 @@ TEST_CASE("16-bit segmented unit-stride loads", "[rvv]") {
 
 TEST_CASE("32-bit segmented unit-stride loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLSEGE32(i, v4, x10, VecMask::No);
@@ -4467,7 +4469,7 @@ TEST_CASE("32-bit segmented unit-stride loads", "[rvv]") {
 
 TEST_CASE("64-bit segmented unit-stride loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLSEGE64(i, v4, x10, VecMask::No);
@@ -4484,7 +4486,7 @@ TEST_CASE("64-bit segmented unit-stride loads", "[rvv]") {
 
 TEST_CASE("8-bit segmented strided loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLSSEGE8(i, v4, x10, x11, VecMask::No);
@@ -4501,7 +4503,7 @@ TEST_CASE("8-bit segmented strided loads", "[rvv]") {
 
 TEST_CASE("16-bit segmented strided loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLSSEGE16(i, v4, x10, x11, VecMask::No);
@@ -4518,7 +4520,7 @@ TEST_CASE("16-bit segmented strided loads", "[rvv]") {
 
 TEST_CASE("32-bit segmented strided loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLSSEGE32(i, v4, x10, x11, VecMask::No);
@@ -4535,7 +4537,7 @@ TEST_CASE("32-bit segmented strided loads", "[rvv]") {
 
 TEST_CASE("64-bit segmented strided loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLSSEGE64(i, v4, x10, x11, VecMask::No);
@@ -4552,7 +4554,7 @@ TEST_CASE("64-bit segmented strided loads", "[rvv]") {
 
 TEST_CASE("8-bit vector indexed-ordered segment loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLOXSEGEI8(i, v4, x10, v12, VecMask::No);
@@ -4569,7 +4571,7 @@ TEST_CASE("8-bit vector indexed-ordered segment loads", "[rvv]") {
 
 TEST_CASE("16-bit vector indexed-ordered segment loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLOXSEGEI16(i, v4, x10, v12, VecMask::No);
@@ -4586,7 +4588,7 @@ TEST_CASE("16-bit vector indexed-ordered segment loads", "[rvv]") {
 
 TEST_CASE("32-bit vector indexed-ordered segment loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLOXSEGEI32(i, v4, x10, v12, VecMask::No);
@@ -4603,7 +4605,7 @@ TEST_CASE("32-bit vector indexed-ordered segment loads", "[rvv]") {
 
 TEST_CASE("64-bit vector indexed-ordered segment loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLOXSEGEI64(i, v4, x10, v12, VecMask::No);
@@ -4620,7 +4622,7 @@ TEST_CASE("64-bit vector indexed-ordered segment loads", "[rvv]") {
 
 TEST_CASE("8-bit vector indexed-unordered segment loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLUXSEGEI8(i, v4, x10, v12, VecMask::No);
@@ -4637,7 +4639,7 @@ TEST_CASE("8-bit vector indexed-unordered segment loads", "[rvv]") {
 
 TEST_CASE("16-bit vector indexed-unordered segment loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLUXSEGEI16(i, v4, x10, v12, VecMask::No);
@@ -4654,7 +4656,7 @@ TEST_CASE("16-bit vector indexed-unordered segment loads", "[rvv]") {
 
 TEST_CASE("32-bit vector indexed-unordered segment loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLUXSEGEI32(i, v4, x10, v12, VecMask::No);
@@ -4671,7 +4673,7 @@ TEST_CASE("32-bit vector indexed-unordered segment loads", "[rvv]") {
 
 TEST_CASE("64-bit vector indexed-unordered segment loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VLUXSEGEI64(i, v4, x10, v12, VecMask::No);
@@ -4688,7 +4690,7 @@ TEST_CASE("64-bit vector indexed-unordered segment loads", "[rvv]") {
 
 TEST_CASE("8-bit vector whole register loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLRE8(1, v3, x10);
     REQUIRE(value == 0x02850187);
@@ -4708,7 +4710,7 @@ TEST_CASE("8-bit vector whole register loads", "[rvv]") {
 
 TEST_CASE("16-bit vector whole register loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLRE16(1, v3, x10);
     REQUIRE(value == 0x02855187);
@@ -4728,7 +4730,7 @@ TEST_CASE("16-bit vector whole register loads", "[rvv]") {
 
 TEST_CASE("32-bit vector whole register loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLRE32(1, v3, x10);
     REQUIRE(value == 0x02856187);
@@ -4748,7 +4750,7 @@ TEST_CASE("32-bit vector whole register loads", "[rvv]") {
 
 TEST_CASE("64-bit vector whole register loads", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VLRE64(1, v3, x10);
     REQUIRE(value == 0x02857187);
@@ -4768,7 +4770,7 @@ TEST_CASE("64-bit vector whole register loads", "[rvv]") {
 
 TEST_CASE("VSE8.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSE8(v0, x13, VecMask::No);
     REQUIRE(value == 0x02068027);
@@ -4781,7 +4783,7 @@ TEST_CASE("VSE8.V", "[rvv]") {
 
 TEST_CASE("VSE16.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSE16(v0, x13, VecMask::No);
     REQUIRE(value == 0x0206D027);
@@ -4794,7 +4796,7 @@ TEST_CASE("VSE16.V", "[rvv]") {
 
 TEST_CASE("VSE32.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSE32(v0, x13, VecMask::No);
     REQUIRE(value == 0x0206E027);
@@ -4807,7 +4809,7 @@ TEST_CASE("VSE32.V", "[rvv]") {
 
 TEST_CASE("VSE64.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSE64(v0, x13, VecMask::No);
     REQUIRE(value == 0x0206F027);
@@ -4820,7 +4822,7 @@ TEST_CASE("VSE64.V", "[rvv]") {
 
 TEST_CASE("VSM.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSM(v0, x13);
     REQUIRE(value == 0x02B68027);
@@ -4828,7 +4830,7 @@ TEST_CASE("VSM.V", "[rvv]") {
 
 TEST_CASE("VSSE8.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSE8(v4, x10, x11, VecMask::No);
     REQUIRE(value == 0x0AB50227);
@@ -4841,7 +4843,7 @@ TEST_CASE("VSSE8.V", "[rvv]") {
 
 TEST_CASE("VSSE16.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSE16(v4, x10, x11, VecMask::No);
     REQUIRE(value == 0x0AB55227);
@@ -4854,7 +4856,7 @@ TEST_CASE("VSSE16.V", "[rvv]") {
 
 TEST_CASE("VSSE32.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSE32(v4, x10, x11, VecMask::No);
     REQUIRE(value == 0x0AB56227);
@@ -4867,7 +4869,7 @@ TEST_CASE("VSSE32.V", "[rvv]") {
 
 TEST_CASE("VSSE64.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSSE64(v4, x10, x11, VecMask::No);
     REQUIRE(value == 0x0AB57227);
@@ -4880,7 +4882,7 @@ TEST_CASE("VSSE64.V", "[rvv]") {
 
 TEST_CASE("VSOXEI8.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSOXEI8(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x0EC50227);
@@ -4893,7 +4895,7 @@ TEST_CASE("VSOXEI8.V", "[rvv]") {
 
 TEST_CASE("VSOXEI16.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSOXEI16(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x0EC55227);
@@ -4906,7 +4908,7 @@ TEST_CASE("VSOXEI16.V", "[rvv]") {
 
 TEST_CASE("VSOXEI32.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSOXEI32(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x0EC56227);
@@ -4919,7 +4921,7 @@ TEST_CASE("VSOXEI32.V", "[rvv]") {
 
 TEST_CASE("VSOXEI64.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSOXEI64(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x0EC57227);
@@ -4932,7 +4934,7 @@ TEST_CASE("VSOXEI64.V", "[rvv]") {
 
 TEST_CASE("VSUXEI8.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSUXEI8(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x06C50227);
@@ -4945,7 +4947,7 @@ TEST_CASE("VSUXEI8.V", "[rvv]") {
 
 TEST_CASE("VSUXEI16.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSUXEI16(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x06C55227);
@@ -4958,7 +4960,7 @@ TEST_CASE("VSUXEI16.V", "[rvv]") {
 
 TEST_CASE("VSUXEI32.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSUXEI32(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x06C56227);
@@ -4971,7 +4973,7 @@ TEST_CASE("VSUXEI32.V", "[rvv]") {
 
 TEST_CASE("VSUXEI64.V", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSUXEI64(v4, x10, v12, VecMask::No);
     REQUIRE(value == 0x06C57227);
@@ -4984,7 +4986,7 @@ TEST_CASE("VSUXEI64.V", "[rvv]") {
 
 TEST_CASE("8-bit segmented unit-stride stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSSEGE8(i, v4, x10, VecMask::No);
@@ -5001,7 +5003,7 @@ TEST_CASE("8-bit segmented unit-stride stores", "[rvv]") {
 
 TEST_CASE("16-bit segmented unit-stride stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSSEGE16(i, v4, x10, VecMask::No);
@@ -5018,7 +5020,7 @@ TEST_CASE("16-bit segmented unit-stride stores", "[rvv]") {
 
 TEST_CASE("32-bit segmented unit-stride stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSSEGE32(i, v4, x10, VecMask::No);
@@ -5035,7 +5037,7 @@ TEST_CASE("32-bit segmented unit-stride stores", "[rvv]") {
 
 TEST_CASE("64-bit segmented unit-stride stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSSEGE64(i, v4, x10, VecMask::No);
@@ -5052,7 +5054,7 @@ TEST_CASE("64-bit segmented unit-stride stores", "[rvv]") {
 
 TEST_CASE("8-bit segmented strided stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSSSEGE8(i, v4, x10, x11, VecMask::No);
@@ -5069,7 +5071,7 @@ TEST_CASE("8-bit segmented strided stores", "[rvv]") {
 
 TEST_CASE("16-bit segmented strided stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSSSEGE16(i, v4, x10, x11, VecMask::No);
@@ -5086,7 +5088,7 @@ TEST_CASE("16-bit segmented strided stores", "[rvv]") {
 
 TEST_CASE("32-bit segmented strided stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSSSEGE32(i, v4, x10, x11, VecMask::No);
@@ -5103,7 +5105,7 @@ TEST_CASE("32-bit segmented strided stores", "[rvv]") {
 
 TEST_CASE("64-bit segmented strided stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSSSEGE64(i, v4, x10, x11, VecMask::No);
@@ -5120,7 +5122,7 @@ TEST_CASE("64-bit segmented strided stores", "[rvv]") {
 
 TEST_CASE("8-bit segmented vector indexed-ordered stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSOXSEGEI8(i, v4, x10, v12, VecMask::No);
@@ -5137,7 +5139,7 @@ TEST_CASE("8-bit segmented vector indexed-ordered stores", "[rvv]") {
 
 TEST_CASE("16-bit segmented vector indexed-ordered stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSOXSEGEI16(i, v4, x10, v12, VecMask::No);
@@ -5154,7 +5156,7 @@ TEST_CASE("16-bit segmented vector indexed-ordered stores", "[rvv]") {
 
 TEST_CASE("32-bit segmented vector indexed-ordered stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSOXSEGEI32(i, v4, x10, v12, VecMask::No);
@@ -5171,7 +5173,7 @@ TEST_CASE("32-bit segmented vector indexed-ordered stores", "[rvv]") {
 
 TEST_CASE("64-bit segmented vector indexed-ordered stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSOXSEGEI64(i, v4, x10, v12, VecMask::No);
@@ -5188,7 +5190,7 @@ TEST_CASE("64-bit segmented vector indexed-ordered stores", "[rvv]") {
 
 TEST_CASE("8-bit segmented vector indexed-unordered stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSUXSEGEI8(i, v4, x10, v12, VecMask::No);
@@ -5205,7 +5207,7 @@ TEST_CASE("8-bit segmented vector indexed-unordered stores", "[rvv]") {
 
 TEST_CASE("16-bit segmented vector indexed-unordered stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSUXSEGEI16(i, v4, x10, v12, VecMask::No);
@@ -5222,7 +5224,7 @@ TEST_CASE("16-bit segmented vector indexed-unordered stores", "[rvv]") {
 
 TEST_CASE("32-bit segmented vector indexed-unordered stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSUXSEGEI32(i, v4, x10, v12, VecMask::No);
@@ -5239,7 +5241,7 @@ TEST_CASE("32-bit segmented vector indexed-unordered stores", "[rvv]") {
 
 TEST_CASE("64-bit segmented vector indexed-unordered stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 2; i <= 8; i++) {
         as.VSUXSEGEI64(i, v4, x10, v12, VecMask::No);
@@ -5256,7 +5258,7 @@ TEST_CASE("64-bit segmented vector indexed-unordered stores", "[rvv]") {
 
 TEST_CASE("Vector whole register stores", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSR(1, v3, x11);
     REQUIRE(value == 0x028581A7);
@@ -5279,7 +5281,7 @@ TEST_CASE("Vector whole register stores", "[rvv]") {
 
 TEST_CASE("VSETIVLI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSETIVLI(x10, 11, SEW::E8, LMUL::M1, VTA::No, VMA::No);
     REQUIRE(value == 0xC005F557);
@@ -5302,7 +5304,7 @@ TEST_CASE("VSETIVLI", "[rvv]") {
 
 TEST_CASE("VSETVL", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSETVL(x10, x11, x12);
     REQUIRE(value == 0x80C5F557);
@@ -5310,7 +5312,7 @@ TEST_CASE("VSETVL", "[rvv]") {
 
 TEST_CASE("VSETVLI", "[rvv]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.VSETVLI(x31, x6, SEW::E64, LMUL::MF2, VTA::Yes, VMA::Yes);
     REQUIRE(value == 0x0DF37FD7);

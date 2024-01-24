@@ -2,11 +2,13 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("FADD.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FADD_H(f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0x05A38FD3);
@@ -24,7 +26,7 @@ TEST_CASE("FADD.H", "[rv32f]") {
 
 TEST_CASE("FADD.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FADD_S(f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0x01A38FD3);
@@ -42,7 +44,7 @@ TEST_CASE("FADD.S", "[rv32f]") {
 
 TEST_CASE("FCLASS.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCLASS_H(x31, f7);
     REQUIRE(value == 0xE4039FD3);
@@ -55,7 +57,7 @@ TEST_CASE("FCLASS.H", "[rv32f]") {
 
 TEST_CASE("FCLASS.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCLASS_S(x31, f7);
     REQUIRE(value == 0xE0039FD3);
@@ -68,7 +70,7 @@ TEST_CASE("FCLASS.S", "[rv32f]") {
 
 TEST_CASE("FCVT.D.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_D_H(f31, f7, RMode::RNE);
     REQUIRE(value == 0x42238FD3);
@@ -86,7 +88,7 @@ TEST_CASE("FCVT.D.H", "[rv32f]") {
 
 TEST_CASE("FCVT.H.D", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_H_D(f31, f7, RMode::RNE);
     REQUIRE(value == 0x44138FD3);
@@ -104,7 +106,7 @@ TEST_CASE("FCVT.H.D", "[rv32f]") {
 
 TEST_CASE("FCVT.H.Q", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_H_Q(f31, f7, RMode::RNE);
     REQUIRE(value == 0x44338FD3);
@@ -122,7 +124,7 @@ TEST_CASE("FCVT.H.Q", "[rv32f]") {
 
 TEST_CASE("FCVT.H.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_H_S(f31, f7, RMode::RNE);
     REQUIRE(value == 0x44038FD3);
@@ -140,7 +142,7 @@ TEST_CASE("FCVT.H.S", "[rv32f]") {
 
 TEST_CASE("FCVT.Q.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_Q_H(f31, f7, RMode::RNE);
     REQUIRE(value == 0x46238FD3);
@@ -158,7 +160,7 @@ TEST_CASE("FCVT.Q.H", "[rv32f]") {
 
 TEST_CASE("FCVT.S.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_S_H(f31, f7, RMode::RNE);
     REQUIRE(value == 0x40238FD3);
@@ -176,7 +178,7 @@ TEST_CASE("FCVT.S.H", "[rv32f]") {
 
 TEST_CASE("FCVT.H.W", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_H_W(f31, x7, RMode::RNE);
     REQUIRE(value == 0xD4038FD3);
@@ -194,7 +196,7 @@ TEST_CASE("FCVT.H.W", "[rv32f]") {
 
 TEST_CASE("FCVT.S.W", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_S_W(f31, x7, RMode::RNE);
     REQUIRE(value == 0xD0038FD3);
@@ -212,7 +214,7 @@ TEST_CASE("FCVT.S.W", "[rv32f]") {
 
 TEST_CASE("FCVT.H.WU", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_H_WU(f31, x7, RMode::RNE);
     REQUIRE(value == 0xD4138FD3);
@@ -230,7 +232,7 @@ TEST_CASE("FCVT.H.WU", "[rv32f]") {
 
 TEST_CASE("FCVT.S.WU", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_S_WU(f31, x7, RMode::RNE);
     REQUIRE(value == 0xD0138FD3);
@@ -248,7 +250,7 @@ TEST_CASE("FCVT.S.WU", "[rv32f]") {
 
 TEST_CASE("FCVT.L.H", "[rv64f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FCVT_L_H(x31, f7, RMode::RNE);
     REQUIRE(value == 0xC4238FD3);
@@ -266,7 +268,7 @@ TEST_CASE("FCVT.L.H", "[rv64f]") {
 
 TEST_CASE("FCVT.L.S", "[rv64f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FCVT_L_S(x31, f7, RMode::RNE);
     REQUIRE(value == 0xC0238FD3);
@@ -284,7 +286,7 @@ TEST_CASE("FCVT.L.S", "[rv64f]") {
 
 TEST_CASE("FCVT.LU.H", "[rv64f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FCVT_LU_H(x31, f7, RMode::RNE);
     REQUIRE(value == 0xC4338FD3);
@@ -302,7 +304,7 @@ TEST_CASE("FCVT.LU.H", "[rv64f]") {
 
 TEST_CASE("FCVT.LU.S", "[rv64f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FCVT_LU_S(x31, f7, RMode::RNE);
     REQUIRE(value == 0xC0338FD3);
@@ -320,7 +322,7 @@ TEST_CASE("FCVT.LU.S", "[rv64f]") {
 
 TEST_CASE("FCVT.H.L", "[rv64f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FCVT_H_L(f31, x7, RMode::RNE);
     REQUIRE(value == 0xD4238FD3);
@@ -338,7 +340,7 @@ TEST_CASE("FCVT.H.L", "[rv64f]") {
 
 TEST_CASE("FCVT.S.L", "[rv64f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FCVT_S_L(f31, x7, RMode::RNE);
     REQUIRE(value == 0xD0238FD3);
@@ -356,7 +358,7 @@ TEST_CASE("FCVT.S.L", "[rv64f]") {
 
 TEST_CASE("FCVT.H.LU", "[rv64f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FCVT_H_LU(f31, x7, RMode::RNE);
     REQUIRE(value == 0xD4338FD3);
@@ -374,7 +376,7 @@ TEST_CASE("FCVT.H.LU", "[rv64f]") {
 
 TEST_CASE("FCVT.S.LU", "[rv64f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FCVT_S_LU(f31, x7, RMode::RNE);
     REQUIRE(value == 0xD0338FD3);
@@ -392,7 +394,7 @@ TEST_CASE("FCVT.S.LU", "[rv64f]") {
 
 TEST_CASE("FCVT.W.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_W_H(x31, f7, RMode::RNE);
     REQUIRE(value == 0xC4038FD3);
@@ -410,7 +412,7 @@ TEST_CASE("FCVT.W.H", "[rv32f]") {
 
 TEST_CASE("FCVT.W.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_W_S(x31, f7, RMode::RNE);
     REQUIRE(value == 0xC0038FD3);
@@ -428,7 +430,7 @@ TEST_CASE("FCVT.W.S", "[rv32f]") {
 
 TEST_CASE("FCVT.WU.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_WU_H(x31, f7, RMode::RNE);
     REQUIRE(value == 0xC4138FD3);
@@ -446,7 +448,7 @@ TEST_CASE("FCVT.WU.H", "[rv32f]") {
 
 TEST_CASE("FCVT.WU.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FCVT_WU_S(x31, f7, RMode::RNE);
     REQUIRE(value == 0xC0138FD3);
@@ -464,7 +466,7 @@ TEST_CASE("FCVT.WU.S", "[rv32f]") {
 
 TEST_CASE("FDIV.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FDIV_H(f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0x1DA38FD3);
@@ -482,7 +484,7 @@ TEST_CASE("FDIV.H", "[rv32f]") {
 
 TEST_CASE("FDIV.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FDIV_S(f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0x19A38FD3);
@@ -500,7 +502,7 @@ TEST_CASE("FDIV.S", "[rv32f]") {
 
 TEST_CASE("FEQ.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FEQ_H(x31, f7, f26);
     REQUIRE(value == 0xA5A3AFD3);
@@ -513,7 +515,7 @@ TEST_CASE("FEQ.H", "[rv32f]") {
 
 TEST_CASE("FEQ.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FEQ_S(x31, f7, f26);
     REQUIRE(value == 0xA1A3AFD3);
@@ -526,7 +528,7 @@ TEST_CASE("FEQ.S", "[rv32f]") {
 
 TEST_CASE("FLE.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FLE_H(x31, f7, f26);
     REQUIRE(value == 0xA5A38FD3);
@@ -539,7 +541,7 @@ TEST_CASE("FLE.H", "[rv32f]") {
 
 TEST_CASE("FLE.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FLE_S(x31, f7, f26);
     REQUIRE(value == 0xA1A38FD3);
@@ -552,7 +554,7 @@ TEST_CASE("FLE.S", "[rv32f]") {
 
 TEST_CASE("FLH", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FLH(f15, 1024, x31);
     REQUIRE(value == 0x400F9787);
@@ -570,7 +572,7 @@ TEST_CASE("FLH", "[rv32f]") {
 
 TEST_CASE("FLT.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FLT_H(x31, f7, f26);
     REQUIRE(value == 0xA5A39FD3);
@@ -583,7 +585,7 @@ TEST_CASE("FLT.H", "[rv32f]") {
 
 TEST_CASE("FLT.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FLT_S(x31, f7, f26);
     REQUIRE(value == 0xA1A39FD3);
@@ -596,7 +598,7 @@ TEST_CASE("FLT.S", "[rv32f]") {
 
 TEST_CASE("FLW", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FLW(f15, 1024, x31);
     REQUIRE(value == 0x400FA787);
@@ -614,7 +616,7 @@ TEST_CASE("FLW", "[rv32f]") {
 
 TEST_CASE("FMADD.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMADD_H(f15, f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0xD47F87C3);
@@ -632,7 +634,7 @@ TEST_CASE("FMADD.H", "[rv32f]") {
 
 TEST_CASE("FMADD.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMADD_S(f15, f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0xD07F87C3);
@@ -650,7 +652,7 @@ TEST_CASE("FMADD.S", "[rv32f]") {
 
 TEST_CASE("FMAX.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMAX_H(f31, f7, f26);
     REQUIRE(value == 0x2DA39FD3);
@@ -663,7 +665,7 @@ TEST_CASE("FMAX.H", "[rv32f]") {
 
 TEST_CASE("FMAX.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMAX_S(f31, f7, f26);
     REQUIRE(value == 0x29A39FD3);
@@ -676,7 +678,7 @@ TEST_CASE("FMAX.S", "[rv32f]") {
 
 TEST_CASE("FMIN.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMIN_H(f31, f7, f26);
     REQUIRE(value == 0x2DA38FD3);
@@ -689,7 +691,7 @@ TEST_CASE("FMIN.H", "[rv32f]") {
 
 TEST_CASE("FMIN.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMIN_S(f31, f7, f26);
     REQUIRE(value == 0x29A38FD3);
@@ -702,7 +704,7 @@ TEST_CASE("FMIN.S", "[rv32f]") {
 
 TEST_CASE("FMSUB.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMSUB_H(f15, f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0xD47F87C7);
@@ -720,7 +722,7 @@ TEST_CASE("FMSUB.H", "[rv32f]") {
 
 TEST_CASE("FMSUB.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMSUB_S(f15, f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0xD07F87C7);
@@ -738,7 +740,7 @@ TEST_CASE("FMSUB.S", "[rv32f]") {
 
 TEST_CASE("FMUL.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMUL_H(f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0x15A38FD3);
@@ -756,7 +758,7 @@ TEST_CASE("FMUL.H", "[rv32f]") {
 
 TEST_CASE("FMUL.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMUL_S(f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0x11A38FD3);
@@ -774,7 +776,7 @@ TEST_CASE("FMUL.S", "[rv32f]") {
 
 TEST_CASE("FMV.H.X", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMV_H_X(f31, x7);
     REQUIRE(value == 0xF4038FD3);
@@ -787,7 +789,7 @@ TEST_CASE("FMV.H.X", "[rv32f]") {
 
 TEST_CASE("FMV.W.X", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMV_W_X(f31, x7);
     REQUIRE(value == 0xF0038FD3);
@@ -800,7 +802,7 @@ TEST_CASE("FMV.W.X", "[rv32f]") {
 
 TEST_CASE("FMV.X.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMV_X_H(x31, f7);
     REQUIRE(value == 0xE4038FD3);
@@ -813,7 +815,7 @@ TEST_CASE("FMV.X.H", "[rv32f]") {
 
 TEST_CASE("FMV.X.W", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMV_X_W(x31, f7);
     REQUIRE(value == 0xE0038FD3);
@@ -826,7 +828,7 @@ TEST_CASE("FMV.X.W", "[rv32f]") {
 
 TEST_CASE("FNMADD.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FNMADD_H(f15, f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0xD47F87CF);
@@ -844,7 +846,7 @@ TEST_CASE("FNMADD.H", "[rv32f]") {
 
 TEST_CASE("FNMADD.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FNMADD_S(f15, f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0xD07F87CF);
@@ -862,7 +864,7 @@ TEST_CASE("FNMADD.S", "[rv32f]") {
 
 TEST_CASE("FNMSUB.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FNMSUB_H(f15, f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0xD47F87CB);
@@ -880,7 +882,7 @@ TEST_CASE("FNMSUB.H", "[rv32f]") {
 
 TEST_CASE("FNMSUB.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FNMSUB_S(f15, f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0xD07F87CB);
@@ -898,7 +900,7 @@ TEST_CASE("FNMSUB.S", "[rv32f]") {
 
 TEST_CASE("FSGNJ.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSGNJ_H(f31, f7, f26);
     REQUIRE(value == 0x25A38FD3);
@@ -911,7 +913,7 @@ TEST_CASE("FSGNJ.H", "[rv32f]") {
 
 TEST_CASE("FSGNJ.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSGNJ_S(f31, f7, f26);
     REQUIRE(value == 0x21A38FD3);
@@ -924,7 +926,7 @@ TEST_CASE("FSGNJ.S", "[rv32f]") {
 
 TEST_CASE("FSGNJN.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSGNJN_H(f31, f7, f26);
     REQUIRE(value == 0x25A39FD3);
@@ -937,7 +939,7 @@ TEST_CASE("FSGNJN.H", "[rv32f]") {
 
 TEST_CASE("FSGNJN.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSGNJN_S(f31, f7, f26);
     REQUIRE(value == 0x21A39FD3);
@@ -950,7 +952,7 @@ TEST_CASE("FSGNJN.S", "[rv32f]") {
 
 TEST_CASE("FSGNJX.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSGNJX_H(f31, f7, f26);
     REQUIRE(value == 0x25A3AFD3);
@@ -963,7 +965,7 @@ TEST_CASE("FSGNJX.H", "[rv32f]") {
 
 TEST_CASE("FSGNJX.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSGNJX_S(f31, f7, f26);
     REQUIRE(value == 0x21A3AFD3);
@@ -976,7 +978,7 @@ TEST_CASE("FSGNJX.S", "[rv32f]") {
 
 TEST_CASE("FSH", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSH(f31, 1024, x15);
     REQUIRE(value == 0x41F79027);
@@ -994,7 +996,7 @@ TEST_CASE("FSH", "[rv32f]") {
 
 TEST_CASE("FSQRT.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSQRT_H(f31, f7, RMode::RNE);
     REQUIRE(value == 0x5C038FD3);
@@ -1012,7 +1014,7 @@ TEST_CASE("FSQRT.H", "[rv32f]") {
 
 TEST_CASE("FSQRT.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSQRT_S(f31, f7, RMode::RNE);
     REQUIRE(value == 0x58038FD3);
@@ -1030,7 +1032,7 @@ TEST_CASE("FSQRT.S", "[rv32f]") {
 
 TEST_CASE("FSUB.H", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSUB_H(f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0x0DA38FD3);
@@ -1048,7 +1050,7 @@ TEST_CASE("FSUB.H", "[rv32f]") {
 
 TEST_CASE("FSUB.S", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSUB_S(f31, f7, f26, RMode::RNE);
     REQUIRE(value == 0x09A38FD3);
@@ -1066,7 +1068,7 @@ TEST_CASE("FSUB.S", "[rv32f]") {
 
 TEST_CASE("FSW", "[rv32f]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FSW(f31, 1024, x15);
     REQUIRE(value == 0x41F7A027);

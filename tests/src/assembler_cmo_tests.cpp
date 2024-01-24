@@ -2,11 +2,13 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("CBO.CLEAN", "[cmo]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.CBO_CLEAN(x0);
     REQUIRE(value == 0x0010200F);
@@ -19,7 +21,7 @@ TEST_CASE("CBO.CLEAN", "[cmo]") {
 
 TEST_CASE("CBO.FLUSH", "[cmo]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.CBO_FLUSH(x0);
     REQUIRE(value == 0x0020200F);
@@ -32,7 +34,7 @@ TEST_CASE("CBO.FLUSH", "[cmo]") {
 
 TEST_CASE("CBO.INVAL", "[cmo]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.CBO_INVAL(x0);
     REQUIRE(value == 0x0000200F);
@@ -45,7 +47,7 @@ TEST_CASE("CBO.INVAL", "[cmo]") {
 
 TEST_CASE("CBO.ZERO", "[cmo]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.CBO_ZERO(x0);
     REQUIRE(value == 0x0040200F);
@@ -58,7 +60,7 @@ TEST_CASE("CBO.ZERO", "[cmo]") {
 
 TEST_CASE("PREFETCH.I", "[cmo]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.PREFETCH_I(x0);
     REQUIRE(value == 0x00006013);
@@ -76,7 +78,7 @@ TEST_CASE("PREFETCH.I", "[cmo]") {
 
 TEST_CASE("PREFETCH.R", "[cmo]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.PREFETCH_R(x0);
     REQUIRE(value == 0x00106013);
@@ -94,7 +96,7 @@ TEST_CASE("PREFETCH.R", "[cmo]") {
 
 TEST_CASE("PREFETCH.W", "[cmo]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.PREFETCH_W(x0);
     REQUIRE(value == 0x00306013);

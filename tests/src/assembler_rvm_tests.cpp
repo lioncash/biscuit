@@ -2,11 +2,13 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 TEST_CASE("DIV", "[rv32m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.DIV(x31, x15, x20);
     REQUIRE(value == 0x0347CFB3);
@@ -24,7 +26,7 @@ TEST_CASE("DIV", "[rv32m]") {
 
 TEST_CASE("DIVW", "[rv64m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.DIVW(x31, x15, x20);
     REQUIRE(value == 0x0347CFBB);
@@ -42,7 +44,7 @@ TEST_CASE("DIVW", "[rv64m]") {
 
 TEST_CASE("DIVU", "[rv32m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.DIVU(x31, x15, x20);
     REQUIRE(value == 0x0347DFB3);
@@ -60,7 +62,7 @@ TEST_CASE("DIVU", "[rv32m]") {
 
 TEST_CASE("DIVUW", "[rv64m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.DIVUW(x31, x15, x20);
     REQUIRE(value == 0x0347DFBB);
@@ -78,7 +80,7 @@ TEST_CASE("DIVUW", "[rv64m]") {
 
 TEST_CASE("MUL", "[rv32m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.MUL(x31, x15, x20);
     REQUIRE(value == 0x03478FB3);
@@ -96,7 +98,7 @@ TEST_CASE("MUL", "[rv32m]") {
 
 TEST_CASE("MULH", "[rv32m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.MULH(x31, x15, x20);
     REQUIRE(value == 0x03479FB3);
@@ -114,7 +116,7 @@ TEST_CASE("MULH", "[rv32m]") {
 
 TEST_CASE("MULW", "[rv64m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.MULW(x31, x15, x20);
     REQUIRE(value == 0x03478FBB);
@@ -132,7 +134,7 @@ TEST_CASE("MULW", "[rv64m]") {
 
 TEST_CASE("MULHSU", "[rv32m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.MULHSU(x31, x15, x20);
     REQUIRE(value == 0x0347AFB3);
@@ -150,7 +152,7 @@ TEST_CASE("MULHSU", "[rv32m]") {
 
 TEST_CASE("MULHU", "[rv32m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.MULHU(x31, x15, x20);
     REQUIRE(value == 0x0347BFB3);
@@ -168,7 +170,7 @@ TEST_CASE("MULHU", "[rv32m]") {
 
 TEST_CASE("REM", "[rv32m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.REM(x31, x15, x20);
     REQUIRE(value == 0x0347EFB3);
@@ -186,7 +188,7 @@ TEST_CASE("REM", "[rv32m]") {
 
 TEST_CASE("REMW", "[rv64m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.REMW(x31, x15, x20);
     REQUIRE(value == 0x0347EFBB);
@@ -204,7 +206,7 @@ TEST_CASE("REMW", "[rv64m]") {
 
 TEST_CASE("REMU", "[rv32m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.REMU(x31, x15, x20);
     REQUIRE(value == 0x0347FFB3);
@@ -222,7 +224,7 @@ TEST_CASE("REMU", "[rv32m]") {
 
 TEST_CASE("REMUW", "[rv64m]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.REMUW(x31, x15, x20);
     REQUIRE(value == 0x0347FFBB);

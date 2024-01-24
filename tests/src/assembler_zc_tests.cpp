@@ -1,14 +1,15 @@
 #include <catch/catch.hpp>
 
+#include <array>
 #include <biscuit/assembler.hpp>
 
-#include <array>
+#include "assembler_test_utils.hpp"
 
 using namespace biscuit;
 
 TEST_CASE("C.LBU", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_LBU(x12, 0, x15);
     REQUIRE(value == 0x8390U);
@@ -31,7 +32,7 @@ TEST_CASE("C.LBU", "[Zc]") {
 
 TEST_CASE("C.LH", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_LH(x12, 0, x15);
     REQUIRE(value == 0x87D0U);
@@ -44,7 +45,7 @@ TEST_CASE("C.LH", "[Zc]") {
 
 TEST_CASE("C.LHU", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_LHU(x12, 0, x15);
     REQUIRE(value == 0x8790U);
@@ -57,7 +58,7 @@ TEST_CASE("C.LHU", "[Zc]") {
 
 TEST_CASE("C.SB", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_SB(x12, 0, x15);
     REQUIRE(value == 0x8B90U);
@@ -80,7 +81,7 @@ TEST_CASE("C.SB", "[Zc]") {
 
 TEST_CASE("C.SH", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_SH(x12, 0, x15);
     REQUIRE(value == 0x8F90U);
@@ -93,7 +94,7 @@ TEST_CASE("C.SH", "[Zc]") {
 
 TEST_CASE("C.SEXT.B", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_SEXT_B(x12);
     REQUIRE(value == 0x9E65);
@@ -106,7 +107,7 @@ TEST_CASE("C.SEXT.B", "[Zc]") {
 
 TEST_CASE("C.SEXT.H", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_SEXT_H(x12);
     REQUIRE(value == 0x9E6D);
@@ -119,7 +120,7 @@ TEST_CASE("C.SEXT.H", "[Zc]") {
 
 TEST_CASE("C.ZEXT.B", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_ZEXT_B(x12);
     REQUIRE(value == 0x9E61);
@@ -132,7 +133,7 @@ TEST_CASE("C.ZEXT.B", "[Zc]") {
 
 TEST_CASE("C.ZEXT.H", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_ZEXT_H(x12);
     REQUIRE(value == 0x9E69);
@@ -145,7 +146,7 @@ TEST_CASE("C.ZEXT.H", "[Zc]") {
 
 TEST_CASE("C.ZEXT.W", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_ZEXT_W(x12);
     REQUIRE(value == 0x9E71);
@@ -158,7 +159,7 @@ TEST_CASE("C.ZEXT.W", "[Zc]") {
 
 TEST_CASE("C.MUL", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_MUL(x12, x15);
     REQUIRE(value == 0x9E5D);
@@ -171,7 +172,7 @@ TEST_CASE("C.MUL", "[Zc]") {
 
 TEST_CASE("C.NOT", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.C_NOT(x12);
     REQUIRE(value == 0x9E75);
@@ -184,7 +185,7 @@ TEST_CASE("C.NOT", "[Zc]") {
 
 TEST_CASE("CM.MVA01S", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CM_MVA01S(s7, s6);
     REQUIRE(value == 0xAFFA);
@@ -197,7 +198,7 @@ TEST_CASE("CM.MVA01S", "[Zc]") {
 
 TEST_CASE("CM.MVSA01", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CM_MVSA01(s7, s6);
     REQUIRE(value == 0xAFBA);
@@ -210,7 +211,7 @@ TEST_CASE("CM.MVSA01", "[Zc]") {
 
 TEST_CASE("CM.JALT", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 32; i <= 255; i++) {
         const uint32_t op_base = 0xA002;
@@ -225,7 +226,7 @@ TEST_CASE("CM.JALT", "[Zc]") {
 
 TEST_CASE("CM.JT", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (uint32_t i = 0; i <= 31; i++) {
         const uint32_t op_base = 0xA002;
@@ -245,7 +246,7 @@ constexpr std::array stack_adj_bases_rv64{
 
 TEST_CASE("CM.POP", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CM_POP({ra}, 16);
     REQUIRE(value == 0xBA42);
@@ -271,7 +272,7 @@ TEST_CASE("CM.POP", "[Zc]") {
 
 TEST_CASE("CM.POPRET", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CM_POPRET({ra}, 16);
     REQUIRE(value == 0xBE42);
@@ -297,7 +298,7 @@ TEST_CASE("CM.POPRET", "[Zc]") {
 
 TEST_CASE("CM.POPRETZ", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CM_POPRETZ({ra}, 16);
     REQUIRE(value == 0xBC42);
@@ -323,7 +324,7 @@ TEST_CASE("CM.POPRETZ", "[Zc]") {
 
 TEST_CASE("CM.PUSH", "[Zc]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.CM_PUSH({ra}, -16);
     REQUIRE(value == 0xB842);

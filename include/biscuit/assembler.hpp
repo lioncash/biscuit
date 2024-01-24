@@ -12,6 +12,22 @@
 namespace biscuit {
 
 /**
+ * Defines the set of features that a particular assembler instance
+ * would like to assemble for.
+ *
+ * This allows for assertions and extra logic checking to be done.
+ *
+ * It can also affect various behaviors as well. e.g. LI, shifts, etc
+ * will take these into account to adjust for emission on different
+ * environments transparently.
+ */
+enum class ArchFeature : uint32_t {
+    RV32,  //< 32-bit RISC-V
+    RV64,  //< 64-bit RISC-V
+    RV128, //< 128-bit RISC-V
+};
+
+/**
  * Code generator for RISC-V code.
  *
  * User code may inherit from this in order to make use of
@@ -27,6 +43,8 @@ public:
      * @param capacity The capacity for the underlying code buffer in bytes.
      *                 If no capacity is specified, then the underlying buffer
      *                 will be 4KB in size.
+     *
+     * @note Will assume to be assembling for RV64 unless changed.
      */
     [[nodiscard]] explicit Assembler(size_t capacity = CodeBuffer::default_capacity);
 
@@ -35,6 +53,7 @@ public:
      *
      * @param buffer   A non-null pointer to an allocated buffer of size `capacity`.
      * @param capacity The capacity of the memory pointed to by `buffer`.
+     * @param features Architectural features to make the assembler aware of.
      *
      * @pre The given memory buffer must not be null.
      * @pre The given memory buffer must be at minimum `capacity` bytes in size.
@@ -42,7 +61,8 @@ public:
      * @note The caller is responsible for managing the lifetime of the given memory.
      *       CodeBuffer will *not* free the memory once it goes out of scope.
      */
-    [[nodiscard]] explicit Assembler(uint8_t* buffer, size_t capacity);
+    [[nodiscard]] explicit Assembler(uint8_t* buffer, size_t capacity,
+                                     ArchFeature features = ArchFeature::RV64);
 
     // Copy constructor and assignment.
     Assembler(const Assembler&) = delete;
@@ -54,6 +74,16 @@ public:
 
     // Destructor
     virtual ~Assembler();
+
+    /**
+     * Tells the assembler what features to take into account.
+     *
+     * Will alter how some code is emitted and also enforce asserts suitable
+     * for those particular features.
+     */
+    void SetArchFeatures(ArchFeature features) noexcept {
+        m_features = features;
+    }
 
     /// Gets the underlying code buffer being managed by this assembler.
     CodeBuffer& GetCodeBuffer();
@@ -1449,6 +1479,7 @@ private:
     void ResolveLabelOffsets(Label* label);
 
     CodeBuffer m_buffer;
+    ArchFeature m_features = ArchFeature::RV64;
 };
 
 } // namespace biscuit

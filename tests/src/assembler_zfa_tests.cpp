@@ -5,6 +5,8 @@
 
 #include <biscuit/assembler.hpp>
 
+#include "assembler_test_utils.hpp"
+
 using namespace biscuit;
 
 static constexpr std::array fli_constants{
@@ -44,7 +46,7 @@ static constexpr std::array fli_constants{
 
 TEST_CASE("FLI.D", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (size_t i = 0; i < fli_constants.size(); i++) {
         const auto constant = fli_constants[i];
@@ -63,7 +65,7 @@ TEST_CASE("FLI.D", "[Zfa]") {
 
 TEST_CASE("FLI.H", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (size_t i = 0; i < fli_constants.size(); i++) {
         const auto constant = fli_constants[i];
@@ -82,7 +84,7 @@ TEST_CASE("FLI.H", "[Zfa]") {
 
 TEST_CASE("FLI.S", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     for (size_t i = 0; i < fli_constants.size(); i++) {
         const auto constant = fli_constants[i];
@@ -101,7 +103,7 @@ TEST_CASE("FLI.S", "[Zfa]") {
 
 TEST_CASE("FMINM.D", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
      as.FMINM_D(f20, f12, f10);
      REQUIRE(value == 0x2AA62A53);
@@ -109,7 +111,7 @@ TEST_CASE("FMINM.D", "[Zfa]") {
 
 TEST_CASE("FMINM.H", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
      as.FMINM_H(f20, f12, f10);
      REQUIRE(value == 0x2CA62A53);
@@ -117,7 +119,7 @@ TEST_CASE("FMINM.H", "[Zfa]") {
 
 TEST_CASE("FMINM.Q", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
      as.FMINM_Q(f20, f12, f10);
      REQUIRE(value == 0x2EA62A53);
@@ -125,7 +127,7 @@ TEST_CASE("FMINM.Q", "[Zfa]") {
 
 TEST_CASE("FMINM.S", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
      as.FMINM_S(f20, f12, f10);
      REQUIRE(value == 0x28A62A53);
@@ -133,7 +135,7 @@ TEST_CASE("FMINM.S", "[Zfa]") {
 
 TEST_CASE("FMAXM.D", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
      as.FMAXM_D(f20, f12, f10);
      REQUIRE(value == 0x2AA63A53);
@@ -141,7 +143,7 @@ TEST_CASE("FMAXM.D", "[Zfa]") {
 
 TEST_CASE("FMAXM.H", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
      as.FMAXM_H(f20, f12, f10);
      REQUIRE(value == 0x2CA63A53);
@@ -149,7 +151,7 @@ TEST_CASE("FMAXM.H", "[Zfa]") {
 
 TEST_CASE("FMAXM.Q", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
      as.FMAXM_Q(f20, f12, f10);
      REQUIRE(value == 0x2EA63A53);
@@ -157,7 +159,7 @@ TEST_CASE("FMAXM.Q", "[Zfa]") {
 
 TEST_CASE("FMAXM.S", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
      as.FMAXM_S(f20, f12, f10);
      REQUIRE(value == 0x28A63A53);
@@ -165,7 +167,7 @@ TEST_CASE("FMAXM.S", "[Zfa]") {
 
 TEST_CASE("FROUND.D", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FROUND_D(f31, f7, RMode::RNE);
     REQUIRE(value == 0x42438FD3);
@@ -183,7 +185,7 @@ TEST_CASE("FROUND.D", "[Zfa]") {
 
 TEST_CASE("FROUND.H", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FROUND_H(f31, f7, RMode::RNE);
     REQUIRE(value == 0x44438FD3);
@@ -201,7 +203,7 @@ TEST_CASE("FROUND.H", "[Zfa]") {
 
 TEST_CASE("FROUND.Q", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FROUND_Q(f31, f7, RMode::RNE);
     REQUIRE(value == 0x46438FD3);
@@ -219,7 +221,7 @@ TEST_CASE("FROUND.Q", "[Zfa]") {
 
 TEST_CASE("FROUND.S", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FROUND_S(f31, f7, RMode::RNE);
     REQUIRE(value == 0x40438FD3);
@@ -237,7 +239,7 @@ TEST_CASE("FROUND.S", "[Zfa]") {
 
 TEST_CASE("FROUNDNX.D", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FROUNDNX_D(f31, f7, RMode::RNE);
     REQUIRE(value == 0x42538FD3);
@@ -255,7 +257,7 @@ TEST_CASE("FROUNDNX.D", "[Zfa]") {
 
 TEST_CASE("FROUNDNX.H", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FROUNDNX_H(f31, f7, RMode::RNE);
     REQUIRE(value == 0x44538FD3);
@@ -273,7 +275,7 @@ TEST_CASE("FROUNDNX.H", "[Zfa]") {
 
 TEST_CASE("FROUNDNX.Q", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FROUNDNX_Q(f31, f7, RMode::RNE);
     REQUIRE(value == 0x46538FD3);
@@ -291,7 +293,7 @@ TEST_CASE("FROUNDNX.Q", "[Zfa]") {
 
 TEST_CASE("FROUNDNX.S", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FROUNDNX_S(f31, f7, RMode::RNE);
     REQUIRE(value == 0x40538FD3);
@@ -309,7 +311,7 @@ TEST_CASE("FROUNDNX.S", "[Zfa]") {
 
 TEST_CASE("FCVTMOD.W.D", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FCVTMOD_W_D(x31, f7);
     REQUIRE(value == 0xC2839FD3);
@@ -317,7 +319,7 @@ TEST_CASE("FCVTMOD.W.D", "[Zfa]") {
 
 TEST_CASE("FMVH.X.D", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMVH_X_D(x31, f7);
     REQUIRE(value == 0xE2138FD3);
@@ -325,7 +327,7 @@ TEST_CASE("FMVH.X.D", "[Zfa]") {
 
 TEST_CASE("FMVH.X.Q", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FMVH_X_Q(x31, f7);
     REQUIRE(value == 0xE6138FD3);
@@ -333,7 +335,7 @@ TEST_CASE("FMVH.X.Q", "[Zfa]") {
 
 TEST_CASE("FMVP.D.X", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler32(value);
 
     as.FMVP_D_X(f31, x7, x8);
     REQUIRE(value == 0xB2838FD3);
@@ -341,7 +343,7 @@ TEST_CASE("FMVP.D.X", "[Zfa]") {
 
 TEST_CASE("FMVP.Q.X", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FMVP_Q_X(f31, x7, x8);
     REQUIRE(value == 0xB6838FD3);
@@ -349,7 +351,7 @@ TEST_CASE("FMVP.Q.X", "[Zfa]") {
 
 TEST_CASE("FLEQ.D", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FLEQ_D(x31, f7, f15);
     REQUIRE(value == 0xA2F3CFD3);
@@ -357,7 +359,7 @@ TEST_CASE("FLEQ.D", "[Zfa]") {
 
 TEST_CASE("FLTQ.D", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FLTQ_D(x31, f7, f15);
     REQUIRE(value == 0xA2F3DFD3);
@@ -365,7 +367,7 @@ TEST_CASE("FLTQ.D", "[Zfa]") {
 
 TEST_CASE("FLEQ.H", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FLEQ_H(x31, f7, f15);
     REQUIRE(value == 0xA4F3CFD3);
@@ -373,7 +375,7 @@ TEST_CASE("FLEQ.H", "[Zfa]") {
 
 TEST_CASE("FLTQ.H", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FLTQ_H(x31, f7, f15);
     REQUIRE(value == 0xA4F3DFD3);
@@ -381,7 +383,7 @@ TEST_CASE("FLTQ.H", "[Zfa]") {
 
 TEST_CASE("FLEQ.Q", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FLEQ_Q(x31, f7, f15);
     REQUIRE(value == 0xA6F3CFD3);
@@ -389,7 +391,7 @@ TEST_CASE("FLEQ.Q", "[Zfa]") {
 
 TEST_CASE("FLTQ.Q", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FLTQ_Q(x31, f7, f15);
     REQUIRE(value == 0xA6F3DFD3);
@@ -397,7 +399,7 @@ TEST_CASE("FLTQ.Q", "[Zfa]") {
 
 TEST_CASE("FLEQ.S", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FLEQ_S(x31, f7, f15);
     REQUIRE(value == 0xA0F3CFD3);
@@ -405,7 +407,7 @@ TEST_CASE("FLEQ.S", "[Zfa]") {
 
 TEST_CASE("FLTQ.S", "[Zfa]") {
     uint32_t value = 0;
-    Assembler as(reinterpret_cast<uint8_t*>(&value), sizeof(value));
+    auto as = MakeAssembler64(value);
 
     as.FLTQ_S(x31, f7, f15);
     REQUIRE(value == 0xA0F3DFD3);
