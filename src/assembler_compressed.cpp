@@ -146,17 +146,21 @@ void EmitCMMVType(CodeBuffer& buffer, uint32_t funct6, GPR r1s, uint32_t funct2,
 }
 
 void EmitCMPPType(CodeBuffer& buffer, uint32_t funct6, uint32_t funct2, PushPopList reglist,
-                  int32_t stack_adj, uint32_t op) {
+                  int32_t stack_adj, uint32_t op, ArchFeature feature) {
     BISCUIT_ASSERT(stack_adj % 16 == 0);
 
-    // NOTE: RV64 only. We need to generify this for RV32 as well.
+    static constexpr std::array stack_adj_bases_rv32{
+        0U, 0U, 0U, 0U, 16U, 16U, 16U, 16U,
+        32U, 32U, 32U, 32U, 48U, 48U, 48U, 64U,
+    };
     static constexpr std::array stack_adj_bases_rv64{
         0U, 0U, 0U, 0U, 16U, 16U, 32U, 32U,
         48U, 48U, 64U, 64U, 80U, 80U, 96U, 112U
     };
 
     const auto bitmask = reglist.GetBitmask();
-    const auto stack_adj_base = stack_adj_bases_rv64[bitmask];
+    const auto stack_adj_base = IsRV64(feature) ? stack_adj_bases_rv64[bitmask]
+                                                : stack_adj_bases_rv32[bitmask];
     const auto stack_adj_u = static_cast<uint32_t>(std::abs(stack_adj));
     const auto spimm = (stack_adj_u - stack_adj_base) / 16U;
 
@@ -673,19 +677,19 @@ void Assembler::CM_MVSA01(GPR r1s, GPR r2s) noexcept {
 
 void Assembler::CM_POP(PushPopList reg_list, int32_t stack_adj) noexcept {
     BISCUIT_ASSERT(stack_adj > 0);
-    EmitCMPPType(m_buffer, 0b101110, 0b10, reg_list, stack_adj, 0b10);
+    EmitCMPPType(m_buffer, 0b101110, 0b10, reg_list, stack_adj, 0b10, m_features);
 }
 void Assembler::CM_POPRET(PushPopList reg_list, int32_t stack_adj) noexcept {
     BISCUIT_ASSERT(stack_adj > 0);
-    EmitCMPPType(m_buffer, 0b101111, 0b10, reg_list, stack_adj, 0b10);
+    EmitCMPPType(m_buffer, 0b101111, 0b10, reg_list, stack_adj, 0b10, m_features);
 }
 void Assembler::CM_POPRETZ(PushPopList reg_list, int32_t stack_adj) noexcept {
     BISCUIT_ASSERT(stack_adj > 0);
-    EmitCMPPType(m_buffer, 0b101111, 0b00, reg_list, stack_adj, 0b10);
+    EmitCMPPType(m_buffer, 0b101111, 0b00, reg_list, stack_adj, 0b10, m_features);
 }
 void Assembler::CM_PUSH(PushPopList reg_list, int32_t stack_adj) noexcept {
     BISCUIT_ASSERT(stack_adj < 0);
-    EmitCMPPType(m_buffer, 0b101110, 0b00, reg_list, stack_adj, 0b10);
+    EmitCMPPType(m_buffer, 0b101110, 0b00, reg_list, stack_adj, 0b10, m_features);
 }
 
 } // namespace biscuit

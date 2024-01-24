@@ -239,6 +239,10 @@ TEST_CASE("CM.JT", "[Zc]") {
     }
 }
 
+constexpr std::array stack_adj_bases_rv32{
+    0, 0, 0, 0, 16, 16, 16, 16,
+    32, 32, 32, 32, 48, 48, 48, 64,
+};
 constexpr std::array stack_adj_bases_rv64{
     0, 0, 0, 0, 16, 16, 32, 32,
     48, 48, 64, 64, 80, 80, 96, 112,
@@ -257,6 +261,32 @@ TEST_CASE("CM.POP", "[Zc]") {
     for (const GPR sreg : {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s11}) {
         const auto op_base = 0xBA02U;
         const auto stack_adj_base = stack_adj_bases_rv64[rlist];
+
+        for (int32_t i = 0; i <= 3; i++) {
+            const auto op = op_base | (rlist << 4) | uint32_t(i) << 2;
+
+            as.CM_POP({ra, {s0, sreg}}, stack_adj_base + (16 * i));
+            REQUIRE(value == op);
+            as.RewindBuffer();
+        }
+
+        rlist++;
+    }
+}
+
+TEST_CASE("CM.POP (RV32)", "[Zc]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler32(value);
+
+    as.CM_POP({ra}, 16);
+    REQUIRE(value == 0xBA42);
+    as.RewindBuffer();
+
+    // s10 intentionally omitted, since no direct encoding for it exists.
+    uint32_t rlist = 5;
+    for (const GPR sreg : {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s11}) {
+        const auto op_base = 0xBA02U;
+        const auto stack_adj_base = stack_adj_bases_rv32[rlist];
 
         for (int32_t i = 0; i <= 3; i++) {
             const auto op = op_base | (rlist << 4) | uint32_t(i) << 2;
@@ -296,6 +326,32 @@ TEST_CASE("CM.POPRET", "[Zc]") {
     }
 }
 
+TEST_CASE("CM.POPRET (RV32)", "[Zc]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler32(value);
+
+    as.CM_POPRET({ra}, 16);
+    REQUIRE(value == 0xBE42);
+    as.RewindBuffer();
+
+    // s10 intentionally omitted, since no direct encoding for it exists.
+    uint32_t rlist = 5;
+    for (const GPR sreg : {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s11}) {
+        const auto op_base = 0xBE02U;
+        const auto stack_adj_base = stack_adj_bases_rv32[rlist];
+
+        for (int32_t i = 0; i <= 3; i++) {
+            const auto op = op_base | (rlist << 4) | uint32_t(i) << 2;
+
+            as.CM_POPRET({ra, {s0, sreg}}, stack_adj_base + (16 * i));
+            REQUIRE(value == op);
+            as.RewindBuffer();
+        }
+
+        rlist++;
+    }
+}
+
 TEST_CASE("CM.POPRETZ", "[Zc]") {
     uint32_t value = 0;
     auto as = MakeAssembler64(value);
@@ -322,6 +378,32 @@ TEST_CASE("CM.POPRETZ", "[Zc]") {
     }
 }
 
+TEST_CASE("CM.POPRETZ (RV32)", "[Zc]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler32(value);
+
+    as.CM_POPRETZ({ra}, 16);
+    REQUIRE(value == 0xBC42);
+    as.RewindBuffer();
+
+    // s10 intentionally omitted, since no direct encoding for it exists.
+    uint32_t rlist = 5;
+    for (const GPR sreg : {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s11}) {
+        const auto op_base = 0xBC02U;
+        const auto stack_adj_base = stack_adj_bases_rv32[rlist];
+
+        for (int32_t i = 0; i <= 3; i++) {
+            const auto op = op_base | (rlist << 4) | uint32_t(i) << 2;
+
+            as.CM_POPRETZ({ra, {s0, sreg}}, stack_adj_base + (16 * i));
+            REQUIRE(value == op);
+            as.RewindBuffer();
+        }
+
+        rlist++;
+    }
+}
+
 TEST_CASE("CM.PUSH", "[Zc]") {
     uint32_t value = 0;
     auto as = MakeAssembler64(value);
@@ -335,6 +417,32 @@ TEST_CASE("CM.PUSH", "[Zc]") {
     for (const GPR sreg : {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s11}) {
         const auto op_base = 0xB802U;
         const auto stack_adj_base = stack_adj_bases_rv64[rlist];
+
+        for (int32_t i = 0; i <= 3; i++) {
+            const auto op = op_base | (rlist << 4) | uint32_t(i) << 2;
+
+            as.CM_PUSH({ra, {s0, sreg}}, -stack_adj_base + (-16 * i));
+            REQUIRE(value == op);
+            as.RewindBuffer();
+        }
+
+        rlist++;
+    }
+}
+
+TEST_CASE("CM.PUSH (RV32)", "[Zc]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler32(value);
+
+    as.CM_PUSH({ra}, -16);
+    REQUIRE(value == 0xB842);
+    as.RewindBuffer();
+
+    // s10 intentionally omitted, since no direct encoding for it exists.
+    uint32_t rlist = 5;
+    for (const GPR sreg : {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s11}) {
+        const auto op_base = 0xB802U;
+        const auto stack_adj_base = stack_adj_bases_rv32[rlist];
 
         for (int32_t i = 0; i <= 3; i++) {
             const auto op = op_base | (rlist << 4) | uint32_t(i) << 2;
