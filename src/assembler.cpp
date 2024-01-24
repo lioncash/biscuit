@@ -304,45 +304,17 @@ void Assembler::LHU(GPR rd, int32_t imm, GPR rs) noexcept {
     EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b101, rd, 0b0000011);
 }
 
-void Assembler::LI(GPR rd, uint32_t imm) noexcept {
-    // Depending on imm, the following instructions are emitted.
-    // hi20 == 0              -> ADDI
-    // lo12 == 0 && hi20 != 0 -> LUI
-    // otherwise              -> LUI+ADDI
-
-    // Add 0x800 to cancel out the signed extension of ADDI.
-    const auto hi20 = (imm + 0x800) >> 12 & 0xFFFFF;
-    const auto lo12 = static_cast<int32_t>(imm) & 0xFFF;
-    GPR rs1 = zero;
-
-    if (hi20 != 0) {
-        LUI(rd, hi20);
-        rs1 = rd;
-    }
-
-    if (lo12 != 0 || hi20 == 0) {
-        ADDI(rd, rs1, lo12);
-    }
-}
-
-void Assembler::LI64(GPR rd, uint64_t imm) noexcept {
-    // For 64-bit imm, a sequence of up to 8 instructions (i.e. LUI+ADDIW+SLLI+
-    // ADDI+SLLI+ADDI+SLLI+ADDI) is emitted.
-    // In the following, imm is processed from LSB to MSB while instruction emission
-    // is performed from MSB to LSB by calling LI64() recursively. In each recursion,
-    // the lowest 12 bits are removed from imm and the optimal shift amount is
-    // calculated. Then, the remaining part of imm is processed recursively and
-    // LI() get called as soon as it fits into 32 bits.
-
-    if (static_cast<uint64_t>(static_cast<int64_t>(imm << 32) >> 32) == imm) {
+void Assembler::LI(GPR rd, uint64_t imm) noexcept {
+    if (IsRV32(m_features)) {
         // Depending on imm, the following instructions are emitted.
-        // hi20 == 0              -> ADDIW
+        // hi20 == 0              -> ADDI
         // lo12 == 0 && hi20 != 0 -> LUI
-        // otherwise              -> LUI+ADDIW
+        // otherwise              -> LUI+ADDI
 
-        // Add 0x800 to cancel out the signed extension of ADDIW.
-        const auto hi20 = (static_cast<uint32_t>(imm) + 0x800) >> 12 & 0xFFFFF;
-        const auto lo12 = static_cast<int32_t>(imm) & 0xFFF;
+        // Add 0x800 to cancel out the signed extension of ADDI.
+        const auto uimm32 = static_cast<uint32_t>(imm);
+        const auto hi20 = (uimm32 + 0x800) >> 12 & 0xFFFFF;
+        const auto lo12 = static_cast<int32_t>(uimm32) & 0xFFF;
         GPR rs1 = zero;
 
         if (hi20 != 0) {
@@ -351,20 +323,49 @@ void Assembler::LI64(GPR rd, uint64_t imm) noexcept {
         }
 
         if (lo12 != 0 || hi20 == 0) {
-            ADDIW(rd, rs1, lo12);
+            ADDI(rd, rs1, lo12);
         }
-        return;
-    }
+    } else {
+        // For 64-bit imm, a sequence of up to 8 instructions (i.e. LUI+ADDIW+SLLI+
+        // ADDI+SLLI+ADDI+SLLI+ADDI) is emitted.
+        // In the following, imm is processed from LSB to MSB while instruction emission
+        // is performed from MSB to LSB by calling LI() recursively. In each recursion,
+        // the lowest 12 bits are removed from imm and the optimal shift amount is
+        // calculated. Then, the remaining part of imm is processed recursively and
+        // LI() get called as soon as it fits into 32 bits.
 
-    const auto lo12 = static_cast<int32_t>(static_cast<int64_t>(imm << 52) >> 52);
-    // Add 0x800 to cancel out the signed extension of ADDI.
-    uint64_t hi52 = (imm + 0x800) >> 12;
-    const uint32_t shift = 12 + static_cast<uint32_t>(std::countr_zero(hi52));
-    hi52 = static_cast<uint64_t>((static_cast<int64_t>(hi52 >> (shift - 12)) << shift) >> shift);
-    LI64(rd, hi52);
-    SLLI(rd, rd, shift);
-    if (lo12 != 0) {
-        ADDI(rd, rd, lo12);
+        if (static_cast<uint64_t>(static_cast<int64_t>(imm << 32) >> 32) == imm) {
+            // Depending on imm, the following instructions are emitted.
+            // hi20 == 0              -> ADDIW
+            // lo12 == 0 && hi20 != 0 -> LUI
+            // otherwise              -> LUI+ADDIW
+
+            // Add 0x800 to cancel out the signed extension of ADDIW.
+            const auto hi20 = (static_cast<uint32_t>(imm) + 0x800) >> 12 & 0xFFFFF;
+            const auto lo12 = static_cast<int32_t>(imm) & 0xFFF;
+            GPR rs1 = zero;
+
+            if (hi20 != 0) {
+                LUI(rd, hi20);
+                rs1 = rd;
+            }
+
+            if (lo12 != 0 || hi20 == 0) {
+                ADDIW(rd, rs1, lo12);
+            }
+            return;
+        }
+
+        const auto lo12 = static_cast<int32_t>(static_cast<int64_t>(imm << 52) >> 52);
+        // Add 0x800 to cancel out the signed extension of ADDI.
+        uint64_t hi52 = (imm + 0x800) >> 12;
+        const uint32_t shift = 12 + static_cast<uint32_t>(std::countr_zero(hi52));
+        hi52 = static_cast<uint64_t>((static_cast<int64_t>(hi52 >> (shift - 12)) << shift) >> shift);
+        LI(rd, hi52);
+        SLLI(rd, rd, shift);
+        if (lo12 != 0) {
+            ADDI(rd, rd, lo12);
+        }
     }
 }
 
