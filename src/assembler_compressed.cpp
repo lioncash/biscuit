@@ -649,6 +649,7 @@ void Assembler::C_ZEXT_H(GPR rd) noexcept {
     EmitCUType(m_buffer, 0b100111, rd, 0b11010, 0b01);
 }
 void Assembler::C_ZEXT_W(GPR rd) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitCUType(m_buffer, 0b100111, rd, 0b11100, 0b01);
 }
 
