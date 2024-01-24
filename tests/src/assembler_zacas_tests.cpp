@@ -33,23 +33,23 @@ TEST_CASE("AMOCAS.Q", "[Zacas]") {
     uint32_t value = 0;
     auto as = MakeAssembler64(value);
 
-    as.AMOCAS_Q(Ordering::None, x30, x6, x15);
-    REQUIRE(value == 0x2867CF2F);
+    as.AMOCAS_Q(Ordering::None, x30, x6, x14);
+    REQUIRE(value == 0x28674F2F);
 
     as.RewindBuffer();
 
-    as.AMOCAS_Q(Ordering::AQ, x30, x6, x15);
-    REQUIRE(value == 0x2C67CF2F);
+    as.AMOCAS_Q(Ordering::AQ, x30, x6, x14);
+    REQUIRE(value == 0x2C674F2F);
 
     as.RewindBuffer();
 
-    as.AMOCAS_Q(Ordering::RL, x30, x6, x15);
-    REQUIRE(value == 0x2A67CF2F);
+    as.AMOCAS_Q(Ordering::RL, x30, x6, x14);
+    REQUIRE(value == 0x2A674F2F);
 
     as.RewindBuffer();
 
-    as.AMOCAS_Q(Ordering::AQRL, x30, x6, x15);
-    REQUIRE(value == 0x2E67CF2F);
+    as.AMOCAS_Q(Ordering::AQRL, x30, x6, x14);
+    REQUIRE(value == 0x2E674F2F);
 }
 
 TEST_CASE("AMOCAS.W", "[Zacas]") {
