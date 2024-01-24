@@ -240,26 +240,26 @@ TEST_CASE("SD", "[rv64i]") {
     REQUIRE(value == 0xFEFFBFA3);
 }
 
-TEST_CASE("SLLI64", "[rv64i]") {
+TEST_CASE("SLLI (RV64)", "[rv64i]") {
     uint32_t value = 0;
     auto as = MakeAssembler64(value);
 
-    as.SLLI64(x31, x15, 10);
+    as.SLLI(x31, x15, 10);
     REQUIRE(value == 0x00A79F93);
 
     as.RewindBuffer();
 
-    as.SLLI64(x31, x15, 20);
+    as.SLLI(x31, x15, 20);
     REQUIRE(value == 0x01479F93);
 
     as.RewindBuffer();
 
-    as.SLLI64(x31, x15, 31);
+    as.SLLI(x31, x15, 31);
     REQUIRE(value == 0x01F79F93);
 
     as.RewindBuffer();
 
-    as.SLLI64(x31, x15, 63);
+    as.SLLI(x31, x15, 63);
     REQUIRE(value == 0x03F79F93);
 }
 
@@ -299,26 +299,26 @@ TEST_CASE("SLLW", "[rv64i]") {
     REQUIRE(value == 0x0000103B);
 }
 
-TEST_CASE("SRAI64", "[rv64i]") {
+TEST_CASE("SRAI (RV64)", "[rv64i]") {
     uint32_t value = 0;
     auto as = MakeAssembler64(value);
 
-    as.SRAI64(x31, x15, 10);
+    as.SRAI(x31, x15, 10);
     REQUIRE(value == 0x40A7DF93);
 
     as.RewindBuffer();
 
-    as.SRAI64(x31, x15, 20);
+    as.SRAI(x31, x15, 20);
     REQUIRE(value == 0x4147DF93);
 
     as.RewindBuffer();
 
-    as.SRAI64(x31, x15, 31);
+    as.SRAI(x31, x15, 31);
     REQUIRE(value == 0x41F7DF93);
 
     as.RewindBuffer();
 
-    as.SRAI64(x31, x15, 63);
+    as.SRAI(x31, x15, 63);
     REQUIRE(value == 0x43F7DF93);
 }
 
@@ -358,26 +358,26 @@ TEST_CASE("SRAW", "[rv64i]") {
     REQUIRE(value == 0x4000503B);
 }
 
-TEST_CASE("SRLI64", "[rv64i]") {
+TEST_CASE("SRLI (RV64)", "[rv64i]") {
     uint32_t value = 0;
     auto as = MakeAssembler64(value);
 
-    as.SRLI64(x31, x15, 10);
+    as.SRLI(x31, x15, 10);
     REQUIRE(value == 0x00A7DF93);
 
     as.RewindBuffer();
 
-    as.SRLI64(x31, x15, 20);
+    as.SRLI(x31, x15, 20);
     REQUIRE(value == 0x0147DF93);
 
     as.RewindBuffer();
 
-    as.SRLI64(x31, x15, 31);
+    as.SRLI(x31, x15, 31);
     REQUIRE(value == 0x01F7DF93);
 
     as.RewindBuffer();
 
-    as.SRLI64(x31, x15, 63);
+    as.SRLI(x31, x15, 63);
     REQUIRE(value == 0x03F7DF93);
 }
 

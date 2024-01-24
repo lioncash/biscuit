@@ -362,7 +362,7 @@ void Assembler::LI64(GPR rd, uint64_t imm) noexcept {
     const uint32_t shift = 12 + static_cast<uint32_t>(std::countr_zero(hi52));
     hi52 = static_cast<uint64_t>((static_cast<int64_t>(hi52 >> (shift - 12)) << shift) >> shift);
     LI64(rd, hi52);
-    SLLI64(rd, rd, shift);
+    SLLI(rd, rd, shift);
     if (lo12 != 0) {
         ADDI(rd, rd, lo12);
     }
@@ -432,8 +432,13 @@ void Assembler::SLL(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SLLI(GPR rd, GPR rs, uint32_t shift) noexcept {
-    BISCUIT_ASSERT(shift <= 31);
-    EmitIType(m_buffer, shift & 0x1F, rs, 0b001, rd, 0b0010011);
+    if (IsRV32(m_features)) {
+        BISCUIT_ASSERT(shift <= 31);
+        EmitIType(m_buffer, shift & 0x1F, rs, 0b001, rd, 0b0010011);
+    } else {
+        BISCUIT_ASSERT(shift <= 63);
+        EmitIType(m_buffer, shift & 0x3F, rs, 0b001, rd, 0b0010011);
+    }
 }
 
 void Assembler::SLT(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -467,8 +472,13 @@ void Assembler::SRA(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SRAI(GPR rd, GPR rs, uint32_t shift) noexcept {
-    BISCUIT_ASSERT(shift <= 31);
-    EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0010011);
+    if (IsRV32(m_features)) {
+        BISCUIT_ASSERT(shift <= 31);
+        EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x1F), rs, 0b101, rd, 0b0010011);
+    } else {
+        BISCUIT_ASSERT(shift <= 63);
+        EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x3F), rs, 0b101, rd, 0b0010011);
+    }
 }
 
 void Assembler::SRL(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -476,8 +486,13 @@ void Assembler::SRL(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::SRLI(GPR rd, GPR rs, uint32_t shift) noexcept {
-    BISCUIT_ASSERT(shift <= 31);
-    EmitIType(m_buffer, shift & 0x1F, rs, 0b101, rd, 0b0010011);
+    if (IsRV32(m_features)) {
+        BISCUIT_ASSERT(shift <= 31);
+        EmitIType(m_buffer, shift & 0x1F, rs, 0b101, rd, 0b0010011);
+    } else {
+        BISCUIT_ASSERT(shift <= 63);
+        EmitIType(m_buffer, shift & 0x3F, rs, 0b101, rd, 0b0010011);
+    }
 }
 
 void Assembler::SUB(GPR rd, GPR lhs, GPR rhs) noexcept {
@@ -525,19 +540,6 @@ void Assembler::SD(GPR rs2, int32_t imm, GPR rs1) noexcept {
     BISCUIT_ASSERT(IsRV64(m_features));
     BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
     EmitSType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b011, 0b0100011);
-}
-
-void Assembler::SRAI64(GPR rd, GPR rs, uint32_t shift) noexcept {
-    BISCUIT_ASSERT(shift <= 63);
-    EmitIType(m_buffer, (0b0100000 << 5) | (shift & 0x3F), rs, 0b101, rd, 0b0010011);
-}
-void Assembler::SLLI64(GPR rd, GPR rs, uint32_t shift) noexcept {
-    BISCUIT_ASSERT(shift <= 63);
-    EmitIType(m_buffer, shift & 0x3F, rs, 0b001, rd, 0b0010011);
-}
-void Assembler::SRLI64(GPR rd, GPR rs, uint32_t shift) noexcept {
-    BISCUIT_ASSERT(shift <= 63);
-    EmitIType(m_buffer, shift & 0x3F, rs, 0b101, rd, 0b0010011);
 }
 
 void Assembler::SLLIW(GPR rd, GPR rs, uint32_t shift) noexcept {
