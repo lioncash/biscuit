@@ -108,15 +108,19 @@ void Assembler::FNEG_S(FPR rd, FPR rs) noexcept {
 // RV64F Extension Instructions
 
 void Assembler::FCVT_L_S(GPR rd, FPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1100000, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_LU_S(GPR rd, FPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1100000, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_S_L(FPR rd, GPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1101000, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_S_LU(FPR rd, GPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1101000, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 
@@ -216,21 +220,27 @@ void Assembler::FNEG_D(FPR rd, FPR rs) noexcept {
 // RV64D Extension Instructions
 
 void Assembler::FCVT_L_D(GPR rd, FPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1100001, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_LU_D(GPR rd, FPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1100001, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_D_L(FPR rd, GPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1101001, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_D_LU(FPR rd, GPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1101001, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FMV_D_X(FPR rd, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     EmitRType(m_buffer, 0b1111001, f0, rs1, 0b000, rd, 0b1010011);
 }
 void Assembler::FMV_X_D(GPR rd, FPR rs1) noexcept {
+    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     EmitRType(m_buffer, 0b1110001, f0, rs1, 0b000, rd, 0b1010011);
 }
 
@@ -336,15 +346,19 @@ void Assembler::FNEG_Q(FPR rd, FPR rs) noexcept {
 // RV64Q Extension Instructions
 
 void Assembler::FCVT_L_Q(GPR rd, FPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1100011, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_LU_Q(GPR rd, FPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1100011, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_Q_L(FPR rd, GPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1101011, f2, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 void Assembler::FCVT_Q_LU(FPR rd, GPR rs1, RMode rmode) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
     EmitRType(m_buffer, 0b1101011, f3, rs1, static_cast<uint32_t>(rmode), rd, 0b1010011);
 }
 

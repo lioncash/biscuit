@@ -372,9 +372,9 @@ TEST_CASE("FMUL.D", "[rv32d]") {
     REQUIRE(value == 0x13A3FFD3);
 }
 
-TEST_CASE("FMV.D.X", "[rv32d]") {
+TEST_CASE("FMV.D.X", "[rv64d]") {
     uint32_t value = 0;
-    auto as = MakeAssembler32(value);
+    auto as = MakeAssembler64(value);
 
     as.FMV_D_X(f31, x7);
     REQUIRE(value == 0xF2038FD3);
@@ -385,9 +385,9 @@ TEST_CASE("FMV.D.X", "[rv32d]") {
     REQUIRE(value == 0xF20F83D3);
 }
 
-TEST_CASE("FMV.X.D", "[rv32d]") {
+TEST_CASE("FMV.X.D", "[rv64d]") {
     uint32_t value = 0;
-    auto as = MakeAssembler32(value);
+    auto as = MakeAssembler64(value);
 
     as.FMV_X_D(x31, f7);
     REQUIRE(value == 0xE2038FD3);
