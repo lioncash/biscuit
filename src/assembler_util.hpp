@@ -214,8 +214,11 @@ constexpr bool IsRV64(ArchFeature feature) {
 constexpr bool IsRV128(ArchFeature feature) {
     return feature == ArchFeature::RV128;
 }
+constexpr bool IsRV32OrRV64(ArchFeature feature) {
+    return IsRV32(feature) || IsRV64(feature);
+}
 constexpr bool IsRV64OrRV128(ArchFeature feature) {
-    return feature == ArchFeature::RV64 || feature == ArchFeature::RV128;
+    return IsRV64(feature) || IsRV128(feature);
 }
 
 } // namespace biscuit

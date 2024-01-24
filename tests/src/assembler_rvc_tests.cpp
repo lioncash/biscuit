@@ -445,6 +445,14 @@ TEST_CASE("C.SLLI", "[rvc]") {
     REQUIRE(value == 0x07FE);
 }
 
+TEST_CASE("C.SLLI (RV128)", "[rv128c]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler128(value);
+
+    as.C_SLLI(x15, 64);
+    REQUIRE(value == 0x0782);
+}
+
 TEST_CASE("C.SQ", "[rvc]") {
     uint32_t value = 0;
     auto as = MakeAssembler128(value);
@@ -484,6 +492,14 @@ TEST_CASE("C.SRAI", "[rvc]") {
     REQUIRE(value == 0x87FD);
 }
 
+TEST_CASE("C.SRAI (RV128)", "[rv128c]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler128(value);
+
+    as.C_SRAI(x15, 64);
+    REQUIRE(value == 0x8781);
+}
+
 TEST_CASE("C.SRLI", "[rvc]") {
     uint32_t value = 0;
     auto as = MakeAssembler32(value);
@@ -495,6 +511,14 @@ TEST_CASE("C.SRLI", "[rvc]") {
 
     as.C_SRLI(x15, 31);
     REQUIRE(value == 0x83FD);
+}
+
+TEST_CASE("C.SRLI (RV128)", "[rv128c]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler128(value);
+
+    as.C_SRLI(x15, 64);
+    REQUIRE(value == 0x8381);
 }
 
 TEST_CASE("C.SUB", "[rvc]") {
