@@ -30,6 +30,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | RV64I     | 2.1     |
 | S         | 1.12    |
 | V         | 1.0     |
+| Ssctr     | 1.0 rc6 |
 | Sstc      | 0.5.4   |
 | Zabha     | 1.0     |
 | Zacas     | 1.0     |

@@ -1335,6 +1335,10 @@ void Assembler::MRET() noexcept {
     m_buffer.Emit32(0x30200073);
 }
 
+void Assembler::SCTRCLR() noexcept {
+    m_buffer.Emit32(0x10400073);
+}
+
 void Assembler::SFENCE_INVAL_IR() noexcept {
     m_buffer.Emit32(0x18100073U);
 }
