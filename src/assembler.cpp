@@ -526,7 +526,7 @@ void Assembler::ADDW(GPR rd, GPR lhs, GPR rhs) noexcept {
 }
 
 void Assembler::LD(GPR rd, int32_t imm, GPR rs) noexcept {
-    BISCUIT_ASSERT(IsRV64(m_features));
+    BISCUIT_ASSERT(IsRV32OrRV64(m_features));
     BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
     EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b011, rd, 0b0000011);
 }
@@ -538,7 +538,7 @@ void Assembler::LWU(GPR rd, int32_t imm, GPR rs) noexcept {
 }
 
 void Assembler::SD(GPR rs2, int32_t imm, GPR rs1) noexcept {
-    BISCUIT_ASSERT(IsRV64(m_features));
+    BISCUIT_ASSERT(IsRV32OrRV64(m_features));
     BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
     EmitSType(m_buffer, static_cast<uint32_t>(imm), rs2, rs1, 0b011, 0b0100011);
 }

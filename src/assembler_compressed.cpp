@@ -385,7 +385,6 @@ void Assembler::C_JR(GPR rs) noexcept {
 }
 
 void Assembler::C_LD(GPR rd, uint32_t imm, GPR rs) noexcept {
-    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     BISCUIT_ASSERT(imm <= 248);
     BISCUIT_ASSERT(imm % 8 == 0);
 
@@ -393,7 +392,6 @@ void Assembler::C_LD(GPR rd, uint32_t imm, GPR rs) noexcept {
 }
 
 void Assembler::C_LDSP(GPR rd, uint32_t imm) noexcept {
-    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     BISCUIT_ASSERT(rd != x0);
     BISCUIT_ASSERT(imm <= 504);
     BISCUIT_ASSERT(imm % 8 == 0);
@@ -483,7 +481,6 @@ void Assembler::C_OR(GPR rd, GPR rs) noexcept {
 }
 
 void Assembler::C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
-    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     BISCUIT_ASSERT(imm <= 248);
     BISCUIT_ASSERT(imm % 8 == 0);
 
@@ -491,7 +488,6 @@ void Assembler::C_SD(GPR rs2, uint32_t imm, GPR rs1) noexcept {
 }
 
 void Assembler::C_SDSP(GPR rs, uint32_t imm) noexcept {
-    BISCUIT_ASSERT(IsRV64OrRV128(m_features));
     BISCUIT_ASSERT(imm <= 504);
     BISCUIT_ASSERT(imm % 8 == 0);
 

@@ -35,6 +35,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | Zacas     | 1.0     |
 | Zawrs     | 1.01    |
 | Zcb       | 1.0.4   |
+| Zclsd     | 0.10    |
 | Zcmp      | 1.0.4   |
 | Zcmt      | 1.0.4   |
 | Zfa       | 1.0     |
@@ -48,6 +49,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | Zicsr     | 2.0     |
 | Zifencei  | 2.0     |
 | Zihintntl | 1.0     |
+| Zilsd     | 0.10    |
 | Zvbb      | 1.0     |
 | Zvbc      | 1.0     |
 | Zvfbfmin  | 1.0 rc2 |
