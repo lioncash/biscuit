@@ -107,6 +107,10 @@ enum class CSR : uint32_t {
     STVal          = 0x143, // Supervisor bad address or instruction
     SIP            = 0x144, // Supervisor interrupt pending.
 
+    SCTRCTL        = 0x14E, // Supervisor control transfer records control register
+    SCTRStatus     = 0x14F, // Supervisor control transfer records status register
+    SCTRDepth      = 0x15F, // Supervisor control transfer records depth register
+
     SISelect       = 0x150, // Supervisor indirect register select
     SIReg          = 0x151, // Supervisor indirect register alias
 
@@ -169,6 +173,8 @@ enum class CSR : uint32_t {
     VSTVal         = 0x243, // Virtual supervisor bad address or instruction
     VSIP           = 0x244, // Virtual supervisor interrupt pending
 
+    VSCTRCTL       = 0x24E, // Virtual supervisor control transfer records control register
+
     VSISelect      = 0x250, // Virtual supervisor indirect register select
     VSIReg         = 0x251, // Virtual supervisor indirect register alias
 
@@ -212,6 +218,8 @@ enum class CSR : uint32_t {
     MIP            = 0x344, // Machine interrupt pending
     MTInst         = 0x34A, // Machine trap instruction (transformed)
     MTVal2         = 0x34B, // Machine bad guest physical address
+
+    MCTRCTL        = 0x34E, // Machine control transfer records control register
 
     MISelect       = 0x350, // Machine indirect register select
     MIReg          = 0x351, // Machine indirect register alias
