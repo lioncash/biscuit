@@ -1258,6 +1258,31 @@ void Assembler::PREFETCH_W(GPR rs, int32_t offset) noexcept {
     EmitIType(m_buffer, static_cast<uint32_t>(offset) | 0b11, rs, 0b110, x0, 0b0010011);
 }
 
+// Control flow integrity instructions
+
+void Assembler::SSAMOSWAP_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
+    BISCUIT_ASSERT(IsRV64(m_features));
+    EmitAtomic(m_buffer, 0b01001, ordering, rs2, rs1, 0b011, rd, 0b0101111);
+}
+void Assembler::SSAMOSWAP_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept {
+    EmitAtomic(m_buffer, 0b01001, ordering, rs2, rs1, 0b010, rd, 0b0101111);
+}
+void Assembler::SSRDP(GPR rd) noexcept {
+    BISCUIT_ASSERT(rd != x0);
+    EmitMOP_R(m_buffer, 28, rd, x0);
+}
+void Assembler::SSPOPCHK(GPR rs) noexcept {
+    BISCUIT_ASSERT(rs == x1 || rs == x5);
+    EmitMOP_R(m_buffer, 28, x0, rs);
+}
+void Assembler::SSPUSH(GPR rs) noexcept {
+    BISCUIT_ASSERT(rs == x1 || rs == x5);
+    EmitMOP_RR(m_buffer, 7, x0, x0, rs);
+}
+void Assembler::LPAD(int32_t imm) noexcept {
+    EmitUType(m_buffer, static_cast<uint32_t>(imm), x0, 0b0010111);
+}
+
 // Privileged Instructions
 
 void Assembler::HFENCE_GVMA(GPR rs1, GPR rs2) noexcept {

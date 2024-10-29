@@ -813,6 +813,17 @@ public:
     void PREFETCH_R(GPR rs, int32_t offset = 0) noexcept;
     void PREFETCH_W(GPR rs, int32_t offset = 0) noexcept;
 
+    // Control Flow Integrity Extension Instructions (Zicfiss and Zicfilp)
+
+    void SSAMOSWAP_D(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void SSAMOSWAP_W(Ordering ordering, GPR rd, GPR rs2, GPR rs1) noexcept;
+    void SSRDP(GPR rd) noexcept;
+    void SSPOPCHK(GPR rs2) noexcept;
+    void SSPUSH(GPR rs2) noexcept;
+    void C_SSPOPCHK() noexcept;
+    void C_SSPUSH() noexcept;
+    void LPAD(int32_t imm) noexcept;
+
     // Privileged Instructions
 
     void HFENCE_GVMA(GPR rs1, GPR rs2) noexcept;

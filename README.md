@@ -46,6 +46,8 @@ Includes both 32-bit and 64-bit instructions in the following:
 | Zicbom    | 1.0     |
 | Zicbop    | 1.0     |
 | Zicboz    | 1.0     |
+| Zicfilp   | 1.0     |
+| Zicfiss   | 1.0     |
 | Zicond    | 1.0.1   |
 | Zicsr     | 2.0     |
 | Zifencei  | 2.0     |

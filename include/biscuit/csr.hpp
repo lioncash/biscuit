@@ -23,6 +23,8 @@ enum class CSR : uint32_t {
     FRM            = 0x002, // Floating-point Dynamic Rounding Mode
     FCSR           = 0x003, // Floating-point Control and Status Register (frm + fflags)
 
+    SSP            = 0x011, // Shadow stack pointer
+
     JVT            = 0x017, // Table jump base vector and control register
 
     Cycle          = 0xC00, // Cycle counter for RDCYCLE instruction.

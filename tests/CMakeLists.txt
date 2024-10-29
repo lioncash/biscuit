@@ -3,6 +3,7 @@ project(biscuit_tests)
 add_executable(${PROJECT_NAME}
     src/assembler_bfloat_tests.cpp
     src/assembler_branch_tests.cpp
+    src/assembler_cfi_tests.cpp
     src/assembler_cmo_tests.cpp
     src/assembler_privileged_tests.cpp
     src/assembler_rv32i_tests.cpp
