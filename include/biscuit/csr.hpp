@@ -416,7 +416,19 @@ enum class CSR : uint32_t {
     TData1         = 0x7A1, // First Debug/Trace trigger data register
     TData2         = 0x7A2, // Second Debug/Trace trigger data register
     TData3         = 0x7A3, // Third Debug/Trace trigger data register
+    TInfo          = 0x7A4, // Trigger info
+    TControl       = 0x7A5, // Trigger control
     MContext       = 0x7A8, // Machine-mode context register
+    MSContext      = 0x7AA, // Machine supervisor context
+    // TData Aliases
+    MControl       = 0x7A1, // Match control
+    MControl6      = 0x7A1, // Match control type 6
+    ICount         = 0x7A1, // Instruction count
+    ITrigger       = 0x7A1, // Interrupt trigger
+    ETrigger       = 0x7A1, // Exception trigger
+    TMEXTrigger    = 0x7A1, // External trigger
+    TExtra32       = 0x7A3, // Trigger extra (RV32)
+    TExtra64       = 0x7A3, // Trigger extra (RV64)
 
     DCSR           = 0x7B0, // Debug control and status register
     DPC            = 0x7B1, // Debug PC
