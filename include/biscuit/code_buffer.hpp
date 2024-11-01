@@ -88,14 +88,16 @@ public:
 
     /// Retrieves the pointer to an arbitrary location within the buffer.
     [[nodiscard]] uint8_t* GetOffsetPointer(ptrdiff_t offset) noexcept {
-        BISCUIT_ASSERT(offset >= 0 && offset <= GetCursorOffset());
-        return m_buffer + offset;
+        auto pointer = m_buffer + offset;
+        BISCUIT_ASSERT(pointer >= m_buffer && pointer < m_buffer + m_capacity);
+        return pointer;
     }
 
     /// Retrieves the pointer to an arbitrary location within the buffer.
     [[nodiscard]] const uint8_t* GetOffsetPointer(ptrdiff_t offset) const noexcept {
-        BISCUIT_ASSERT(offset >= 0 && offset <= GetCursorOffset());
-        return m_buffer + offset;
+        auto pointer = m_buffer + offset;
+        BISCUIT_ASSERT(pointer >= m_buffer && pointer < m_buffer + m_capacity);
+        return pointer;
     }
 
     /**
@@ -113,6 +115,20 @@ public:
         auto* rewound = m_buffer + offset;
         BISCUIT_ASSERT(m_buffer <= rewound && rewound <= m_cursor);
         m_cursor = rewound;
+    }
+
+    /**
+     * Allows advancing of the code buffer cursor.
+     * 
+     * @param offset The offset to advance the cursor by.
+     *
+     * @note The offset may not be smaller than the current cursor offset 
+     *       and may not be larger than the current buffer capacity.
+     */
+    void AdvanceCursor(ptrdiff_t offset) noexcept {
+        auto* forward = m_buffer + offset;
+        BISCUIT_ASSERT(m_cursor <= forward && forward < m_buffer + m_capacity);
+        m_cursor = forward;
     }
 
     /**
