@@ -112,6 +112,18 @@ public:
         m_buffer.RewindCursor(offset);
     }
 
+    /**
+     * Allows advancing of the code buffer cursor.
+     * 
+     * @param offset The offset to advance the cursor by.
+     *
+     * @note The offset may not be smaller than the current cursor offset 
+     *       and may not be larger than the current buffer capacity.
+     */
+    void AdvanceBuffer(ptrdiff_t offset) {
+        m_buffer.AdvanceCursor(offset);
+    }
+
     /// Retrieves the cursor pointer for the underlying code buffer.
     [[nodiscard]] uint8_t* GetCursorPointer() noexcept {
         return m_buffer.GetCursorPointer();
