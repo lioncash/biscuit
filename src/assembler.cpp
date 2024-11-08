@@ -692,6 +692,13 @@ void Assembler::TH_MVNEZ(GPR rd, GPR value, GPR condition) noexcept {
     EmitRType(m_buffer, 0b0100001, condition, value, 0b001, rd, 0b0001011);
 }
 
+// XTheadBa Extension Instructions
+
+void Assembler::TH_ADDSL(GPR rd, GPR rs1, GPR rs2, uint32_t shift) noexcept {
+    BISCUIT_ASSERT(shift <= 3);
+    EmitRType(m_buffer, 0b0000000 | shift, rs2, rs1, 0b001, rd, 0b0001011);
+}
+
 // Zicsr Extension Instructions
 
 void Assembler::CSRRC(GPR rd, CSR csr, GPR rs) noexcept {
