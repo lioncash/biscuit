@@ -6,7 +6,7 @@
 
 using namespace biscuit;
 
-TEST_CASE("TH.MVEQZ", "[XTheadCondMov]") {
+TEST_CASE("TH.MVEQZ", "[XThead]") {
     uint32_t value = 0;
     auto as = MakeAssembler64(value);
 
@@ -19,7 +19,7 @@ TEST_CASE("TH.MVEQZ", "[XTheadCondMov]") {
     REQUIRE(value == 0x4031108B);
 }
 
-TEST_CASE("TH.MVNEZ", "[XTheadCondMov]") {
+TEST_CASE("TH.MVNEZ", "[XThead]") {
     uint32_t value = 0;
     auto as = MakeAssembler64(value);
 
