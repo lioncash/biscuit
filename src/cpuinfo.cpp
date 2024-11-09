@@ -10,9 +10,8 @@
 #if defined(__linux__) && defined(__riscv)
 #include <asm/hwprobe.h>
 #include <sys/syscall.h>
-#include <tuple>
 #include <unistd.h>
-#include 
+#include <utility>
 #endif
 
 #ifndef RISCV_HWPROBE_BASE_BEHAVIOR_IMA
@@ -219,20 +218,20 @@ namespace biscuit {
 
 bool CPUInfo::Has(RISCVExtension extension) const {
 #if defined(__linux__) && defined(__riscv)
-    const static auto [ima, features0] = []() {
+    static const auto [ima, features0] = []() {
         riscv_hwprobe pairs[] = {
             {RISCV_HWPROBE_KEY_BASE_BEHAVIOR, 0},
             {RISCV_HWPROBE_KEY_IMA_EXT_0, 0},
         };
 
-        long result = syscall(SYS_riscv_hwprobe, pairs, sizeof(pairs) / sizeof(riscv_hwprobe), 0, nullptr, 0);
+        long result = syscall(SYS_riscv_hwprobe, pairs, std::size(pairs), 0, nullptr, 0);
         BISCUIT_ASSERT(result == 0);
 
-        return std::tuple<uint64_t, uint64_t>{ pairs[0].value, pairs[1].value };
+        return std::make_pair<uint64_t, uint64_t>(pairs[0].value, pairs[1].value);
     }();
 #else
-    const static uint64_t ima = 0;
-    const static uint64_t features0 = 0;
+    static const uint64_t ima = 0;
+    static const uint64_t features0 = 0;
 #endif
 
     switch (extension) {
@@ -243,103 +242,103 @@ bool CPUInfo::Has(RISCVExtension extension) const {
         }
         case RISCVExtension::F:
         case RISCVExtension::D:
-            return features0 & RISCV_HWPROBE_IMA_FD;
+            return (features0 & RISCV_HWPROBE_IMA_FD) != 0;
         case RISCVExtension::C:
-            return features0 & RISCV_HWPROBE_IMA_C;
+            return (features0 & RISCV_HWPROBE_IMA_C) != 0;
         case RISCVExtension::V:
-            return features0 & RISCV_HWPROBE_IMA_V;
+            return (features0 & RISCV_HWPROBE_IMA_V) != 0;
         case RISCVExtension::Zba:
-            return features0 & RISCV_HWPROBE_EXT_ZBA;
+            return (features0 & RISCV_HWPROBE_EXT_ZBA) != 0;
         case RISCVExtension::Zbb:
-            return features0 & RISCV_HWPROBE_EXT_ZBB;
+            return (features0 & RISCV_HWPROBE_EXT_ZBB) != 0;
         case RISCVExtension::Zbs:
-            return features0 & RISCV_HWPROBE_EXT_ZBS;
+            return (features0 & RISCV_HWPROBE_EXT_ZBS) != 0;
         case RISCVExtension::Zicboz:
-            return features0 & RISCV_HWPROBE_EXT_ZICBOZ;
+            return (features0 & RISCV_HWPROBE_EXT_ZICBOZ) != 0;
         case RISCVExtension::Zbc:
-            return features0 & RISCV_HWPROBE_EXT_ZBC;
+            return (features0 & RISCV_HWPROBE_EXT_ZBC) != 0;
         case RISCVExtension::Zbkb:
-            return features0 & RISCV_HWPROBE_EXT_ZBKB;
+            return (features0 & RISCV_HWPROBE_EXT_ZBKB) != 0;
         case RISCVExtension::Zbkc:
-            return features0 & RISCV_HWPROBE_EXT_ZBKC;
+            return (features0 & RISCV_HWPROBE_EXT_ZBKC) != 0;
         case RISCVExtension::Zbkx:
-            return features0 & RISCV_HWPROBE_EXT_ZBKX;
+            return (features0 & RISCV_HWPROBE_EXT_ZBKX) != 0;
         case RISCVExtension::Zknd:
-            return features0 & RISCV_HWPROBE_EXT_ZKND;
+            return (features0 & RISCV_HWPROBE_EXT_ZKND) != 0;
         case RISCVExtension::Zkne:
-            return features0 & RISCV_HWPROBE_EXT_ZKNE;
+            return (features0 & RISCV_HWPROBE_EXT_ZKNE) != 0;
         case RISCVExtension::Zknh:
-            return features0 & RISCV_HWPROBE_EXT_ZKNH;
+            return (features0 & RISCV_HWPROBE_EXT_ZKNH) != 0;
         case RISCVExtension::Zksed:
-            return features0 & RISCV_HWPROBE_EXT_ZKSED;
+            return (features0 & RISCV_HWPROBE_EXT_ZKSED) != 0;
         case RISCVExtension::Zksh:
-            return features0 & RISCV_HWPROBE_EXT_ZKSH;
+            return (features0 & RISCV_HWPROBE_EXT_ZKSH) != 0;
         case RISCVExtension::Zkt:
-            return features0 & RISCV_HWPROBE_EXT_ZKT;
+            return (features0 & RISCV_HWPROBE_EXT_ZKT) != 0;
         case RISCVExtension::Zvbb:
-            return features0 & RISCV_HWPROBE_EXT_ZVBB;
+            return (features0 & RISCV_HWPROBE_EXT_ZVBB) != 0;
         case RISCVExtension::Zvbc:
-            return features0 & RISCV_HWPROBE_EXT_ZVBC;
+            return (features0 & RISCV_HWPROBE_EXT_ZVBC) != 0;
         case RISCVExtension::Zvkb:
-            return features0 & RISCV_HWPROBE_EXT_ZVKB;
+            return (features0 & RISCV_HWPROBE_EXT_ZVKB) != 0;
         case RISCVExtension::Zvkg:
-            return features0 & RISCV_HWPROBE_EXT_ZVKG;
+            return (features0 & RISCV_HWPROBE_EXT_ZVKG) != 0;
         case RISCVExtension::Zvkned:
-            return features0 & RISCV_HWPROBE_EXT_ZVKNED;
+            return (features0 & RISCV_HWPROBE_EXT_ZVKNED) != 0;
         case RISCVExtension::Zvknha:
-            return features0 & RISCV_HWPROBE_EXT_ZVKNHA;
+            return (features0 & RISCV_HWPROBE_EXT_ZVKNHA) != 0;
         case RISCVExtension::Zvknhb:
-            return features0 & RISCV_HWPROBE_EXT_ZVKNHB;
+            return (features0 & RISCV_HWPROBE_EXT_ZVKNHB) != 0;
         case RISCVExtension::Zvksed:
-            return features0 & RISCV_HWPROBE_EXT_ZVKSED;
+            return (features0 & RISCV_HWPROBE_EXT_ZVKSED) != 0;
         case RISCVExtension::Zvksh:
-            return features0 & RISCV_HWPROBE_EXT_ZVKSH;
+            return (features0 & RISCV_HWPROBE_EXT_ZVKSH) != 0;
         case RISCVExtension::Zvkt:
-            return features0 & RISCV_HWPROBE_EXT_ZVKT;
+            return (features0 & RISCV_HWPROBE_EXT_ZVKT) != 0;
         case RISCVExtension::Zfh:
-            return features0 & RISCV_HWPROBE_EXT_ZFH;
+            return (features0 & RISCV_HWPROBE_EXT_ZFH) != 0;
         case RISCVExtension::Zfhmin:
-            return features0 & RISCV_HWPROBE_EXT_ZFHMIN;
+            return (features0 & RISCV_HWPROBE_EXT_ZFHMIN) != 0;
         case RISCVExtension::Zihintntl:
-            return features0 & RISCV_HWPROBE_EXT_ZIHINTNTL;
+            return (features0 & RISCV_HWPROBE_EXT_ZIHINTNTL) != 0;
         case RISCVExtension::Zvfh:
-            return features0 & RISCV_HWPROBE_EXT_ZVFH;
+            return (features0 & RISCV_HWPROBE_EXT_ZVFH) != 0;
         case RISCVExtension::Zvfhmin:
-            return features0 & RISCV_HWPROBE_EXT_ZVFHMIN;
+            return (features0 & RISCV_HWPROBE_EXT_ZVFHMIN) != 0;
         case RISCVExtension::Zfa:
-            return features0 & RISCV_HWPROBE_EXT_ZFA;
+            return (features0 & RISCV_HWPROBE_EXT_ZFA) != 0;
         case RISCVExtension::Ztso:
-            return features0 & RISCV_HWPROBE_EXT_ZTSO;
+            return (features0 & RISCV_HWPROBE_EXT_ZTSO) != 0;
         case RISCVExtension::Zacas:
-            return features0 & RISCV_HWPROBE_EXT_ZACAS;
+            return (features0 & RISCV_HWPROBE_EXT_ZACAS) != 0;
         case RISCVExtension::Zicond:
-            return features0 & RISCV_HWPROBE_EXT_ZICOND;
+            return (features0 & RISCV_HWPROBE_EXT_ZICOND) != 0;
         case RISCVExtension::Zihintpause:
-            return features0 & RISCV_HWPROBE_EXT_ZIHINTPAUSE;
+            return (features0 & RISCV_HWPROBE_EXT_ZIHINTPAUSE) != 0;
         case RISCVExtension::Zve32f:
-            return features0 & RISCV_HWPROBE_EXT_ZVE32F;
+            return (features0 & RISCV_HWPROBE_EXT_ZVE32F) != 0;
         case RISCVExtension::Zve32x:
-            return features0 & RISCV_HWPROBE_EXT_ZVE32X;
+            return (features0 & RISCV_HWPROBE_EXT_ZVE32X) != 0;
         case RISCVExtension::Zve64d:
-            return features0 & RISCV_HWPROBE_EXT_ZVE64D;
+            return (features0 & RISCV_HWPROBE_EXT_ZVE64D) != 0;
         case RISCVExtension::Zve64f:
-            return features0 & RISCV_HWPROBE_EXT_ZVE64F;
+            return (features0 & RISCV_HWPROBE_EXT_ZVE64F) != 0;
         case RISCVExtension::Zve64x:
-            return features0 & RISCV_HWPROBE_EXT_ZVE64X;
+            return (features0 & RISCV_HWPROBE_EXT_ZVE64X) != 0;
         case RISCVExtension::Zimop:
-            return features0 & RISCV_HWPROBE_EXT_ZIMOP;
+            return (features0 & RISCV_HWPROBE_EXT_ZIMOP) != 0;
         case RISCVExtension::Zca:
-            return features0 & RISCV_HWPROBE_EXT_ZCA;
+            return (features0 & RISCV_HWPROBE_EXT_ZCA) != 0;
         case RISCVExtension::Zcb:
-            return features0 & RISCV_HWPROBE_EXT_ZCB;
+            return (features0 & RISCV_HWPROBE_EXT_ZCB) != 0;
         case RISCVExtension::Zcd:
-            return features0 & RISCV_HWPROBE_EXT_ZCD;
+            return (features0 & RISCV_HWPROBE_EXT_ZCD) != 0;
         case RISCVExtension::Zcf:
-            return features0 & RISCV_HWPROBE_EXT_ZCF;
+            return (features0 & RISCV_HWPROBE_EXT_ZCF) != 0;
         case RISCVExtension::Zcmop:
-            return features0 & RISCV_HWPROBE_EXT_ZCMOP;
+            return (features0 & RISCV_HWPROBE_EXT_ZCMOP) != 0;
         case RISCVExtension::Zawrs:
-            return features0 & RISCV_HWPROBE_EXT_ZAWRS;
+            return (features0 & RISCV_HWPROBE_EXT_ZAWRS) != 0;
     }
 }
 
