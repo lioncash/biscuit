@@ -5,10 +5,10 @@
 
 using namespace biscuit;
 
-constexpr const static uint64_t literal1_value = 0x1234567890ABCDEF;
-constexpr const static uint64_t literal2_value = 0x1122334455667788;
-constexpr const static uint64_t literal3_value = 0xFEDCBA0987654321;
-constexpr const static uint64_t literal4_value = 0xAABBCCDDEEFF0011;
+constexpr uint64_t literal1_value = 0x1234567890ABCDEF;
+constexpr uint64_t literal2_value = 0x1122334455667788;
+constexpr uint64_t literal3_value = 0xFEDCBA0987654321;
+constexpr uint64_t literal4_value = 0xAABBCCDDEEFF0011;
 
 void print_literals(uint64_t literal1, uint64_t literal2, uint64_t literal3, uint64_t literal4) {
     std::cout << "Literal 1: " << std::hex << literal1 << std::endl;

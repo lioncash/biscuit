@@ -1,6 +1,7 @@
 #include <biscuit/assert.hpp>
 #include <biscuit/assembler.hpp>
 
+#include <array>
 #include <bit>
 #include <cstring>
 #include <utility>
@@ -1569,7 +1570,7 @@ void Assembler::ResolveLiteralOffsets(Literal<T>* literal) {
         const auto address = m_buffer.GetOffsetAddress(offset);
         auto* const ptr = reinterpret_cast<uint8_t*>(address);
 
-        uint32_t instructions[2] = {0, 0};
+        std::array<uint32_t, 2> instructions{};
         std::memcpy(&instructions[0], ptr, sizeof(uint32_t));
         std::memcpy(&instructions[1], ptr + sizeof(uint32_t), sizeof(uint32_t));
 

@@ -1,10 +1,11 @@
 #pragma once
 
+#include <biscuit/assert.hpp>
+
 #include <cstddef>
 #include <cstdint>
 #include <optional>
 #include <set>
-#include <biscuit/assert.hpp>
 
 namespace biscuit {
 
@@ -161,6 +162,15 @@ private:
     std::set<LocationOffset> m_offsets;
     Location m_location;
     const T m_value;
+
+    // Literals are provided as a way to avoid long instruction sequences for loading
+    // immediates to registers. As such, the Literal type is not useful for
+    // types <= uint32_t, as those can be loaded directly with at most a couple instructions.
+    // (e.g. via the LI() function in the assembler)
+    static_assert(sizeof(T) >= 8, "Literal type must be at least 64 bits wide.");
+
+    // For the assembler to be able to emit the literal value, it must be trivially copyable.
+    static_assert(std::is_trivially_copyable_v<T>, "Literal type must be trivially copyable.");
 };
 
 using Literal64 = Literal<uint64_t>;
