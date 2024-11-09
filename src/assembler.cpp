@@ -30,10 +30,6 @@ void Assembler::Bind(Label* label) {
     BindToOffset(label, m_buffer.GetCursorOffset());
 }
 
-void Assembler::Place(Literal64* literal) {
-    PlaceAtOffset(literal, m_buffer.GetCursorOffset());
-}
-
 void Assembler::ADD(GPR rd, GPR lhs, GPR rhs) noexcept {
     EmitRType(m_buffer, 0b0000000, rhs, lhs, 0b000, rd, 0b0110011);
 }
@@ -534,15 +530,6 @@ void Assembler::LD(GPR rd, int32_t imm, GPR rs) noexcept {
     BISCUIT_ASSERT(IsRV32OrRV64(m_features));
     BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
     EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b011, rd, 0b0000011);
-}
-
-void Assembler::LD(GPR rd, Literal64* literal) noexcept {
-    BISCUIT_ASSERT(IsRV64(m_features));
-    const auto offset = LinkAndGetOffset(literal);
-    const auto hi20 = static_cast<int32_t>((static_cast<uint32_t>(offset) + 0x800) >> 12 & 0xFFFFF);
-    const auto lo12 = static_cast<int32_t>(offset << 20) >> 20;
-    AUIPC(rd, hi20);
-    LD(rd, lo12, rd);
 }
 
 void Assembler::LWU(GPR rd, int32_t imm, GPR rs) noexcept {
@@ -1522,40 +1509,7 @@ void Assembler::ResolveLabelOffsets(Label* label) {
     }
 }
 
-template <typename T>
-void Assembler::PlaceAtOffset(Literal<T>* literal, Literal<T>::LocationOffset offset) {
-    BISCUIT_ASSERT(literal != nullptr);
-    BISCUIT_ASSERT(offset >= 0 && offset <= m_buffer.GetCursorOffset());
-
-    const T& value = literal->Place(offset);
-    ResolveLiteralOffsets(literal);
-    literal->ClearOffsets();
-
-    m_buffer.Emit(value);
-}
-
-template <typename T>
-ptrdiff_t Assembler::LinkAndGetOffset(Literal<T>* literal) {
-    BISCUIT_ASSERT(literal != nullptr);
-
-    // If we have a placed literal, then it's straightforward to calculate
-    // the offsets.
-    if (literal->IsPlaced()) {
-        const auto cursor_address = m_buffer.GetCursorAddress();
-        const auto literal_offset = m_buffer.GetOffsetAddress(*literal->GetLocation());
-        return static_cast<ptrdiff_t>(literal_offset - cursor_address);
-    }
-
-    // If we don't have a placed literal, we return an offset of zero.
-    // While the emitter will emit a bogus load instruction initially,
-    // the offset will be patched over once the literal has been properly
-    // placed at a location.
-    literal->AddOffset(m_buffer.GetCursorOffset());
-    return 0;
-}
-
-template <typename T>
-void Assembler::ResolveLiteralOffsets(Literal<T>* literal) {
+void Assembler::ResolveLiteralOffsetsRaw(ptrdiff_t location, const std::set<ptrdiff_t>& offsets) {
     const auto is_auipc_type = [](uint32_t instruction) {
         return (instruction & 0x7F) == 0b0010111;
     };
@@ -1564,9 +1518,7 @@ void Assembler::ResolveLiteralOffsets(Literal<T>* literal) {
         return (instruction & 0x7F) == 0b0000011;
     };
 
-    const auto literal_location = *literal->GetLocation();
-
-    for (const auto offset : literal->m_offsets) {
+    for (const auto offset : offsets) {
         const auto address = m_buffer.GetOffsetAddress(offset);
         auto* const ptr = reinterpret_cast<uint8_t*>(address);
 
@@ -1580,7 +1532,7 @@ void Assembler::ResolveLiteralOffsets(Literal<T>* literal) {
         // It's enough to verify that the immediate is going to be valid
         // and then OR it into the instruction.
 
-        const auto encoded_offset = literal_location - offset;
+        const auto encoded_offset = location - offset;
 
         BISCUIT_ASSERT(is_auipc_type(instructions[0]));
 

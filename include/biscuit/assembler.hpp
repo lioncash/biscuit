@@ -157,7 +157,10 @@ public:
      *
      * @param literal A non-null valid literal to place.
     */
-    void Place(Literal64* literal);
+    template <typename T>
+    void Place(Literal<T>* literal) {
+        PlaceAtOffset(literal, m_buffer.GetCursorOffset());
+    }
 
     // RV32I Instructions
 
@@ -277,7 +280,15 @@ public:
     void ADDIW(GPR rd, GPR rs, int32_t imm) noexcept;
     void ADDW(GPR rd, GPR lhs, GPR rhs) noexcept;
     void LD(GPR rd, int32_t imm, GPR rs) noexcept;
-    void LD(GPR rd, Literal64* literal) noexcept;
+    template <typename T>
+    void LD(GPR rd, Literal<T>* literal) noexcept {
+        static_assert(sizeof(T) >= 8);
+        const auto offset = LinkAndGetOffset(literal);
+        const auto hi20 = static_cast<int32_t>((static_cast<uint32_t>(offset) + 0x800) >> 12 & 0xFFFFF);
+        const auto lo12 = static_cast<int32_t>(offset << 20) >> 20;
+        AUIPC(rd, hi20);
+        LD(rd, lo12, rd);
+    }
     void LWU(GPR rd, int32_t imm, GPR rs) noexcept;
     void SD(GPR rs2, int32_t imm, GPR rs1) noexcept;
 
@@ -1534,16 +1545,41 @@ private:
 
     // Places a literal at the given offset.
     template<typename T>
-    void PlaceAtOffset(Literal<T>* literal, Literal<T>::LocationOffset offset);
+    void PlaceAtOffset(Literal<T>* literal, Literal<T>::LocationOffset offset) {
+        BISCUIT_ASSERT(literal != nullptr);
+        BISCUIT_ASSERT(offset >= 0 && offset <= m_buffer.GetCursorOffset());
+
+        const T& value = literal->Place(offset);
+        ResolveLiteralOffsetsRaw(literal->m_location.value(), literal->m_offsets);
+        literal->ClearOffsets();
+
+        m_buffer.Emit(value);
+    }
 
     // Links the given literal and returns the offset to it.
     template<typename T>
-    ptrdiff_t LinkAndGetOffset(Literal<T>* literal);
+    ptrdiff_t LinkAndGetOffset(Literal<T>* literal) {
+        BISCUIT_ASSERT(literal != nullptr);
+
+        // If we have a placed literal, then it's straightforward to calculate
+        // the offsets.
+        if (literal->IsPlaced()) {
+            const auto cursor_address = m_buffer.GetCursorAddress();
+            const auto literal_offset = m_buffer.GetOffsetAddress(*literal->GetLocation());
+            return static_cast<ptrdiff_t>(literal_offset - cursor_address);
+        }
+
+        // If we don't have a placed literal, we return an offset of zero.
+        // While the emitter will emit a bogus load instruction initially,
+        // the offset will be patched over once the literal has been properly
+        // placed at a location.
+        literal->AddOffset(m_buffer.GetCursorOffset());
+        return 0;
+    }
 
     // Resolves all literal offsets and patches any necessary
     // offsets into the load instructions that require them.
-    template<typename T>
-    void ResolveLiteralOffsets(Literal<T>* literal);
+    void ResolveLiteralOffsetsRaw(ptrdiff_t location, const std::set<ptrdiff_t>& offsets);
 
     CodeBuffer m_buffer;
     ArchFeature m_features = ArchFeature::RV64;

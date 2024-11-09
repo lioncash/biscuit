@@ -2,6 +2,7 @@
 
 #include <biscuit/assert.hpp>
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -29,7 +30,7 @@ namespace biscuit {
  * An example of placing a literal:
  * @code{.cpp}
  * Assembler as{...};
- * Literal64 literal(0x1234567890ABCDEF);
+ * Literal literal(0x1234567890ABCDEF);
  *
  * as.LD(x2, &literal);     // Load the literal (emits a AUIPC+LD sequence)
  * as.JR(x2);               // Execution continues elsewhere
@@ -172,7 +173,5 @@ private:
     // For the assembler to be able to emit the literal value, it must be trivially copyable.
     static_assert(std::is_trivially_copyable_v<T>, "Literal type must be trivially copyable.");
 };
-
-using Literal64 = Literal<uint64_t>;
 
 } // namespace biscuit
