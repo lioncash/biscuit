@@ -8,7 +8,10 @@
 #include <biscuit/cpuinfo.hpp>
 
 #if defined(__linux__) && defined(__riscv)
+#include <asm/hwcap.h>
 #include <asm/hwprobe.h>
+#include <sys/auxv.h>
+#include <sys/prctl.h>
 #include <sys/syscall.h>
 #include <unistd.h>
 #include <utility>
@@ -214,6 +217,34 @@
 #define RISCV_HWPROBE_EXT_ZAWRS         (1ULL << 48)
 #endif
 
+#ifndef COMPAT_HWCAP_ISA_I
+#define COMPAT_HWCAP_ISA_I  (1U << ('I' - 'A'))
+#endif
+
+#ifndef COMPAT_HWCAP_ISA_M
+#define COMPAT_HWCAP_ISA_M  (1U << ('M' - 'A'))
+#endif
+
+#ifndef COMPAT_HWCAP_ISA_A
+#define COMPAT_HWCAP_ISA_A  (1U << ('A' - 'A'))
+#endif
+
+#ifndef COMPAT_HWCAP_ISA_F
+#define COMPAT_HWCAP_ISA_F  (1U << ('F' - 'A'))
+#endif
+
+#ifndef COMPAT_HWCAP_ISA_D
+#define COMPAT_HWCAP_ISA_D  (1U << ('D' - 'A'))
+#endif
+
+#ifndef COMPAT_HWCAP_ISA_C
+#define COMPAT_HWCAP_ISA_C  (1U << ('C' - 'A'))
+#endif
+
+#ifndef COMPAT_HWCAP_ISA_V
+#define COMPAT_HWCAP_ISA_V  (1U << ('V' - 'A'))
+#endif
+
 namespace biscuit {
 
 bool CPUInfo::Has(RISCVExtension extension) const {
@@ -225,7 +256,36 @@ bool CPUInfo::Has(RISCVExtension extension) const {
         };
 
         long result = syscall(SYS_riscv_hwprobe, pairs, std::size(pairs), 0, nullptr, 0);
-        BISCUIT_ASSERT(result == 0);
+        
+        if (result < 0) {
+            // Older kernel versions don't support this syscall.
+            // Fallback to an older implementation
+            static const uint64_t features = getauxval(AT_HWCAP) & (
+                            COMPAT_HWCAP_ISA_I |
+                            COMPAT_HWCAP_ISA_M |
+                            COMPAT_HWCAP_ISA_A |
+                            COMPAT_HWCAP_ISA_F |
+                            COMPAT_HWCAP_ISA_D |
+                            COMPAT_HWCAP_ISA_C |
+                            COMPAT_HWCAP_ISA_V
+            );
+
+            if ((features & (COMPAT_HWCAP_ISA_I | COMPAT_HWCAP_ISA_M | COMPAT_HWCAP_ISA_A)) != 0) {
+                pairs[0].value = RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
+            }
+
+            if ((features & (COMPAT_HWCAP_ISA_F | COMPAT_HWCAP_ISA_D)) != 0) {
+                pairs[1].value |= RISCV_HWPROBE_IMA_FD;
+            }
+
+            if ((features & COMPAT_HWCAP_ISA_C) != 0) {
+                pairs[1].value |= RISCV_HWPROBE_IMA_C;
+            }
+
+            if ((features & COMPAT_HWCAP_ISA_V) != 0) {
+                pairs[1].value |= RISCV_HWPROBE_IMA_V;
+            }
+        }
 
         return std::make_pair(pairs[0].value, pairs[1].value);
     }();
