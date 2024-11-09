@@ -227,7 +227,7 @@ bool CPUInfo::Has(RISCVExtension extension) const {
         long result = syscall(SYS_riscv_hwprobe, pairs, std::size(pairs), 0, nullptr, 0);
         BISCUIT_ASSERT(result == 0);
 
-        return std::make_pair<uint64_t, uint64_t>(pairs[0].value, pairs[1].value);
+        return std::make_pair(pairs[0].value, pairs[1].value);
     }();
 #else
     static const uint64_t ima = 0;
