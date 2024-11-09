@@ -4,6 +4,7 @@
 #include <biscuit/csr.hpp>
 #include <biscuit/isa.hpp>
 #include <biscuit/label.hpp>
+#include <biscuit/literal.hpp>
 #include <biscuit/registers.hpp>
 #include <biscuit/vector.hpp>
 #include <cstddef>
@@ -151,6 +152,13 @@ public:
      */
     void Bind(Label* label);
 
+    /**
+     * Places a literal at the current offset within the code buffer.
+     *
+     * @param literal A non-null valid literal to place.
+    */
+    void Place(Literal64* literal);
+
     // RV32I Instructions
 
     void ADD(GPR rd, GPR lhs, GPR rhs) noexcept;
@@ -269,6 +277,7 @@ public:
     void ADDIW(GPR rd, GPR rs, int32_t imm) noexcept;
     void ADDW(GPR rd, GPR lhs, GPR rhs) noexcept;
     void LD(GPR rd, int32_t imm, GPR rs) noexcept;
+    void LD(GPR rd, Literal64* literal) noexcept;
     void LWU(GPR rd, int32_t imm, GPR rs) noexcept;
     void SD(GPR rs2, int32_t imm, GPR rs1) noexcept;
 
@@ -1522,6 +1531,19 @@ private:
     // branch offsets into the branch instructions that
     // requires them.
     void ResolveLabelOffsets(Label* label);
+
+    // Places a literal at the given offset.
+    template<typename T>
+    void PlaceAtOffset(Literal<T>* literal, Literal<T>::LocationOffset offset);
+
+    // Links the given literal and returns the offset to it.
+    template<typename T>
+    ptrdiff_t LinkAndGetOffset(Literal<T>* literal);
+
+    // Resolves all literal offsets and patches any necessary
+    // offsets into the load instructions that require them.
+    template<typename T>
+    void ResolveLiteralOffsets(Literal<T>* literal);
 
     CodeBuffer m_buffer;
     ArchFeature m_features = ArchFeature::RV64;
