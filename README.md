@@ -32,6 +32,7 @@ Includes both 32-bit and 64-bit instructions in the following:
 | V             | 1.0     |
 | Ssctr         | 1.0 rc6 |
 | Sstc          | 0.5.4   |
+| XTheadBa      | 1.0     |
 | XTheadCondMov | 1.0     |
 | Zabha         | 1.0     |
 | Zacas         | 1.0     |

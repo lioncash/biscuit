@@ -331,6 +331,9 @@ public:
     void TH_MVEQZ(GPR rd, GPR value, GPR condition) noexcept;
     void TH_MVNEZ(GPR rd, GPR value, GPR condition) noexcept;
 
+    // XTheadBa Extension Instructions
+    void TH_ADDSL(GPR rd, GPR rs1, GPR rs2, uint32_t shift) noexcept;
+
     // Zicsr Extension Instructions
 
     void CSRRC(GPR rd, CSR csr, GPR rs) noexcept;
