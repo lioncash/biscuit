@@ -2,9 +2,7 @@
 
 #include <biscuit/assert.hpp>
 
-#include <array>
 #include <cstddef>
-#include <cstdint>
 #include <optional>
 #include <set>
 
