@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <optional>
 #include <set>
+#include <type_traits>
 
 namespace biscuit {
 
