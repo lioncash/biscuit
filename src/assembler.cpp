@@ -1,6 +1,7 @@
 #include <biscuit/assert.hpp>
 #include <biscuit/assembler.hpp>
 
+#include <array>
 #include <bit>
 #include <cstring>
 #include <utility>
@@ -1505,6 +1506,50 @@ void Assembler::ResolveLabelOffsets(Label* label) {
         }
 
         std::memcpy(ptr, &instruction, inst_size);
+    }
+}
+
+void Assembler::ResolveLiteralOffsetsRaw(ptrdiff_t location, const std::set<ptrdiff_t>& offsets) {
+    const auto is_auipc_type = [](uint32_t instruction) {
+        return (instruction & 0x7F) == 0b0010111;
+    };
+
+    const auto is_gpr_load_type = [](uint32_t instruction) {
+        return (instruction & 0x7F) == 0b0000011;
+    };
+
+    for (const auto offset : offsets) {
+        const auto address = m_buffer.GetOffsetAddress(offset);
+        auto* const ptr = reinterpret_cast<uint8_t*>(address);
+
+        std::array<uint32_t, 2> instructions{};
+        std::memcpy(&instructions[0], ptr, sizeof(uint32_t));
+        std::memcpy(&instructions[1], ptr + sizeof(uint32_t), sizeof(uint32_t));
+
+        // Given all load instructions we need to patch have 0 encoded as
+        // their load offset, we don't need to worry about any masking work.
+        //
+        // It's enough to verify that the immediate is going to be valid
+        // and then OR it into the instruction.
+
+        const auto encoded_offset = location - offset;
+
+        BISCUIT_ASSERT(is_auipc_type(instructions[0]));
+
+        // Make sure the distance is within the bounds of a 32-bit signed integer.
+        BISCUIT_ASSERT((static_cast<int64_t>(encoded_offset << 32) >> 32) == encoded_offset);
+
+        if (is_gpr_load_type(instructions[1])) {
+            const auto high20 = static_cast<uint32_t>(encoded_offset & 0xFFFFF000);
+            const auto low12 = static_cast<uint32_t>(encoded_offset & 0xFFF);
+            instructions[0] |= high20;
+            instructions[1] |= low12 << 20;
+        } else {
+            BISCUIT_ASSERT(false);
+        }
+
+        std::memcpy(ptr, &instructions[0], sizeof(uint32_t));
+        std::memcpy(ptr + sizeof(uint32_t), &instructions[1], sizeof(uint32_t));
     }
 }
 
