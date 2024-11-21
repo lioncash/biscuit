@@ -9,12 +9,15 @@
 
 #if defined(__linux__) && defined(__riscv)
 #include <asm/hwcap.h>
-#include <asm/hwprobe.h>
 #include <sys/auxv.h>
 #include <sys/prctl.h>
 #include <sys/syscall.h>
 #include <unistd.h>
 #include <utility>
+
+#ifdef SYS_riscv_hwprobe
+#include <asm/hwprobe.h>
+#endif
 #endif
 
 #ifndef RISCV_HWPROBE_BASE_BEHAVIOR_IMA
@@ -250,12 +253,20 @@ namespace biscuit {
 bool CPUInfo::Has(RISCVExtension extension) const {
 #if defined(__linux__) && defined(__riscv)
     static const auto [ima, features0] = []() {
+#ifdef SYS_riscv_hwprobe
         riscv_hwprobe pairs[] = {
             {RISCV_HWPROBE_KEY_BASE_BEHAVIOR, 0},
             {RISCV_HWPROBE_KEY_IMA_EXT_0, 0},
         };
 
         long result = syscall(SYS_riscv_hwprobe, pairs, std::size(pairs), 0, nullptr, 0);
+        uint64_t ima = pairs[0].value;
+        uint64_t features0 = pairs[1].value;
+#else
+        long result = -1;
+        uint64_t ima = 0;
+        uint64_t features0 = 0;
+#endif
         
         if (result < 0) {
             // Older kernel versions don't support this syscall.
@@ -271,23 +282,23 @@ bool CPUInfo::Has(RISCVExtension extension) const {
             );
 
             if ((features & (COMPAT_HWCAP_ISA_I | COMPAT_HWCAP_ISA_M | COMPAT_HWCAP_ISA_A)) != 0) {
-                pairs[0].value = RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
+                ima = RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
             }
 
             if ((features & (COMPAT_HWCAP_ISA_F | COMPAT_HWCAP_ISA_D)) != 0) {
-                pairs[1].value |= RISCV_HWPROBE_IMA_FD;
+                features0 |= RISCV_HWPROBE_IMA_FD;
             }
 
             if ((features & COMPAT_HWCAP_ISA_C) != 0) {
-                pairs[1].value |= RISCV_HWPROBE_IMA_C;
+                features0 |= RISCV_HWPROBE_IMA_C;
             }
 
             if ((features & COMPAT_HWCAP_ISA_V) != 0) {
-                pairs[1].value |= RISCV_HWPROBE_IMA_V;
+                features0 |= RISCV_HWPROBE_IMA_V;
             }
         }
 
-        return std::make_pair(pairs[0].value, pairs[1].value);
+        return std::make_pair(ima, features0);
     }();
 #else
     static const uint64_t ima = 0;
