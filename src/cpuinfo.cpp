@@ -411,6 +411,8 @@ bool CPUInfo::Has(RISCVExtension extension) const {
         case RISCVExtension::Zawrs:
             return (features0 & RISCV_HWPROBE_EXT_ZAWRS) != 0;
     }
+
+    return false;
 }
 
 uint32_t CPUInfo::GetVlenb() const {
