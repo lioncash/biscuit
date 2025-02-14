@@ -81,6 +81,12 @@ public:
         return GetOffsetPointer(GetCursorOffset());
     }
 
+    /// Sets the cursor pointer
+    void SetCursorPointer(uint8_t* ptr) noexcept {
+        BISCUIT_ASSERT(ptr >= m_buffer && ptr < m_buffer + m_capacity);
+        m_cursor = ptr;
+    }
+
     /// Retrieves the address of an arbitrary offset within the buffer.
     [[nodiscard]] uintptr_t GetOffsetAddress(ptrdiff_t offset) const noexcept {
         return reinterpret_cast<uintptr_t>(GetOffsetPointer(offset));
