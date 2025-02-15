@@ -135,6 +135,11 @@ public:
         return m_buffer.GetCursorPointer();
     }
 
+    /// Sets the cursor pointer for the underlying code buffer.
+    void SetCursorPointer(uint8_t* ptr) noexcept {
+        m_buffer.SetCursorPointer(ptr);
+    }
+
     /// Retrieves the pointer to an arbitrary location within the underlying code buffer.
     [[nodiscard]] uint8_t* GetBufferPointer(ptrdiff_t offset) noexcept {
         return m_buffer.GetOffsetPointer(offset);
