@@ -285,6 +285,10 @@ void Assembler::JR(GPR rs) noexcept {
     JALR(x0, 0, rs);
 }
 
+void Assembler::JR(GPR rs, int32_t imm) noexcept {
+    JALR(x0, imm, rs);
+}
+
 void Assembler::LB(GPR rd, int32_t imm, GPR rs) noexcept {
     BISCUIT_ASSERT(IsValidSigned12BitImm(imm));
     EmitIType(m_buffer, static_cast<uint32_t>(imm), rs, 0b000, rd, 0b0000011);
