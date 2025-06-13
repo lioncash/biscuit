@@ -220,6 +220,42 @@
 #define RISCV_HWPROBE_EXT_ZAWRS         (1ULL << 48)
 #endif
 
+#ifndef RISCV_HWPROBE_EXT_SUPM
+#define RISCV_HWPROBE_EXT_SUPM          (1ULL << 49)
+#endif
+
+#ifndef RISCV_HWPROBE_EXT_ZICNTR
+#define RISCV_HWPROBE_EXT_ZICNTR        (1ULL << 50)
+#endif
+
+#ifndef RISCV_HWPROBE_EXT_ZIHPM
+#define RISCV_HWPROBE_EXT_ZIHPM         (1ULL << 51)
+#endif
+
+#ifndef RISCV_HWPROBE_EXT_ZFBFMIN
+#define RISCV_HWPROBE_EXT_ZFBFMIN       (1ULL << 52)
+#endif
+
+#ifndef RISCV_HWPROBE_EXT_ZVFBFMIN
+#define RISCV_HWPROBE_EXT_ZVFBFMIN      (1ULL << 53)
+#endif
+
+#ifndef RISCV_HWPROBE_EXT_ZVFBFWMA
+#define RISCV_HWPROBE_EXT_ZVFBFWMA      (1ULL << 54)
+#endif
+
+#ifndef RISCV_HWPROBE_EXT_ZICBOM
+#define RISCV_HWPROBE_EXT_ZICBOM        (1ULL << 55)
+#endif
+
+#ifndef RISCV_HWPROBE_EXT_ZAAMO
+#define RISCV_HWPROBE_EXT_ZAAMO         (1ULL << 56)
+#endif
+
+#ifndef RISCV_HWPROBE_EXT_ZALRSC
+#define RISCV_HWPROBE_EXT_ZALRSC        (1ULL << 57)
+#endif
+
 #ifndef COMPAT_HWCAP_ISA_I
 #define COMPAT_HWCAP_ISA_I  (1U << ('I' - 'A'))
 #endif
@@ -410,6 +446,24 @@ bool CPUInfo::Has(RISCVExtension extension) const {
             return (features0 & RISCV_HWPROBE_EXT_ZCMOP) != 0;
         case RISCVExtension::Zawrs:
             return (features0 & RISCV_HWPROBE_EXT_ZAWRS) != 0;
+        case RISCVExtension::Supm:
+            return (features0 & RISCV_HWPROBE_EXT_SUPM) != 0;
+        case RISCVExtension::Zicntr:
+            return (features0 & RISCV_HWPROBE_EXT_ZICNTR) != 0;
+        case RISCVExtension::Zihpm:
+            return (features0 & RISCV_HWPROBE_EXT_ZIHPM) != 0;
+        case RISCVExtension::Zfbfmin:
+            return (features0 & RISCV_HWPROBE_EXT_ZFBFMIN) != 0;
+        case RISCVExtension::Zvfbfmin:
+            return (features0 & RISCV_HWPROBE_EXT_ZVFBFMIN) != 0;
+        case RISCVExtension::Zvfbfwma:
+            return (features0 & RISCV_HWPROBE_EXT_ZVFBFWMA) != 0;
+        case RISCVExtension::Zicbom:
+            return (features0 & RISCV_HWPROBE_EXT_ZICBOM) != 0;
+        case RISCVExtension::Zaamo:
+            return (features0 & RISCV_HWPROBE_EXT_ZAAMO) != 0;
+        case RISCVExtension::Zalrsc:
+            return (features0 & RISCV_HWPROBE_EXT_ZALRSC) != 0;
     }
 
     return false;
