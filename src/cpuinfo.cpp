@@ -329,7 +329,7 @@ void SigillHandler(int sig, struct siginfo_t* info, void* ctx) {
 void SetEGW(biscuit::Assembler& as, biscuit::SEW eew, uint32_t egs) {
     using namespace biscuit;
     uint32_t vlen = CPUInfo().GetVlenb() * 8;
-    uint32_t egw;
+    uint32_t egw = 0;
     switch (eew) {
     case SEW::E32: {
         egw = 32 * egs;
@@ -552,10 +552,11 @@ bool CheckExtensionSigill(biscuit::RISCVExtension extension) {
     sa.sa_flags = SA_SIGINFO;
     sigemptyset(&sa.sa_mask);
 
-    BISCUIT_ASSERT(sigaction(SIGILL, &sa, &old_sa) == 0);
+    int result = sigaction(SIGILL, &sa, &old_sa);
+    BISCUIT_ASSERT(result == 0);
 
     uint64_t valid_memory[2]; // for extensions that might need to use a memory address
-    uint8_t* memory = (uint8_t*)mmap(nullptr, 4096, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    auto* memory = static_cast<uint8_t*>(mmap(nullptr, 4096, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0));
     BISCUIT_ASSERT(memory != MAP_FAILED);
 
     biscuit::Assembler as(memory, 4096);
@@ -565,19 +566,23 @@ bool CheckExtensionSigill(biscuit::RISCVExtension extension) {
     EmitInstruction(as, extension);
     as.RET();
 
-    BISCUIT_ASSERT(mprotect(memory, 4096, PROT_READ | PROT_EXEC) == 0);
+    result = mprotect(memory, 4096, PROT_READ | PROT_EXEC);
+    BISCUIT_ASSERT(result == 0);
 
     bool has_extension = function(&valid_memory);
 
-    BISCUIT_ASSERT(munmap(memory, 4096) == 0);
-    BISCUIT_ASSERT(sigaction(SIGILL, &old_sa, nullptr) == 0);
+    result = munmap(memory, 4096);
+    BISCUIT_ASSERT(result == 0);
+
+    result = sigaction(SIGILL, &old_sa, nullptr);
+    BISCUIT_ASSERT(result == 0);
 
     return has_extension;
 }
 
 bool CheckExtensionSyscall(biscuit::RISCVExtension extension) {
     using namespace biscuit;
-        static const auto [ima, features0] = []() {
+    static const auto [ima, features0] = []() {
 #ifdef SYS_riscv_hwprobe
         riscv_hwprobe pairs[] = {
             {RISCV_HWPROBE_KEY_BASE_BEHAVIOR, 0},
@@ -727,7 +732,7 @@ bool CheckExtensionSyscall(biscuit::RISCVExtension extension) {
 
 namespace biscuit {
 
-bool CPUInfo::Has(RISCVExtension extension) const {
+bool CPUInfo::Has([[maybe_unused]] RISCVExtension extension) const {
 #if defined(__riscv) && defined(__linux__)
     if (UseSigillHandler(extension)) {
         return CheckExtensionSigill(extension);
@@ -735,7 +740,6 @@ bool CPUInfo::Has(RISCVExtension extension) const {
         return CheckExtensionSyscall(extension);
     }
 #else
-    (void)extension;
     return false;
 #endif
 }
