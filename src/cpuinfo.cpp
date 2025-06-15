@@ -276,8 +276,6 @@ bool UseSigillHandler(biscuit::RISCVExtension extension) {
     case RISCVExtension::Zbs:
     case RISCVExtension::Zicboz:
     case RISCVExtension::Zbc:
-    case RISCVExtension::Zbkb:
-    case RISCVExtension::Zbkc:
     case RISCVExtension::Zbkx:
     case RISCVExtension::Zknd:
     case RISCVExtension::Zkne:
@@ -293,7 +291,6 @@ bool UseSigillHandler(biscuit::RISCVExtension extension) {
     case RISCVExtension::Zvknhb:
     case RISCVExtension::Zvksed:
     case RISCVExtension::Zvksh:
-    case RISCVExtension::Zvkt:
     case RISCVExtension::Zfh:
     case RISCVExtension::Zfhmin:
     case RISCVExtension::Zvfh:
@@ -313,7 +310,7 @@ bool UseSigillHandler(biscuit::RISCVExtension extension) {
     }
 }
 
-void SigillHandler(int sig, struct siginfo_t* info, void* ctx) {
+void SigillHandler(int, siginfo_t*, void* ctx) {
     mcontext_t* mctx = &((ucontext_t*)ctx)->uc_mcontext;
 
     // Since we hit SIGILL, set return value to false
@@ -548,7 +545,7 @@ bool CheckExtensionSigill(biscuit::RISCVExtension extension) {
     using namespace biscuit;
 
     struct sigaction sa, old_sa;
-    sa.sa_sigaction = signal_handler;
+    sa.sa_sigaction = SigillHandler;
     sa.sa_flags = SA_SIGINFO;
     sigemptyset(&sa.sa_mask);
 
