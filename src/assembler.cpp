@@ -1512,7 +1512,7 @@ void Assembler::ResolveLabelOffsets(Label* label) {
 }
 
 void Assembler::ResolveLiteralOffsetsRaw(ptrdiff_t location, const std::set<ptrdiff_t>& offsets) {
-    const auto is_auipc_type = [](uint32_t instruction) {
+    [[maybe_unused]] const auto is_auipc_type = [](uint32_t instruction) {
         return (instruction & 0x7F) == 0b0010111;
     };
 

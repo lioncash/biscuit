@@ -131,7 +131,7 @@ void EmitCMJTType(CodeBuffer& buffer, uint32_t funct6, uint32_t index, uint32_t 
 }
 
 void EmitCMMVType(CodeBuffer& buffer, uint32_t funct6, GPR r1s, uint32_t funct2, GPR r2s, uint32_t op) {
-    const auto is_valid_s_register = [](GPR reg) {
+    [[maybe_unused]] const auto is_valid_s_register = [](GPR reg) {
         return reg == s0 || reg == s1 || (reg >= s2 && reg <= s7);
     };
 
