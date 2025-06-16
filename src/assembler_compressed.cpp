@@ -164,7 +164,7 @@ void EmitCMPPType(CodeBuffer& buffer, uint32_t funct6, uint32_t funct2, PushPopL
     const auto stack_adj_u = static_cast<uint32_t>(std::abs(stack_adj));
     const auto spimm = (stack_adj_u - stack_adj_base) / 16U;
 
-    // We can only encode up to three differenct values as the upper spimm bits.
+    // We can only encode up to three different values as the upper spimm bits.
     // Ensure we catch any cases where we end up going outside of them.
     BISCUIT_ASSERT(stack_adj_u == stack_adj_base ||
                    stack_adj_u == stack_adj_base + 16 ||
