@@ -659,6 +659,10 @@ void Assembler::VNCLIPU(Vec vd, Vec vs2, uint32_t uimm, VecMask mask) noexcept {
     EmitVectorOPIVUI(m_buffer, 0b101110, mask, vs2, uimm, vd);
 }
 
+void Assembler::VNEG(Vec vd, Vec vs, VecMask mask) noexcept {
+    VRSUB(vd, vs, x0, mask);
+}
+
 void Assembler::VNMSAC(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b101111, mask, vs2, vs1, vd);
 }
@@ -803,10 +807,6 @@ void Assembler::VRSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
 
 void Assembler::VRSUB(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
     EmitVectorOPIVI(m_buffer, 0b000011, mask, vs2, simm, vd);
-}
-
-void Assembler::VNEG(Vec vd, Vec vs, VecMask mask) noexcept {
-    VRSUB(vd, vs, x0, mask);
 }
 
 void Assembler::VSADD(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {

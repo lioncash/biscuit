@@ -1043,6 +1043,8 @@ public:
     void VNCLIPU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VNCLIPU(Vec vd, Vec vs2, uint32_t uimm, VecMask mask = VecMask::No) noexcept;
 
+    void VNEG(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+
     void VNMSAC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VNMSAC(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 
@@ -1086,8 +1088,6 @@ public:
 
     void VRSUB(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
     void VRSUB(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
-
-    void VNEG(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
 
     void VSADD(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VSADD(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
