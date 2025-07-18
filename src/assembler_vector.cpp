@@ -500,6 +500,14 @@ void Assembler::VMSEQ(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
     EmitVectorOPIVI(m_buffer, 0b011000, mask, vs2, simm, vd);
 }
 
+void Assembler::VMSGE(Vec vd, Vec va, Vec vb, VecMask mask) noexcept {
+    VMSLE(vd, vb, va, mask);
+}
+
+void Assembler::VMSGEU(Vec vd, Vec va, Vec vb, VecMask mask) noexcept {
+    VMSLEU(vd, vb, va, mask);
+}
+
 void Assembler::VMSGT(Vec vd, Vec va, Vec vb, VecMask mask) noexcept {
     VMSLT(vd, vb, va, mask);
 }

@@ -2144,6 +2144,11 @@ TEST_CASE("VMSLE.VV", "[rvv]") {
 
     as.VMSLE(v4, v8, v12, VecMask::Yes);
     REQUIRE(value == 0x74860257);
+
+    as.RewindBuffer();
+
+    as.VMSGE(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x76C40257);
 }
 
 TEST_CASE("VMSLE.VX", "[rvv]") {
@@ -2193,6 +2198,11 @@ TEST_CASE("VMSLEU.VV", "[rvv]") {
 
     as.VMSLEU(v4, v8, v12, VecMask::Yes);
     REQUIRE(value == 0x70860257);
+
+    as.RewindBuffer();
+
+    as.VMSGEU(v4, v8, v12, VecMask::No);
+    REQUIRE(value == 0x72C40257);
 }
 
 TEST_CASE("VMSLEU.VX", "[rvv]") {
