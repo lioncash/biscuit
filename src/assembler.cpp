@@ -424,6 +424,14 @@ void Assembler::SEQZ(GPR rd, GPR rs) noexcept {
     SLTIU(rd, rs, 1);
 }
 
+void Assembler::SGT(GPR rd, GPR lhs, GPR rhs) noexcept {
+    SLT(rd, rhs, lhs);
+}
+
+void Assembler::SGTU(GPR rd, GPR lhs, GPR rhs) noexcept {
+    SLTU(rd, rhs, lhs);
+}
+
 void Assembler::SGTZ(GPR rd, GPR rs) noexcept {
     SLT(rd, x0, rs);
 }

@@ -257,6 +257,9 @@ public:
     void SW(GPR rs2, int32_t imm, GPR rs1) noexcept;
 
     void SEQZ(GPR rd, GPR rs) noexcept;
+
+    void SGT(GPR rd, GPR lhs, GPR rhs) noexcept;
+    void SGTU(GPR rd, GPR lhs, GPR rhs) noexcept;
     void SGTZ(GPR rd, GPR rs) noexcept;
 
     void SLL(GPR rd, GPR lhs, GPR rhs) noexcept;
