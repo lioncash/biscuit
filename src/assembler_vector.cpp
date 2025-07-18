@@ -699,6 +699,10 @@ void Assembler::VNMSUB(Vec vd, GPR rs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPMVX(m_buffer, 0b101011, mask, vs2, rs1, vd);
 }
 
+void Assembler::VNOT(Vec vd, Vec vs, VecMask mask) noexcept {
+    VXOR(vd, vs, -1, mask);
+}
+
 void Assembler::VNSRA(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b101101, mask, vs2, vs1, vd);
 }

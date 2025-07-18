@@ -4132,6 +4132,11 @@ TEST_CASE("VXOR.VI", "[rvv]") {
 
     as.VXOR(v4, v8, -16, VecMask::Yes);
     REQUIRE(value == 0x2C883257);
+
+    as.RewindBuffer();
+
+    as.VNOT(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0x2C8FB257);
 }
 
 TEST_CASE("VZEXT.VF2", "[rvv]") {
