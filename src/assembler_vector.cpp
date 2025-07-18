@@ -384,6 +384,14 @@ void Assembler::VMANDNOT(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVV(m_buffer, 0b011000, VecMask::No, vs2, vs1, vd);
 }
 
+void Assembler::VMCLR(Vec vd) noexcept {
+    VMXOR(vd, vd, vd);
+}
+
+void Assembler::VMMV(Vec vd, Vec vs) noexcept {
+    VMAND(vd, vs, vs);
+}
+
 void Assembler::VMNAND(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVV(m_buffer, 0b011101, VecMask::No, vs2, vs1, vd);
 }
@@ -392,12 +400,20 @@ void Assembler::VMNOR(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVV(m_buffer, 0b011110, VecMask::No, vs2, vs1, vd);
 }
 
+void Assembler::VMNOT(Vec vd, Vec vs) noexcept {
+    VMNAND(vd, vs, vs);
+}
+
 void Assembler::VMOR(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVV(m_buffer, 0b011010, VecMask::No, vs2, vs1, vd);
 }
 
 void Assembler::VMORNOT(Vec vd, Vec vs2, Vec vs1) noexcept {
     EmitVectorOPMVV(m_buffer, 0b011100, VecMask::No, vs2, vs1, vd);
+}
+
+void Assembler::VMSET(Vec vd) noexcept {
+    VMXNOR(vd, vd, vd);
 }
 
 void Assembler::VMXNOR(Vec vd, Vec vs2, Vec vs1) noexcept {

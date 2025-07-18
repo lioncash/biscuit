@@ -955,10 +955,14 @@ public:
 
     void VMAND(Vec vd, Vec vs2, Vec vs1) noexcept;
     void VMANDNOT(Vec vd, Vec vs2, Vec vs1) noexcept;
+    void VMCLR(Vec vd) noexcept;
+    void VMMV(Vec vd, Vec vs) noexcept;
     void VMNAND(Vec vd, Vec vs2, Vec vs1) noexcept;
     void VMNOR(Vec vd, Vec vs2, Vec vs1) noexcept;
+    void VMNOT(Vec vd, Vec vs) noexcept;
     void VMOR(Vec vd, Vec vs2, Vec vs1) noexcept;
     void VMORNOT(Vec vd, Vec vs2, Vec vs1) noexcept;
+    void VMSET(Vec vd) noexcept;
     void VMXNOR(Vec vd, Vec vs2, Vec vs1) noexcept;
     void VMXOR(Vec vd, Vec vs2, Vec vs1) noexcept;
 

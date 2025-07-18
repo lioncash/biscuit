@@ -1606,6 +1606,11 @@ TEST_CASE("VMAND.MM", "[rvv]") {
 
     as.VMAND(v4, v8, v12);
     REQUIRE(value == 0x66862257);
+
+    as.RewindBuffer();
+
+    as.VMMV(v4, v9);
+    REQUIRE(value == 0x6694A257);
 }
 
 TEST_CASE("VMANDNOT.MM", "[rvv]") {
@@ -1752,6 +1757,11 @@ TEST_CASE("VMNAND.MM", "[rvv]") {
 
     as.VMNAND(v4, v8, v12);
     REQUIRE(value == 0x76862257);
+
+    as.RewindBuffer();
+
+    as.VMNOT(v4, v9);
+    REQUIRE(value == 0x7694A257);
 }
 
 TEST_CASE("VMNOR.MM", "[rvv]") {
@@ -1784,6 +1794,11 @@ TEST_CASE("VMXNOR.MM", "[rvv]") {
 
     as.VMXNOR(v4, v8, v12);
     REQUIRE(value == 0x7E862257);
+
+    as.RewindBuffer();
+
+    as.VMSET(v9);
+    REQUIRE(value == 0x7E94A4D7);
 }
 
 TEST_CASE("VMXOR.MM", "[rvv]") {
@@ -1792,6 +1807,11 @@ TEST_CASE("VMXOR.MM", "[rvv]") {
 
     as.VMXOR(v4, v8, v12);
     REQUIRE(value == 0x6E862257);
+
+    as.RewindBuffer();
+
+    as.VMCLR(v9);
+    REQUIRE(value == 0x6E94A4D7);
 }
 
 TEST_CASE("VMAX.VV", "[rvv]") {
