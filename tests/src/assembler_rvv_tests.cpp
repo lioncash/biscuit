@@ -2736,6 +2736,11 @@ TEST_CASE("VNSRL.WX", "[rvv]") {
 
     as.VNSRL(v4, v8, x11, VecMask::Yes);
     REQUIRE(value == 0xB085C257);
+
+    as.RewindBuffer();
+
+    as.VNCVT(v4, v8, VecMask::Yes);
+    REQUIRE(value == 0xB0804257);
 }
 
 TEST_CASE("VNSRL.WI", "[rvv]") {

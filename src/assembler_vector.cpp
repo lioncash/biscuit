@@ -675,8 +675,12 @@ void Assembler::VNCLIPU(Vec vd, Vec vs2, uint32_t uimm, VecMask mask) noexcept {
     EmitVectorOPIVUI(m_buffer, 0b101110, mask, vs2, uimm, vd);
 }
 
+void Assembler::VNCVT(Vec vd, Vec vs, VecMask mask) noexcept {
+    VNSRL(vd, vs, zero, mask);
+}
+
 void Assembler::VNEG(Vec vd, Vec vs, VecMask mask) noexcept {
-    VRSUB(vd, vs, x0, mask);
+    VRSUB(vd, vs, zero, mask);
 }
 
 void Assembler::VNMSAC(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
