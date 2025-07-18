@@ -1025,6 +1025,14 @@ void Assembler::VWADDUW(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPMVX(m_buffer, 0b110100, mask, vs2, rs1, vd);
 }
 
+void Assembler::VWCVT(Vec vd, Vec vs, VecMask mask) noexcept {
+    VWADD(vd, vs, zero, mask);
+}
+
+void Assembler::VWCVTU(Vec vd, Vec vs, VecMask mask) noexcept {
+    VWADDU(vd, vs, zero, mask);
+}
+
 void Assembler::VWMACC(Vec vd, Vec vs1, Vec vs2, VecMask mask) noexcept {
     EmitVectorOPMVV(m_buffer, 0b111101, mask, vs2, vs1, vd);
 }

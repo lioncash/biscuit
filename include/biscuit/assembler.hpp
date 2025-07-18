@@ -1166,6 +1166,9 @@ public:
     void VWADDUW(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VWADDUW(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
 
+    void VWCVT(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+    void VWCVTU(Vec vd, Vec vs, VecMask mask = VecMask::No) noexcept;
+
     void VWMACC(Vec vd, Vec vs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
     void VWMACC(Vec vd, GPR rs1, Vec vs2, VecMask mask = VecMask::No) noexcept;
 

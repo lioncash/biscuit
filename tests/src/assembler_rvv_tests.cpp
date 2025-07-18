@@ -3706,6 +3706,11 @@ TEST_CASE("VWADD.VX", "[rvv]") {
 
     as.VWADD(v4, v8, x11, VecMask::Yes);
     REQUIRE(value == 0xC485E257);
+
+    as.RewindBuffer();
+
+    as.VWCVT(v4, v8, VecMask::No);
+    REQUIRE(value == 0xC6806257);
 }
 
 TEST_CASE("VWADD.WV", "[rvv]") {
@@ -3758,6 +3763,11 @@ TEST_CASE("VWADDU.VX", "[rvv]") {
 
     as.VWADDU(v4, v8, x11, VecMask::Yes);
     REQUIRE(value == 0xC085E257);
+
+    as.RewindBuffer();
+
+    as.VWCVTU(v4, v8, VecMask::No);
+    REQUIRE(value == 0xC2806257);
 }
 
 TEST_CASE("VWADDU.WV", "[rvv]") {
