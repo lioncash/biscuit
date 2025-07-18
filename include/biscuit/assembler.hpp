@@ -115,10 +115,10 @@ public:
 
     /**
      * Allows advancing of the code buffer cursor.
-     * 
+     *
      * @param offset The offset to advance the cursor by.
      *
-     * @note The offset may not be smaller than the current cursor offset 
+     * @note The offset may not be smaller than the current cursor offset
      *       and may not be larger than the current buffer capacity.
      */
     void AdvanceBuffer(ptrdiff_t offset) {
@@ -161,7 +161,7 @@ public:
      * Places a literal at the current offset within the code buffer.
      *
      * @param literal A non-null valid literal to place.
-    */
+     */
     template <typename T>
     void Place(Literal<T>* literal) {
         PlaceAtOffset(literal, m_buffer.GetCursorOffset());
@@ -351,7 +351,6 @@ public:
     // Zicond Extension Instructions
     void CZERO_EQZ(GPR rd, GPR value, GPR condition) noexcept;
     void CZERO_NEZ(GPR rd, GPR value, GPR condition) noexcept;
-
 
     // XTheadCondMov Extension Instructions
     void TH_MVEQZ(GPR rd, GPR value, GPR condition) noexcept;
@@ -1557,7 +1556,7 @@ private:
     void ResolveLabelOffsets(Label* label);
 
     // Places a literal at the given offset.
-    template<typename T>
+    template <typename T>
     void PlaceAtOffset(Literal<T>* literal, Literal<T>::LocationOffset offset) {
         BISCUIT_ASSERT(literal != nullptr);
         BISCUIT_ASSERT(offset >= 0 && offset <= m_buffer.GetCursorOffset());
@@ -1570,7 +1569,7 @@ private:
     }
 
     // Links the given literal and returns the offset to it.
-    template<typename T>
+    template <typename T>
     ptrdiff_t LinkAndGetOffset(Literal<T>* literal) {
         BISCUIT_ASSERT(literal != nullptr);
 
