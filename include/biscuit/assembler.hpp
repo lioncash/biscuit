@@ -994,7 +994,10 @@ public:
     void VMSEQ(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
     void VMSGE(Vec vd, Vec va, Vec vb, VecMask mask = VecMask::No) noexcept;
+    void VMSGE(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
+
     void VMSGEU(Vec vd, Vec va, Vec vb, VecMask mask = VecMask::No) noexcept;
+    void VMSGEU(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
     void VMSGT(Vec vd, Vec va, Vec vb, VecMask mask = VecMask::No) noexcept;
     void VMSGT(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
@@ -1014,9 +1017,11 @@ public:
 
     void VMSLT(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VMSLT(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMSLT(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
     void VMSLTU(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VMSLTU(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;
+    void VMSLTU(Vec vd, Vec vs2, int32_t simm, VecMask mask = VecMask::No) noexcept;
 
     void VMSNE(Vec vd, Vec vs2, Vec vs1, VecMask mask = VecMask::No) noexcept;
     void VMSNE(Vec vd, Vec vs2, GPR rs1, VecMask mask = VecMask::No) noexcept;

@@ -504,8 +504,18 @@ void Assembler::VMSGE(Vec vd, Vec va, Vec vb, VecMask mask) noexcept {
     VMSLE(vd, vb, va, mask);
 }
 
+void Assembler::VMSGE(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
+    BISCUIT_ASSERT(simm >= -15 && simm <= 16);
+    VMSGT(vd, vs2, simm - 1, mask);
+}
+
 void Assembler::VMSGEU(Vec vd, Vec va, Vec vb, VecMask mask) noexcept {
     VMSLEU(vd, vb, va, mask);
+}
+
+void Assembler::VMSGEU(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
+    BISCUIT_ASSERT(simm >= 1 && simm <= 16);
+    VMSGTU(vd, vs2, simm - 1, mask);
 }
 
 void Assembler::VMSGT(Vec vd, Vec va, Vec vb, VecMask mask) noexcept {
@@ -564,12 +574,22 @@ void Assembler::VMSLT(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPIVX(m_buffer, 0b011011, mask, vs2, rs1, vd);
 }
 
+void Assembler::VMSLT(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
+    BISCUIT_ASSERT(simm >= -15 && simm <= 16);
+    VMSLE(vd, vs2, simm - 1, mask);
+}
+
 void Assembler::VMSLTU(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
     EmitVectorOPIVV(m_buffer, 0b011010, mask, vs2, vs1, vd);
 }
 
 void Assembler::VMSLTU(Vec vd, Vec vs2, GPR rs1, VecMask mask) noexcept {
     EmitVectorOPIVX(m_buffer, 0b011010, mask, vs2, rs1, vd);
+}
+
+void Assembler::VMSLTU(Vec vd, Vec vs2, int32_t simm, VecMask mask) noexcept {
+    BISCUIT_ASSERT(simm >= 1 && simm <= 16);
+    VMSLEU(vd, vs2, simm - 1, mask);
 }
 
 void Assembler::VMSNE(Vec vd, Vec vs2, Vec vs1, VecMask mask) noexcept {
