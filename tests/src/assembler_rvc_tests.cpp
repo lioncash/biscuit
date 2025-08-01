@@ -337,12 +337,12 @@ TEST_CASE("C.LUI", "[rvc]") {
     uint32_t value = 0;
     auto as = MakeAssembler32(value);
 
-    as.C_LUI(x15, 0x3F000);
+    as.C_LUI(x15, 0x3F);
     REQUIRE(value == 0x77FD);
 
     as.RewindBuffer();
 
-    as.C_LUI(x15, 0x0F000);
+    as.C_LUI(x15, 0x0F);
     REQUIRE(value == 0x67BD);
 }
 
