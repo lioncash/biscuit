@@ -237,6 +237,32 @@ TEST_CASE("C.FSWSP", "[rvc]") {
     REQUIRE(value == 0xEC3E);
 }
 
+TEST_CASE("C.JAL", "[rvc]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler32(value);
+
+    as.C_JAL(1028);
+    REQUIRE(value == 0x2111);
+
+    as.RewindBuffer();
+
+    as.C_JAL(-1028);
+    REQUIRE(value == 0x3EF5);
+}
+
+TEST_CASE("C.J", "[rvc]") {
+    uint32_t value = 0;
+    auto as = MakeAssembler32(value);
+
+    as.C_J(1028);
+    REQUIRE(value == 0xA111);
+
+    as.RewindBuffer();
+
+    as.C_J(-1028);
+    REQUIRE(value == 0xBEF5);
+}
+
 TEST_CASE("C.JALR", "[rvc]") {
     uint32_t value = 0;
     auto as = MakeAssembler32(value);
