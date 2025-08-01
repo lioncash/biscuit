@@ -12,6 +12,77 @@
 
 namespace biscuit {
 
+/** 
+ * Biscuit can attempt to optimize emitted assembly. These optimization modes are disabled by default.
+ * To enable an optimization mode, use the EnableOptimization function:
+ *
+ * @code{.cpp}
+ *     biscuit::Assembler as;
+ *     as.EnableOptimization(Optimization::AutoCompress);
+ * @endcode
+ *
+ * In some cases, it may be preferrable to disable an optimization for a short while. This can be done like so:
+ *
+ * @code{.cpp}
+ *     as.DisableOptimization(Optimization::AutoCompress);
+ *     // ...
+ *     as.EnableOptimization(Optimization::AutoCompress);
+ * @endcode
+ *
+ * The Optimization enum can be used as a bitmask, which means it is possible to enable or disable multiple optimizations at once:
+ *
+ * @code{.cpp}
+ *     as.EnableOptimization(Optimization::AutoCompress | Optimization::Placeholder);
+ * @endcode
+ */
+enum class Optimization : uint32_t {
+    None = 0,
+
+    /**
+     * Automatically converts instructions to their compressed 2-byte form whenever possible.
+     * For example, this optimization mode will convert a MV instruction to a C.MV instruction
+     * as long as rd and rs are not the zero register.
+     */
+    AutoCompress = 1,
+};
+
+constexpr Optimization operator|(Optimization lhs, Optimization rhs) {
+    return static_cast<Optimization>(
+        static_cast<std::underlying_type_t<Optimization>>(lhs) | static_cast<std::underlying_type_t<Optimization>>(rhs)
+    );
+}
+
+constexpr Optimization operator&(Optimization lhs, Optimization rhs) {
+    return static_cast<Optimization>(
+        static_cast<std::underlying_type_t<Optimization>>(lhs) & static_cast<std::underlying_type_t<Optimization>>(rhs)
+    );
+}
+
+constexpr Optimization operator^(Optimization lhs, Optimization rhs) {
+    return static_cast<Optimization>(
+        static_cast<std::underlying_type_t<Optimization>>(lhs) ^ static_cast<std::underlying_type_t<Optimization>>(rhs)
+    );
+}
+
+constexpr Optimization operator~(Optimization opt) {
+    return static_cast<Optimization>(~static_cast<std::underlying_type_t<Optimization>>(opt));
+}
+
+constexpr Optimization& operator|=(Optimization& lhs, Optimization rhs) {
+    lhs = lhs | rhs;
+    return lhs;
+}
+
+constexpr Optimization& operator&=(Optimization& lhs, Optimization rhs) {
+    lhs = lhs & rhs;
+    return lhs;
+}
+
+constexpr Optimization& operator^=(Optimization& lhs, Optimization rhs) {
+    lhs = lhs ^ rhs;
+    return lhs;
+}
+
 /**
  * Defines the set of features that a particular assembler instance
  * would like to assemble for.
@@ -148,6 +219,35 @@ public:
     /// Retrieves the pointer to an arbitrary location within the underlying code buffer.
     [[nodiscard]] const uint8_t* GetBufferPointer(ptrdiff_t offset) const noexcept {
         return m_buffer.GetOffsetPointer(offset);
+    }
+
+    /**
+     * Checks whether the optimizations set in a bitmask are enabled
+     *
+     * @param opt The bitmask to check.
+     *
+     * @returns Whether all of the optimizations in the bitmask were enabled
+     */
+    [[nodiscard]] bool IsOptimizationEnabled(Optimization opt) const noexcept {
+        return (m_optimizations & opt) == opt;
+    }
+
+    /**
+     * Enables the optimizations set in a bitmask
+     *
+     * @param opt The bitmask to enable.
+     */
+    void EnableOptimization(Optimization opt) noexcept {
+        m_optimizations |= opt;
+    }
+
+    /**
+     * Disables the optimizations set in a bitmask
+     *
+     * @param opt The bitmask to disable.
+     */
+    void DisableOptimization(Optimization opt) noexcept {
+        m_optimizations &= ~opt;
     }
 
     /**
@@ -1622,6 +1722,7 @@ private:
 
     CodeBuffer m_buffer;
     ArchFeature m_features = ArchFeature::RV64;
+    Optimization m_optimizations = Optimization::None;
 };
 
 } // namespace biscuit
