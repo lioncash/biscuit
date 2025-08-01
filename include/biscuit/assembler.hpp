@@ -2,6 +2,7 @@
 
 #include <biscuit/code_buffer.hpp>
 #include <biscuit/csr.hpp>
+#include <biscuit/enum_utils.hpp>
 #include <biscuit/isa.hpp>
 #include <biscuit/label.hpp>
 #include <biscuit/literal.hpp>
@@ -45,43 +46,7 @@ enum class Optimization : uint32_t {
      */
     AutoCompress = 1,
 };
-
-constexpr Optimization operator|(Optimization lhs, Optimization rhs) {
-    return static_cast<Optimization>(
-        static_cast<std::underlying_type_t<Optimization>>(lhs) | static_cast<std::underlying_type_t<Optimization>>(rhs)
-    );
-}
-
-constexpr Optimization operator&(Optimization lhs, Optimization rhs) {
-    return static_cast<Optimization>(
-        static_cast<std::underlying_type_t<Optimization>>(lhs) & static_cast<std::underlying_type_t<Optimization>>(rhs)
-    );
-}
-
-constexpr Optimization operator^(Optimization lhs, Optimization rhs) {
-    return static_cast<Optimization>(
-        static_cast<std::underlying_type_t<Optimization>>(lhs) ^ static_cast<std::underlying_type_t<Optimization>>(rhs)
-    );
-}
-
-constexpr Optimization operator~(Optimization opt) {
-    return static_cast<Optimization>(~static_cast<std::underlying_type_t<Optimization>>(opt));
-}
-
-constexpr Optimization& operator|=(Optimization& lhs, Optimization rhs) {
-    lhs = lhs | rhs;
-    return lhs;
-}
-
-constexpr Optimization& operator&=(Optimization& lhs, Optimization rhs) {
-    lhs = lhs & rhs;
-    return lhs;
-}
-
-constexpr Optimization& operator^=(Optimization& lhs, Optimization rhs) {
-    lhs = lhs ^ rhs;
-    return lhs;
-}
+BISCUIT_DEFINE_ENUM_FLAG_OPERATORS(Optimization);
 
 /**
  * Defines the set of features that a particular assembler instance
