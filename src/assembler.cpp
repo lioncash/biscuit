@@ -967,6 +967,50 @@ void Assembler::CZERO_NEZ(GPR rd, GPR value, GPR condition) noexcept {
     EmitRType(m_buffer, 0b0000111, condition, value, 0b111, rd, 0b0110011);
 }
 
+// Zalasr Extension Instructions
+
+void Assembler::LB(Ordering ordering, GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(ordering == Ordering::AQ || ordering == Ordering::AQRL);
+    EmitAtomic(m_buffer, 0b00110, ordering, x0, rs, 0b000, rd, 0b0101111);
+}
+
+void Assembler::LH(Ordering ordering, GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(ordering == Ordering::AQ || ordering == Ordering::AQRL);
+    EmitAtomic(m_buffer, 0b00110, ordering, x0, rs, 0b001, rd, 0b0101111);
+}
+
+void Assembler::LW(Ordering ordering, GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(ordering == Ordering::AQ || ordering == Ordering::AQRL);
+    EmitAtomic(m_buffer, 0b00110, ordering, x0, rs, 0b010, rd, 0b0101111);
+}
+
+void Assembler::LD(Ordering ordering, GPR rd, GPR rs) noexcept {
+    BISCUIT_ASSERT(ordering == Ordering::AQ || ordering == Ordering::AQRL);
+    BISCUIT_ASSERT(IsRV64(m_features));
+    EmitAtomic(m_buffer, 0b00110, ordering, x0, rs, 0b011, rd, 0b0101111);
+}
+
+void Assembler::SB(Ordering ordering, GPR rs2, GPR rs1) noexcept {
+    BISCUIT_ASSERT(ordering == Ordering::RL || ordering == Ordering::AQRL);
+    EmitAtomic(m_buffer, 0b00111, ordering, rs2, rs1, 0b000, x0, 0b0101111);
+}
+
+void Assembler::SH(Ordering ordering, GPR rs2, GPR rs1) noexcept {
+    BISCUIT_ASSERT(ordering == Ordering::RL || ordering == Ordering::AQRL);
+    EmitAtomic(m_buffer, 0b00111, ordering, rs2, rs1, 0b001, x0, 0b0101111);
+}
+
+void Assembler::SW(Ordering ordering, GPR rs2, GPR rs1) noexcept {
+    BISCUIT_ASSERT(ordering == Ordering::RL || ordering == Ordering::AQRL);
+    EmitAtomic(m_buffer, 0b00111, ordering, rs2, rs1, 0b010, x0, 0b0101111);
+}
+
+void Assembler::SD(Ordering ordering, GPR rs2, GPR rs1) noexcept {
+    BISCUIT_ASSERT(ordering == Ordering::RL || ordering == Ordering::AQRL);
+    BISCUIT_ASSERT(IsRV64(m_features));
+    EmitAtomic(m_buffer, 0b00111, ordering, rs2, rs1, 0b011, x0, 0b0101111);
+}
+
 // XTheadCondMov Extension Instructions
 
 void Assembler::TH_MVEQZ(GPR rd, GPR value, GPR condition) noexcept {

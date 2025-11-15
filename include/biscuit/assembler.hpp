@@ -423,6 +423,16 @@ public:
     void CZERO_EQZ(GPR rd, GPR value, GPR condition) noexcept;
     void CZERO_NEZ(GPR rd, GPR value, GPR condition) noexcept;
 
+    // Zalasr Extension Instructions
+    void LB(Ordering ordering, GPR rd, GPR rs) noexcept;
+    void LH(Ordering ordering, GPR rd, GPR rs) noexcept;
+    void LW(Ordering ordering, GPR rd, GPR rs) noexcept;
+    void LD(Ordering ordering, GPR rd, GPR rs) noexcept;
+    void SB(Ordering ordering, GPR rs2, GPR rs1) noexcept;
+    void SH(Ordering ordering, GPR rs2, GPR rs1) noexcept;
+    void SW(Ordering ordering, GPR rs2, GPR rs1) noexcept;
+    void SD(Ordering ordering, GPR rs2, GPR rs1) noexcept;
+
     // XTheadCondMov Extension Instructions
     void TH_MVEQZ(GPR rd, GPR value, GPR condition) noexcept;
     void TH_MVNEZ(GPR rd, GPR value, GPR condition) noexcept;
