@@ -1368,7 +1368,7 @@ void Assembler::BSETI(GPR rd, GPR rs, uint32_t bit) noexcept {
     }
 
     const auto imm = (0b001010U << 6) | bit;
-    EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0110011);
+    EmitIType(m_buffer, imm, rs, 0b001, rd, 0b0010011);
 }
 
 void Assembler::CLMUL(GPR rd, GPR rs1, GPR rs2) noexcept {
