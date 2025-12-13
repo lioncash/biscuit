@@ -239,7 +239,7 @@ public:
     void AND(GPR rd, GPR lhs, GPR rhs) noexcept;
     void ANDI(GPR rd, GPR rs, uint32_t imm) noexcept;
 
-    void AUIPC(GPR rd, int32_t imm) noexcept;
+    void AUIPC(GPR rd, uint32_t imm) noexcept;
 
     void BEQ(GPR rs1, GPR rs2, Label* label) noexcept;
     void BEQZ(GPR rs, Label* label) noexcept;
@@ -302,6 +302,7 @@ public:
     void LH(GPR rd, int32_t imm, GPR rs) noexcept;
     void LHU(GPR rd, int32_t imm, GPR rs) noexcept;
     void LI(GPR rd, uint64_t imm) noexcept;
+    void LILabel(GPR rd, Label* label) noexcept;
     void LUI(GPR rd, uint32_t imm) noexcept;
     void LW(GPR rd, int32_t imm, GPR rs) noexcept;
 
