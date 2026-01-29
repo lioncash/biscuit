@@ -1874,6 +1874,10 @@ void Assembler::ResolveLiteralOffsetsRaw(ptrdiff_t location, const std::set<ptrd
         return (instruction & 0x7F) == 0b0000011;
     };
 
+    const auto is_addi_type = [](uint32_t instruction) {
+        return (instruction & 0x7F) == 0b0010011 && ((instruction >> 12) & 0b111) == 0b000;
+    };
+
     for (const auto offset : offsets) {
         const auto address = m_buffer.GetOffsetAddress(offset);
         auto* const ptr = reinterpret_cast<uint8_t*>(address);
@@ -1895,7 +1899,7 @@ void Assembler::ResolveLiteralOffsetsRaw(ptrdiff_t location, const std::set<ptrd
         // Make sure the distance is within the bounds of a 32-bit signed integer.
         BISCUIT_ASSERT((static_cast<int64_t>(encoded_offset << 32) >> 32) == encoded_offset);
 
-        if (is_gpr_load_type(instructions[1])) {
+        if (is_gpr_load_type(instructions[1]) || is_addi_type(instructions[1])) {
             const auto high20 = static_cast<uint32_t>(encoded_offset & 0xFFFFF000);
             const auto low12 = static_cast<uint32_t>(encoded_offset & 0xFFF);
             instructions[0] |= high20;
